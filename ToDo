@@ -1,0 +1,15 @@
+Vendors, Libraries & Concepts testing
+- [Done] Create View & Template for dashboard
+- [Done] Create View & Template for sign-in
+- Create View & Template for sign-up
+- Create View & Template for sign-out
+- Create Routing system
+
+Implementations pending
+- Implement Bootstrap & implement it properly
+
+Logic implementation
+- Create Event model
+- Create Boat model
+- Create Host model
+- Create Driver model
