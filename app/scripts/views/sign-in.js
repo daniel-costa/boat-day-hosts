@@ -21,6 +21,7 @@ define([
 		},
 
 		SignIn: function() {
+			console.log("Foo");
 			alert('click');
 		}
 

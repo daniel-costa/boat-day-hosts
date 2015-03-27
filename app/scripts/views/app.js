@@ -1,9 +1,9 @@
 define([
 'jquery',
 'parse',
-'views/sign-in',
+'views/sign-up',
 'views/dashboard'
-], function($, Parse, SignIn, Dashboard){
+], function($, Parse, SignUp, Dashboard){
 	var AppView = Parse.View.extend({
 
 		el: $("#app"),
@@ -16,8 +16,9 @@ define([
 			if (Parse.User.current()) {
 				new Dashboard({ el: this.$el });
 			} else {
-				new SignIn({ el: this.$el });
+				new SignUp({ el: this.$el });
 			}
+			new Dashboard({el: this.$el});
 		}
 	});
 	return AppView;

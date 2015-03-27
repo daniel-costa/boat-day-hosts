@@ -9,6 +9,7 @@ define([
 		template: _.template(DashboardTemplate),
 
 		events: {
+			"click #signOut" : "signOut"
 		},
 
 		initialize: function() {
@@ -17,6 +18,10 @@ define([
 
 		render: function() {
 			this.$el.html(this.template());
+		},
+		signOut: function(){
+			alert('sign out template');
+
 		}
 
 	});
