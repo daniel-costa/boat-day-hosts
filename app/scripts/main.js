@@ -11,22 +11,27 @@ require.config({
 		underscore: 'vendor/underscore/underscore-min',
 		backbone:   'vendor/backbone/backbone',
 		parse:      'vendor/parse/parse.min',
-		text:       'vendor/requirejs-text/text'
+		text:       'vendor/requirejs-text/text',
+		bootstrap:  'vendor/bootstrap/dist/js/bootstrap'
 	},
 	shim: {
 		"parse": {
 			deps: ["jquery", "underscore"],
 			exports: "Parse"
+		},
+		"bootstrap": {
+			deps: ["jquery"]
 		}
 	}
 });
 
-require(['jquery', 'parse', 'views/app'], function($, Parse, AppView) {
-	
-	Parse.$ = $;
+require(['parse', 'router', 'views/AppView', 'bootstrap'], function(Parse, AppRouter, AppView) {
 	
 	Parse.initialize("8YpQsh2LwXpCgkmTIIncFSFALHmeaotGVDTBqyUv", "FaULY8BIForvAYZwVwqX4IAmfsyxckikiZ2NFuEp");
 	
 	new AppView;
+	new AppRouter();
+
+	Parse.history.start();
 
 });
