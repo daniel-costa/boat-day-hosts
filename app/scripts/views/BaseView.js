@@ -30,6 +30,17 @@ define([
 			return this.$el.find('[name="' + name + '"]');
 		},
 
+		_error: function(message) {
+
+			$(document).trigger('globalError', message);
+
+		},
+
+		_info: function(message) {
+
+			$(document).trigger('globalInfo', message);
+
+		}
 	});
 	return BaseView;
 });

@@ -14,9 +14,11 @@ define([
 			"submit form" : "registerHost"
 		},
 
-		registerHost: function(e) {
+		registerHost: function() {
 
-			e.preventDefault();
+			event.preventDefault();
+
+			var self = this;
 
 			var data = {
 				address: this._in('address').val(),
@@ -45,10 +47,14 @@ define([
 
 			var success = function() {
 				console.log("success");
+
+				self._info("Host created, will be redirected.");
+
 			};
 
 			var error = function(error) {
-				console.log(error);
+				
+				self._error(error);
 			};
 
 			this.model.save(data).then(success, error);

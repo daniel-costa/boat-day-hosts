@@ -7,10 +7,8 @@ define([
 	'views/DashboardView',
 	'views/TermsView',
 	'views/SignUpView',
-	'views/SignUpPersonalView',
-	'views/SignUpBusinessView',
 	'views/HostRegistrationView'
-], function($, _, Parse, HomeView, DashboardView, TermsView, SignUpView, SignUpPersonalView, SignUpBusinessView, HostRegistrationView) {
+], function($, _, Parse, HomeView, DashboardView, TermsView, SignUpView, HostRegistrationView) {
 	
 	var AppRouter = Parse.Router.extend({
 

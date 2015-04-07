@@ -22,15 +22,7 @@ define([
 
 		displayMessage: function(event, params) {
 
-			$('<nav id="globalMessage" class="bar bar-standard bar-header-secondary message"><span class="icon icon-info"></span> </nav>')
-			.append(params.message)
-			.addClass('message-' + params.type)
-			.appendTo('#content .content');
-
-			setTimeout(function() {
-			  $('#globalMessage').remove();
-			}, 5000);
-
+			alert(params.type + ": "+ params.message);
 			// ToDo Check if already exist and dont add new
 		},
 

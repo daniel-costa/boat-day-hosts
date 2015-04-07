@@ -23,30 +23,26 @@ define([
 
 			Parse.User.logIn(this._in('email').val(), this._in('password').val(), {
 
-  			success: function(user) {
+				success: function(user) {
 
-  				user = Parse.User.current();
+					if(user.get("tos")) {
 
-  				if(user.get("tos") == false){
+						Parse.history.navigate('/dashboard', true);   					
 
-  					Parse.history.navigate('/terms', true);	
-  					
-  				} else if(user.get("tos") == true) {
+					} else {
 
-  					Parse.history.navigate('/dashboard', true);	
+						Parse.history.navigate('/terms', true); 
 
-  					console.log("redirect to dahboard page");
-  				} else {
+					}
 
-  					console.log("redirect to dahboard page");
-  				}
-  			},
-  			error: function(user, error) {
+				},
+				error: function(user, error) {
 
-  				console.log("Login failed");
+					console.log("Login failed");
 
-  				}
+				} 
 			});
+		
 		}
 
 	});

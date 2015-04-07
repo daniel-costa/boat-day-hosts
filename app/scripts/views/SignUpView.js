@@ -15,7 +15,10 @@ define([
 		},
 
 		signUp: function(){
+			
 			event.preventDefault();
+
+			var self = this;
 
 			// At this stage a user must never be logged in
 			// but for test purposes we will make the test
@@ -38,13 +41,12 @@ define([
 				Parse.history.navigate('terms', true);		
 			  },
 			  error: function(user, error) {
-			    console.log("Error: " + error.code + " " + error.message);
+			    
+			    self._error(error.message);
 		
 			  }
 			});
 		}
-
-		
 
 	});
 	return SignUpAccountView;

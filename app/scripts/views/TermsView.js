@@ -10,20 +10,14 @@ define([
 		template: _.template(TermsTemplate),
 
 		events: {
-			//"checkbox" : "acceptTos",
-			'click [type="checkbox"]': 'clicked',
 			"submit form" : "hostRegistration"
 		},
 
-		clicked: function(){
-
-			var user = Parse.User.current();
-			user.set("tos", true);
-			user.save();
-			
-		},
-
 		hostRegistration: function(){
+
+			// var user = Parse.User.current();
+			// user.set("tos", true);
+			// user.save();
 
 			Parse.history.navigate('host-registration', true);
 
