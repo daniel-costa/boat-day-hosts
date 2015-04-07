@@ -8,6 +8,13 @@ define([
 	var DashboardView = BaseView.extend({
 
 		template: _.template(DashboardTemplate),
+		events : {
+			'click btn': 'logOut'
+		}, 
+
+		logOut: function(){
+			console.log("clicked");
+		}
 
 	});
 	return DashboardView;

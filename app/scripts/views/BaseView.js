@@ -9,7 +9,7 @@ define([
 			console.log("### Render by BaseView ###");
 			// console.log(this.el);
 
-			if(this.model) {
+			if(this.model) {	
 				this.$el.html(this.template(this.model.toJSON()));
 			} else {
 				this.$el.html(this.template());
@@ -24,7 +24,11 @@ define([
 			}
 			this.remove();
 			console.log("** clean view end**");
-		}
+		},
+		
+		_in: function(name) {
+			return this.$el.find('[name="' + name + '"]');
+		},
 
 	});
 	return BaseView;

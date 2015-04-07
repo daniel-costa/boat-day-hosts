@@ -6,10 +6,11 @@ define([
 	'views/HomeView',
 	'views/DashboardView',
 	'views/TermsView',
-	'views/SignUpAccountView',
+	'views/SignUpView',
 	'views/SignUpPersonalView',
 	'views/SignUpBusinessView',
-], function($, _, Parse, HomeView, DashboardView, TermsView, SignUpAccountView, SignUpPersonalView, SignUpBusinessView) {
+	'views/HostRegistrationView'
+], function($, _, Parse, HomeView, DashboardView, TermsView, SignUpView, SignUpPersonalView, SignUpBusinessView, HostRegistrationView) {
 	
 	var AppRouter = Parse.Router.extend({
 
@@ -18,9 +19,10 @@ define([
 			'home': 'showHome',
 			'dashboard': 'showDashboard',
 			'terms': 'showTerms',
-			'sign-up': 'showSignUpAccount',
+			'sign-up': 'showSignUp',
 			'sign-up-personal': 'showSignUpPersonal',
 			'sign-up-business': 'showSignUpBusiness',
+			'host-registration': 'showHostRegistration',
 			
 			// Default
 			'*actions': 'defaultAction'
@@ -32,13 +34,13 @@ define([
 			Parse.User.logOut();
 			this.showHome();
 		},
-
+		
 		showHome: function() {
 			this.render(new HomeView());
 		},
 
-		showSignUpAccount: function() {
-			this.render(new SignUpAccountView());
+		showSignUp: function() {
+			this.render(new SignUpView());
 		},
 
 		showSignUpPersonal: function() {
@@ -55,6 +57,20 @@ define([
 
 		showTerms: function() {
 			this.render(new TermsView());
+		},
+
+		showHostRegistration: function() {
+
+			var self = this;
+
+			console.log(Parse.User.current().id);
+			
+			Parse.User.current().get("host").fetch().then(function(host){
+				self.render(new HostRegistrationView({
+					model: host
+				}));	
+			});
+			
 		},
 
 		defaultAction: function() {
