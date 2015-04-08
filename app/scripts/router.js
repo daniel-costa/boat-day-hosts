@@ -14,76 +14,143 @@ define([
 
 		routes: {
 			// Define some URL routes
-			'home': 'showHome',
-			'dashboard': 'showDashboard',
-			'terms': 'showTerms',
-			'sign-up': 'showSignUp',
-			'sign-up-personal': 'showSignUpPersonal',
-			'sign-up-business': 'showSignUpBusiness',
+			'home': 'showHomeView',
+
+			'sign-up': 'showSignUpView',
+			'sign-out': 'signOut',
+			'terms': 'showTermsView',
 			'host-registration': 'showHostRegistration',
+		 	'dashboard': 'showDashboardView',
 			
 			// Default
-			'*actions': 'defaultAction'
+			'*actions': 'showHomeView'
 		},
 
 		currentView: null,
 
 		signOut: function() {
+
 			Parse.User.logOut();
-			this.showHome();
+			this.showHomeView();
+
 		},
 		
-		showHome: function() {
+		showHomeView: function() {
+
 			this.render(new HomeView());
+
 		},
 
-		showSignUp: function() {
-			this.render(new SignUpView());
+		showSignUpView: function() {
+
+			if( !Parse.User.current() ) {
+				
+				this.render(new SignUpView());
+
+			} else {
+
+				this.showDashboardView();
+
+			}
+
 		},
 
-		showSignUpPersonal: function() {
-			this.render(new SignUpPersonalView());
-		},
+		showTermsView: function() {
 
-		showSignUpBusiness: function() {
-			this.render(new SignUpBusinessView());
-		},
+			if( Parse.User.current() && this.isUserCreationSteps() && !this.userAcceptedTos() ) {
 
-		showDashboard: function() {
-			this.render(new DashboardView());
-		},
+				this.render(new TermsView());
 
-		showTerms: function() {
-			this.render(new TermsView());
+			} else {
+
+				this.showDashboardView();
+
+			}
+
 		},
 
 		showHostRegistration: function() {
-
-			var self = this;
-
-			console.log(Parse.User.current().id);
 			
-			Parse.User.current().get("host").fetch().then(function(host){
-				self.render(new HostRegistrationView({
-					model: host
-				}));	
-			});
+			if( Parse.User.current() && this.isUserCreationSteps() && this.userAcceptedTos() ) {
+
+				var self = this;
+
+				var hostFetchSuccess = function(host) {
+					self.render(new HostRegistrationView({ model: host }));	
+				};
+
+				var hostFetchError = function(host) {
+					console.log(error);
+				};
+
+				Parse.User.current().get("host").fetch().then(hostFetchSuccess, hostFetchError);
+
+			} else {
+
+				this.showDashboardView();
+
+			}
 			
 		},
 
-		defaultAction: function() {
-			if(Parse.User.current()) {
-				this.showDashboard();
-				// this.showProfileView();
-			} else {
-				this.showHome();
+		showDashboardView: function() {
+
+			if(this.handleSignOut()) {
+				
+				this.render(new DashboardView());
+			
 			}
+
+		},
+
+		isUserCreationSteps: function() {
+
+			return Parse.User.current().get("status") == "creation";
+
+		},
+
+		userAcceptedTos: function() {
+
+			return Parse.User.current().get("tos");
+
+		},
+
+		handleSignOut: function() {
+			
+			if( Parse.User.current() ) {
+				
+				if( this.isUserCreationSteps() ) {
+
+					if( this.userAcceptedTos() ) {
+						
+						this.showHostRegistration();
+
+					} else {
+						
+						this.showTermsView();
+
+					}
+
+				} else {
+
+					return true;
+
+				}
+
+			} else {
+
+				this.showHomeView();
+
+			}
+
 		},
 
 		render: function(view) {
 
 			if(this.currentView != null) {
+
 				this.currentView.teardown();
+
 			}
 
 			$("#app").html( view.render().el );

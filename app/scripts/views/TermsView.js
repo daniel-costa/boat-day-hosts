@@ -15,11 +15,31 @@ define([
 
 		hostRegistration: function(){
 
-			// var user = Parse.User.current();
-			// user.set("tos", true);
-			// user.save();
+			event.preventDefault();
 
-			Parse.history.navigate('host-registration', true);
+			var self = this;
+
+			var userSaveSuccess = function () {
+
+				Parse.history.navigate('host-registration', true);
+
+			};
+
+			var userSaveError = function (error) {
+
+				self._error(error);
+
+			};
+
+			if( !this._in('tos').is(':checked') ) {
+
+				this._error("You must to agree with the terms and conditions to use the BoatDay Host WebApp");
+
+			} else{
+
+				Parse.User.current().save({ tos: true }).then(userSaveSuccess, userSaveError);
+
+			}
 
 		}
 	});

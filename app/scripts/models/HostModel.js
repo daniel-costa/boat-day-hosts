@@ -95,7 +95,7 @@ define([
       } else{
 
         if(!attributes.personalFirstname){return "A first name is required";}
-        if(!attributes.businessEin){return "A last name is  required";}
+        if(!attributes.personalLastname){return "A last name is  required";}
         if(!attributes.phone){return "A phone number is required";}
         if(!attributes.address){return "A address is  required";} 
         if(!attributes.apartmentNumber){return "A apartment number is required";} 

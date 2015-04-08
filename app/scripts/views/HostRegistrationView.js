@@ -35,29 +35,38 @@ define([
 			};
 
 			if(this.model.get("type") == "personal") {
+
 				data.personalFirstname = this._in('personalFirstname').val();
 				data.personalLastname = this._in('personalLastname').val();
 				data.personalBirthdate = this._in('personalBirthdate').val();	
 
 			} else {
+
 				data.businessName = this._in('businessName').val();
 				data.businessEin = this._in('businessEin').val();
 				data.businessContact = this._in('businessContact').val();
+
 			}
 
-			var success = function() {
-				console.log("success");
+			var userStatusUpdateSuccess = function() {
 
-				self._info("Host created, will be redirected.");
+				Parse.history.navigate('dashboard', true);
 
 			};
 
-			var error = function(error) {
+			var hostRegistrationSuccess = function() {
+				
+				Parse.User.current().save({ status: 'complete' }).then(userStatusUpdateSuccess, saveError);
+
+			};
+
+			var saveError = function(error) {
 				
 				self._error(error);
+
 			};
 
-			this.model.save(data).then(success, error);
+			this.model.save(data).then(hostRegistrationSuccess, saveError);
 		}, 
 
 		render: function() {

@@ -20,32 +20,51 @@ define([
 
 			var self = this;
 
-			// At this stage a user must never be logged in
-			// but for test purposes we will make the test
-			// and log him out
-			if(Parse.User.current()) {
-				Parse.User.logOut();
+			if(this._in('email').val() == "") {
+
+				this._error("email empty");
 				return;
 			}
 
-			var user = new Parse.User();
-			user.set("email", this._in('email').val());
-			user.set("username", this._in('email').val());
-			user.set("password", this._in('password').val());
-			user.set("tos", false);
-			user.set("host", new HostModel({ type: $('input[name="account_type"]:checked').val() }));
+			if(this._in('password').val() == "") {
 
-			user.signUp(null, {
-			  success: function(user) {
-			    console.log("succeed");
-				Parse.history.navigate('terms', true);		
-			  },
-			  error: function(user, error) {
-			    
+				this._error("password empty");
+				return;
+			}
+
+			if(this._in('password').val() != this._in('password_confirm').val()) {
+
+				this._error("Passwords don't match");
+				return;
+
+			}
+
+			// ToDo
+			// - Password length to test, minimum 6 chars
+			// - Password complecity to do
+
+			var userSignUpSuccess = function() {
+
+				Parse.history.navigate('terms', true);
+
+			};
+
+			var userSignUpError = function(error) {
+
 			    self._error(error.message);
-		
-			  }
-			});
+
+			};
+
+			var params = {
+				email: this._in('email').val(),
+				username: this._in('email').val(),
+				password: this._in('password').val(),
+				tos: false,
+				host: new HostModel({ type: $('input[name="account_type"]:checked').val() }),
+				status: 'creation'
+			};
+
+			new Parse.User().signUp(params).then(userSignUpSuccess, userSignUpError);
 		}
 
 	});
