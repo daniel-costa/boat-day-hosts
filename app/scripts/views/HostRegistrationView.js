@@ -11,7 +11,30 @@ define([
 		template: _.template(HostregistrationTemplate),
 
 		events: {
-			"submit form" : "registerHost"
+			"submit form" : "registerHost", 
+			'change [name ="paymentMethod"]' : "switchView"
+		},
+
+		switchView: function(){
+
+			var selected = $('#payment_method option:selected').val();
+
+			if(selected == "deposit"){
+				console.log("Deposit selected");
+				$(".payment_method_1").show();
+				$(".payment_method_2").hide();
+				$(".payment_method_3").hide();
+			} else if(selected == "paypal"){
+				console.log("paypal selected");
+				$(".payment_method_2").show();
+				$(".payment_method_1").hide();
+				$(".payment_method_3").hide();
+			} else{
+				console.log("venmo selected");
+				$(".payment_method_3").show();
+				$(".payment_method_1").hide();
+				$(".payment_method_2").hide();
+			}
 		},
 
 		registerHost: function() {

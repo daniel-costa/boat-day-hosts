@@ -70,7 +70,7 @@ define([
 		},
 
 		showHostRegistration: function() {
-			
+
 			if( Parse.User.current() && this.isUserCreationSteps() && this.userAcceptedTos() ) {
 
 				var self = this;

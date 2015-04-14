@@ -7,7 +7,7 @@ define([
 
 		render: function() {
 			console.log("### Render by BaseView ###");
-			// console.log(this.el);
+			//console.log(this.el);
 
 			if(this.model) {	
 				this.$el.html(this.template(this.model.toJSON()));
