@@ -77,7 +77,7 @@ define([
 			if( isBusiness && !attributes.businessContact ) {
 				return "A business contact is required";
 			}
-
+			
 			if( !attributes.phone ) {
 				return "A phone number is required";
 			}
@@ -86,9 +86,26 @@ define([
 				return "Phone number is not valid";
 			}	
 
+			if( !isBusiness && !attributes.personalSSN ) {
+				return "A SSN number is required";
+			}
+
 			if( !attributes.street ) {
 				return "A street is required";
 			}
+
+			if( !attributes.city ) {
+				return "A city is required";
+			}
+
+			if( !attributes.zipCode ) {
+				return "A zip code is required";
+			}
+
+			if( !attributes.street ) {
+				return "A street is required";
+			}
+
 
 			if( !isBusiness && !attributes.personalBirthdate ) {
 				return "A date of birth is	required";

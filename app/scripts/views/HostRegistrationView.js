@@ -4,9 +4,10 @@ define([
 'parse',
 'views/BaseView',
 'models/HostModel',
+'models/ProfileModel',
 'text!templates/HostRegistrationTemplate.html'
-], function($, _, Parse, BaseView, HostModel, HostRegistrationTemplate){
-	var HostregistrationView = BaseView.extend({
+], function($, _, Parse, BaseView, HostModel, ProfileModel, HostRegistrationTemplate){
+	var HostRegistrationView = BaseView.extend({
 
 		className: "view-host-registration",
 
@@ -47,6 +48,8 @@ define([
 
 			var data = {
 				street: this._in('street').val(),
+				city: this._in('city').val(),
+				zipCode: this._in('zipCode').val(),
 				apartmentNumber: this._in('apartmentNumber').val(), 
 				country: this._in('country').val(), 
 				phone: this._in('phone').val(), 
@@ -74,7 +77,8 @@ define([
 
 				data.personalFirstname = this._in('personalFirstname').val();
 				data.personalLastname = this._in('personalLastname').val();
-				data.personalBirthdate = this._in('personalBirthdate').val();	
+				data.personalBirthdate = this._in('personalBirthdate').val();
+				data.personalSSN = this._in('personalSSN').val();
 
 			} else {
 
@@ -86,13 +90,13 @@ define([
 
 			var userStatusUpdateSuccess = function() {
 
-				Parse.history.navigate('dashboard', true);
+				Parse.history.navigate('profile', true);
 
 			};
 
 			var hostRegistrationSuccess = function() {
 				
-				Parse.User.current().save({ status: 'complete' }).then(userStatusUpdateSuccess, saveError);
+				Parse.User.current().save({ profile: new ProfileModel() }).then(userStatusUpdateSuccess, saveError);
 
 			};
 
@@ -106,5 +110,5 @@ define([
 		}
 
 	});
-	return HostregistrationView;
+	return HostRegistrationView;
 });

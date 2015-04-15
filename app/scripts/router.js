@@ -8,8 +8,9 @@ define([
 	'views/TermsView',
 	'views/SignUpView',
 	'views/HostRegistrationView',
-	'views/DriverRegistrationView'
-], function($, _, Parse, HomeView, DashboardView, TermsView, SignUpView, HostRegistrationView, DriverRegistrationView) {
+	'views/DriverRegistrationView',
+	'views/ProfileView'
+], function($, _, Parse, HomeView, DashboardView, TermsView, SignUpView, HostRegistrationView, DriverRegistrationView, ProfileView) {
 	
 	var AppRouter = Parse.Router.extend({
 
@@ -22,6 +23,7 @@ define([
 			'terms': 'showTermsView',
 			'host-registration': 'showHostRegistration',
 			'driver-registration': 'showDriverRegistration',
+		 	'profile': 'showProfileView',
 		 	'dashboard': 'showDashboardView',
 			
 			'sign-out': 'signOut',
@@ -87,7 +89,7 @@ define([
 
 		showHostRegistration: function() {
 
-			if( Parse.User.current() && this.isUserCreationSteps() && this.userAcceptedTos() ) {
+			if( Parse.User.current() && this.isUserCreationSteps() && this.userAcceptedTos() && !this.hasProfile() ) {
 
 				var self = this;
 
@@ -111,19 +113,43 @@ define([
 
 		showDriverRegistration: function() {
 
-			if( Parse.User.current() && this.isUserCreationSteps() && this.userAcceptedTos() ) {
+			if( Parse.User.current() && this.isUserCreationSteps() && this.userAcceptedTos() && !this.hasProfile() ) {
 
 				var self = this;
 
-				var hostFetchSuccess = function(driver) {
+				var driverFetchSuccess = function(driver) {
 					self.render(new DriverRegistrationView({ model: driver }));	
 				};
 
-				var hostFetchError = function(error) {
+				var driverFetchError = function(error) {
 					console.log(error);
 				};
 
-				Parse.User.current().get("driver").fetch().then(hostFetchSuccess, hostFetchError);
+				Parse.User.current().get("driver").fetch().then(driverFetchSuccess, driverFetchError);
+
+			} else {
+
+				this.showDashboardView();
+
+			}
+			
+		},
+
+		showProfileView: function() {
+
+			if( Parse.User.current() && this.isUserCreationSteps() && this.userAcceptedTos() && this.hasProfile()) {
+
+				var self = this;
+
+				var profileFetchSuccess = function(profile) {
+					self.render(new ProfileView({ model: profile }));
+				};
+
+				var profileetchError = function(error) {
+					console.log(error);
+				};
+
+				Parse.User.current().get("profile").fetch().then(profileFetchSuccess, profileetchError);
 
 			} else {
 
@@ -149,6 +175,24 @@ define([
 
 		},
 
+		isUserHost: function() {
+
+			return Parse.User.current().get('host');
+
+		},
+
+		isUserDriver: function() {
+
+			return Parse.User.current().get('driver');
+
+		},
+
+		hasProfile: function() {
+
+			return Parse.User.current().get('profile') != undefined;
+
+		},
+
 		userAcceptedTos: function() {
 
 			return Parse.User.current().get("tos");
@@ -163,7 +207,23 @@ define([
 
 					if( this.userAcceptedTos() ) {
 						
-						this.showHostRegistration();
+						if( this.hasProfile() ) {
+
+							this.showProfileView();
+
+						} else {
+
+							if( this.isUserDriver() ) {
+
+								this.showDriverRegistration();
+
+							} else {
+
+								this.showHostRegistration();
+
+							}
+
+						}
 
 					} else {
 						
