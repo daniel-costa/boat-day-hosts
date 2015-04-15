@@ -21,27 +21,20 @@ define([
 
 			event.preventDefault();
 
-			Parse.User.logIn(this._in('email').val(), this._in('password').val(), {
+			var self = this;
 
-				success: function(user) {
+			var logInSuccess = function(user) {
 
-					if(user.get("tos")) {
+				Parse.history.navigate('dashboard', true);
 
-						Parse.history.navigate('/dashboard', true);   					
+			};
 
-					} else {
+			var logInError = function(error) {
+				console.log(error.message);
+				self._error(error.message);
+			};
 
-						Parse.history.navigate('/terms', true); 
-
-					}
-
-				},
-				error: function(user, error) {
-
-					console.log("Login failed");
-
-				} 
-			});
+			Parse.User.logIn(this._in('email').val(), this._in('password').val()).then(logInSuccess, logInError);
 		
 		}
 

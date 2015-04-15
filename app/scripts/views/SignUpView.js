@@ -3,86 +3,101 @@ define([
 'underscore', 
 'parse',
 'models/HostModel',
+'models/DriverModel',
 'views/BaseView',
 'text!templates/SignUpTemplate.html'
-], function($, _, Parse, HostModel, BaseView, SignUpAccountTemplate){
+], function($, _, Parse, HostModel, DriverModel, BaseView, SignUpAccountTemplate){
 	var SignUpAccountView = BaseView.extend({
+
+		className: "view-sign-up",
 
 		template: _.template(SignUpAccountTemplate),
 
+		progressCurrent: 0,
+
+		signUpType: null,
+
 		events: {
-			"submit form" : "signUp", 
-			'keyup [name="password"]' : "passStrength"
+			'keyup [name="password"]' : "computePasswordStrength",
+			"submit form" : "signUp",
 		},
 
-		passStrength: function(){
+		initialize: function(params) {
+			
+			this.signUpType = params.type;
 
-			console.log("CHECKPOINT");
+		},
+
+		computePasswordStrength: function() {
+
 			var password = this._in('password').val();
-			console.log(password);
-			var passLength = password.length;
-			var regex = "[^a-zA-Z0-9]";
-			var numberFlag = 0;
-			var numberGenerator = 0;
-			var specialFlag = 0;
+			var total = 0;
+			var className;
 
-    		var total = 0;
+			if( password.length > 0 && password.length < 6) {
+				
+				total += 25;
 
-    		if( passLength < 6) {
+			} else if( password.length >= 6 ) {
 
-    			numberGenerator = 25;
-    			console.log("passLength < 6: " +numberGenerator);
-    		} else{
+				total += 25;
 
-    			if( passLength >= 6) {
+				if( password.match(/[a-zA-Z]/) ) {
 
-    			numberGenerator = 50;
-    			console.log("passLength > 6: " + numberGenerator);
+					total += 25;
 
-    			}
+				}
 
-    			if( password.match(/[0-9]/)){
+				if( password.match(/[0-9]/) ) {
 
-    			numberFlag = 25;	
-    			console.log("Contains number: " + numberFlag);
+					total += 25;
 
-    			}
+				}
 
-    			if( password.match(regex)){
+				if( password.match("[^a-zA-Z0-9]") ) {
 
-    			specialFlag = 25;
-    			console.log("contains special char: " + specialFlag);
+					total += 25;
 
-    			}
+				}
 
-    		}
+			}
 
-    		total = numberGenerator + numberFlag + specialFlag ;
-    		console.log("total:" + total);
+			if( total <= 25 ) {
+				
+				className = 'progress-bar-danger';
 
-    		if( total == 25){
+			} else if( total <= 75){
 
-    			$(".progress-bar").css('background-color','#FF0040');
-    			//$('<div>Weak password</div>').appendTo('.alert');
+				className = 'progress-bar-warning';
 
-    		} else if( total == 50){
+			} else if( total <= 100){
 
-    			$(".progress-bar").css('background-color','#FFA500');
-    			//$('<div>Secure enough</div>').appendTo('.alert');
+				className = 'progress-bar-success';
 
-    		} else if( total == 75){
+			}
 
-    			$(".progress-bar").css('background-color','#FFA500');
-    			//$('<div>Secure enough</div>').appendTo('.alert');
+			console.log(total);
 
-    		} else if( total == 100){
+			if( total != this.progressCurrent ) {
+				$('.progress-bar').animate({ width: total+'%' }, 200, 'linear')
+				.removeClass('progress-bar-danger progress-bar-warning progress-bar-success')
+				.addClass(className);
+			}
 
-    			$(".progress-bar").css('background-color','#006600');
-    			//$('<div>Strong password</div>').appendTo('.alert');
+			this.progressCurrent = total;
+		},
 
-    		}
+		render: function() {
+			
+			BaseView.prototype.render.call(this);
 
-    		$('.progress-bar').css('width',total+'%');
+			if( this.signUpType == 'driver' ) {
+
+				this.$el.find('div.hostType').hide();
+
+			}
+
+			return this;
 
 		},
 
@@ -91,22 +106,26 @@ define([
 			event.preventDefault();
 
 			var self = this;
-
+			
 			if(this._in('email').val() == "") {
 
 				this._error("email empty");
 				return;
+
 			}
 
 			if(this._in('password').val() == "") {
 
 				this._error("password empty");
 				return;
+
 			}
 
-			if(this._in('password').val().length < 4) {
+			if(this._in('password').val().length < 6) {
 
-				this._error("Password should contain atleast 4 characters");
+				this._error("Password should contain at least 6 characters");
+				return;
+
 			}
 
 			if(this._in('password').val() != this._in('password_confirm').val()) {
@@ -128,7 +147,7 @@ define([
 
 			var userSignUpError = function(error) {
 
-			    self._error(error.message);
+				self._error(error.message);
 
 			};
 
@@ -137,9 +156,17 @@ define([
 				username: this._in('email').val(),
 				password: this._in('password').val(),
 				tos: false,
-				host: new HostModel({ type: $('input[name="account_type"]:checked').val() }),
 				status: 'creation'
 			};
+
+			if( this.signUpType == 'driver') {
+				
+				params.driver = new DriverModel();
+
+			} else {
+
+				params.host = new HostModel({ type: this.$el.find('[name="hostType"]:checked').val() });
+			}
 
 			new Parse.User().signUp(params).then(userSignUpSuccess, userSignUpError);
 		}

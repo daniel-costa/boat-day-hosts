@@ -1,0 +1,72 @@
+<form class="form-horizontal"> 
+	<div class="container"> 
+		<div class="panel panel-primary">
+
+			<div class="panel-heading area-personal">
+				<h3 class="panel-title text-center">Driver information</h3>
+			</div>
+
+			<div class="panel-body area-personal">
+				<div class="col-sm-8">
+					<div class="form-group">
+						<label for="personalFirstname" class="col-sm-6 control-label">First Name</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="personalFirstname" name="personalFirstname" placeholder="First Name">
+						</div>
+					</div>
+					<div class="form-group">
+					 	<label for="personalLastname" class="col-sm-6 control-label">Last Name</label>
+					 	<div class="col-sm-6">
+							<input type="text" class="form-control" id="personalLastname" name="personalLastname" placeholder="Last Name">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="phone" class="col-sm-6 control-label">Phone number</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="phone" name="phone" placeholder="### ### ####">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="address" class="col-sm-6 control-label">Address</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="address" name="address" placeholder="Enter your complete address">
+							<input type="hidden" name="street" value="" />
+							<input type="hidden" name="city" value="" />
+							<input type="hidden" name="state" value="" />
+							<input type="hidden" name="zipcode" value="" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="apartmentNumber" class="col-sm-6 control-label">Apartment Number</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="apartmentNumber" name="apartmentNumber" placeholder="Apartment Number">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="country" class="col-sm-6 control-label">Country</label>
+						<div class="col-sm-6">
+							<select class="col-sm-4 form-control" id="country" name="country" readonly disabled>
+								<option value="US">United States of America</option>
+							</select>
+				 		</div>
+				 	</div>
+					<div class="form-group">
+						<label for="personalBirthdate" class="col-sm-6 control-label">Date of Birth</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="personalBirthdate" name="personalBirthdate" placeholder="mm / dd / yyyy">
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="alert-info alert">
+						<span class="glyphicon glyphicon-info-sign"></span> bla bla
+					</div>
+				</div>
+			</div>
+
+			<div class="panel-footer text-center">
+				<button type="submit" class="btn btn-primary btn-lg">Register as a host</button>
+			</div>
+		</div>
+	</div>
+</form>

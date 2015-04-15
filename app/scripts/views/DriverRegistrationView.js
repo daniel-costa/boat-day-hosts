@@ -3,17 +3,17 @@ define([
 'underscore', 
 'parse',
 'views/BaseView',
-'models/HostModel',
-'text!templates/HostRegistrationTemplate.html'
-], function($, _, Parse, BaseView, HostModel, HostRegistrationTemplate){
-	var HostregistrationView = BaseView.extend({
+'models/DriverModel',
+'text!templates/DriverRegistrationTemplate.html'
+], function($, _, Parse, BaseView, DriverModel, DriverRegistrationTemplate){
+	var DriverregistrationView = BaseView.extend({
 
-		className: "view-host-registration",
+		className: "view-driver-registration",
 
-		template: _.template(HostRegistrationTemplate),
+		template: _.template(DriverRegistrationTemplate),
 
 		events: {
-			"submit form" : "registerHost", 
+			"submit form" : "registerDriver", 
 			'change [name="paymentMethod"]' : "refreshPaymentMethod"
 		},
 
@@ -39,36 +39,25 @@ define([
 
 		},
 
-		registerHost: function() {
+		registerDriver: function() {
 
 			event.preventDefault();
 
 			var self = this;
 
 			var data = {
-				street: this._in('street').val(),
+				address: this._in('street').val(),
 				apartmentNumber: this._in('apartmentNumber').val(), 
 				country: this._in('country').val(), 
 				phone: this._in('phone').val(), 
 				paymentMethod: this._in('paymentMethod').val(), 
+				accountHolder: this._in('accountHolder').val(), 
+				accountNumber: this._in('accountNumber').val(), 
+				accountRouting: this._in('accountRouting').val(), 
+				paypalEmail: this._in('paypalEmail').val(), 
+				venmoEmail: this._in('venmoEmail').val(), 
+				venmoPhone: this._in('venmoPhone').val()
 			};
-
-			if( this._in('paymentMethod').val() == 'deposit' ) {
-
-				data.accountHolder = this._in('accountHolder').val(); 
-				data.accountNumber = this._in('accountNumber').val(); 
-				data.accountRouting = this._in('accountRouting').val(); 
-
-			} else if( this._in('paymentMethod').val() == 'paypal' ) {
-
-				data.paypalEmail = this._in('paypalEmail').val();
-
-			} else {
-
-				data.venmoEmail = this._in('venmoEmail').val();
-				data.venmoPhone = this._in('venmoPhone').val();
-
-			}
 
 			if(this.model.get("type") == "personal") {
 
@@ -90,7 +79,7 @@ define([
 
 			};
 
-			var hostRegistrationSuccess = function() {
+			var DriverRegistrationSuccess = function() {
 				
 				Parse.User.current().save({ status: 'complete' }).then(userStatusUpdateSuccess, saveError);
 
@@ -102,9 +91,9 @@ define([
 
 			};
 
-			this.model.save(data).then(hostRegistrationSuccess, saveError);
+			this.model.save(data).then(DriverRegistrationSuccess, saveError);
 		}
 
 	});
-	return HostregistrationView;
+	return DriverregistrationView;
 });

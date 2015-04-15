@@ -7,13 +7,12 @@ define([
 ], function($, _, Parse, BaseView, DashboardTemplate){
 	var DashboardView = BaseView.extend({
 
+		className: "view-dashboard",
+		
 		template: _.template(DashboardTemplate),
-		events : {
-			'click btn': 'logOut'
-		}, 
 
-		logOut: function(){
-			console.log("clicked");
+		events : {
+
 		}
 
 	});

@@ -23,7 +23,9 @@
 						<div class="progress" style="margin:10px auto;">
 							<div class="progress-bar" role="progressbar"> </div>
 						</div>
-						<div class="alert alert-success" role="alert" style="margin:0px auto;"></div>
+						<div class="alert alert-info" role="alert" style="margin:0px auto;">
+							<span class="glyphicon glyphicon-info-sign"></span> Bla bla bla text by Kimon
+						</div>
 					</div>
 				</div>
 				<div class="form-group">
@@ -32,19 +34,19 @@
 						<input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Retype your Password">
 					</div>
 				</div>
-				<div class="form-group">
-					<label for="account_type" class="col-xs-12 col-sm-4 control-label">Account Type</label>
+				<div class="form-group hostType">
+					<label for="hostType" class="col-xs-12 col-sm-4 control-label">Account Type</label>
 
 					<div class="col-sm-4 text-center">
 						<div class="btn-group" data-toggle="buttons">
-							<label class="btn btn-default btn-lg account-type active">
-								<input type="radio" name="account_type" value="personal" autocomplete="off" checked>
+							<label class="btn btn-default btn-lg hostType active">
+								<input type="radio" name="hostType" value="personal" autocomplete="off" checked>
 								<span class="glyphicon glyphicon-user"></span><br/>
 								Personal<br/>
 								<span style="font-size:0.7em">(I own a boat)</span>
 							</label>
-							<label class="btn btn-default btn-lg account-type">
-								<input type="radio" name="account_type" value="business" autocomplete="off">
+							<label class="btn btn-default btn-lg hostType">
+								<input type="radio" name="hostType" value="business" autocomplete="off">
 								<span class="glyphicon glyphicon-usd"></span><br/>
 								Business<br/>
 								<span style="font-size:0.7em">(I charter boats)</span>

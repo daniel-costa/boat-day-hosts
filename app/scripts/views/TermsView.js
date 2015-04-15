@@ -7,35 +7,47 @@ define([
 ], function($, _, Parse, BaseView, TermsTemplate){
 	var TermsView = BaseView.extend({
 
+		className: "view-terms",
+
 		template: _.template(TermsTemplate),
 
 		events: {
-			"submit form" : "hostRegistration"
+			"submit form" : "acceptTerms"
 		},
 
-		hostRegistration: function(){
+		acceptTerms: function(){
 
 			event.preventDefault();
 
 			var self = this;
-
-			var userSaveSuccess = function () {
-
-				Parse.history.navigate('host-registration', true);
-
-			};
-
-			var userSaveError = function (error) {
-
-				self._error(error);
-
-			};
 
 			if( !this._in('tos').is(':checked') ) {
 
 				this._error("You must to agree with the terms and conditions to use the BoatDay Host WebApp");
 
 			} else{
+
+				var userSaveSuccess = function () {
+
+					if( Parse.User.current().get('host') ) {
+						
+						Parse.history.navigate('host-registration', true);	
+
+					} else {
+						
+						Parse.history.navigate('driver-registration', true);
+
+					}
+
+				};
+
+				var userSaveError = function (error) {
+
+					console.log(error);
+					
+					self._error(error);
+
+				};
 
 				Parse.User.current().save({ tos: true }).then(userSaveSuccess, userSaveError);
 

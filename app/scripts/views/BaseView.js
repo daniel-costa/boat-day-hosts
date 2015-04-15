@@ -3,11 +3,12 @@ define([
 ], function(Parse){
 	var BaseView = Parse.View.extend({
 
+		className: "view-base",
+
 		subViews: {},
 
 		render: function() {
-			console.log("### Render by BaseView ###");
-			//console.log(this.el);
+			console.log("### Render by BaseView (" + this.className + ") ###");
 
 			if(this.model) {	
 				this.$el.html(this.template(this.model.toJSON()));

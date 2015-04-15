@@ -7,22 +7,25 @@ define([
 	'views/DashboardView',
 	'views/TermsView',
 	'views/SignUpView',
-	'views/HostRegistrationView'
-], function($, _, Parse, HomeView, DashboardView, TermsView, SignUpView, HostRegistrationView) {
+	'views/HostRegistrationView',
+	'views/DriverRegistrationView'
+], function($, _, Parse, HomeView, DashboardView, TermsView, SignUpView, HostRegistrationView, DriverRegistrationView) {
 	
 	var AppRouter = Parse.Router.extend({
 
 		routes: {
 			// Define some URL routes
 			'home': 'showHomeView',
-
-			'sign-up': 'showSignUpView',
-			'sign-out': 'signOut',
+			// 'sign-up': 'showSignUpView',
+			'sign-up-host': 'showSignUpHost',
+			'sign-up-driver': 'showSignUpDriver',
 			'terms': 'showTermsView',
 			'host-registration': 'showHostRegistration',
+			'driver-registration': 'showDriverRegistration',
 		 	'dashboard': 'showDashboardView',
 			
-			// Default
+			'sign-out': 'signOut',
+
 			'*actions': 'showHomeView'
 		},
 
@@ -30,6 +33,7 @@ define([
 
 		signOut: function() {
 
+			console.log("signing out")
 			Parse.User.logOut();
 			this.showHomeView();
 
@@ -41,12 +45,24 @@ define([
 
 		},
 
-		showSignUpView: function() {
+		showSignUpHost: function() {
+			
+			this.showSignUpView('host');
+
+		},
+
+		showSignUpDriver: function() {
+			
+			this.showSignUpView('driver');
+
+		},
+
+		showSignUpView: function(type) {
 
 			if( !Parse.User.current() ) {
 				
-				this.render(new SignUpView());
-
+				this.render(new SignUpView({ type: type }));
+					
 			} else {
 
 				this.showDashboardView();
@@ -79,11 +95,35 @@ define([
 					self.render(new HostRegistrationView({ model: host }));	
 				};
 
-				var hostFetchError = function(host) {
+				var hostFetchError = function(error) {
 					console.log(error);
 				};
 
 				Parse.User.current().get("host").fetch().then(hostFetchSuccess, hostFetchError);
+
+			} else {
+
+				this.showDashboardView();
+
+			}
+			
+		},
+
+		showDriverRegistration: function() {
+
+			if( Parse.User.current() && this.isUserCreationSteps() && this.userAcceptedTos() ) {
+
+				var self = this;
+
+				var hostFetchSuccess = function(driver) {
+					self.render(new DriverRegistrationView({ model: driver }));	
+				};
+
+				var hostFetchError = function(error) {
+					console.log(error);
+				};
+
+				Parse.User.current().get("driver").fetch().then(hostFetchSuccess, hostFetchError);
 
 			} else {
 

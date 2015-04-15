@@ -6,10 +6,18 @@ define([
 		defaults: {
 
 			type: null,
-			
-			address: null,
+			street: null,
 			apartmentNumber: null, 
-			country: null,
+			city: null,
+			zipCode: null,
+			state: null,
+			country: "USA",
+			businessName: null,
+			businessEin: null,
+			businessContact: null,
+			personalFirstname: null, 
+			personalLastname: null, 
+			personalBirthdate: null,
 			phone: null,
 			paymentMethod: null,
 			accountHolder: null,
@@ -19,113 +27,122 @@ define([
 			venmoEmail: null,
 			venmoPhone: null,
 
-			businessName: null,
-			businessEin: null,
-			businessContact: null,
+		},
+
+		isPhoneValid: function(phone) {
 			
-			personalFirstname: null, 
-			personalLastname: null, 
-			personalBirthdate: null
+			var phoneNumberPattern = /^\(?([0-9]{3})\)?([ .-]?)([0-9]{3})([ .-]?)([0-9]{4})$/;
+   			return phoneNumberPattern.test(phone);
 
 		},
 
-		validePhone: function(phone) {
-			var phoneNumberPattern = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;  
-   			return phoneNumberPattern.test(phone); 
-   			// (123) 456 7899
-			// (123).456.7899
-			// (123)-456-7899
-			// 123-456-7899
-			// 123 456 7899
-			// 1234567899
-		},
+		isBirthdateValid: function(personalBirthdate){
 
-		validateBirthDate: function(personalBirthdate){
+			//validates (MM/DD/YYYY), with a year between 1900 and 2099.
 
 			var birthDatePattern = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/;
 			return birthDatePattern.test(personalBirthdate);
 
-			//validates (MM/DD/YYYY), with a year between 1900 and 2099.
+		},
+
+		isEmailValid: function(email) {
+			
+			return true;
+
 		},
 
 		validate: function(attributes){
 
-			if(attributes.type == "business") {
+			var isBusiness = attributes.type == "business";
+			var isDeposit = attributes.paymentMethod == "deposit";
+			var isVenmo = attributes.paymentMethod == "venmo";
+			var isPaypal = attributes.paymentMethod == "paypal";
 
-				if( !attributes.businessName ) {
-					return "A businessName is required";
-				}
+			if( !isBusiness && !attributes.personalFirstname ) {
+				return "A first name is required";
+			}
+			 
+			if( !isBusiness && !attributes.personalLastname ) {
+				return "A last name is	required";
+			}
 
-				if( !attributes.businessEin ) {
-					return "A businessEin number is	required";
-				}
+			if( isBusiness && !attributes.businessName ) {
+				return "A businessName is required";
+			}
 
-				if( !attributes.businessContact ) {
-					return "A business contact is required";
-				}
+			if( isBusiness && !attributes.businessEin ) {
+				return "A businessEin number is	required";
+			}
 
-			} else {
-
-				if( !attributes.personalFirstname ) {
-					return "A first name is required";
-				}
-				 
-				if( !attributes.personalLastname ) {
-					return "A last name is	required";
-				}
-
-				if( !attributes.personalBirthdate ) {
-					return "A date of birth is	required";
-				}
-
-				if( !this.validateBirthDate(attributes.personalBirthdate) ) {
-					return "Date of birth must be in MM/DD/YYYY format";
-				}
-			}	
+			if( isBusiness && !attributes.businessContact ) {
+				return "A business contact is required";
+			}
 
 			if( !attributes.phone ) {
 				return "A phone number is required";
 			}
-
 			
-			if( !this.validePhone(attributes.phone) ) {
+			if( !this.isPhoneValid(attributes.phone) ) {
 				return "Phone number is not valid";
 			}	
 
-			if( !attributes.address ) {
-				return "A address is required";
+			if( !attributes.street ) {
+				return "A street is required";
+			}
+
+			if( !isBusiness && !attributes.personalBirthdate ) {
+				return "A date of birth is	required";
+			}
+
+			if( !isBusiness && !this.isBirthdateValid(attributes.personalBirthdate) ) {
+				return "Date of birth must be in MM/DD/YYYY format";
+			}
+
+			if( isDeposit && !attributes.accountHolder ) {
+				return "A account holder´s name is required";
+			}
+
+			if( isDeposit && !attributes.accountNumber ) {
+				return "A account number is required";
+			}
+
+			if( isDeposit && !attributes.accountRouting ) {
+				return "A routing number is required";
 			}
 
 
-			if( attributes.paymentMethod == "deposit") {
-
-				if( !attributes.accountHolder ) {
-					return "A account holder´s name is required";
-				}
-
-				if( !attributes.accountNumber ) {
-					return "A account number is required";
-				}
-
-				if( !attributes.accountRouting ) {
-					return "A routing number is required";
-				}
-
-			} else if ( attributes.paymentMethod == "paypal") {
+			if( isPaypal ) {
 
 				if( !attributes.paypalEmail ) {
-					return "A paypal email is required";
+					
+					return "A email for paypal is required";
+
+				} 
+
+				if( !this.isEmailValid(attributes.paypalEmail) ) {
+
+					return "The Paypal email is invalid";
+
 				}
 
-			} else {
+			}
 
-				if( !attributes.venmoEmail ) {
-					return "A venmo email is required";
+			if( isVenmo ) {
+				
+				if( !attributes.venmoEmail  && !attributes.venmoPhone ) {
+				
+					return "A venmo email or phone number is required";
+				
+				} else if( attributes.venmoEmail && !this.isEmailValid(attributes.venmoEmail) ) {
+
+					return "The Venmo email is invalid";
+
+				} else if( attributes.venmoPhone && !this.isPhoneValid(attributes.venmoPhone) ) {
+
+					return "The Venmo phone number is invalid";
+
 				}
 
-				if( !attributes.venmoPhone ) {
-					return "A venmo phone is required";
-				}
 			}
 
 		}
