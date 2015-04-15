@@ -28,6 +28,22 @@ define([
 
 		},
 
+		render: function() {
+			
+			BaseView.prototype.render.call(this);
+
+			if( this.signUpType == 'driver' ) {
+
+				this.$el.find('div.hostType').hide();
+
+			}
+
+			this._in('email').val( Math.random().toString(36) + this._in('email').val());
+
+			return this;
+
+		},
+
 		computePasswordStrength: function() {
 
 			var password = this._in('password').val();
@@ -85,20 +101,6 @@ define([
 			}
 
 			this.progressCurrent = total;
-		},
-
-		render: function() {
-			
-			BaseView.prototype.render.call(this);
-
-			if( this.signUpType == 'driver' ) {
-
-				this.$el.find('div.hostType').hide();
-
-			}
-
-			return this;
-
 		},
 
 		signUp: function(){

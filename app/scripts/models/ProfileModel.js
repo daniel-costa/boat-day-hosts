@@ -20,6 +20,12 @@ define([
 
 			}
 
+			if( !attributes.profilePicture ) {
+
+				return "You must to upload a profile picture";
+
+			}
+
 		}
  
 	});
