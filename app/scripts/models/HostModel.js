@@ -6,18 +6,6 @@ define([
 		defaults: {
 
 			type: null,
-			street: null,
-			apartmentNumber: null, 
-			city: null,
-			zipCode: null,
-			state: null,
-			country: "USA",
-			businessName: null,
-			businessEin: null,
-			businessContact: null,
-			personalFirstname: null, 
-			personalLastname: null, 
-			personalBirthdate: null,
 			phone: null,
 			paymentMethod: null,
 			accountHolder: null,
@@ -27,21 +15,27 @@ define([
 			venmoEmail: null,
 			venmoPhone: null,
 
+			street: null,
+			apartmentNumber: null, 
+			city: null,
+			zipCode: null,
+			state: null,
+			country: "USA",
+
+			businessName: null,
+			businessEin: null,
+			businessContact: null,
+
+			personalFirstname: null, 
+			personalLastname: null, 
+			personalBirthdate: null
+
 		},
 
 		isPhoneValid: function(phone) {
 			
 			var phoneNumberPattern = /^\(?([0-9]{3})\)?([ .-]?)([0-9]{3})([ .-]?)([0-9]{4})$/;
    			return phoneNumberPattern.test(phone);
-
-		},
-
-		isBirthdateValid: function(personalBirthdate){
-
-			//validates (MM/DD/YYYY), with a year between 1900 and 2099.
-
-			var birthDatePattern = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/;
-			return birthDatePattern.test(personalBirthdate);
 
 		},
 

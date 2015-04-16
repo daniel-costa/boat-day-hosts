@@ -3,9 +3,9 @@ define([
 'underscore', 
 'parse',
 'views/BaseView',
-'models/DriverModel',
+'models/ProfileModel',
 'text!templates/DriverRegistrationTemplate.html'
-], function($, _, Parse, BaseView, DriverModel, DriverRegistrationTemplate){
+], function($, _, Parse, BaseView, ProfileModel, DriverRegistrationTemplate){
 	var DriverregistrationView = BaseView.extend({
 
 		className: "view-driver-registration",
@@ -13,8 +13,9 @@ define([
 		template: _.template(DriverRegistrationTemplate),
 
 		events: {
-			"submit form" : "registerDriver", 
-			'change [name="paymentMethod"]' : "refreshPaymentMethod"
+
+			"submit form" : "registerDriver"
+
 		},
 
 		initialize: function(){
@@ -25,18 +26,11 @@ define([
 
 			BaseView.prototype.render.call(this);
 
-			this.refreshPaymentMethod();
+			for(var i = 1900; i < new Date().getFullYear() - 21; i++) {
+				this.$el.find('[name="driverBirthdateYear"]').append($('<option value="'+i+'">'+i+'</option>'));
+			}
 
 			return this;
-		},
-
-		refreshPaymentMethod: function(){
-
-
-			var paymentMethod = this._in('paymentMethod').val();			
-			this.$el.find('.paymentMethodContainer').hide();
-			this.$el.find(".paymentMethodContainer." + paymentMethod).show();
-
 		},
 
 		registerDriver: function() {
@@ -46,42 +40,27 @@ define([
 			var self = this;
 
 			var data = {
-				address: this._in('street').val(),
-				apartmentNumber: this._in('apartmentNumber').val(), 
-				country: this._in('country').val(), 
-				phone: this._in('phone').val(), 
-				paymentMethod: this._in('paymentMethod').val(), 
-				accountHolder: this._in('accountHolder').val(), 
-				accountNumber: this._in('accountNumber').val(), 
-				accountRouting: this._in('accountRouting').val(), 
-				paypalEmail: this._in('paypalEmail').val(), 
-				venmoEmail: this._in('venmoEmail').val(), 
-				venmoPhone: this._in('venmoPhone').val()
+				firstname : this._in('firstname').val(),
+				lastname : this._in('lastname').val(),
+				birthdate : this._in('driverBirthdateMonth').val() + "/" + this._in('driverBirthdateDay').val() + "/" + this._in('driverBirthdateYear').val(),	
+				phone : this._in('phone').val(),
+				ssn : this._in('ssn').val(),
+				street: this._in('street').val(),
+				apartmentNumber: this._in('apartmentNumber').val(),
+				city: this._in('city').val(),
+				zipCode: this._in('zipCode').val(),
+				state: this._in('state').val()
 			};
-
-			if(this.model.get("type") == "personal") {
-
-				data.personalFirstname = this._in('personalFirstname').val();
-				data.personalLastname = this._in('personalLastname').val();
-				data.personalBirthdate = this._in('personalBirthdate').val();	
-
-			} else {
-
-				data.businessName = this._in('businessName').val();
-				data.businessEin = this._in('businessEin').val();
-				data.businessContact = this._in('businessContact').val();
-
-			}
 
 			var userStatusUpdateSuccess = function() {
 
-				Parse.history.loadUrl( Parse.history.fragment );
+				Parse.history.navigate('profile', true);
 
 			};
 
 			var DriverRegistrationSuccess = function() {
-				
-				Parse.User.current().save({ status: 'complete' }).then(userStatusUpdateSuccess, saveError);
+				//Parse.User.current().save({ status: 'complete' }).then(userStatusUpdateSuccess, saveError);
+				Parse.User.current().save({ profile: new ProfileModel() }).then(userStatusUpdateSuccess, saveError);
 
 			};
 

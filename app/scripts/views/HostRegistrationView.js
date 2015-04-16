@@ -3,10 +3,9 @@ define([
 'underscore', 
 'parse',
 'views/BaseView',
-'models/HostModel',
 'models/ProfileModel',
 'text!templates/HostRegistrationTemplate.html'
-], function($, _, Parse, BaseView, HostModel, ProfileModel, HostRegistrationTemplate){
+], function($, _, Parse, BaseView, ProfileModel, HostRegistrationTemplate){
 	var HostRegistrationView = BaseView.extend({
 
 		className: "view-host-registration",
@@ -52,12 +51,12 @@ define([
 			var isPersonal = this.model.get("type") == "personal";
 
 			var data = {
+				phone: this._in('phone').val(),
 				street: this._in('street').val(),
+				apartmentNumber: this._in('apartmentNumber').val(),
 				city: this._in('city').val(),
 				zipCode: this._in('zipCode').val(),
-				apartmentNumber: this._in('apartmentNumber').val(), 
-				country: this._in('country').val(), 
-				phone: this._in('phone').val(), 
+				state: this._in('state').val(), 
 				paymentMethod: this._in('paymentMethod').val(), 
 			};
 

@@ -3,9 +3,8 @@ define([
 'underscore', 
 'parse',
 'views/BaseView',
-'models/ProfileModel',
 'text!templates/ProfileTemplate.html'
-], function($, _, Parse, BaseView, ProfileModel, ProfileTemplate){
+], function($, _, Parse, BaseView, ProfileTemplate){
 	var ProfileView = BaseView.extend({
 
 		className: "view-profile",
