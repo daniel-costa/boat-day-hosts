@@ -55,6 +55,7 @@ define([
 				city: this._in('city').val(),
 				zipCode: this._in('zipCode').val(),
 				apartmentNumber: this._in('apartmentNumber').val(), 
+				state: this._in('state').val(), 
 				country: this._in('country').val(), 
 				phone: this._in('phone').val(), 
 				paymentMethod: this._in('paymentMethod').val(), 
