@@ -15,27 +15,16 @@ define([
 	var AppRouter = Parse.Router.extend({
 
 		routes: {
-			// Define some URL routes
 			'home': 'showHomeView',
-			// 'sign-up': 'showSignUpView',
-			'sign-up-host': 'showSignUpHost',
-			'sign-up-driver': 'showSignUpDriver',
-			'terms': 'showTermsView',
-			'host-registration': 'showHostRegistration',
-			'driver-registration': 'showDriverRegistration',
-		 	'profile': 'showProfileView',
-		 	'dashboard': 'showDashboardView',
-			
+			'sign-up/:type': 'showSignUpView',
 			'sign-out': 'signOut',
-
-			'*actions': 'showHomeView'
+			'*actions': 'showDashboardView'
 		},
 
 		currentView: null,
 
 		signOut: function() {
 
-			console.log("signing out")
 			Parse.User.logOut();
 			this.showHomeView();
 
@@ -47,199 +36,101 @@ define([
 
 		},
 
-		showSignUpHost: function() {
-			
-			this.showSignUpView('host');
+		showSignUpView: function( type ) {
 
-		},
-
-		showSignUpDriver: function() {
-			
-			this.showSignUpView('driver');
-
-		},
-
-		showSignUpView: function(type) {
-
-			if( !Parse.User.current() ) {
-				
-				this.render(new SignUpView({ type: type }));
-					
-			} else {
+			// ToDo if logged, redirect the user
+			if( Parse.User.current() ) {
 
 				this.showDashboardView();
-
-			}
-
-		},
-
-		showTermsView: function() {
-
-			if( Parse.User.current() && this.isUserCreationSteps() && !this.userAcceptedTos() ) {
-
-				this.render(new TermsView());
-
-			} else {
-
-				this.showDashboardView();
-
-			}
-
-		},
-
-		showHostRegistration: function() {
-
-			if( Parse.User.current() && this.isUserCreationSteps() && this.userAcceptedTos() && !this.hasProfile() ) {
-
-				var self = this;
-
-				var hostFetchSuccess = function(host) {
-					self.render(new HostRegistrationView({ model: host }));	
-				};
-
-				var hostFetchError = function(error) {
-					console.log(error);
-				};
-
-				Parse.User.current().get("host").fetch().then(hostFetchSuccess, hostFetchError);
-
-			} else {
-
-				this.showDashboardView();
+				return;
 
 			}
 			
-		},
+			this.render(new SignUpView({ type: type }));
 
-		showDriverRegistration: function() {
-
-			if( Parse.User.current() && this.isUserCreationSteps() && this.userAcceptedTos() && !this.hasProfile() ) {
-
-				var self = this;
-
-				var driverFetchSuccess = function(driver) {
-					self.render(new DriverRegistrationView({ model: driver }));	
-				};
-
-				var driverFetchError = function(error) {
-					console.log(error);
-				};
-
-				Parse.User.current().get("driver").fetch().then(driverFetchSuccess, driverFetchError);
-
-			} else {
-
-				this.showDashboardView();
-
-			}
-			
-		},
-
-		showProfileView: function() {
-
-			if( Parse.User.current() && this.isUserCreationSteps() && this.userAcceptedTos() && this.hasProfile()) {
-
-				var self = this;
-
-				var profileFetchSuccess = function(profile) {
-					self.render(new ProfileView({ model: profile }));
-				};
-
-				var profileetchError = function(error) {
-					console.log(error);
-				};
-
-				Parse.User.current().get("profile").fetch().then(profileFetchSuccess, profileetchError);
-
-			} else {
-
-				this.showDashboardView();
-
-			}
-			
 		},
 
 		showDashboardView: function() {
 
-			if(this.handleSignOut()) {
-				
+			if( this.handleGuestAndSignUp() ) {
+
 				this.render(new DashboardView());
-			
+
 			}
 
 		},
 
-		isUserCreationSteps: function() {
+		handleGuestAndSignUp: function(  ) {
 
-			return Parse.User.current().get("status") == "creation";
-
-		},
-
-		isUserHost: function() {
-
-			return Parse.User.current().get('host');
-
-		},
-
-		isUserDriver: function() {
-
-			return Parse.User.current().get('driver');
-
-		},
-
-		hasProfile: function() {
-
-			return Parse.User.current().get('profile') != undefined;
-
-		},
-
-		userAcceptedTos: function() {
-
-			return Parse.User.current().get("tos");
-
-		},
-
-		handleSignOut: function() {
-			
-			if( Parse.User.current() ) {
+			if( !Parse.User.current() ) {
 				
-				if( this.isUserCreationSteps() ) {
+				this.showHomeView();
+				return false;
+					
+			}
 
-					if( this.userAcceptedTos() ) {
-						
-						if( this.hasProfile() ) {
+			if( Parse.User.current().get("status") == "creation" ) {
 
-							this.showProfileView();
+				this.handleSignUp();
+				return false;
+			}
 
-						} else {
+			return true;
 
-							if( this.isUserDriver() ) {
+		},
 
-								this.showDriverRegistration();
+		handleSignUp: function() {
+			
+			var self = this;
+			
+			var callbackError = function(error) {
 
-							} else {
+				console.log(error);
 
-								this.showHostRegistration();
+			};
 
-							}
+			console.log(Parse.User.current().get("tos"));
+			if( !Parse.User.current().get("tos") ) {
 
-						}
+				this.render(new TermsView());
+				return;
 
-					} else {
-						
-						this.showTermsView();
+			}
 
-					}
+			if( Parse.User.current().get('profile') ) {
 
-				} else {
+				var profileSuccess = function(profile) {
+					
+					self.render(new ProfileView({ model: profile }));
 
-					return true;
+				};
 
-				}
+				Parse.User.current().get("profile").fetch().then(profileSuccess, callbackError);
+				return;
+
+			}
+
+			if( Parse.User.current().get('driver') ) {
+
+				var driverSuccess = function(driver) {
+					
+					self.render(new DriverRegistrationView({ model: driver }));	
+
+				};
+
+				Parse.User.current().get("driver").fetch().then(driverSuccess, callbackError);
+				return;
 
 			} else {
 
-				this.showHomeView();
+				var hostSuccess = function(host) {
+
+					self.render(new HostRegistrationView({ model: host }));	
+
+				};
+
+				Parse.User.current().get("host").fetch().then(hostSuccess, callbackError);
+				return;
 
 			}
 
@@ -256,7 +147,9 @@ define([
 			$("#app").html( view.render().el );
 			
 			this.currentView = view;
+
 		}
+
 	});
 	return AppRouter;
 });

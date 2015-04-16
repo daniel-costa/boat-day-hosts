@@ -29,15 +29,7 @@ define([
 
 				var userSaveSuccess = function () {
 
-					if( Parse.User.current().get('host') ) {
-						
-						Parse.history.navigate('host-registration', true);	
-
-					} else {
-						
-						Parse.history.navigate('driver-registration', true);
-
-					}
+					Parse.history.loadUrl( Parse.history.fragment );
 
 				};
 

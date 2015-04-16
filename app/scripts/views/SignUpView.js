@@ -143,7 +143,7 @@ define([
 
 			var userSignUpSuccess = function() {
 
-				Parse.history.navigate('terms', true);
+				Parse.history.navigate('dashboard', true);
 
 			};
 

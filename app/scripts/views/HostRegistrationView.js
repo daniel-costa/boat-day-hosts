@@ -49,6 +49,7 @@ define([
 			event.preventDefault();
 
 			var self = this;
+			var isPersonal = this.model.get("type") == "personal";
 
 			var data = {
 				street: this._in('street').val(),
@@ -77,7 +78,7 @@ define([
 
 			}
 
-			if(this.model.get("type") == "personal") {
+			if( isPersonal ) {
 
 				data.personalFirstname = this._in('personalFirstname').val();
 				data.personalLastname = this._in('personalLastname').val();
@@ -94,13 +95,19 @@ define([
 
 			var userStatusUpdateSuccess = function() {
 
-				Parse.history.navigate('profile', true);
+				Parse.history.loadUrl( Parse.history.fragment );
 
 			};
 
 			var hostRegistrationSuccess = function() {
-				
-				Parse.User.current().save({ profile: new ProfileModel() }).then(userStatusUpdateSuccess, saveError);
+
+				var profileData = {};
+
+				if( isPersonal ) {
+					profileData.displayName = data.personalFirstname + " " + data.personalLastname.charAt(0) + "."
+				}
+
+				Parse.User.current().save({ profile: new ProfileModel(profileData) }).then(userStatusUpdateSuccess, saveError);
 
 			};
 

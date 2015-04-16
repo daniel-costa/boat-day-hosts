@@ -75,7 +75,7 @@ define([
 
 			var userStatusUpdateSuccess = function() {
 
-				Parse.history.navigate('dashboard', true);
+				Parse.history.loadUrl( Parse.history.fragment );
 
 			};
 
