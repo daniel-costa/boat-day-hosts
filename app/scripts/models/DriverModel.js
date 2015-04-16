@@ -46,8 +46,8 @@ define([
 				return "Phone number is not valid";
 			}
 
-			if( !attributes.ssn ) {
-				return "A social security number is required";
+			if( !/^\d{4}$/.test(attributes.ssn) ) {
+				return "The last 4 digits of your social security number are required";
 			}
 
 			if( !attributes.city ) {
@@ -58,7 +58,7 @@ define([
 				return "A zip code is required";
 			}
 
-			if( !/^\d{3}$/.test(attributes.zipCode) ) {
+			if( !/^\d{5}$/.test(attributes.zipCode) ) {
 				return"A zip code is not correct";
 			}
 		}
