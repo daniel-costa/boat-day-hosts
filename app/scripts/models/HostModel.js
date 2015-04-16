@@ -51,6 +51,25 @@ define([
 
 		},
 
+		isRoutingNumberValid: function(n) {
+
+			n = n ? n.match(/\d/g).join('') : 0;
+			
+			var c = 0, isValid = false;
+
+			if (n && n.length == 9){//don't waste energy totalling if its not 9 digits
+			
+				for (var i = 0; i < n.length; i += 3) {
+					c += parseInt(n.charAt(i), 10) * 3 +  parseInt(n.charAt(i + 1), 10) * 7 +  parseInt(n.charAt(i + 2), 10);
+				}
+			
+				isValid = c != 0 && c % 10 == 0;
+			
+			}
+
+			return isValid;
+		},
+
 		validate: function(attributes){
 
 			var isBusiness = attributes.type == "business";
@@ -104,15 +123,6 @@ define([
 
 			if( !attributes.street ) {
 				return "A street is required";
-			}
-
-
-			if( !isBusiness && !attributes.personalBirthdate ) {
-				return "A date of birth is	required";
-			}
-
-			if( !isBusiness && !this.isBirthdateValid(attributes.personalBirthdate) ) {
-				return "Date of birth must be in MM/DD/YYYY format";
 			}
 
 			if( isDeposit && !attributes.accountHolder ) {

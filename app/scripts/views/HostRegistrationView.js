@@ -26,6 +26,10 @@ define([
 
 			BaseView.prototype.render.call(this);
 
+			for(var i = 1900; i < new Date().getFullYear() - 21; i++) {
+				this.$el.find('[name="personalBirthdateYear"]').append($('<option value="'+i+'">'+i+'</option>'));
+			}
+
 			this.refreshPaymentMethod();
 
 			return this;
@@ -77,7 +81,7 @@ define([
 
 				data.personalFirstname = this._in('personalFirstname').val();
 				data.personalLastname = this._in('personalLastname').val();
-				data.personalBirthdate = this._in('personalBirthdate').val();
+				data.personalBirthdate = this._in('personalBirthdateMonth').val() + "/" + this._in('personalBirthdateDay').val() + "/" + this._in('personalBirthdateYear').val();
 				data.personalSSN = this._in('personalSSN').val();
 
 			} else {
@@ -105,6 +109,8 @@ define([
 				self._error(error);
 
 			};
+
+			console.log(data);
 
 			this.model.save(data).then(hostRegistrationSuccess, saveError);
 		}
