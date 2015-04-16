@@ -19,12 +19,10 @@ define([
 		},
 
 		teardown: function() {
-			console.log("** clean view **");
 			if(this.model) {
 				this.model.off(null, null, this);
 			}
 			this.remove();
-			console.log("** clean view end**");
 		},
 		
 		_in: function(name) {

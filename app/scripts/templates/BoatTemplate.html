@@ -1,0 +1,58 @@
+<form class="form-horizontal" >
+	<div class="container"> 
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title text-center">Boat</h3>
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label for="name" class="col-sm-4 control-label">Boat Name</label>
+					<div class="col-sm-4">
+						<input type="text" value="The Boatrats" class="form-control" id="name" name="name" placeholder="Name used in the application">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="hullID" class="col-sm-4 control-label">Hull ID</label>
+					<div class="col-sm-4">
+						<input type="text" value="ABC 12345 C393" class="form-control" id="hullID" name="hullID" placeholder="Your boat's Hull ID">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="displayPicture" class="col-sm-4 control-label">Boat Picture(s)</label>
+					<div class="col-sm-4">
+						<input type="file" name="boatPicture" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="length" class="col-sm-4 control-label">Length</label>		
+					<div class="col-sm-4">
+						<div class="input-group">
+							<input type="text" value="20" class="form-control" id="length" name="length" placeholder="Boat Length">
+							<div class="input-group-addon"><strong>feet</strong></div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="capacity" class="col-sm-4 control-label">Capacity</label>
+					<div class="col-sm-4">
+						<div class="input-group">
+						<input type="text" value="18" class="form-control" id="capacity" name="capacity" placeholder="Capacity">
+							<div class="input-group-addon"><strong>passengers</strong></div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="displayPicture" class="col-sm-4 control-label">Proof of insurance PNG, JPG, PDF</label>
+					<div class="col-sm-4">
+						<input type="file" name="insurance" />
+					</div>
+				</div>
+			</div>  
+			<div class="panel-footer text-center">
+				<button type="submit" class="btn btn-primary btn-lg">
+					<%= status == 'creation' ? 'Create' : 'Save' %>
+				</button>
+			</div>
+		</div>
+	</div>
+</form>

@@ -92,8 +92,6 @@ define([
 
 			}
 
-			console.log(total);
-
 			if( total != this.progressCurrent ) {
 				$('.progress-bar').animate({ width: total+'%' }, 200, 'linear')
 				.removeClass('progress-bar-danger progress-bar-warning progress-bar-success')

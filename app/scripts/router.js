@@ -3,14 +3,19 @@ define([
 	'jquery',
 	'underscore',
 	'parse',
+	'models/BoatModel',
 	'views/HomeView',
 	'views/DashboardView',
 	'views/TermsView',
 	'views/SignUpView',
 	'views/HostRegistrationView',
 	'views/DriverRegistrationView',
-	'views/ProfileView'
-], function($, _, Parse, HomeView, DashboardView, TermsView, SignUpView, HostRegistrationView, DriverRegistrationView, ProfileView) {
+	'views/ProfileView',
+	'views/BoatView'
+], function(
+	$, _, Parse, 
+	BoatModel,
+	HomeView, DashboardView, TermsView, SignUpView, HostRegistrationView, DriverRegistrationView, ProfileView, BoatView) {
 	
 	var AppRouter = Parse.Router.extend({
 
@@ -18,6 +23,8 @@ define([
 			'home': 'showHomeView',
 			'sign-up/:type': 'showSignUpView',
 			'sign-out': 'signOut',
+			'boat/add': 'showBoatView',
+			'boat/:boatid': 'showBoatView',
 			'*actions': 'showDashboardView'
 		},
 
@@ -38,7 +45,6 @@ define([
 
 		showSignUpView: function( type ) {
 
-			// ToDo if logged, redirect the user
 			if( Parse.User.current() ) {
 
 				this.showDashboardView();
@@ -60,6 +66,28 @@ define([
 
 		},
 
+		showBoatView: function( boatid ) {
+			
+			if( this.handleGuestAndSignUp() ) {
+
+				console.log("boatid="+boatid);
+
+				if( boatid ) {
+
+					// fetch boat
+
+				} else {
+
+					var boat = new BoatModel({ host: Parse.User.current().get('host') });
+
+				}
+				
+				this.render(new BoatView({ model: boat }));
+
+			}
+
+		},
+
 		handleGuestAndSignUp: function(  ) {
 
 			if( !Parse.User.current() ) {
@@ -75,7 +103,64 @@ define([
 				return false;
 			}
 
-			return true;
+			var allGood = function() {
+				
+				return true;
+
+			};
+
+			var handleError = function(error) {
+
+				console.log(error);
+
+			};
+
+			var fetchHostOrDriver = function() {
+
+				// Fetch all informations about user
+				if( Parse.User.current().get('host') ) {
+
+					if( !Parse.User.current().get('host').createdAt ) {
+
+						console.log("**Fetch host**");
+
+						return Parse.User.current().get('host').fetch().then(allGood, handleError);
+
+					} else {
+						
+						return true;
+
+					}
+					
+
+				} else {
+
+					if( !Parse.User.current().get('driver').createdAt ) {
+
+						console.log("**Fetch driver**");
+
+						Parse.User.current().get('driver').fetch().then(allGood, handleError);
+
+					} else {
+						
+						return true;
+
+					}
+
+				}
+
+			};
+
+			if( !Parse.User.current().get('profile').createdAt ) {
+				
+				console.log("**Fetch profile**");
+				return Parse.User.current().get('profile').fetch().then(fetchHostOrDriver, handleError);
+
+			} else {
+				
+				return fetchHostOrDriver();
+
+			}
 
 		},
 
@@ -89,7 +174,6 @@ define([
 
 			};
 
-			console.log(Parse.User.current().get("tos"));
 			if( !Parse.User.current().get("tos") ) {
 
 				this.render(new TermsView());

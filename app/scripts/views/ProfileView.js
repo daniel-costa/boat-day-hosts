@@ -37,7 +37,6 @@ define([
 			var button = this.$el.find('[type="submit"]');
 			var txt = button.text();
 
-			console.log(txt);
 			button.attr('disabled', 1);
 			button.text(txt + ' (uploading picture)');
 
@@ -49,7 +48,7 @@ define([
 
 				} else if( files[0].type == 'image/jpeg' ) {
 
-					parseFile = new Parse.File('profilePicture.png', files[0]);
+					parseFile = new Parse.File('profilePicture.jpg', files[0]);
 
 				} else {
 

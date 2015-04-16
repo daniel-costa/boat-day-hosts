@@ -13,6 +13,31 @@ define([
 
 		events : {
 
+		},
+
+		initialize: function() {
+
+			var host = Parse.User.current().get('host');
+			var relation = host.relation('boats');
+			relation.query().find(function(list) {
+				console.log(list);
+			})
+
+
+			// var user = Parse.User.current();
+
+			// console.log(user);
+
+			// var relation = user.relation('Boat');
+
+			// console.log(relation);
+
+			// relation.query().find(function(list) {
+			// 	console.log(list);
+			// })
+			
+
+
 		}
 
 	});
