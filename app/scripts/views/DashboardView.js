@@ -17,11 +17,11 @@ define([
 
 		initialize: function() {
 
-			var host = Parse.User.current().get('host');
-			var relation = host.relation('boats');
-			relation.query().find(function(list) {
-				console.log(list);
-			})
+			// var host = Parse.User.current().get('host');
+			// var relation = host.relation('boats');
+			// relation.query().find(function(list) {
+			// 	console.log(list);
+			// });
 
 
 			// var user = Parse.User.current();

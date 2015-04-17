@@ -5,6 +5,7 @@ define([
 
 		defaults: {
 
+			status: 'creation',
 			firstname: null, 
 			lastname: null, 
 			birthdate: null,
@@ -28,7 +29,6 @@ define([
 		},
 
 		validate: function(attributes){
-			console.log("validation processes");
 
 			if( !attributes.firstname ) {
 				return "A first name is required";

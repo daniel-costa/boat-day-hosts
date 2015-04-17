@@ -28,7 +28,8 @@ define([
 
 			personalFirstname: null, 
 			personalLastname: null, 
-			personalBirthdate: null
+			personalBirthdate: null,
+			personalSSN: null
 
 		},
 
@@ -40,8 +41,9 @@ define([
 		},
 
 		isEmailValid: function(email) {
-			
-			return true;
+
+			var emailPattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    		return emailPattern.test(email);
 
 		},
 
@@ -62,6 +64,12 @@ define([
 			}
 
 			return isValid;
+		},
+
+		isBusinessEIN: function(ein) {
+
+			var einPattern = /^[0-9]\d?-\d{7}$/;
+			return einPattern.test(ein);
 		},
 
 		validate: function(attributes){
@@ -90,6 +98,10 @@ define([
 			if( isBusiness && !attributes.businessContact ) {
 				return "A business contact is required";
 			}
+
+			if( isBusiness && !this.isBusinessEIN(attributes.businessEin) ) {
+				return "Business ein is not valid";
+			}
 			
 			if( !attributes.phone ) {
 				return "A phone number is required";
@@ -99,8 +111,8 @@ define([
 				return "Phone number is not valid";
 			}	
 
-			if( !isBusiness && !attributes.personalSSN ) {
-				return "A SSN number is required";
+			if( !isBusiness && !/^\d{4}$/.test(attributes.personalSSN) ) {
+				return "The last 4 digits of your social security number are required";
 			}
 
 			if( !attributes.street ) {
@@ -113,6 +125,10 @@ define([
 
 			if( !attributes.zipCode ) {
 				return "A zip code is required";
+			}
+
+			if( !/^\d{5}$/.test(attributes.zipCode) ) {
+				return"A zip code is not correct";
 			}
 
 			if( !attributes.street ) {
@@ -131,17 +147,18 @@ define([
 				return "A routing number is required";
 			}
 
+			if( isDeposit && !this.isRoutingNumberValid(attributes.accountRouting) ) {
+				return "A routing number is not valid";
+			}
 
 			if( isPaypal ) {
 
 				if( !attributes.paypalEmail ) {
-					
 					return "A email for paypal is required";
 
 				} 
 
 				if( !this.isEmailValid(attributes.paypalEmail) ) {
-
 					return "The Paypal email is invalid";
 
 				}
@@ -149,17 +166,14 @@ define([
 			}
 
 			if( isVenmo ) {
-				
+
 				if( !attributes.venmoEmail  && !attributes.venmoPhone ) {
-				
 					return "A venmo email or phone number is required";
 				
 				} else if( attributes.venmoEmail && !this.isEmailValid(attributes.venmoEmail) ) {
-
 					return "The Venmo email is invalid";
 
 				} else if( attributes.venmoPhone && !this.isPhoneValid(attributes.venmoPhone) ) {
-
 					return "The Venmo phone number is invalid";
 
 				}

@@ -4,6 +4,7 @@ define([
 	'underscore',
 	'parse',
 	'models/BoatModel',
+	'models/DriverModel',
 	'views/HomeView',
 	'views/DashboardView',
 	'views/TermsView',
@@ -14,7 +15,7 @@ define([
 	'views/BoatView'
 ], function(
 	$, _, Parse, 
-	BoatModel,
+	BoatModel, DriverModel, 
 	HomeView, DashboardView, TermsView, SignUpView, HostRegistrationView, DriverRegistrationView, ProfileView, BoatView) {
 	
 	var AppRouter = Parse.Router.extend({
@@ -25,6 +26,8 @@ define([
 			'sign-out': 'signOut',
 			'boat/add': 'showBoatView',
 			'boat/:boatid': 'showBoatView',
+			'driver': 'showDriverView',
+			'host': 'showHostView',
 			'*actions': 'showDashboardView'
 		},
 
@@ -58,20 +61,22 @@ define([
 
 		showDashboardView: function() {
 
-			if( this.handleGuestAndSignUp() ) {
+			var self = this;
+			var cb = function() {
+				
+				self.render(new DashboardView());
 
-				this.render(new DashboardView());
+			};
 
-			}
+			this.handleGuestAndSignUp(cb);
 
 		},
 
 		showBoatView: function( boatid ) {
 			
 			var self = this;
-
-			if( this.handleGuestAndSignUp() ) {
-
+			var cb = function() {
+				
 				if( boatid ) {
 
 					var boatQuerySuccess = function(boat) {
@@ -91,16 +96,45 @@ define([
 				} else {
 
 					var boat = new BoatModel({ host: Parse.User.current().get('host') });
-					this.render(new BoatView({ model: boat }));
+					self.render(new BoatView({ model: boat }));
 
 				}
-				
 
-			}
+			};
+
+			this.handleGuestAndSignUp(cb);
 
 		},
 
-		handleGuestAndSignUp: function(  ) {
+		showDriverView: function( ) {
+
+			var self = this;
+
+			var cb = function() {
+				
+				self.render(new DriverRegistrationView({ model: Parse.User.current().get('driver') }));	
+
+			};
+
+			this.handleGuestAndSignUp(cb);
+
+		},
+
+		showHostView: function( ) {
+
+			var self = this;
+
+			var cb = function() {
+				
+				self.render(new HostRegistrationView({ model: Parse.User.current().get('host') }));	
+
+			};
+
+			this.handleGuestAndSignUp(cb);
+
+		},
+
+		handleGuestAndSignUp: function( cb ) {
 
 			if( !Parse.User.current() ) {
 				
@@ -115,62 +149,35 @@ define([
 				return false;
 			}
 
-			var allGood = function() {
-				
-				return true;
+			// Fetch all informations about user
+			if( Parse.User.current().get('host') ) {
 
-			};
+				if( !Parse.User.current().get('host').createdAt ) {
 
-			var handleError = function(error) {
+					console.log("**Fetch host**");
 
-				console.log(error);
-
-			};
-
-			var fetchHostOrDriver = function() {
-
-				// Fetch all informations about user
-				if( Parse.User.current().get('host') ) {
-
-					if( !Parse.User.current().get('host').createdAt ) {
-
-						console.log("**Fetch host**");
-
-						return Parse.User.current().get('host').fetch().then(allGood, handleError);
-
-					} else {
-						
-						return true;
-
-					}
-					
+					Parse.User.current().get('host').fetch().done(cb);
 
 				} else {
-
-					if( !Parse.User.current().get('driver').createdAt ) {
-
-						console.log("**Fetch driver**");
-
-						Parse.User.current().get('driver').fetch().then(allGood, handleError);
-
-					} else {
-						
-						return true;
-
-					}
+					
+					cb();
 
 				}
-
-			};
-
-			if( !Parse.User.current().get('profile').createdAt ) {
 				
-				console.log("**Fetch profile**");
-				return Parse.User.current().get('profile').fetch().then(fetchHostOrDriver, handleError);
 
 			} else {
-				
-				return fetchHostOrDriver();
+
+				if( !Parse.User.current().get('driver').createdAt ) {
+
+					console.log("**Fetch driver**");
+
+					Parse.User.current().get('driver').fetch().done(cb);
+
+				} else {
+					
+					cb();
+
+				}
 
 			}
 

@@ -100,13 +100,21 @@ define([
 
 			var hostRegistrationSuccess = function() {
 
-				var profileData = {};
+				if(Parse.User.current().get("profile") ) {
 
-				if( isPersonal ) {
-					profileData.displayName = data.personalFirstname + " " + data.personalLastname.charAt(0) + "."
+					Parse.history.navigate("dashboard", true);
+
+				} else {
+
+					var profileData = {};
+
+					if( isPersonal ) {
+						profileData.displayName = data.personalFirstname + " " + data.personalLastname.charAt(0) + "."
+					}
+
+					Parse.User.current().save({ profile: new ProfileModel(profileData) }).then(userStatusUpdateSuccess, saveError);
+
 				}
-
-				Parse.User.current().save({ profile: new ProfileModel(profileData) }).then(userStatusUpdateSuccess, saveError);
 
 			};
 
@@ -115,8 +123,6 @@ define([
 				self._error(error);
 
 			};
-
-			console.log(data);
 
 			this.model.save(data).then(hostRegistrationSuccess, saveError);
 		}

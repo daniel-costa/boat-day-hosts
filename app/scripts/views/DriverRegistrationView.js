@@ -18,10 +18,6 @@ define([
 
 		},
 
-		initialize: function(){
-
-		},
-
 		render: function() {
 
 			BaseView.prototype.render.call(this);
@@ -38,13 +34,14 @@ define([
 			event.preventDefault();
 
 			var self = this;
-
+			var baseStatus = this.model.get("status");
 			var data = {
-				firstname : this._in('firstname').val(),
-				lastname : this._in('lastname').val(),
-				birthdate : this._in('driverBirthdateMonth').val() + "/" + this._in('driverBirthdateDay').val() + "/" + this._in('driverBirthdateYear').val(),	
-				phone : this._in('phone').val(),
-				ssn : this._in('ssn').val(),
+				status: "complete",
+				firstname: this._in('firstname').val(),
+				lastname: this._in('lastname').val(),
+				birthdate: this._in('driverBirthdateMonth').val() + "/" + this._in('driverBirthdateDay').val() + "/" + this._in('driverBirthdateYear').val(),	
+				phone: this._in('phone').val(),
+				ssn: this._in('ssn').val(),
 				street: this._in('street').val(),
 				apartmentNumber: this._in('apartmentNumber').val(),
 				city: this._in('city').val(),
@@ -52,15 +49,28 @@ define([
 				state: this._in('state').val()
 			};
 
-			var userStatusUpdateSuccess = function() {
+			var userSuccess = function() {
 
-				Parse.history.navigate('profile', true);
+				Parse.history.loadUrl( Parse.history.fragment );
 
 			};
 
-			var DriverRegistrationSuccess = function() {
-				//Parse.User.current().save({ status: 'complete' }).then(userStatusUpdateSuccess, saveError);
-				Parse.User.current().save({ profile: new ProfileModel() }).then(userStatusUpdateSuccess, saveError);
+			var DriverSuccess = function(driver) {
+
+				if( Parse.User.current().get("profile") ) {
+					
+					console.log("profile exist");
+					Parse.history.navigate('dashboard', true);
+
+				} else {
+
+					var profileData = {
+						displayName: data.firstname + " " + data.lastname.charAt(0) + "."
+					};
+
+					Parse.User.current().save({ profile: new ProfileModel(profileData) }).then(userSuccess, saveError);
+
+				}
 
 			};
 
@@ -70,7 +80,8 @@ define([
 
 			};
 
-			this.model.save(data).then(DriverRegistrationSuccess, saveError);
+			this.model.save(data).then(DriverSuccess, saveError);
+
 		}
 
 	});
