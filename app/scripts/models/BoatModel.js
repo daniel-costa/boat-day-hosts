@@ -42,17 +42,17 @@ define([
 
 			}
 
-			// if( !attributes.boatPicture ) {
+			if( !attributes.boatPicture ) {
 
-			// 	return "You must to upload a boat picture";
+				return "You must to upload a boat picture";
 
-			// }
+			}
 
-			// if( !attributes.insurance ) {
+			if( !attributes.insurance ) {
 
-			// 	return "You must upload a proof of insurance";
+				return "You must upload a proof of insurance";
 
-			// }
+			}
 
 		}
  

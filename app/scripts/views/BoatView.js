@@ -23,7 +23,12 @@ define([
 
 		tempInsurance: null,
 
-		initialize: function(){
+		initialize: function() {
+
+			if( this.model.get('status') != 'creation' ) {
+				this.tempInsurance = this.model.get('insurance');
+				this.tempBoatPicture = this.model.get('boatPicture');
+			}
 
 		},
 
@@ -47,7 +52,7 @@ define([
 
 			self.buttonLoader('uploading picture');
 
-			if( e.target.files.length == 1) {
+			if( e.target.files.length == 1 ) {
 
 				var file = e.target.files[0];
 				var name;
@@ -71,8 +76,7 @@ define([
 
 				var uploadSuccess = function(file) {
 
-					// $(e.target).after($(e.target).clone()).attr('disabled', 1);
-					self.tempBoatPicture = parseFile;
+					self.tempBoatPicture = file;
 					self.buttonLoader();
 
 				};
@@ -80,13 +84,12 @@ define([
 				var uploadError = function(error) {
 
 					console.log(error);
-					this._error('An error occured when we tried to upload your picture, try again please.');
+					self._error('An error occured when we tried to upload your picture, try again please.');
 					self.buttonLoader();
 
 				};
 				
-				var parseFile = new Parse.File(name, file);
-				parseFile.save().then(uploadSuccess, uploadError);
+				new Parse.File(name, file).save().then(uploadSuccess, uploadError);
 
 			}
 
@@ -100,7 +103,7 @@ define([
 
 			self.buttonLoader('uploading file');
 
-			if( e.target.files.length == 1) {
+			if( e.target.files.length == 1 ) {
 
 				var file = e.target.files[0];
 				var name;
@@ -127,8 +130,8 @@ define([
 				}
 
 				var uploadSuccess = function(file) {
-					
-					self.tempInsurance = parseFile;
+
+					self.tempInsurance = file;
 					self.buttonLoader();
 
 				};
@@ -136,13 +139,12 @@ define([
 				var uploadError = function(error) {
 
 					console.log(error);
-					this._error('An error occured when we tried to upload your file, try again please.');
+					self._error('An error occured when we tried to upload your file, try again please.');
 					self.buttonLoader();
 
 				};
 				
-				var parseFile = new Parse.File(name, file);
-				parseFile.save().then(uploadSuccess, uploadError);
+				new Parse.File(name, file).save().then(uploadSuccess, uploadError);
 
 			}
 
@@ -163,6 +165,7 @@ define([
 
 
 			var data = {
+				status: 'complete',
 				name : this._in('name').val(),
 				hullID : this._in('hullID').val(),
 				length : this._in('length').val(),
@@ -173,10 +176,17 @@ define([
 
 			var saveSuccess = function( boat ) {
 				
+				var hostSaveSuccess = function() {
+					Parse.history.navigate('boat/'+boat.id, true);
+				};
+
+				var hostSaveError = function(error) {
+					console.log(error);
+				}
+
 				var host = Parse.User.current().get("host");
-				var relation = host.relation('boats');
-				relation.add(boat);
-				host.save().then(function() { Parse.history.navigate('dashboard', true); }, function(error) { console.log(error)});
+				host.relation('boats').add(boat);
+				host.save().then(hostSaveSuccess, hostSaveError);
 
 			};
 

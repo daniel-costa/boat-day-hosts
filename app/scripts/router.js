@@ -68,21 +68,33 @@ define([
 
 		showBoatView: function( boatid ) {
 			
-			if( this.handleGuestAndSignUp() ) {
+			var self = this;
 
-				console.log("boatid="+boatid);
+			if( this.handleGuestAndSignUp() ) {
 
 				if( boatid ) {
 
-					// fetch boat
+					var boatQuerySuccess = function(boat) {
+
+						self.render(new BoatView({ model: boat }));
+
+					};
+
+					var boatQueryError = function(error) {
+
+						console.log(error);
+
+					};
+
+					Parse.User.current().get('host').relation('boats').query().get(boatid).then(boatQuerySuccess, boatQueryError);
 
 				} else {
 
 					var boat = new BoatModel({ host: Parse.User.current().get('host') });
+					this.render(new BoatView({ model: boat }));
 
 				}
 				
-				this.render(new BoatView({ model: boat }));
 
 			}
 
