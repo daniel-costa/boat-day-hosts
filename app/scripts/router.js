@@ -26,8 +26,9 @@ define([
 			'sign-out': 'signOut',
 			'boat/add': 'showBoatView',
 			'boat/:boatid': 'showBoatView',
-			'driver': 'showDriverView',
+			'driver/edit': 'showDriverView',
 			'host': 'showHostView',
+			'host/edit': 'showHostView',
 			'*actions': 'showDashboardView'
 		},
 
@@ -106,12 +107,12 @@ define([
 
 		},
 
-		showDriverView: function( ) {
+		showDriverView: function(driverid) {
 
 			var self = this;
 
 			var cb = function() {
-				
+
 				self.render(new DriverRegistrationView({ model: Parse.User.current().get('driver') }));	
 
 			};
@@ -120,7 +121,7 @@ define([
 
 		},
 
-		showHostView: function( ) {
+		showHostView: function() {
 
 			var self = this;
 

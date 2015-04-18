@@ -166,10 +166,10 @@ define([
 
 			var data = {
 				status: 'complete',
-				name : this._in('name').val(),
-				hullID : this._in('hullID').val(),
-				length : this._in('length').val(),
-				capacity : this._in('capacity').val(),
+				name: this._in('name').val(),
+				hullID: this._in('hullID').val(),
+				length: this._in('length').val(),
+				capacity: this._in('capacity').val(),
 				insurance: this.tempInsurance,
 				boatPicture: this.tempBoatPicture
 			};
