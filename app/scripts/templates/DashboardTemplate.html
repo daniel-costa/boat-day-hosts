@@ -2,7 +2,7 @@
 	<h1>Dashboard</h1>
 	<div class="row">
 		<div class="col-sm-6">
-			<div class="panel panel-info">
+			<div class="panel panel-info boatss">
 				<div class="panel-heading">
 					<a class="btn btn-info btn-xs pull-right" href="#/boat/add">
 						<span class="glyphicon glyphicon-plus"></span>
@@ -12,31 +12,11 @@
 				<div class="panel-body">
 					<div class="form-group">
 						<p>Some bla bla to explain</p>
-
 					</div>
 				</div>
-				<table class="table">
-					<thead>
-						<tr>
-							<th> </th>
-							<th class="text-center">Hull ID</th>
-							<th class="text-center">Status</th>
-							<th class="text-center">Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>The Borat</td>
-							<td class="text-center">ABC 12345 M73E</td>
-							<td class="text-center">Pending Validation</td>
-							<td class="text-center">
-								<a href="#/something">
-									<span class="glyphicon glyphicon-pencil"/></span>
-								</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="boats text-center">
+					<img class="loader" src="resources/loader.gif" />
+				</div>
 			</div>
 		</div>
 		<div class="col-sm-6">
@@ -77,65 +57,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-sm-6">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<a class="btn btn-info btn-xs pull-right" href="#/test">
-						<span class="glyphicon glyphicon-plus"></span>
-					</a>
-					<h3 class="panel-title text-center">My Boats</h3>
-				</div>
-				<div class="panel-body">
-					<div class="form-group">
-						<p>Some bla bla to explain</p>
-
-					</div>
-				</div>
-				<table class="table">
-					<tbody>
-						<tr>
-							<td class="text-center" colspan="4">
-								<em>No boats added</em>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<div class="col-sm-6">
-			<div class="panel panel-success">
-				<div class="panel-heading">
-					<a class="pull-right" href="#/test">
-						<span class="glyphicon glyphicon-plus"></span>
-					</a>
-					<h3 class="panel-title text-center">My Events</h3>
-				</div>
-				<div class="panel-body">
-					<div class="form-group">
-						<p>Some bla bla to explain</p>
-					</div>
-				</div>
-				<table class="table">
-					<tbody>
-						<tr>
-							<td class="text-center" colspan="4">
-								<em>No events currently</em>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-	<a href="#/driver/edit" class="btn btn-primary">Edit driver
-		<span class="glyphicon glyphicon-edit"></span>
-	</a>
-	<a href="#/host/edit" class="btn btn-primary">Edit host
-		<span class="glyphicon glyphicon-edit"></span>
-	</a>
 </div>
 
 
 
-<a href="#/home" class="btn btn-primary">Log out</a>
+<a href="#/sign-out" class="btn btn-primary">Log out</a>

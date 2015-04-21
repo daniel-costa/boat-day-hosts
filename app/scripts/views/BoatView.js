@@ -162,7 +162,7 @@ define([
 			event.preventDefault();
 
 			var self = this;
-
+			var baseStatus = this.model.get('status');
 
 			var data = {
 				status: 'complete',
@@ -176,17 +176,25 @@ define([
 
 			var saveSuccess = function( boat ) {
 				
-				var hostSaveSuccess = function() {
-					Parse.history.navigate('boat/'+boat.id, true);
-				};
+				if( baseStatus == 'creation' ) {
 
-				var hostSaveError = function(error) {
-					console.log(error);
+					var hostSaveSuccess = function() {
+						Parse.history.navigate('boat/'+boat.id, true);
+					};
+
+					var hostSaveError = function(error) {
+						console.log(error);
+					}
+
+					var host = Parse.User.current().get("host");
+					host.relation('boats').add(boat);
+					host.save().then(hostSaveSuccess, hostSaveError);
+
+				} else {
+					
+					Parse.history.navigate('dashboard', true);
+
 				}
-
-				var host = Parse.User.current().get("host");
-				host.relation('boats').add(boat);
-				host.save().then(hostSaveSuccess, hostSaveError);
 
 			};
 

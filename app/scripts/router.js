@@ -150,35 +150,22 @@ define([
 				return false;
 			}
 
-			// Fetch all informations about user
-			if( Parse.User.current().get('host') ) {
 
-				if( !Parse.User.current().get('host').createdAt ) {
+			if( !Parse.User.current().get('host').createdAt ) {
 
-					console.log("**Fetch host**");
+				console.log("**Fetch host**");
 
-					Parse.User.current().get('host').fetch().done(cb);
+				Parse.User.current().get('host').fetch().done(cb);
 
-				} else {
-					
-					cb();
+			} else if( !Parse.User.current().get('driver').createdAt ) {
 
-				}
-				
+				console.log("**Fetch driver**");
+
+				Parse.User.current().get('driver').fetch().done(cb);
 
 			} else {
-
-				if( !Parse.User.current().get('driver').createdAt ) {
-
-					console.log("**Fetch driver**");
-
-					Parse.User.current().get('driver').fetch().done(cb);
-
-				} else {
-					
-					cb();
-
-				}
+				
+				cb();
 
 			}
 

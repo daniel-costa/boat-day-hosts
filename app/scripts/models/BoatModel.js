@@ -30,7 +30,7 @@ define([
 
 			}
 
-			if( !/^[0-9]+\.?[0-9]+$/.test(attributes.length) ) {
+			if( !/^\d+$/.test(attributes.length) ) {
 
 				return "Please indicate the length of your boat";
 

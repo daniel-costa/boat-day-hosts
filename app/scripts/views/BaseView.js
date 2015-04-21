@@ -5,13 +5,16 @@ define([
 
 		className: "view-base",
 
-		subViews: {},
+		subViews: [],
 
 		render: function() {
 			console.log("### Render by BaseView (" + this.className + ") ###");
 
 			if(this.model) {	
 				this.$el.html(this.template(this.model.toJSON()));
+			} else if(this.collection) {
+				console.log({ collection: this.collection.toJSON() });
+				this.$el.html(this.template({ collection: this.collection.toJSON() }));
 			} else {
 				this.$el.html(this.template());
 			}

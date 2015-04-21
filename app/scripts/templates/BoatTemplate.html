@@ -20,7 +20,7 @@
 				<div class="form-group">
 					<label for="displayPicture" class="col-sm-4 control-label">Boat Picture(s)</label>
 					<div class="col-sm-4">
-						<% if( status == 'creation' ) { %>
+						<% if( status == 'creation' || !boatPicture  ) { %>
 							<input type="file" name="boatPicture" />
 						<% } else { %>
 							<img src="<%= boatPicture.url %>" style="max-width : 150px;" />
@@ -48,7 +48,7 @@
 				<div class="form-group">
 					<label for="displayPicture" class="col-sm-4 control-label">Proof of insurance PNG, JPG, PDF</label>
 					<div class="col-sm-4">
-						<% if( status == 'creation' ) { %>
+						<% if( status == 'creation' || !insurance ) { %>
 							<input type="file" name="insurance" />
 						<% } else { %>
 							<a href="<%= insurance.url %>" target="_blank">Proof of insurance</a>
