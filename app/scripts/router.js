@@ -151,13 +151,13 @@ define([
 			}
 
 
-			if( !Parse.User.current().get('host').createdAt ) {
+			if( Parse.User.current().get('host') && !Parse.User.current().get('host').createdAt ) {
 
 				console.log("**Fetch host**");
 
 				Parse.User.current().get('host').fetch().done(cb);
 
-			} else if( !Parse.User.current().get('driver').createdAt ) {
+			} else if( Parse.User.current().get('driver') && !Parse.User.current().get('driver').createdAt ) {
 
 				console.log("**Fetch driver**");
 
