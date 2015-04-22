@@ -137,8 +137,10 @@
 
 			<% } else { %>
 				<% 
-					var personalBirthdateDay = personalBirthdate.substring(3, 5);
-					var personalBirthdateMonth = personalBirthdate.substring(0, 2);
+					if( personalBirthdate ) {
+						var personalBirthdateDay = personalBirthdate.substring(3, 5);
+						var personalBirthdateMonth = personalBirthdate.substring(0, 2);	
+					}
 				%>
 
 				<div class="panel-heading area-personal">
