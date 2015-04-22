@@ -25,8 +25,18 @@ define([
 
 			BaseView.prototype.render.call(this);
 
+
+			var personalBirthdateYear = this.model.get('personalBirthdate') ? this.model.get('personalBirthdate').substring(6) : 1900;
+
 			for(var i = 1900; i < new Date().getFullYear() - 21; i++) {
-				this.$el.find('[name="personalBirthdateYear"]').append($('<option value="'+i+'">'+i+'</option>'));
+				
+				var opt = $('<option>').val(i).text(i);
+				
+				if( personalBirthdateYear == i ) {
+					opt.attr('selected', 1);
+				}
+
+				this.$el.find('[name="personalBirthdateYear"]').append(opt);
 			}
 
 			this.refreshPaymentMethod();
