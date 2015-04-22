@@ -5,19 +5,19 @@
 			<% if( type == "business" ) { %>
 
 				<div class="panel-heading area-business">
-					<h3 class="panel-title text-center">Business information</h3>
+					<h3 class="panel-title text-center">Business Information</h3>
 				</div>
 
 				<div class="panel-body area-business">
 					<div class="col-sm-8">
 						<div class="form-group">
-							<label for="businessName" class="col-sm-6 control-label" >Business Name</label>
+							<label for="businessName" class="col-sm-6 control-label" >Business Name:</label>
 							<div class="col-sm-6">
-								<input value="<%= businessName ? businessName : 'Peer-to-Pier Technologies LLC'%>" type="text" class="form-control" id="businessName" name="businessName" placeholder="Legal Business Name">
+								<input value="<%= businessName ? businessName : 'Peer-to-Pier Technologies LLC'%>" type="text" class="form-control" id="businessName" name="businessName" placeholder="Business Name">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="businessEin" class="col-sm-6 control-label">Employer Identification Number</label>
+							<label for="businessEin" class="col-sm-6 control-label">Employer Identification Number:</label>
 							<div class="col-sm-6">
 								<div class="input-group">
 									<div class="input-group-addon"><strong>EIN</strong></div>
@@ -26,43 +26,43 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="businessContact" class="col-sm-6 control-label">Business Contact</label>
+							<label for="businessContact" class="col-sm-6 control-label">Business Contact:</label>
 							<div class="col-sm-6">
-								<input value="<%=businessContact ? businessContact : 'Daniel Costa'%>" type="text" class="form-control" id="businessContact" name="businessContact" placeholder="Enter the person organizing of the events">
+								<input value="<%=businessContact ? businessContact : 'Daniel Costa'%>" type="text" class="form-control" id="businessContact" name="businessContact" placeholder="Contact for BoatDay business inquiries">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="phone" class="col-sm-6 control-label">Phone Number</label>
 							<div class="col-sm-6">
-								<input value="<%=phone ? phone : '123-123-1234'%>" type="text" class="form-control" id="phone" name="phone" placeholder="### ### ####">
+								<input value="<%=phone ? phone : '123-123-1234'%>" type="text" class="form-control" id="phone" name="phone" placeholder="(###)###-####">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="street" class="col-sm-6 control-label">Registred street</label>
+							<label for="street" class="col-sm-6 control-label">Address:</label>
 							<div class="col-sm-6">
-								<input value="<%=street ? street : '9861 SW 117th Ct'%>"  type="text" class="form-control" name="street" id="street" placeholder="Enter your complete Street">
+								<input value="<%=street ? street : '9861 SW 117th Ct'%>"  type="text" class="form-control" name="street" id="street" placeholder="Address">
 							</div>
 						</div>
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<label for="apartmentNumber" class="col-sm-6 control-label">Building Number</label>
 							<div class="col-sm-6">
 								<input value="<%=apartmentNumber ? apartmentNumber : '22'%>" type="text" class="form-control" id="apartmentNumber" name="apartmentNumber" placeholder="Apartment Number">
 							</div>
-						</div>
+						</div> -->
 						<div class="form-group">
-							<label for="city" class="col-sm-6 control-label">City</label>
+							<label for="city" class="col-sm-6 control-label">City:</label>
 							<div class="col-sm-6">
-								<input value="<%=city ? city : 'Miami'%>" type="text" class="form-control" id="city" name="city" placeholder="Enter your city">
+								<input value="<%=city ? city : 'Miami'%>" type="text" class="form-control" id="city" name="city" placeholder="City">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="zipCode" class="col-sm-6 control-label">Zip code</label>
+							<label for="zipCode" class="col-sm-6 control-label">Zip Code:</label>
 							<div class="col-sm-6">
-								<input value="<%=zipCode ? zipCode : '98613'%>" type="text" class="form-control" id="zipCode" name="zipCode" placeholder="Enter your complete zip code">
+								<input value="<%=zipCode ? zipCode : '98613'%>" type="text" class="form-control" id="zipCode" name="zipCode" placeholder="#####">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="state" class="col-sm-6 control-label">State</label>
+							<label for="state" class="col-sm-6 control-label">State:</label>
 							<div class="col-sm-6">
 								<select class="col-sm-4 form-control" id="state" name="state">
 									<option value="AL">Alabama</option>
@@ -144,25 +144,25 @@
 				%>
 
 				<div class="panel-heading area-personal">
-					<h3 class="panel-title text-center">Personal information</h3>
+					<h3 class="panel-title text-center">Personal Information</h3>
 				</div>
 
 				<div class="panel-body area-personal">
 					<div class="col-sm-8">
 						<div class="form-group">
-							<label for="personalFirstname" class="col-sm-6 control-label">First Name</label>
+							<label for="personalFirstname" class="col-sm-6 control-label">First Name:</label>
 							<div class="col-sm-6">
 								<input value="<%=personalFirstname ? personalFirstname : 'Daniel' %>"  type="text" class="form-control" id="personalFirstname" name="personalFirstname" placeholder="First Name">
 							</div>
 						</div>
 						<div class="form-group">
-						 	<label for="personalLastname" class="col-sm-6 control-label">Last Name</label>
+						 	<label for="personalLastname" class="col-sm-6 control-label">Last Name:</label>
 						 	<div class="col-sm-6">
 								<input value="<%=personalLastname ? personalLastname : 'Costa'%>" type="text" class="form-control" id="personalLastname" name="personalLastname" placeholder="Last Name">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-6 control-label">Date of Birth</label>
+							<label class="col-sm-6 control-label">Date of Birth:</label>
 							<div class="col-sm-6">
 								<div class="col-xs-5" style="padding-left:0px">
 									<select class="input-small form-control" id="personalBirthdateMonth" name="personalBirthdateMonth">
@@ -214,7 +214,6 @@
 										<option value="29" <%= personalBirthdateDay && personalBirthdateDay == '29' ? 'selected' : '' %>>29th</option>
 										<option value="30" <%= personalBirthdateDay && personalBirthdateDay == '30' ? 'selected' : '' %>>30th</option>
 										<option value="31" <%= personalBirthdateDay && personalBirthdateDay == '31' ? 'selected' : '' %>>31st</option>
-										<option value="32" <%= personalBirthdateDay && personalBirthdateDay == '32' ? 'selected' : '' %>>32nd</option>
 									</select>
 								</div>
 
@@ -226,43 +225,43 @@
 						</div>
 
 						<div class="form-group">
-							<label for="phone" class="col-sm-6 control-label">Phone number</label>
+							<label for="phone" class="col-sm-6 control-label">Phone Number</label>
 							<div class="col-sm-6">
-								<input value="<%= phone ? phone : '1234567890' %>" type="text" class="form-control" id="phone" name="phone" placeholder="### ### ####">
+								<input value="<%= phone ? phone : '1234567890' %>" type="text" class="form-control" id="phone" name="phone" placeholder="(###)###-####">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="personalSSN" class="col-sm-6 control-label">4 last digits of SSN</label>
+							<label for="personalSSN" class="col-sm-6 control-label">Soc. Sec. # (last four digits)</label>
 							<div class="col-sm-6">
-								<input value="<%=personalSSN ? personalSSN : '9861'%>" type="text" class="form-control" id="personalSSN" name="personalSSN" placeholder="4 last digits of your social security number">
+								<input value="<%=personalSSN ? personalSSN : '9861'%>" type="text" class="form-control" id="personalSSN" name="personalSSN" placeholder="####">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="street" class="col-sm-6 control-label">Street</label>
+							<label for="street" class="col-sm-6 control-label">Address:</label>
 							<div class="col-sm-6">
-								<input value="<%=street ? street : '9861 SW 117th CT'%>" type="text" class="form-control" id="street" name="street" placeholder="Enter your complete street name">
+								<input value="<%=street ? street : '9861 SW 117th CT'%>" type="text" class="form-control" id="street" name="street" placeholder="Address">
 							</div>
 						</div>
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<label for="apartmentNumber" class="col-sm-6 control-label">Building Number</label>
 							<div class="col-sm-6">
 								<input value="<%=apartmentNumber ? apartmentNumber : '9861'%>" type="text" class="form-control" id="apartmentNumber" name="apartmentNumber" placeholder="Apartment Number">
 							</div>
-						</div>
+						</div> -->
 						<div class="form-group">
-							<label for="city" class="col-sm-6 control-label">City</label>
+							<label for="city" class="col-sm-6 control-label">City:</label>
 							<div class="col-sm-6">
-								<input value="<%=city ? city : 'Miami'%>" type="text" class="form-control" id="city" name="city" placeholder="Enter your city">
+								<input value="<%=city ? city : 'Miami'%>" type="text" class="form-control" id="city" name="city" placeholder="City">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="zipCode" class="col-sm-6 control-label">Zip code</label>
+							<label for="zipCode" class="col-sm-6 control-label">Zip Code:</label>
 							<div class="col-sm-6">
-								<input value="<%= zipCode ? zipCode : '12345' %>" type="text" class="form-control" id="zipCode" name="zipCode" placeholder="Enter your complete zip code">
+								<input value="<%= zipCode ? zipCode : '12345' %>" type="text" class="form-control" id="zipCode" name="zipCode" placeholder="#####">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="state" class="col-sm-6 control-label">State</label>
+							<label for="state" class="col-sm-6 control-label">State:</label>
 							<div class="col-sm-6">
 								<select class="col-sm-4 form-control" id="state" name="state">
 									<option value="AL">Alabama</option>
@@ -330,7 +329,7 @@
 					</div>
 					<div class="col-sm-4">
 						<div class="alert-info alert">
-							<span class="glyphicon glyphicon-info-sign"></span> bla bla
+							<span class="glyphicon glyphicon-info-sign"></span> Registration Reminder:  - You must be at least 22 years of age to Host BoatDays - All Soc. Sec. #s are kept confidential, and used only to complete the BoatDay Host background screening. 
 						</div>
 					</div>
 				</div>
@@ -338,17 +337,17 @@
 			<% } %>
 
 			<div class="panel-heading">
-				<h3 class="panel-title text-center">Payment information</h3>
+				<h3 class="panel-title text-center">Payment Information</h3>
 			</div>
 			<div class="panel-body">
 				<div class="col-sm-8">
 					<div class="form-group">
-						<label for="paymentMethod" class="col-sm-6 control-label">Payment method</label>
+						<label for="paymentMethod" class="col-sm-6 control-label">Payment Method:</label>
 						<div class="col-sm-6">
 							<select class="form-control" id="paymentMethod" name="paymentMethod">
-								<option value="deposit" selected>Direct deposit</option>
+								<option value="deposit" selected>Direct Deposit</option>
 								<% if( type == "personal" ) { %>
-									<option value="paypal">Paypal</option>
+									<option value="paypal">PayPal</option>
 									<option value="venmo">Venmo</option>
 								<% } %>	
 							</select>
@@ -357,19 +356,19 @@
 
 				 	<div class="paymentMethodContainer deposit">
 						<div class="form-group">
-						   <label for="accountHolder" class="col-sm-6 control-label">Account Holder</label>
+						   <label for="accountHolder" class="col-sm-6 control-label">Account Holder:</label>
 						   <div class="col-sm-6">
-							  <input value="<%=accountHolder ? accountHolder : 'Daniel Costa'%>" type="text" class="form-control" id="accountHolder" name="accountHolder" placeholder="Account holder">
+							  <input value="<%=accountHolder ? accountHolder : 'Daniel Costa'%>" type="text" class="form-control" id="accountHolder" name="accountHolder" placeholder="Name of Account Holder">
 						   </div>
 						</div>
 						<div class="form-group">
-						   <label for="accountNumber" class="col-sm-6 control-label">Account Number</label>
+						   <label for="accountNumber" class="col-sm-6 control-label">Account Number:</label>
 						   <div class="col-sm-6">
 						 		<input value="<%=accountNumber ? accountNumber : '1039531801'%>" type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="Account Number">
 						   </div>
 						</div>
 						<div class="form-group">
-							<label for="accountRouting" class="col-sm-6 control-label">Routing Number</label>
+							<label for="accountRouting" class="col-sm-6 control-label">Routing Number:</label>
 							<div class="col-sm-6">
 					 			 <input value="<%=accountRouting ? accountRouting : '324377516'%>" type="text" class="form-control" id="accountRouting" name="accountRouting" placeholder="Routing number">
 					 		 </div>
@@ -379,23 +378,23 @@
 					<% if( type == "personal" ) { %>
 						<div class="paymentMethodContainer paypal">
 							<div class="form-group">
-								<label for="paypalEmail" class="col-sm-6 control-label">Paypal Email</label>
+								<label for="paypalEmail" class="col-sm-6 control-label">Paypal Email:</label>
 								<div class="col-sm-6">
-									<input value="<%=paypalEmail ? paypalEmail : 'paypal@boatdayapp.com'%>" type="email" class="form-control" id="paypalEmail" name="paypalEmail" placeholder="Paypal Email">
+									<input value="<%=paypalEmail ? paypalEmail : 'paypal@boatdayapp.com'%>" type="email" class="form-control" id="paypalEmail" name="paypalEmail" placeholder="PayPal Email">
 								</div>
 							</div>
 						</div>
 						<div class="paymentMethodContainer venmo">
 							<div class="form-group">
-								<label for="venmoEmail" class="col-sm-6 control-label">Venmo Email</label>
+								<label for="venmoEmail" class="col-sm-6 control-label">Venmo Email:</label>
 								<div class="col-sm-6">
 									<input value="<%=venmoEmail ? venmoEmail : 'venmo@boatdayapp.com'%>" type="email" class="form-control" id="venmoEmail" name="venmoEmail" placeholder="Venmo Email">
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="venmoPhone" class="col-sm-6 control-label">Venmo Phone Number</label>
+								<label for="venmoPhone" class="col-sm-6 control-label">Venmo Phone Number:</label>
 								<div class="col-sm-6">
-									<input value="<%=venmoPhone ? venmoPhone : '912-123-1234'%>" type="text" class="form-control" id="venmoPhone" name="venmoPhone" placeholder="Venmo Phone Number">
+									<input value="<%=venmoPhone ? venmoPhone : '912-123-1234'%>" type="text" class="form-control" id="venmoPhone" name="venmoPhone" placeholder="(###)###-####">
 								</div>
 							</div>
 						</div>
@@ -403,23 +402,23 @@
 				</div>
 				<div class="col-sm-4 paymentMethodContainer deposit">
 					<div class="alert-info alert">
-						<span class="glyphicon glyphicon-info-sign"></span> account
+						<span class="glyphicon glyphicon-info-sign"></span> To receive payments directly to your Bank Account, please provide the Account Number and Routing Number associated with your chosen account.  [Photo of Check showing what is routing number and account number] - see notes 
 					</div>
 				</div>
 				<div class="col-sm-4 paymentMethodContainer paypal">
 					<div class="alert-info alert">
-						<span class="glyphicon glyphicon-info-sign"></span> paypal
+						<span class="glyphicon glyphicon-info-sign"></span>  Please provide the Email Address associated with your PayPal account. 
 					</div>
 				</div>
 				<div class="col-sm-4 paymentMethodContainer venmo">
 					<div class="alert-info alert">
-						<span class="glyphicon glyphicon-info-sign"></span> You don't have to fill <strong>Venmo Email</strong> &amp; <strong>Venmo Phone Number</strong>. As a Venmo user, you have to fill the only one you use for your payments.
+						<span class="glyphicon glyphicon-info-sign"></span> Please provide either the Email Address or Phone Number associated with your Venmo account. 
 					</div>
 				</div>
 			</div>  
 
 			<div class="panel-footer text-center">
-				<button type="submit" class="btn btn-primary btn-lg">Register as host</button>
+				<button type="submit" class="btn btn-primary btn-lg">Submit Host Registration</button>
 			</div>
 		</div>
 	</div>

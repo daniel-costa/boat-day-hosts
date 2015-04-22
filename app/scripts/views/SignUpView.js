@@ -31,6 +31,7 @@ define([
 		render: function() {
 			
 			BaseView.prototype.render.call(this);
+			this.$el.find('.alert-info').hide();
 
 			if( this.signUpType == 'driver' ) {
 
@@ -53,6 +54,10 @@ define([
 			if( password.length > 0 && password.length < 6) {
 				
 				total += 25;
+				this.$el.find('#password-weak').show();
+				this.$el.find('#password-medium').hide();
+				this.$el.find('#password-mediumStrong').hide();
+				this.$el.find('#password-strong').hide();
 
 			} else if( password.length >= 6 ) {
 
@@ -61,18 +66,30 @@ define([
 				if( password.match(/[a-zA-Z]/) ) {
 
 					total += 25;
+					this.$el.find('#password-medium').show();
+					this.$el.find('#password-weak').hide();
+					this.$el.find('#password-mediumStrong').hide();
+					this.$el.find('#password-strong').hide();
 
 				}
 
 				if( password.match(/[0-9]/) ) {
 
 					total += 25;
+					this.$el.find('#password-mediumStrong').show();
+					this.$el.find('#password-weak').hide();
+					this.$el.find('#password-medium').hide();
+					this.$el.find('#password-strong').hide();
 
 				}
 
 				if( password.match("[^a-zA-Z0-9]") ) {
 
 					total += 25;
+					this.$el.find('#password-strong').show();
+					this.$el.find('#password-mediumStrong').hide();
+					this.$el.find('#password-weak').hide();
+					this.$el.find('#password-medium').hide();
 
 				}
 
@@ -109,14 +126,14 @@ define([
 			
 			if(this._in('email').val() == "") {
 
-				this._error("email empty");
+				this._error("Invalid Email: Please provide an email address.");
 				return;
 
 			}
 
 			if(this._in('password').val() == "") {
 
-				this._error("password empty");
+				this._error("Please provide a password.");
 				return;
 
 			}
@@ -130,7 +147,7 @@ define([
 
 			if(this._in('password').val() != this._in('password_confirm').val()) {
 
-				this._error("Passwords don't match");
+				this._error("Passwords do not match!");
 				return;
 
 			}

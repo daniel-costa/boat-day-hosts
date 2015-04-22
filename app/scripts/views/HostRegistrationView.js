@@ -26,9 +26,9 @@ define([
 			BaseView.prototype.render.call(this);
 
 
-			var personalBirthdateYear = this.model.get('personalBirthdate') ? this.model.get('personalBirthdate').substring(6) : 1900;
+			var personalBirthdateYear = this.model.get('personalBirthdate') ? this.model.get('personalBirthdate').substring(6) : 1993;
 
-			for(var i = 1900; i < new Date().getFullYear() - 21; i++) {
+			for(var i = 1940; i < new Date().getFullYear() - 21; i++) {
 				
 				var opt = $('<option>').val(i).text(i);
 				

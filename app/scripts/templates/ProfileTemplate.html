@@ -6,23 +6,35 @@
 			</div>
 
 			<div class="panel-body area-business">
-				<div class="col-sm-8">
+				<div class="col-sm-12">
 					<div class="form-group">
-						<label for="displayName" class="col-sm-6 control-label">Display Name</label>
-						<div class="col-sm-6">
-							<input type="text" value="<%= displayName %>" class="form-control" id="displayName" name="displayName" placeholder="Name displayed into the app">
+						<label for="displayName" class="col-sm-4 control-label">BoatDay User Name:</label>
+						<div class="col-sm-4">
+							<input type="text" value="<%= displayName %>" class="form-control" id="displayName" name="displayName" placeholder="The name or nickname of your business">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="businessEin" class="col-sm-6 control-label">About me</label>
-						<div class="col-sm-6">
-							<textarea rows="5" name="about" class="form-control" placeholder="Say something about yourself"></textarea>
+						<label for="businessEin" class="col-sm-4 control-label">About Me:</label>
+						<div class="col-sm-4">
+							<textarea rows="5" name="about" class="form-control" placeholder="Say something about your business (individual captains will be described later)"></textarea>
+						</div>
+						<div class="col-sm-4">
+							<div class="alert-info alert">
+								<span class="glyphicon glyphicon-info-sign"></span> BoatDay is built on relationships. Help other users get to know your business. </br>
+								Tell them about a boating experience with you: Share your destinations, activities, equipment  and more. </br>
+								Tell them about you: Do you have a business motto?
+							</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="displayPicture" class="col-sm-6 control-label">Profile Picture</label>
-						<div class="col-sm-6">
-							<input type="file" name="profilePicture" />
+						<label for="displayPicture" class="col-sm-4 control-label">Profile Picture(s):</label>
+						<div class="col-sm-4">
+							<input type="file" name="profilePicture" style="color:transparent"/>
+						</div>
+						<div class="col-sm-4">
+							<div class="alert-info alert">
+								<span class="glyphicon glyphicon-info-sign"></span>  Please upload a photo that clearly shows your face. 
+							</div>
 						</div>
 					</div>
 				</div>

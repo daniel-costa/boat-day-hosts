@@ -20,9 +20,14 @@ define([
 
 			}
 
+			if( attributes.about == "" ) {
+
+				return "Description Required: Please share little bit about your business!";
+			}
+
 			if( !attributes.profilePicture ) {
 
-				return "You must to upload a profile picture";
+				return "Picture Required: Please submit a profile picture!";
 
 			}
 
