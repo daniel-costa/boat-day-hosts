@@ -5,6 +5,7 @@ define([
 	'parse',
 	'models/BoatModel',
 	'models/DriverModel',
+	'models/BoatdayModel',
 	'views/HomeView',
 	'views/DashboardView',
 	'views/TermsView',
@@ -12,11 +13,12 @@ define([
 	'views/HostRegistrationView',
 	'views/DriverRegistrationView',
 	'views/ProfileView',
-	'views/BoatView'
+	'views/BoatView', 
+	'views/BoatdayView'
 ], function(
 	$, _, Parse, 
-	BoatModel, DriverModel, 
-	HomeView, DashboardView, TermsView, SignUpView, HostRegistrationView, DriverRegistrationView, ProfileView, BoatView) {
+	BoatModel, DriverModel, BoatdayModel,
+	HomeView, DashboardView, TermsView, SignUpView, HostRegistrationView, DriverRegistrationView, ProfileView, BoatView, BoatdayView) {
 	
 	var AppRouter = Parse.Router.extend({
 
@@ -26,6 +28,8 @@ define([
 			'sign-out': 'signOut',
 			'boat/add': 'showBoatView',
 			'boat/:boatid': 'showBoatView',
+			'boatday/add': 'showBoatdayView',
+			'boatday/:boatdayid': 'showBoatdayView',
 			'driver/edit': 'showDriverView',
 			'host': 'showHostView',
 			'host/edit': 'showHostView',
@@ -105,6 +109,37 @@ define([
 
 			this.handleGuestAndSignUp(cb);
 
+		},
+
+		showBoatdayView: function( boatdayid ) {
+
+			var self = this;
+			var cb = function() {
+				
+				if( boatdayid ) {
+
+					var boatdayQuerySuccess = function(boatday) {
+
+						self.render(new BoatdayView({ model: boatday })); 
+					};
+
+					var boatdayQueryError = function(error){
+
+						console.log(error);
+
+					};
+
+					Parse.User.current().get('host').relation('boatdays').query().get(boatdayid).then(boatdayQuerySuccess, boatdayQueryError);
+
+				} else {
+
+					var boatday = new BoatdayModel({ host: Parse.User.current().get('host') });
+					self.render(new BoatdayView({ model: boatday }));
+					
+				}
+			};
+
+			this.handleGuestAndSignUp(cb);
 		},
 
 		showDriverView: function(driverid) {

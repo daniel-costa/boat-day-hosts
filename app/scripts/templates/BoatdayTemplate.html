@@ -1,0 +1,21 @@
+<form class="form-horizontal" >
+	<div class="container"> 
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title text-center">Boatday</h3>
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label for="name" class="col-sm-4 control-label">Event Name</label>
+					<div class="col-sm-4">
+						<input type="text" value="<%= name %>" class="form-control" id="name" name="name" placeholder="Boatday event name">
+					</div>
+				</div>
+			<div class="panel-footer text-center">
+				<button type="submit" class="btn btn-primary btn-lg">
+					<%= status == 'creation' ? 'Create' : 'Save' %>
+				</button>
+			</div>
+		</div>
+	</div>
+</form>
