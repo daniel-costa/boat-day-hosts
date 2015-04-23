@@ -22,8 +22,17 @@ define([
 
 			BaseView.prototype.render.call(this);
 
-			for(var i = 1900; i < new Date().getFullYear() - 21; i++) {
-				this.$el.find('[name="driverBirthdateYear"]').append($('<option value="'+i+'">'+i+'</option>'));
+			var driverBirthdateYear = this.model.get('birthdate') ? this.model.get('birthdate').substring(6) : 1990;
+
+			for(var i = 1940; i < new Date().getFullYear() - 21; i++) {
+				
+				var opt = $('<option>').val(i).text(i);
+				
+				if( driverBirthdateYear == i ) {
+					opt.attr('selected', 1);
+				}
+
+				this.$el.find('[name="driverBirthdateYear"]').append(opt);
 			}
 
 			return this;

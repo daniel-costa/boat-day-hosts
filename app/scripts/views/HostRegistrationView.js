@@ -120,6 +120,8 @@ define([
 
 					if( isPersonal ) {
 						profileData.displayName = data.personalFirstname + " " + data.personalLastname.charAt(0) + "."
+					} else {
+						profileData.displayName = data.businessName;
 					}
 
 					Parse.User.current().save({ profile: new ProfileModel(profileData) }).then(userStatusUpdateSuccess, saveError);
