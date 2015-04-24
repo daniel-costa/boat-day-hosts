@@ -1,0 +1,28 @@
+<% if(collection.length > 0) { %>
+	<thead>
+		<tr>
+			<th class="text-center">Name</th>
+			<th class="text-center">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% _.each( collection, function( boatday ) { %>
+			<tr>
+				<td class="text-center"><%= boatday.name %></td>
+				<td class="text-center">
+					<a href="#/boatday/<%= boatday.objectId %>">
+						<span class="glyphicon glyphicon-pencil"/></span>
+					</a>
+				</td>
+			</tr> 
+		<% }); %>
+	</tbody>
+<% } else { %>
+	<tbody>
+		<tr>
+			<td class="text-center" colspan="4">
+				<em>No events added</em>
+			</td>
+		</tr>
+	</tbody>
+<% } %>
