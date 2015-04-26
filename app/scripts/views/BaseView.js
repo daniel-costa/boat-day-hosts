@@ -32,19 +32,27 @@ define([
 			
 		},
 
-		buttonLoader: function( text ) {
+		buttonLoader: function( text, button ) {
 
-			var button = this.$el.find('[type="submit"]');
+			if( !button ) {
+			
+				var button = this.$el.find('[type="submit"]');
+
+			}
 
 			if( !text ) {
-				button.removeAttr('disabled').text(button.attr('txt'));
+
+				button.removeAttr('disabled').text(button.attr('txt')).removeAttr('txt');
+
 			} else {
+
 				button.attr('disabled', 1);
 				button.attr('txt', button.text());
 				button.text(button.text() + ' (' + text + ')');
+
 			}
 		},
-		
+
 		debugAutofillFields: function() { },
 
 		teardown: function() {
