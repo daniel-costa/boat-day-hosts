@@ -1,63 +1,69 @@
 <form class="form-horizontal" >
 	<div class="container"> 
-		<div class="col-sm-8 col-sm-offset-2">
+		<div class="col-xs-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<h3 class="panel-title text-center">Sign up</h3>
+					<h3 class="panel-title text-center">Create Your Host Account</h3>
 				</div>
 				<div class="panel-body">
-					<div class="form-group">
+					<div class="form-group has-feedback">
 						<label for="email" class="col-sm-4 control-label">Email:</label>
 						<div class="col-sm-5">
 							<input type="email" class="form-control" id="email" name="email" placeholder="Email">
+							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group has-feedback">
 						<label for="password" class="col-sm-4 control-label">Password:</label>
 						<div class="col-sm-5">
-							<input type="password" class="form-control" id="password" name="password" placeholder="Choose a password">
+							<input type="password" class="form-control" id="password" name="password" placeholder="Choose Password">
+							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group has-feedback">
 						<div class="col-sm-5 col-sm-offset-4">
-							<input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Retype your Password">
+							<input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Confirm Password">
+							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
-					<div class="form-group" class="passwordComplexity">
+					<div class="form-group passwordComplexity">
 						<label for="complexity" class="col-sm-4 control-label">Password Strength:</label>
 						<div class="col-sm-5">
 							<div class="progress" style="margin:10px auto;">
-								<div class="progress-bar" role="progressbar"> </div>
+								<div class="progress-bar" role="progressbar"></div>
 							</div>
-							<div class="alert alert-info weak" role="alert" style="margin:0px auto;">
-								<span class="glyphicon glyphicon-info-sign"></span> Weak: To make your password more secure - Use letters and numbers - Use special characters (e.g. @, #,$) - Mix lower and uppercase
-							</div>
-							<div class="alert alert-info medium1" role="alert" style="margin:0px auto;">
-								<span class="glyphicon glyphicon-info-sign"></span> Medium: To make your password more secure - Use letters and numbers - Use special characters (e.g. @, #,$) - Mix lower and uppercase
-							</div>
-							<div class="alert alert-info medium2" role="alert" style="margin:0px auto;">
-								<span class="glyphicon glyphicon-info-sign"></span> Strong: Your password is secure.
-							</div>
-							<div class="alert alert-info strong" role="alert" style="margin:0px auto;">
-								<span class="glyphicon glyphicon-info-sign"></span> <strong>Excellent</strong><br/> Your password is very secure. 
+							<div class="alert alert-danger" role="alert" style="margin:0px auto;">
+								<span class="glyphicon glyphicon-info-sign"></span> <strong>Weak</strong><br/> 
+								To make your password more secure
+								<ul class="list-unstyled">
+									<li>- Use letters and numbers</li>
+									<li>- Use special characters (e.g. @, #, $)</li>
+									<li>- Mix lower and uppercase</li>
+								</ul>
 							</div>
 						</div>
 					</div>
-					<div class="form-group hostType">
-						<label for="hostType" class="col-sm-4 control-label">Account Type:</label>
+				</div>
 
-						<div class="col-sm-8">
+				<div class="panel-heading hostType">
+					<h3 class="panel-title text-center">Account Type</h3>
+				</div>
+
+				<div class="panel-body hostType">
+					<div class="form-group">
+
+						<div class="col-sm-10 col-sm-offset-1">
 							<p>
 								<label style="font-weight:normal">
-									<input type="radio" name="hostType" value="active" checked>
-									<strong>Personal</strong><br/>
+									<input type="radio" name="hostType" value="personal" checked>
+									<strong> Personal</strong><br/>
 									I'm at least 22 years old and my guests will be cover by the BoatDay Insurance.
 								</label>
 							</p>
 							<p>
 								<label style="font-weight:normal">
 									<input type="radio" name="hostType" value="business">
-									<strong>Business</strong><br/>
+									<strong> Business</strong><br/>
 									I am a charter company and I make business with the renting of my boats. I have 
 									a proper charter company insurance and I'll cover under my insurance the guests attending my events.
 								</label>
@@ -66,7 +72,7 @@
 					</div>
 				</div>  
 				<div class="panel-footer text-center">
-					<button type="submit" class="btn btn-primary btn-lg">Sign up</button>
+					<button type="submit" class="btn btn-primary">Sign up</button>
 				</div>
 			</div>
 		</div>

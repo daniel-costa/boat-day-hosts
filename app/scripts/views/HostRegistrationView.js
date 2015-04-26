@@ -160,6 +160,8 @@ define([
 
 			};
 
+			console.log(data);
+
 			this.model.save(data).then(hostRegistrationSuccess, saveError);
 		}
 

@@ -32,6 +32,19 @@ define([
 			
 		},
 
+		buttonLoader: function( text ) {
+
+			var button = this.$el.find('[type="submit"]');
+
+			if( !text ) {
+				button.removeAttr('disabled').text(button.attr('txt'));
+			} else {
+				button.attr('disabled', 1);
+				button.attr('txt', button.text());
+				button.text(button.text() + ' (' + text + ')');
+			}
+		},
+		
 		debugAutofillFields: function() { },
 
 		teardown: function() {
@@ -42,7 +55,9 @@ define([
 		},
 		
 		_in: function(name) {
+			
 			return this.$el.find('[name="' + name + '"]');
+
 		},
 
 		_error: function(message) {

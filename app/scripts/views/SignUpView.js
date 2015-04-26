@@ -20,7 +20,7 @@ define([
 		debug: true,
 
 		events: {
-			'keyup [name="password"]' : "computePasswordStrength",
+			'keyup [name="password"]' : "displayPasswordStrength",
 			"submit form" : "signUp",
 		},
 
@@ -40,6 +40,10 @@ define([
 				this.$el.find('div.hostType').hide();
 
 			}
+			
+			this.$el.find('.passwordComplexity .alert').hide();
+			this.$el.find('.passwordComplexity .alert-info').show();
+			this.$el.find('.form-control-feedback').hide();
 
 			return this;
 
@@ -48,73 +52,56 @@ define([
 		debugAutofillFields: function() {
 
 			this._in('email').val(Math.random().toString(36) + '@gmail.com');
-			this._in('password').val('12341234');
-			this._in('password_confirm').val('12341234');
+			this._in('password').val('kimon123');
+			this._in('passwordConfirm').val('kimon123');
 			
 		},
 
-		computePasswordStrength: function() {
+		scorePassword: function(pass) {
+			var score = 0;
 
-			var password = this._in('password').val();
-			var total = 0;
-			var className;
+			if (!pass)
+				return score;
 
-
-			this.$el.find('.passwordComplexity .alert').hide();
-
-			if( password.length > 0 && password.length < 6) {
-				
-				total += 25;
-				this.$el.find('.weak').show();
-
-			} else if( password.length >= 6 ) {
-
-				total += 25;
-
-				if( password.match(/[a-zA-Z]/) ) {
-
-					total += 25;
-					this.$el.find('.medium1').show();
-
-				}
-
-				if( password.match(/[0-9]/) ) {
-
-					total += 25;
-					this.$el.find('.medium').show();
-
-				}
-
-				if( password.match("[^a-zA-Z0-9]") ) {
-
-					total += 25;
-					this.$el.find('.strong').show();
-
-				}
-
+			// award every unique letter until 5 repetitions
+			var letters = new Object();
+			for (var i=0; i<pass.length; i++) {
+				letters[pass[i]] = (letters[pass[i]] || 0) + 1;
+				score += 5.0 / letters[pass[i]];
 			}
 
-			if( total <= 25 ) {
-				
-				className = 'progress-bar-danger';
-
-			} else if( total <= 75){
-
-				className = 'progress-bar-warning';
-
-			} else if( total <= 100){
-
-				className = 'progress-bar-success';
-
+			// bonus points for mixing it up
+			var variations = {
+				digits: /\d/.test(pass),
+				lower: /[a-z]/.test(pass),
+				upper: /[A-Z]/.test(pass),
+				nonWords: /\W/.test(pass),
 			}
 
-			if( total != this.progressCurrent ) {
-				$('.progress-bar').animate({ width: total+'%' }, 200, 'linear')
-				.removeClass('progress-bar-danger progress-bar-warning progress-bar-success')
-				.addClass(className);
+			var variationCount = 0;
+			for (var check in variations) {
+				variationCount += (variations[check] == true) ? 1 : 0;
+			}
+			score += (variationCount - 1) * 10;
+
+			return parseInt(score);
+		},
+
+		displayPasswordStrength: function() {
+
+			var score = this.scorePassword(this._in('password').val());
+
+			if( score != this.progressCurrent ) {
+				var className = score < 50 ? 'danger' : 'success' ;
+				$('.progress-bar').css({ width: Math.min(score, 100) +'%' })
+				.removeClass('progress-bar-danger progress-bar-success')
+				.addClass('progress-bar-' + className);
+				this.$el.find('.passwordComplexity .alert').hide();
+				this.$el.find('.alert-' + className).show();
+				this.progressCurrent = score;
 			}
 
-			this.progressCurrent = total;
+
 		},
 
 		signUp: function(){
@@ -122,38 +109,52 @@ define([
 			event.preventDefault();
 
 			var self = this;
-			
+			var err = false;
+
+			self.buttonLoader('Saving');
+
+			this.$el.find('.form-control-feedback').hide();
+			this.$el.find('.has-error').removeClass('has-error');
+
 			if(this._in('email').val() == "") {
 
-				this._error("Invalid Email: Please provide an email address.");
-				return;
+				this._in('email').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+				err = true;
 
 			}
 
 			if(this._in('password').val() == "") {
 
-				this._error("Please provide a password.");
-				return;
+				this._in('password').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+				this._in('passwordConfirm').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+				err = true;
 
 			}
 
-			if(this._in('password').val().length < 6) {
+			console.log(this.scorePassword(this._in('password').val()));
 
-				this._error("Password should contain at least 6 characters");
-				return;
+			if( this._in('password').val() != "" &&  this.scorePassword(this._in('password').val()) < 50 ) {
 
-			}
-
-			if(this._in('password').val() != this._in('password_confirm').val()) {
-
-				this._error("Passwords do not match!");
-				return;
+				this._in('password').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+				this._in('passwordConfirm').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+				this._error('Password must to be stronger.');
+				err = true;
 
 			}
 
-			// ToDo
-			// - Password length to test, minimum 6 chars
-			// - Password complecity to do
+			if(this._in('password').val() != this._in('passwordConfirm').val()) {
+
+				this._in('passwordConfirm').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+				err = true;
+
+			}
+
+			if( err ) {
+
+				self.buttonLoader();
+				return;
+
+			}
 
 			var userSignUpSuccess = function() {
 
@@ -162,7 +163,8 @@ define([
 			};
 
 			var userSignUpError = function(error) {
-
+				
+				self.buttonLoader();
 				self._error(error.message);
 
 			};
@@ -182,6 +184,7 @@ define([
 			} else {
 
 				params.host = new HostModel({ type: this.$el.find('[name="hostType"]:checked').val() });
+
 			}
 
 			new Parse.User().signUp(params).then(userSignUpSuccess, userSignUpError);
