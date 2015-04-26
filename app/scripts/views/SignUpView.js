@@ -100,7 +100,6 @@ define([
 				this.$el.find('.alert-' + className).show();
 				this.progressCurrent = score;
 			}
-			
 		},
 
 		signUp: function(){
@@ -129,8 +128,6 @@ define([
 				err = true;
 
 			}
-
-			console.log(this.scorePassword(this._in('password').val()));
 
 			if( this._in('password').val() != "" &&  this.scorePassword(this._in('password').val()) < 50 ) {
 
@@ -161,8 +158,8 @@ define([
 
 			};
 
-			var userSignUpError = function(error) {
-				
+			var userSignUpError = function( error ) {
+
 				self.buttonLoader();
 				self._error(error.message);
 
