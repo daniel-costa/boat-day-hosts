@@ -12,6 +12,8 @@ define([
 
 		template: _.template(HostRegistrationTemplate),
 
+		debug: true,
+
 		events: {
 			"submit form" : "registerHost", 
 			'change [name="paymentMethod"]' : "refreshPaymentMethod"
@@ -24,7 +26,7 @@ define([
 		render: function() {
 
 			BaseView.prototype.render.call(this);
-
+			
 			var personalBirthdateYear = this.model.get('personalBirthdate') ? this.model.get('personalBirthdate').substring(6) : 1993;
 
 			for(var i = 1940; i < new Date().getFullYear() - 21; i++) {
@@ -44,9 +46,27 @@ define([
 		},
 
 		debugAutofillFields: function() {
+			
+			this._in('personalFirstname').val('Daniel');
+			this._in('personalLastname').val('Costa');
+			this._in('personalSSN').val('9861');
 
 			this._in('businessName').val('Peer-to-Pier Technologies LLC');
-			
+			this._in('businessEin').val('46-4074689');
+			this._in('businessContact').val('Daniel Costa');
+
+			this._in('phone').val('123-123-1234');
+			this._in('street').val('9861 SW 117th Ct');
+			this._in('city').val('Miami');
+			this._in('zipCode').val('98613');
+
+			this._in('accountHolder').val('Daniel Costa');
+			this._in('accountNumber').val('1039531801');
+			this._in('accountRouting').val('324377516');
+			this._in('paypalEmail').val('paypal@boatdayapp.com');
+			this._in('venmoEmail').val('venmo@boatdayapp.com');
+			this._in('venmoPhone').val('912-123-1234');
+
 		},
 
 		refreshPaymentMethod: function(){

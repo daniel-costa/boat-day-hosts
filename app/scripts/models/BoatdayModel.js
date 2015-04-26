@@ -16,7 +16,7 @@ define([
 			pricePerSeat: null, 
 			availableSeats: null, 
 			minimumSeats: null, 
-			departureLocation: 'latitude 0 longitude 0', 
+			departureLocation: null, 
 			eventDescription: null,
 			bookingPolicy: null, 
 			cancellationPolicy: null

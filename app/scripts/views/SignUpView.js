@@ -17,7 +17,7 @@ define([
 
 		signUpType: null,
 
-		debug: false,
+		debug: true,
 
 		events: {
 			'keyup [name="password"]' : "computePasswordStrength",

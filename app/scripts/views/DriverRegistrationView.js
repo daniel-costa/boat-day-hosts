@@ -38,6 +38,18 @@ define([
 			return this;
 		},
 
+		debugAutofillFields: function() {
+
+			this._in('firstname').val('Bibash');
+			this._in('lastname').val('Shah');
+			this._in('phone').val('123 123 1234');
+			this._in('ssn').val('1234');
+			this._in('street').val('9861 SW 117th CT');
+			this._in('apartmentNumber').val('98');
+			this._in('city').val('Miami');
+			this._in('zipCode').val('12345');
+		},
+
 		registerDriver: function() {
 
 			event.preventDefault();

@@ -11,6 +11,8 @@ define([
 
 		template: _.template(BoatTemplate),
 
+		debug: true,
+
 		events: {
 
 			"submit form" : "save",
@@ -155,6 +157,14 @@ define([
 			BaseView.prototype.render.call(this);
 
 			return this;
+		},
+
+		debugAutofillFields: function() {
+
+			this._in('name').val('Fury');
+			this._in('hullID').val('2463');
+			this._in('length').val('10');
+			this._in('capacity').val('20');
 		},
 
 		save: function() {

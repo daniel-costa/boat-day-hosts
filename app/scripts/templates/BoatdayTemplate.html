@@ -70,7 +70,7 @@
 				<div class="form-group">
 					<label for="eventName" class="col-sm-4 control-label">Event Name</label>
 					<div class="col-sm-4">
-						<input type="text" value="<%= eventName %>" class="form-control" id="eventName" name="eventName" placeholder="BoatDay Name">
+						<input type="text" value="<%= eventName ? eventName : '' %>" class="form-control" id="eventName" name="eventName" placeholder="BoatDay Name">
 					</div>
 				</div>
 				<div class="form-group">
@@ -201,13 +201,9 @@
 				</div>
 				<div class="form-group">
 					<label for="price" class="col-sm-4 control-label">Price Per Seat</label>
-					<!-- <div class="col-sm-4">
-						<input type="text" value="<%= pricePerSeat %>" class="form-control" id="price" name="price" placeholder="Price Per Person">
-						<div class="input-group-addon"><strong>$</strong></div>
-					</div> -->
 					<div class="col-sm-4">
 						<div class="input-group">
-							<input value="<%= pricePerSeat %>" type="text" class="form-control" id="price" name="price" placeholder="Price Per Person">
+							<input type="text" value="<%= pricePerSeat ? pricePerSeat : '' %>" class="form-control" id="price" name="price" placeholder="Price Per Person">
 							<div class="input-group-addon"><strong>$</strong></div>
 						</div>
 					</div>
@@ -215,19 +211,19 @@
 				<div class="form-group">
 					<label for="availableSeats" class="col-sm-4 control-label">Available Seats</label>
 					<div class="col-sm-4">
-						<input type="text" value="<%= availableSeats %>" class="form-control" id="availableSeats" name="availableSeats" placeholder="Maximum # of Guests">
+						<input type="text" value="<%= availableSeats ? availableSeats : '' %>" class="form-control" id="availableSeats" name="availableSeats" placeholder="Maximum # of Guests">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="minimumSeats" class="col-sm-4 control-label">Minimum Seats to go out</label>
 					<div class="col-sm-4">
-						<input type="text" value="<%= minimumSeats %>" class="form-control" id="minimumSeats" name="minimumSeats" placeholder="Minimum # of Guests">
+						<input type="text" value="<%= minimumSeats ? minimumSeats : '' %>" class="form-control" id="minimumSeats" name="minimumSeats" placeholder="Minimum # of Guests">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="departureLocation" class="col-sm-4 control-label">Departure Location</label>
 					<div class="col-sm-4">
-						<input type="text" value="<%= departureLocation %>" class="form-control" id="departureLocation" name="departureLocation" placeholder="Departure Point">
+						<input type="text" value="<%= departureLocation ? departureLocation : '' %>" class="form-control" id="departureLocation" name="departureLocation" placeholder="Departure Point">
 					</div>
 				</div>
 				<!-- <div class="form-group">
@@ -243,7 +239,7 @@
 				<div class="form-group">
 					<label for="eventDescription" class="col-sm-4 control-label">Event Description</label>
 					<div class="col-sm-4">
-						<textarea class="form-control" name="eventDescription" id="eventDescription"  placeholder="BoatDay description"><%= eventDescription %></textarea>
+						<textarea class="form-control" name="eventDescription" id="eventDescription"  placeholder="BoatDay description"><%= eventDescription ?  eventDescription : '' %></textarea>
 					</div>
 				</div>
 				<div class="form-group">

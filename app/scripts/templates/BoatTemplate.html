@@ -8,13 +8,13 @@
 				<div class="form-group">
 					<label for="name" class="col-sm-4 control-label">Boat Name</label>
 					<div class="col-sm-4">
-						<input type="text" value="<%= name %>" class="form-control" id="name" name="name" placeholder="Name used in the application">
+						<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="Name used in the application">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="hullID" class="col-sm-4 control-label">Hull ID</label>
 					<div class="col-sm-4">
-						<input type="text" value="<%= hullID %>" class="form-control" id="hullID" name="hullID" placeholder="Your boat's Hull ID">
+						<input type="text" value="<%= hullID ? hullID : '' %>" class="form-control" id="hullID" name="hullID" placeholder="Your boat's Hull ID">
 					</div>
 				</div>
 				<div class="form-group">
@@ -31,7 +31,7 @@
 					<label for="length" class="col-sm-4 control-label">Length</label>		
 					<div class="col-sm-4">
 						<div class="input-group">
-							<input type="text" value="<%= length %>" class="form-control" id="length" name="length" placeholder="Boat Length">
+							<input type="text" value="<%= length ? length : '' %>" class="form-control" id="length" name="length" placeholder="Boat Length">
 							<div class="input-group-addon"><strong>feet</strong></div>
 						</div>
 					</div>
@@ -40,7 +40,7 @@
 					<label for="capacity" class="col-sm-4 control-label">Capacity</label>
 					<div class="col-sm-4">
 						<div class="input-group">
-						<input type="text" value="<%= capacity %>" class="form-control" id="capacity" name="capacity" placeholder="Capacity">
+						<input type="text" value="<%= capacity ? capacity : '' %>" class="form-control" id="capacity" name="capacity" placeholder="Capacity">
 							<div class="input-group-addon"><strong>passengers</strong></div>
 						</div>
 					</div>

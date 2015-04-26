@@ -11,6 +11,8 @@ define([
 
 		template: _.template(BoatdayTemplate),
 
+		debug: true,
+
 		events: {
 			
 			"submit form" : "save", 
@@ -40,6 +42,17 @@ define([
 			}
 			
 			return this;
+
+		},
+
+		debugAutofillFields: function() {
+
+			this._in('eventName').val('Summer sound festival');
+			this._in('price').val('25');
+			this._in('availableSeats').val('10');
+			this._in('minimumSeats').val('5');
+			this._in('departureLocation').val('latitude 0 longitude 0');
+			this._in('eventDescription').val('This event has many top DJs in the world.');
 
 		},
 
