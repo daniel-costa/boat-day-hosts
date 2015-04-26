@@ -17,7 +17,7 @@ define([
 
 		signUpType: null,
 
-		debug: true,
+		debug: false,
 
 		events: {
 			'keyup [name="password"]' : "displayPasswordStrength",
@@ -103,7 +103,7 @@ define([
 
 		},
 
-		signUp: function(){
+		signUp: function(event){
 			
 			event.preventDefault();
 
