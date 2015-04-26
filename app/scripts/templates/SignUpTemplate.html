@@ -3,50 +3,46 @@
 		<div class="col-xs-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<h3 class="panel-title text-center">Create Your Host Account</h3>
+					<h3 class="panel-title text-center">Lets create your account</h3>
 				</div>
 				<div class="panel-body">
 					<div class="form-group has-feedback">
-						<label for="email" class="col-sm-4 control-label">Email:</label>
+						<label for="email" class="col-sm-4 control-label">Email</label>
 						<div class="col-sm-5">
-							<input type="email" class="form-control" id="email" name="email" placeholder="Email">
+							<input type="email" class="form-control" id="email" name="email" placeholder="tell us how to reach you">
 							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
 					<div class="form-group has-feedback">
-						<label for="password" class="col-sm-4 control-label">Password:</label>
+						<label for="password" class="col-sm-4 control-label">Password</label>
 						<div class="col-sm-5">
-							<input type="password" class="form-control" id="password" name="password" placeholder="Password">
+							<input type="password" class="form-control" id="password" name="password" placeholder="choose wisely">
 							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
 					<div class="form-group has-feedback">
-						<div class="col-sm-5 col-sm-offset-4">
-							<input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Confirm Password">
+						<label for="password" class="col-sm-4 control-label">Confirm Password</label>
+						<div class="col-sm-5">
+							<input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="just to be sure">
 							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
 					<div class="form-group passwordComplexity">
-						<label for="complexity" class="col-sm-4 control-label">Password Strength:</label>
+						<label for="complexity" class="col-sm-4 control-label">Password Strength</label>
 						<div class="col-sm-5">
 							<div class="progress" style="margin:10px auto;">
 								<div class="progress-bar" role="progressbar"></div>
 							</div>
-							<div class="alert alert-danger" role="alert" style="margin:0px auto;">
-								<span class="glyphicon glyphicon-info-sign"></span> <strong>Weak</strong><br/> 
-								To make your password more secure
-								<ul class="list-unstyled">
-									<li>- Use letters and numbers</li>
-									<li>- Use special characters (e.g. @, #, $)</li>
-									<li>- Mix lower and uppercase</li>
-								</ul>
+							<div class="alert alert-warning" role="alert" style="margin:0px auto;">
+								<span class="glyphicon glyphicon-info-sign"></span> <strong>You can do better!</strong><br/> 
+								Try using letters and numbers, mix lower and uppercase. Maybe some special characters (e.g. @, #, $) too.
 							</div>
 						</div>
 					</div>
 				</div>
 
 				<div class="panel-heading hostType">
-					<h3 class="panel-title text-center">Account Type</h3>
+					<h3 class="panel-title text-center">What defines you better?</h3>
 				</div>
 
 				<div class="panel-body hostType">
@@ -56,15 +52,13 @@
 							<p>
 								<label style="font-weight:normal">
 									<input type="radio" name="hostType" value="personal" checked>
-									<strong>Personal: </strong>
 									I own a boat and want to host Guests on board.
 								</label>
 							</p>
 							<p>
 								<label style="font-weight:normal">
 									<input type="radio" name="hostType" value="business">
-									<strong>Partner: </strong>
-									I use my boat(s) to carry paying Guests, and I have a valid Charter Captain's License.
+									I already use my boat(s) to carry paying Guests, and I have a valid Charter Captain's License.
 								</label>
 							</p>
 						</div>

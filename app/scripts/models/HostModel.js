@@ -80,7 +80,7 @@ define([
 			var isPaypal = attributes.paymentMethod == "paypal";
 
 			if( !isBusiness && !attributes.personalFirstname ) {
-				return "A first name is required";
+				return 'firdaskljdlksajd';
 			}
 			 
 			if( !isBusiness && !attributes.personalLastname ) {

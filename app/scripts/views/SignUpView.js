@@ -97,9 +97,18 @@ define([
 				.removeClass('progress-bar-danger progress-bar-success')
 				.addClass('progress-bar-' + className);
 				this.$el.find('.passwordComplexity .alert').hide();
-				this.$el.find('.alert-' + className).show();
+				if(className == 'danger')
+					this.$el.find('.alert-warning').show();
 				this.progressCurrent = score;
 			}
+		},
+
+		fieldError: function(name, message) {
+
+			this._in(name).closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+			if(message) 
+				this._in(name).attr('title', message).attr('data-toggle', 'tooltip').tooltip();
+
 		},
 
 		signUp: function(event){
@@ -113,43 +122,51 @@ define([
 
 			this.$el.find('.form-control-feedback').hide();
 			this.$el.find('.has-error').removeClass('has-error');
+			this.$el.find('[data-toggle="tooltip"]').tooltip('destroy');
 
 			if(this._in('email').val() == "") {
 
-				this._in('email').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
-				err = true;
+				this.fieldError('email', 'Oops, you missed one.');
+				self.buttonLoader();
+				return;
 
 			}
 
 			if(this._in('password').val() == "") {
 
-				this._in('password').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
-				this._in('passwordConfirm').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
-				err = true;
+				this.fieldError('password', 'Oops, you missed one.');
+				self.buttonLoader();
+				return;
 
-			}
+			} 
+			
+			if(this._in('passwordConfirm').val() == "") {
 
-			if( this._in('password').val() != "" &&  this.scorePassword(this._in('password').val()) < 50 ) {
+				this.fieldError('passwordConfirm', 'Oops, you missed one.');
+				self.buttonLoader();
+				return;
 
-				this._in('password').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
-				this._in('passwordConfirm').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
-				this._error('For the safety of your account, please choose a stronger password.');
-				err = true;
+			} 
 
-			}
+			if( this.scorePassword(this._in('password').val()) < 50 ) {
 
-			if(this._in('password').val() != this._in('passwordConfirm').val()) {
+				this.fieldError('password', 'Oops, password is too weak, let\'s make it stronger');
+				self.buttonLoader();
+				return;
 
-				this._in('passwordConfirm').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
-				this._error('Passwords do not match.');
-				err = true;
+			} 
+
+			if( this._in('password').val() != this._in('passwordConfirm').val() ) {
+
+				this.fieldError('passwordConfirm', 'Oops, they don\'t match.');
+				self.buttonLoader();
+				return;
 
 			}
 
 			if( err ) {
 
-				self.buttonLoader();
-				return;
+				
 
 			}
 

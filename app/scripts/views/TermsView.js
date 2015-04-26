@@ -15,14 +15,16 @@ define([
 			"submit form" : "acceptTerms"
 		},
 
-		acceptTerms: function(){
+		acceptTerms: function( event){
 
 			event.preventDefault();
 
 			var self = this;
+			self.buttonLoader('Saving');
 
 			if( !this._in('tos').is(':checked') ) {
 
+				self.buttonLoader();
 				this._error("You must accept the BoatDay Terms and Conditions to become a BoatDay Host.");
 
 			} else{
@@ -36,7 +38,7 @@ define([
 				var userSaveError = function (error) {
 
 					console.log(error);
-					
+					self.buttonLoader();
 					self._error(error);
 
 				};

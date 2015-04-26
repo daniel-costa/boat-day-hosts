@@ -1,22 +1,14 @@
-<h1 style ="text-align: center; padding-bottom: 30px;">Home</h1>
-
 <div class="container">
-	<div class="col-sm-6"> 
-		<p>npm is most commonly used for managing Node.js modules, but it works for the front-end too when combined with Browserify and/or $ npm dedupe.Bower is created solely for the front-end and is optimized with that in mind. The biggest difference is that npm does nested dependency tree (size heavy) while Bower requires a flat dependency tree (puts the burden of dependency resolution on the user). A nested dependency tree means that your dependencies can have its own dependencies which can have their own, and so on. This is really great on the server where you don't have to care much about space and latency. It lets you not have to care about dependency conflicts as all your dependencies use e.g. their own version of Underscore. This obviously doesn't work that well on the front-end. Imagine a site having to download three copies of jQuery.The reason many projects use both is that they use Bower for front-end packages and npm for developer tools like Yeoman, Grunt, Gulp, JSHint, CoffeeScript, etc.All package managers have many downsides. You just have to pick which you can live with.npm is most commonly used for managing Node.js modules, but it works for the front-end too when combined with Browserify and/or $ npm dedupe.Bower is created solely for the front-end and is optimized with that in mind. The biggest difference is that npm does nested dependency tree (size heavy) while Bower requires a flat dependency tree (puts the burden of dependency resolution on the user). A nested dependency tree means that your dependencies can have its own dependencies which can have their own, and so on. This is really great on the server where you don't have to care much about space and latency. It lets you not have to care about dependency conflicts as all your dependencies use e.g. their own version of Underscore. This obviously doesn't work that well on the front-end. Imagine a site having to download three copies of jQuery.The reason many projects use both is that they use Bower for front-end packages and npm for developer tools like Yeoman, Grunt, Gulp, JSHint, CoffeeScript, etc.All package managers have many downsides. You just have to pick which you can live with.npm is most commonly used for managing Node.js modules, but it works for the front-end too when combined with Browserify and/or $ npm dedupe.Bower is created solely for the front-end and is optimized with that in mind. The biggest difference is that npm does nested dependency tree (size heavy) while Bower requires a flat dependency tree (puts the burden of dependency resolution on the user). A nested dependency tree means that your dependencies can have its own dependencies which can have their own, and so on. This is really great on the server where you don't have to care much about space and latency. It lets you not have to care about dependency conflicts as all your dependencies use e.g. their own version of Underscore. This obviously doesn't work that well on the front-end. Imagine a site having to download three copies of jQuery.The reason many projects use both is that they use Bower for front-end packages and npm for developer tools like Yeoman, Grunt, Gulp, JSHint, CoffeeScript, etc.All package managers have many downsides. You just have to pick which you can live with.</p>
-	</div>
-	<div class="col-sm-6"> 
+	<div class="col-sm-4 col-sm-offset-2"> 
 		<form class="form-horizontal">
 			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h3 class="panel-title text-center">Sign in</h3>
-				</div>
 				<div class="panel-body">
 					<div class="form-group">
 						<div class="col-sm-12">
 							<input type="email" class="form-control" id="email" name="email" placeholder="Email">
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group" style="margin-bottom:0px">
 						<div class="col-sm-12">
 							<input type="password" class="form-control" id="password" name="password" placeholder="Choose a password">
 						</div>
@@ -27,9 +19,28 @@
 				</div>
 			</div>
 		</form>
-		<div class="text-center">
-			<a class="btn btn-primary" href="#/sign-up/host">Host Registration</a>	
-			<a class="btn btn-primary" href="#/sign-up/driver">Driver Registration</a>	
+	</div>
+	<div class="col-sm-4"> 
+		<div class="panel panel-primary">
+			<div class="panel-body">
+				<div class="radio">
+					<label>
+						<input type="radio" name="signUp" value="host" checked>
+						<strong>BoatDay Host</strong><br/>
+						I am a boat owner and want to find people to go in BoatDays.
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="signUp" value="driver">
+						<strong>BoatDay Captain</strong><br/>
+						I want to drive boats or I received an invitation.
+					</label>
+				</div>
+			</div> 
+			<div class="panel-footer text-center">
+				<button type="submit" class="btn btn-primary signUp">Sign up</button>
+			</div>
 		</div>
 	</div>
 </div>

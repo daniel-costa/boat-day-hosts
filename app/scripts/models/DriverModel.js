@@ -11,7 +11,6 @@ define([
 			birthdate: null,
 
 			street: null,
-			apartmentNumber: null, 
 			city: null,
 			zipCode: null,
 			state: null,
@@ -30,36 +29,41 @@ define([
 
 		validate: function(attributes){
 
+			var _return = { 
+				fields: {},
+				type: 'model-validation'
+			};
+
 			if( !attributes.firstname ) {
-				return "A first name is required";
+				_return.fields.firstname = 'First Name is required';
 			}
 
 			if( !attributes.lastname ) {
-				return "A last name is required";
-			}
-
-			if( !attributes.phone ) {
-				return "A phone number is required";
+				_return.fields.lastname = 'Last Name is required';
 			}
 
 			if( !this.isPhoneValid(attributes.phone) ) {
-				return "Phone number is not valid";
+				_return.fields.phone = 'A valid 10 digit phone number is required';
 			}
 
 			if( !/^\d{4}$/.test(attributes.ssn) ) {
-				return "The last 4 digits of your social security number are required";
+				_return.fields.ssn = 'Soc. Sec. # (last 4 digits) is required';
+			}
+
+			if( !attributes.street ) {
+				_return.fields.street = 'Address is Required';
 			}
 
 			if( !attributes.city ) {
-				return "A city is required";
-			}
-
-			if( !attributes.zipCode ) {
-				return "A zip code is required";
+				_return.fields.city = 'City is Required';
 			}
 
 			if( !/^\d{5}$/.test(attributes.zipCode) ) {
-				return"A zip code is not correct";
+				_return.fields.zipCode = 'Zip Code is Required';
+			}
+
+			if( _.size(_return.fields) > 0 ) {
+				return _return;
 			}
 		}
  

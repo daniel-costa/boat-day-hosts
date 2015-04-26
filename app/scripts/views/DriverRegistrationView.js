@@ -18,6 +18,8 @@ define([
 
 		},
 
+		debug: false,
+
 		render: function() {
 
 			BaseView.prototype.render.call(this);
@@ -35,6 +37,9 @@ define([
 				this.$el.find('[name="driverBirthdateYear"]').append(opt);
 			}
 
+			this.$el.find('.form-control-feedback').hide();
+			// this.$el.find('[data-toggle="tooltip"]');
+
 			return this;
 		},
 
@@ -45,9 +50,9 @@ define([
 			this._in('phone').val('123 123 1234');
 			this._in('ssn').val('1234');
 			this._in('street').val('9861 SW 117th CT');
-			this._in('apartmentNumber').val('98');
 			this._in('city').val('Miami');
 			this._in('zipCode').val('12345');
+
 		},
 
 		registerDriver: function() {
@@ -56,6 +61,12 @@ define([
 
 			var self = this;
 			var baseStatus = this.model.get("status");
+
+			self.buttonLoader('Saving');
+
+			this.$el.find('.form-control-feedback').hide();
+			this.$el.find('.has-error').removeClass('has-error');
+
 			var data = {
 				status: "complete",
 				firstname: this._in('firstname').val(),
@@ -64,7 +75,6 @@ define([
 				phone: this._in('phone').val(),
 				ssn: this._in('ssn').val(),
 				street: this._in('street').val(),
-				apartmentNumber: this._in('apartmentNumber').val(),
 				city: this._in('city').val(),
 				zipCode: this._in('zipCode').val(),
 				state: this._in('state').val()
@@ -97,7 +107,21 @@ define([
 
 			var saveError = function(error) {
 				
-				self._error(error);
+				self.buttonLoader();
+
+				if( error.type && error.type == 'model-validation' ) {
+
+					_.map(error.fields, function(message, field) {
+
+						self._in(field).attr('title', message).closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+						self._in(field).tooltip();
+						
+					});
+
+				} else {
+					console.log(error);
+					self._error(error);
+				}
 
 			};
 
