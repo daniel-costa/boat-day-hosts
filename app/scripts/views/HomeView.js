@@ -36,7 +36,7 @@ define([
 
 			Parse.User.logIn(this._in('email').val(), this._in('password').val()).then(logInSuccess, logInError);
 		
-		}
+		},
 
 	});
 	return HomeView;

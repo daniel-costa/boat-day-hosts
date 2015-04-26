@@ -7,6 +7,8 @@ define([
 
 		subViews: [],
 
+		debug: true,
+
 		render: function() {
 			console.log("### Render by BaseView (" + this.className + ") ###");
 
@@ -18,8 +20,19 @@ define([
 			} else {
 				this.$el.html(this.template());
 			}
+
 			return this;
 		},
+
+		afterRender: function() {
+
+			if( this.debug ) {
+				this.debugAutofillFields();
+			}
+			
+		},
+
+		debugAutofillFields: function() { },
 
 		teardown: function() {
 			if(this.model) {

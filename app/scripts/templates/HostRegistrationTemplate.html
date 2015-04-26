@@ -13,7 +13,7 @@
 						<div class="form-group">
 							<label for="businessName" class="col-sm-6 control-label" >Business Name:</label>
 							<div class="col-sm-6">
-								<input value="<%= businessName ? businessName : 'Peer-to-Pier Technologies LLC'%>" type="text" class="form-control" id="businessName" name="businessName" placeholder="Business Name">
+								<input value="<%= businessName ? businessName : '' %>" type="text" class="form-control" id="businessName" name="businessName" placeholder="Business Name">
 							</div>
 						</div>
 						<div class="form-group">
@@ -28,19 +28,19 @@
 						<div class="form-group">
 							<label for="businessContact" class="col-sm-6 control-label">Business Contact:</label>
 							<div class="col-sm-6">
-								<input value="<%=businessContact ? businessContact : 'Daniel Costa'%>" type="text" class="form-control" id="businessContact" name="businessContact" placeholder="Contact for BoatDay business inquiries">
+								<input value="<%= businessContact ? businessContact : 'Daniel Costa' %>" type="text" class="form-control" id="businessContact" name="businessContact" placeholder="Contact for BoatDay business inquiries">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="phone" class="col-sm-6 control-label">Phone Number</label>
 							<div class="col-sm-6">
-								<input value="<%=phone ? phone : '123-123-1234'%>" type="text" class="form-control" id="phone" name="phone" placeholder="(###)###-####">
+								<input value="<%= phone ? phone : '123-123-1234' %>" type="text" class="form-control" id="phone" name="phone" placeholder="(###)###-####">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="street" class="col-sm-6 control-label">Address:</label>
 							<div class="col-sm-6">
-								<input value="<%=street ? street : '9861 SW 117th Ct'%>"  type="text" class="form-control" name="street" id="street" placeholder="Address">
+								<input value="<%= street ? street : '9861 SW 117th Ct' %>"  type="text" class="form-control" name="street" id="street" placeholder="Address">
 							</div>
 						</div>
 						<!-- <div class="form-group">

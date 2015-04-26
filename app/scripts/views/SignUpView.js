@@ -17,6 +17,8 @@ define([
 
 		signUpType: null,
 
+		debug: false,
+
 		events: {
 			'keyup [name="password"]' : "computePasswordStrength",
 			"submit form" : "signUp",
@@ -39,10 +41,16 @@ define([
 
 			}
 
-			this._in('email').val( Math.random().toString(36) + this._in('email').val());
-
 			return this;
 
+		},
+
+		debugAutofillFields: function() {
+
+			this._in('email').val(Math.random().toString(36) + '@gmail.com');
+			this._in('password').val('12341234');
+			this._in('password_confirm').val('12341234');
+			
 		},
 
 		computePasswordStrength: function() {
@@ -51,13 +59,13 @@ define([
 			var total = 0;
 			var className;
 
+
+			this.$el.find('.passwordComplexity .alert').hide();
+
 			if( password.length > 0 && password.length < 6) {
 				
 				total += 25;
-				this.$el.find('#password-weak').show();
-				this.$el.find('#password-medium').hide();
-				this.$el.find('#password-mediumStrong').hide();
-				this.$el.find('#password-strong').hide();
+				this.$el.find('.weak').show();
 
 			} else if( password.length >= 6 ) {
 
@@ -66,30 +74,21 @@ define([
 				if( password.match(/[a-zA-Z]/) ) {
 
 					total += 25;
-					this.$el.find('#password-medium').show();
-					this.$el.find('#password-weak').hide();
-					this.$el.find('#password-mediumStrong').hide();
-					this.$el.find('#password-strong').hide();
+					this.$el.find('.medium1').show();
 
 				}
 
 				if( password.match(/[0-9]/) ) {
 
 					total += 25;
-					this.$el.find('#password-mediumStrong').show();
-					this.$el.find('#password-weak').hide();
-					this.$el.find('#password-medium').hide();
-					this.$el.find('#password-strong').hide();
+					this.$el.find('.medium').show();
 
 				}
 
 				if( password.match("[^a-zA-Z0-9]") ) {
 
 					total += 25;
-					this.$el.find('#password-strong').show();
-					this.$el.find('#password-mediumStrong').hide();
-					this.$el.find('#password-weak').hide();
-					this.$el.find('#password-medium').hide();
+					this.$el.find('.strong').show();
 
 				}
 

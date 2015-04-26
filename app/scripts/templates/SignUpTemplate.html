@@ -1,71 +1,73 @@
 <form class="form-horizontal" >
 	<div class="container"> 
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title text-center">Sign up</h3>
-			</div>
-			<div class="panel-body">
-				<div class="form-group">
-					<label for="email" class="col-sm-4 control-label">Email:</label>
-					<div class="col-sm-4">
-						<input type="email" value="@gmail.com" class="form-control" id="email" name="email" placeholder="Email">
-					</div>
+		<div class="col-sm-8 col-sm-offset-2">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title text-center">Sign up</h3>
 				</div>
-				<div class="form-group">
-					<label for="password" class="col-sm-4 control-label">Password:</label>
-					<div class="col-sm-4">
-						<input type="password" value="12341234" class="form-control" id="password" name="password" placeholder="Choose a password">
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="complexity" class="col-sm-4 control-label">Password Strength:</label>
-					<div class="col-sm-4">
-						<div class="progress" style="margin:10px auto;">
-							<div class="progress-bar" role="progressbar"> </div>
-						</div>
-						<div class="alert alert-info" id="password-weak" role="alert" style="margin:0px auto;">
-							<span class="glyphicon glyphicon-info-sign"></span> Weak: To make your password more secure - Use letters and numbers  - Use special characters (e.g. @, #,$) - Mix lower and uppercase
-						</div>
-						<div class="alert alert-info" id="password-medium" role="alert" style="margin:0px auto;">
-							<span class="glyphicon glyphicon-info-sign"></span> Medium: To make your password more secure - Use letters and numbers  - Use special characters (e.g. @, #,$) - Mix lower and uppercase
-						</div>
-						<div class="alert alert-info" id="password-mediumStrong" role="alert" style="margin:0px auto;">
-							<span class="glyphicon glyphicon-info-sign"></span> Strong: Your password is secure.
-						</div>
-						<div class="alert alert-info" id="password-strong" role="alert" style="margin:0px auto;">
-							<span class="glyphicon glyphicon-info-sign"></span> Excellent:  Your password is very secure. 
+				<div class="panel-body">
+					<div class="form-group">
+						<label for="email" class="col-sm-4 control-label">Email:</label>
+						<div class="col-sm-5">
+							<input type="email" class="form-control" id="email" name="email" placeholder="Email">
 						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="password_confirm" class="col-sm-4 control-label">Confirm Password:</label>
-					<div class="col-sm-4">
-						<input type="password" value="12341234" class="form-control" id="password_confirm" name="password_confirm" placeholder="Retype your Password">
+					<div class="form-group">
+						<label for="password" class="col-sm-4 control-label">Password:</label>
+						<div class="col-sm-5">
+							<input type="password" class="form-control" id="password" name="password" placeholder="Choose a password">
+						</div>
 					</div>
-				</div>
-				<div class="form-group hostType">
-					<label for="hostType" class="col-xs-12 col-sm-4 control-label">Account Type</label>
+					<div class="form-group">
+						<div class="col-sm-5 col-sm-offset-4">
+							<input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Retype your Password">
+						</div>
+					</div>
+					<div class="form-group" class="passwordComplexity">
+						<label for="complexity" class="col-sm-4 control-label">Password Strength:</label>
+						<div class="col-sm-5">
+							<div class="progress" style="margin:10px auto;">
+								<div class="progress-bar" role="progressbar"> </div>
+							</div>
+							<div class="alert alert-info weak" role="alert" style="margin:0px auto;">
+								<span class="glyphicon glyphicon-info-sign"></span> Weak: To make your password more secure - Use letters and numbers - Use special characters (e.g. @, #,$) - Mix lower and uppercase
+							</div>
+							<div class="alert alert-info medium1" role="alert" style="margin:0px auto;">
+								<span class="glyphicon glyphicon-info-sign"></span> Medium: To make your password more secure - Use letters and numbers - Use special characters (e.g. @, #,$) - Mix lower and uppercase
+							</div>
+							<div class="alert alert-info medium2" role="alert" style="margin:0px auto;">
+								<span class="glyphicon glyphicon-info-sign"></span> Strong: Your password is secure.
+							</div>
+							<div class="alert alert-info strong" role="alert" style="margin:0px auto;">
+								<span class="glyphicon glyphicon-info-sign"></span> <strong>Excellent</strong><br/> Your password is very secure. 
+							</div>
+						</div>
+					</div>
+					<div class="form-group hostType">
+						<label for="hostType" class="col-sm-4 control-label">Account Type:</label>
 
-					<div class="col-sm-4 text-center">
-						<div class="btn-group" data-toggle="buttons">
-							<label class="btn btn-default btn-lg hostType active">
-								<input type="radio" name="hostType" value="personal" autocomplete="off" checked>
-								<span class="glyphicon glyphicon-user"></span><br/>
-								Personal<br/>
-								<span style="font-size:0.7em">(I own a boat)</span>
-							</label>
-							<label class="btn btn-default btn-lg hostType">
-								<input type="radio" name="hostType" value="business" autocomplete="off">
-								<span class="glyphicon glyphicon-usd"></span><br/>
-								Business<br/>
-								<span style="font-size:0.7em">(I charter boats)</span>
-							</label>
+						<div class="col-sm-8">
+							<p>
+								<label style="font-weight:normal">
+									<input type="radio" name="hostType" value="active" checked>
+									<strong>Personal</strong><br/>
+									I'm at least 22 years old and my guests will be cover by the BoatDay Insurance.
+								</label>
+							</p>
+							<p>
+								<label style="font-weight:normal">
+									<input type="radio" name="hostType" value="business">
+									<strong>Business</strong><br/>
+									I am a charter company and I make business with the renting of my boats. I have 
+									a proper charter company insurance and I'll cover under my insurance the guests attending my events.
+								</label>
+							</p>
 						</div>
 					</div>
+				</div>  
+				<div class="panel-footer text-center">
+					<button type="submit" class="btn btn-primary btn-lg">Sign up</button>
 				</div>
-			</div>  
-			<div class="panel-footer text-center">
-				<button type="submit" class="btn btn-primary btn-lg">Sign up</button>
 			</div>
 		</div>
 	</div>

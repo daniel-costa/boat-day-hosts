@@ -43,8 +43,13 @@ define([
 			return this;
 		},
 
-		refreshPaymentMethod: function(){
+		debugAutofillFields: function() {
 
+			this._in('businessName').val('Peer-to-Pier Technologies LLC');
+			
+		},
+
+		refreshPaymentMethod: function(){
 
 			var paymentMethod = this._in('paymentMethod').val();			
 			this.$el.find('.paymentMethodContainer').hide();

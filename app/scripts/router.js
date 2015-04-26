@@ -271,6 +271,8 @@ define([
 			}
 
 			$("#app").html( view.render().el );
+
+			view.afterRender();
 			
 			this.currentView = view;
 
