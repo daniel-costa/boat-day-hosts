@@ -10,37 +10,42 @@
 
 				<div class="panel-body area-business">
 					<div class="col-sm-8">
-						<div class="form-group">
+						<div class="form-group has-feedback">
 							<label for="businessName" class="col-sm-6 control-label" >Business Name:</label>
 							<div class="col-sm-6">
 								<input value="<%= businessName ? businessName : '' %>" type="text" class="form-control" id="businessName" name="businessName" placeholder="Business Name">
+								<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group has-feedback">
 							<label for="businessEin" class="col-sm-6 control-label">Employer Identification Number:</label>
 							<div class="col-sm-6">
 								<div class="input-group">
 									<div class="input-group-addon"><strong>EIN</strong></div>
 									<input value="<%= businessEin ? businessEin : '' %>" type="text" class="form-control" id="businessEin" name="businessEin" placeholder="##-#######">
+									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								</div>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group has-feedback">
 							<label for="businessContact" class="col-sm-6 control-label">Business Contact:</label>
 							<div class="col-sm-6">
 								<input value="<%= businessContact ? businessContact : '' %>" type="text" class="form-control" id="businessContact" name="businessContact" placeholder="Contact for BoatDay business inquiries">
+								<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group has-feedback">
 							<label for="phone" class="col-sm-6 control-label">Phone Number</label>
 							<div class="col-sm-6">
 								<input value="<%= phone ? phone : '' %>" type="text" class="form-control" id="phone" name="phone" placeholder="(###)###-####">
+								<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group has-feedback">
 							<label for="street" class="col-sm-6 control-label">Address:</label>
 							<div class="col-sm-6">
 								<input value="<%= street ? street : '' %>"  type="text" class="form-control" name="street" id="street" placeholder="Address">
+								<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 							</div>
 						</div>
 						<!-- <div class="form-group">
@@ -49,16 +54,18 @@
 								<input value="<%=apartmentNumber ? apartmentNumber : '22'%>" type="text" class="form-control" id="apartmentNumber" name="apartmentNumber" placeholder="Apartment Number">
 							</div>
 						</div> -->
-						<div class="form-group">
+						<div class="form-group has-feedback">
 							<label for="city" class="col-sm-6 control-label">City:</label>
 							<div class="col-sm-6">
 								<input value="<%= city ? city : '' %>" type="text" class="form-control" id="city" name="city" placeholder="City">
+								<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group has-feedback">
 							<label for="zipCode" class="col-sm-6 control-label">Zip Code:</label>
 							<div class="col-sm-6">
 								<input value="<%= zipCode ? zipCode : '' %>" type="text" class="form-control" id="zipCode" name="zipCode" placeholder="#####">
+								<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -242,12 +249,6 @@
 								<input value="<%= street ? street : '' %>" type="text" class="form-control" id="street" name="street" placeholder="Address">
 							</div>
 						</div>
-						<!-- <div class="form-group">
-							<label for="apartmentNumber" class="col-sm-6 control-label">Building Number</label>
-							<div class="col-sm-6">
-								<input value="<%=apartmentNumber ? apartmentNumber : '9861'%>" type="text" class="form-control" id="apartmentNumber" name="apartmentNumber" placeholder="Apartment Number">
-							</div>
-						</div> -->
 						<div class="form-group">
 							<label for="city" class="col-sm-6 control-label">City:</label>
 							<div class="col-sm-6">
@@ -418,7 +419,7 @@
 			</div>  
 
 			<div class="panel-footer text-center">
-				<button type="submit" class="btn btn-primary btn-lg">Submit Host Registration</button>
+				<button type="submit" class="btn btn-primary">Submit Host Registration</button>
 			</div>
 		</div>
 	</div>

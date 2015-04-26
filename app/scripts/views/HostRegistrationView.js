@@ -41,6 +41,7 @@ define([
 			}
 
 			this.refreshPaymentMethod();
+			this.$el.find('.form-control-feedback').hide();
 
 			return this;
 		},
@@ -69,7 +70,7 @@ define([
 
 		},
 
-		refreshPaymentMethod: function(){
+		refreshPaymentMethod: function() {
 
 			var paymentMethod = this._in('paymentMethod').val();			
 			this.$el.find('.paymentMethodContainer').hide();
@@ -82,6 +83,70 @@ define([
 			event.preventDefault();
 
 			var self = this;
+			var err = false;
+
+			self.buttonLoader('Saving');
+
+			this.$el.find('.form-control-feedback').hide();
+			this.$el.find('.has-error').removeClass('has-error');
+
+			if(this._in('businessName').val() == "") {
+
+				this._in('businessName').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+				this._error('A business name is required.');
+				err = true;
+
+			}
+
+			if(this._in('businessEin').val() == "") {
+
+				this._in('businessEin').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+				err = true;
+
+			}
+
+			if(this._in('businessContact').val() == "") {
+
+				this._in('businessContact').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+				err = true;
+
+			}
+
+			if(this._in('phone').val() == "") {
+
+				this._in('phone').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+				err = true;
+
+			}
+
+			if(this._in('street').val() == "") {
+
+				this._in('street').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+				err = true;
+
+			}
+
+			if(this._in('city').val() == "") {
+
+				this._in('city').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+				err = true;
+
+			}
+
+			if(this._in('zipCode').val() == "") {
+
+				this._in('zipCode').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+				err = true;
+
+			}
+
+			if( err ) {
+
+				self.buttonLoader();
+				return;
+
+			}
+
 			var isPersonal = this.model.get("type") == "personal";
 
 			var data = {
@@ -156,11 +221,10 @@ define([
 
 			var saveError = function(error) {
 				
+				self.buttonLoader();
 				self._error(error);
 
 			};
-
-			console.log(data);
 
 			this.model.save(data).then(hostRegistrationSuccess, saveError);
 		}

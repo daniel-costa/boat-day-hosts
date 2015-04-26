@@ -100,8 +100,7 @@ define([
 				this.$el.find('.alert-' + className).show();
 				this.progressCurrent = score;
 			}
-
-
+			
 		},
 
 		signUp: function(){
