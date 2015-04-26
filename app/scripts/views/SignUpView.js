@@ -17,7 +17,7 @@ define([
 
 		signUpType: null,
 
-		debug: false,
+		debug: true,
 
 		events: {
 			'keyup [name="password"]' : "displayPasswordStrength",
@@ -133,7 +133,7 @@ define([
 
 				this._in('password').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
 				this._in('passwordConfirm').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
-				this._error('Password must to be stronger.');
+				this._error('For the safety of your account, please choose a stronger password.');
 				err = true;
 
 			}
@@ -141,6 +141,7 @@ define([
 			if(this._in('password').val() != this._in('passwordConfirm').val()) {
 
 				this._in('passwordConfirm').closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
+				this._error('Passwords do not match.');
 				err = true;
 
 			}
