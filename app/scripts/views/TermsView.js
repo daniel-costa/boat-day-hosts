@@ -23,7 +23,7 @@ define([
 
 			if( !this._in('tos').is(':checked') ) {
 
-				this._error("You must to agree with the terms and conditions to use the BoatDay Host WebApp");
+				this._error("You must accept the BoatDay Terms and Conditions to become a BoatDay Host.");
 
 			} else{
 
