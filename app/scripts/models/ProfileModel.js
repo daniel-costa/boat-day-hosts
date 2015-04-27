@@ -14,21 +14,24 @@ define([
 
 		validate: function(attributes){
 
-			if( attributes.displayName == "" ) {
-
-				return "You must to enter a display name";
-
-			}
+			var _return = { 
+				fields: {},
+				type: 'model-validation'
+			};
 
 			if( attributes.about == "" ) {
 
-				return "Description Required: Please share little bit about your business!";
+				_return.fields.about = "Description Required: Lets share little bit about you";
 			}
 
 			if( !attributes.profilePicture ) {
 
-				return "Picture Required: Please submit a profile picture!";
+				_return.fields.profilePicture = "Picture Required: Please submit a profile picture!";
 
+			}
+
+			if( _.size(_return.fields) > 0 ) {
+				return _return;
 			}
 
 		}

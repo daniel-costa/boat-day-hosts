@@ -12,7 +12,7 @@ define([
 
 		template: _.template(HostRegistrationTemplate),
 
-		debug: false,
+		debug: true,
 
 		events: {
 			"submit form" : "registerHost", 

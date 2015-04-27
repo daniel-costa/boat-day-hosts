@@ -84,8 +84,6 @@ define([
 			var isVenmo = attributes.paymentMethod == "venmo";
 			var isPaypal = attributes.paymentMethod == "paypal";
 
-
-
 			// Global fields
 
 			if( !attributes.phone ) {

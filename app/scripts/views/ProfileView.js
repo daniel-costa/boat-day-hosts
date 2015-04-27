@@ -34,11 +34,8 @@ define([
 			var self = this;
 			var files = event.target.files;
 			var parseFile = null;
-			var button = this.$el.find('[type="submit"]');
-			var txt = button.text();
-
-			button.attr('disabled', 1);
-			button.text(txt + ' (uploading picture)');
+			
+			self.buttonLoader('Uploading...');
 
 			if( files.length == 1) {
 
@@ -52,8 +49,8 @@ define([
 
 				} else {
 
-					this._error('Your profile picture must be in the format PNG or a JPEG');
-					button.removeAttr('disabled').text(txt);
+					self.fieldError('profilePicture', 'Bad format, try with a PNG or JPEG picture.');
+					self.buttonLoader();
 					$(event.target).val('');
 					return null;
 
@@ -62,15 +59,14 @@ define([
 				var uploadSuccess = function(file) {
 					
 					self.profilePicture = parseFile;
-					button.removeAttr('disabled').text(txt);
+					self.buttonLoader();
 
 				};
 
 				var uploadError = function(error) {
 
-					console.log(error);
-					this._error('An error occured when we tried to upload your picture, try again please.');
-					button.removeAttr('disabled').text(txt);
+					self.fieldError('profilePicture', 'An error occured when we tried to upload your picture, try again please.');
+					self.buttonLoader();
 
 				};
 				
@@ -85,6 +81,9 @@ define([
 			event.preventDefault();
 
 			var self = this;
+
+			self.buttonLoader('Saving');
+			self.cleanForm();
 
 			var data = {
 				displayName: this._in('displayName').val(),
@@ -106,7 +105,20 @@ define([
 
 			var saveError = function(error) {
 				
-				self._error(error);
+				self.buttonLoader();
+
+				if( error.type && error.type == 'model-validation' ) {
+
+					_.map(error.fields, function(message, field) { 
+						self.fieldError(field, message);
+					});
+
+				} else {
+
+					console.log(error);
+					self._error(error);
+
+				}
 
 			};
 

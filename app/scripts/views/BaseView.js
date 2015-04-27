@@ -70,7 +70,8 @@ define([
 
 			this.$el.find('.field-error-auto').remove();
 			this.$el.find('.has-error').removeClass('has-error has-feedback');
-			this.$el.find('.field-error-flag').popover('hide').unbind('focus').unbind('blur').unbind('hover');
+			console.log(this.$el.find('.field-error-flag'));
+			this.$el.find('.field-error-flag').popover('hide').unbind('focus mouseenter mouseleave hover blur');
 
 		},
 

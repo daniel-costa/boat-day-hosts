@@ -25,6 +25,30 @@ define([
 			
 			var self = this;
 
+			this.$el.find('.area').hide();
+
+			if( Parse.User.current().get('host') ) {
+
+				this.renderHost();
+				this.$el.find('.area-host').show();
+				
+			}
+
+			if( Parse.User.current().get('driver') ) {
+
+				this.renderDriver();
+				this.$el.find('.area-driver').show();
+				
+			}
+
+			return this;
+
+		},
+
+		renderHost: function() {
+
+			var self = this;
+			
 			var boatsFetchSuccess = function(collection) {
 
 				var boatsView = new BoatsTableView({ collection: collection });
@@ -47,24 +71,12 @@ define([
 
 			};
 
-			Parse.User.current().get('host').relation('boats').query().collection().fetch({
+			Parse.User.current().get('host').relation('boats').query().collection().fetch().then(boatsFetchSuccess, collectionFetchError);
+			Parse.User.current().get('host').relation('boatdays').query().collection().fetch().then(boatdaysFetchSuccess, collectionFetchError);
 
-				success : function(collection) {
+		},
 
-				    boatsFetchSuccess(collection);
-				    Parse.User.current().get('host').relation('boatdays').query().collection().fetch().then(boatdaysFetchSuccess, collectionFetchError);
-
-			  	},
-
-			  	error : function() {
-
-			    	collectionFetchError();
-
-			  	}
-			  
-			});
-
-			return this;
+		renderDriver: function() {
 
 		}
 

@@ -3,8 +3,9 @@ define([
 'underscore', 
 'parse',
 'views/BaseView',
+'views/BoatsSelectView',
 'text!templates/BoatdayTemplate.html'
-], function($, _, Parse, BaseView, BoatdayTemplate){
+], function($, _, Parse, BaseView, BoatsSelectView, BoatdayTemplate){
 	var BoatdayView = BaseView.extend({
 
 		className:"view-event",
@@ -15,8 +16,7 @@ define([
 
 		events: {
 			
-			"submit form" : "save", 
-			'change [name="cancellationPolicy"]' : "refreshInformation"
+			"submit form" : "save"
 		}, 
 
 		initialize: function() {
@@ -26,18 +26,30 @@ define([
 		render: function() {
 
 			BaseView.prototype.render.call(this);
-			this.refreshInformation();
 
-			var eventYear = this.model.get('eventDate') ? this.model.get('eventDate').substring(6) : new Date().getFullYear();
+			var self = this;
+			
+			var boatsFetchSuccess = function(collection) {
 
+				var boatsView = new BoatsSelectView({ collection: collection });
+				self.subViews.push(boatsView);
+				self.$el.find('[name="boat"]').html(boatsView.render().el).removeAttr('disabled');
+
+			};
+
+			var collectionFetchError = function(error) {
+
+				console.log(error);
+
+			};
+
+			Parse.User.current().get('host').relation('boats').query().collection().fetch().then(boatsFetchSuccess, collectionFetchError);
+
+
+			var eventYear = this.model.get('date') ? this.model.get('date').substring(6) : new Date().getFullYear();
 			for(var i = eventYear; i < new Date().getFullYear() + 3; i++) {
-				
 				var opt = $('<option>').val(i).text(i);
-				
-				if( eventYear == i ) {
-					opt.attr('selected', 1);
-				}
-
+				if( eventYear == i ) opt.attr('selected', 1);
 				this.$el.find('[name="eventYear"]').append(opt);
 			}
 			
@@ -47,33 +59,11 @@ define([
 
 		debugAutofillFields: function() {
 
-			this._in('eventName').val('Summer sound festival');
+			this._in('name').val('Summer sound festival');
 			this._in('price').val('25');
 			this._in('availableSeats').val('10');
 			this._in('minimumSeats').val('5');
-			this._in('departureLocation').val('latitude 0 longitude 0');
-			this._in('eventDescription').val('This event has many top DJs in the world.');
-
-		},
-
-		refreshInformation: function() {
-			var cancellationPolicy = this._in('cancellationPolicy').val();
-
-			if( cancellationPolicy == "flexible" ) {
-				this.$el.find('#flexible-info').show();
-				this.$el.find('#moderate-info').hide();
-				this.$el.find('#strict-info').hide();
-
-			} else if( cancellationPolicy == "moderate") {
-				this.$el.find('#moderate-info').show();
-				this.$el.find('#flexible-info').hide();
-				this.$el.find('#strict-info').hide();
-
-			} else {
-				this.$el.find('#strict-info').show();
-				this.$el.find('#flexible-info').hide();
-				this.$el.find('#moderate-info').hide();
-			}
+			this._in('desription').val('This event has many top DJs in the world.');
 
 		},
 
@@ -86,17 +76,17 @@ define([
 			var data = {
 
 				status: 'complete',
-				boatName: this._in('boatName').val(), 
+				boat: this._in('boat').val(), 
 				captain: this._in('captain').val(), 
-				eventName: this._in('eventName').val(), 
-				eventDate: this._in('eventMonth').val() + "/" + this._in('eventDay').val() + "/" + this._in('eventYear').val(),
-				departureTime: this._in('departureHour').val() + ":" + this._in('departureMinute').val() + " " + this._in('period').val(), 
+				name: this._in('name').val(), 
+				date: this._in('eventMonth').val() + "/" + this._in('eventDay').val() + "/" + this._in('eventYear').val(),
+				time: this._in('departureHour').val() + ":" + this._in('departureMinute').val() + " " + this._in('period').val(), 
+				location: null,
 				duration: this._in('duration').val(), 
-				pricePerSeat: this._in('price').val(), 
+				price: this._in('price').val(), 
 				availableSeats: this._in('availableSeats').val(), 
 				minimumSeats: this._in('minimumSeats').val(), 
-				departureLocation: this._in('departureLocation').val(), 
-				eventDescription: this._in('eventDescription').val(),
+				description: this._in('eventDescription').val(),
 				bookingPolicy: this._in('bookingPolicy').val(), 
 				cancellationPolicy: this._in('cancellationPolicy').val()
 
@@ -126,9 +116,24 @@ define([
 
 			};
 
+			
+
 			var saveError = function(error) {
 				
-				self._error(error);
+				self.buttonLoader();
+
+				if( error.type && error.type == 'model-validation' ) {
+
+					_.map(error.fields, function(message, field) { 
+						self.fieldError(field, message);
+					});
+
+				} else {
+
+					console.log(error);
+					self._error(error);
+
+				}
 
 			};
 			
