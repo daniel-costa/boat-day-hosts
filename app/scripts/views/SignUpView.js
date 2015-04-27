@@ -17,7 +17,7 @@ define([
 
 		signUpType: null,
 
-		debug: true,
+		debug: false,
 
 		events: {
 			'keyup [name="password"]' : "displayPasswordStrength",
@@ -42,8 +42,6 @@ define([
 			}
 			
 			this.$el.find('.passwordComplexity .alert').hide();
-			this.$el.find('.passwordComplexity .alert-info').show();
-			this.$el.find('.form-control-feedback').hide();
 
 			return this;
 
@@ -92,13 +90,17 @@ define([
 			var score = this.scorePassword(this._in('password').val());
 
 			if( score != this.progressCurrent ) {
-				var className = score < 50 ? 'danger' : 'success' ;
+				
 				$('.progress-bar').css({ width: Math.min(score, 100) +'%' })
 				.removeClass('progress-bar-danger progress-bar-success')
-				.addClass('progress-bar-' + className);
+				.addClass('progress-bar-' + (score < 50 ? 'danger' : 'success') );
+				
 				this.$el.find('.passwordComplexity .alert').hide();
-				if(className == 'danger')
+
+				if(score < 50) {	
 					this.$el.find('.alert-warning').show();
+				}
+
 				this.progressCurrent = score;
 			}
 		},
@@ -116,46 +118,44 @@ define([
 			if(this._in('email').val() == "") {
 
 				this.fieldError('email', 'Oops, you missed one.');
-				self.buttonLoader();
-				return;
+				err = true;
 
 			}
 
 			if(this._in('password').val() == "") {
 
 				this.fieldError('password', 'Oops, you missed one.');
-				self.buttonLoader();
-				return;
+				err = true;
+				var errPass = true;
 
 			} 
 			
 			if(this._in('passwordConfirm').val() == "") {
 
 				this.fieldError('passwordConfirm', 'Oops, you missed one.');
-				self.buttonLoader();
-				return;
+				err = true;
+				var errPassconf = true;
 
 			} 
 
-			if( this.scorePassword(this._in('password').val()) < 50 ) {
+			if( !errPass && this.scorePassword(this._in('password').val()) < 50 ) {
 
 				this.fieldError('password', 'Oops, password is too weak, let\'s make it stronger');
-				self.buttonLoader();
-				return;
+				err = true;
 
 			} 
 
-			if( this._in('password').val() != this._in('passwordConfirm').val() ) {
+			if( !errPassconf && this._in('password').val() != this._in('passwordConfirm').val() ) {
 
 				this.fieldError('passwordConfirm', 'Oops, they don\'t match.');
-				self.buttonLoader();
-				return;
+				err = true;
 
 			}
 
 			if( err ) {
 
-				
+				self.buttonLoader();
+				return;
 
 			}
 

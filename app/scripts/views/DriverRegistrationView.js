@@ -18,7 +18,7 @@ define([
 
 		},
 
-		debug: true,
+		debug: false,
 
 		render: function() {
 
@@ -107,7 +107,7 @@ define([
 					});
 
 				} else {
-					
+
 					console.log(error);
 					self._error(error);
 

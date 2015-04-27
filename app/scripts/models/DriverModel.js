@@ -35,11 +35,11 @@ define([
 			};
 
 			if( !attributes.firstname ) {
-				_return.fields.firstname = 'First Name is required';
+				_return.fields.firstname = 'Oops, you missed one.';
 			}
 
 			if( !attributes.lastname ) {
-				_return.fields.lastname = 'Last Name is required';
+				_return.fields.lastname = 'Oops, you missed one.';
 			}
 
 			if( !this.isPhoneValid(attributes.phone) ) {
@@ -51,15 +51,15 @@ define([
 			}
 
 			if( !attributes.street ) {
-				_return.fields.street = 'Address is Required';
+				_return.fields.street = 'Oops, you missed one.';
 			}
 
 			if( !attributes.city ) {
-				_return.fields.city = 'City is Required';
+				_return.fields.city = 'Oops, you missed one.';
 			}
 
 			if( !/^\d{5}$/.test(attributes.zipCode) ) {
-				_return.fields.zipCode = 'Zip Code is Required';
+				_return.fields.zipCode = 'Oops, you missed one or the format is not a 5 digits zipCode';
 			}
 
 			if( _.size(_return.fields) > 0 ) {

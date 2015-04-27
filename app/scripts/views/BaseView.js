@@ -7,7 +7,7 @@ define([
 
 		subViews: [],
 
-		debug: true,
+		debug: false,
 
 		render: function() {
 			console.log("### Render by BaseView (" + this.className + ") ###");
@@ -41,9 +41,27 @@ define([
 			$('<span>').addClass('glyphicon glyphicon-remove form-control-feedback field-error-auto').insertAfter(field);
 			
 			if(message) {
-				
-				field.attr('title', message).attr('data-toggle', 'tooltip').tooltip();
 
+				var show = function() { $(this).popover('show'); };
+				var hide = function() { $(this).popover('hide'); };
+
+				var params = { 
+					container: 'body',
+					content: message,
+					trigger: 'manual'
+				};
+
+				if( field.hasClass('field-error-flag') ) {
+
+					field.data('bs.popover').options.content = message;
+
+				} else {
+
+					field.addClass('field-error-flag').popover(params);	
+
+				}
+
+				field.focus(show).blur(hide).hover(show, hide)
 			}
 
 		},
@@ -52,7 +70,7 @@ define([
 
 			this.$el.find('.field-error-auto').remove();
 			this.$el.find('.has-error').removeClass('has-error has-feedback');
-			this.$el.find('[data-toggle="tooltip"]').removeAttr('data-toggle').tooltip('destroy');
+			this.$el.find('.field-error-flag').popover('hide').unbind('focus').unbind('blur').unbind('hover');
 
 		},
 
@@ -64,15 +82,13 @@ define([
 
 			}
 
-			if( !text ) {
+			if( text ) {
 
-				button.removeAttr('disabled').text(button.attr('txt')).removeAttr('txt');
+				button.attr('data-loading-text', text).button('loading');
 
 			} else {
 
-				button.attr('disabled', 1);
-				button.attr('txt', button.text());
-				button.text(button.text() + ' (' + text + ')');
+				button.button('reset');
 
 			}
 		},
