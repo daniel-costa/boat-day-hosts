@@ -15,7 +15,6 @@
 								<label for="businessName" class="col-sm-4 control-label" >Business Name:</label>
 								<div class="col-sm-5">
 									<input value="<%= businessName ? businessName : '' %>" type="text" class="form-control" id="businessName" name="businessName" placeholder="Business Name">
-									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								</div>
 							</div>
 							<div class="form-group has-feedback">
@@ -24,7 +23,6 @@
 									<div class="input-group">
 										<div class="input-group-addon"><strong>EIN</strong></div>
 										<input value="<%= businessEin ? businessEin : '' %>" type="text" class="form-control" id="businessEin" name="businessEin" placeholder="##-#######">
-										<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 									</div>
 								</div>
 							</div>
@@ -32,35 +30,30 @@
 								<label for="businessContact" class="col-sm-4 control-label">Business Contact:</label>
 								<div class="col-sm-5">
 									<input value="<%= businessContact ? businessContact : '' %>" type="text" class="form-control" id="businessContact" name="businessContact" placeholder="Contact for BoatDay business inquiries">
-									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								</div>
 							</div>
 							<div class="form-group has-feedback">
 								<label for="phone" class="col-sm-4 control-label">Phone Number</label>
 								<div class="col-sm-5">
 									<input value="<%= phone ? phone : '' %>" type="text" class="form-control" id="phone" name="phone" placeholder="(###)###-####">
-									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								</div>
 							</div>
 							<div class="form-group has-feedback">
 								<label for="street" class="col-sm-4 control-label">Address:</label>
 								<div class="col-sm-5">
 									<input value="<%= street ? street : '' %>"  type="text" class="form-control" name="street" id="street" placeholder="Address">
-									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								</div>
 							</div>
 							<div class="form-group has-feedback">
 								<label for="city" class="col-sm-4 control-label">City:</label>
 								<div class="col-sm-5">
 									<input value="<%= city ? city : '' %>" type="text" class="form-control" id="city" name="city" placeholder="City">
-									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								</div>
 							</div>
 							<div class="form-group has-feedback">
 								<label for="zipCode" class="col-sm-4 control-label">Zip Code:</label>
 								<div class="col-sm-5">
 									<input value="<%= zipCode ? zipCode : '' %>" type="text" class="form-control" id="zipCode" name="zipCode" placeholder="#####">
-									<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 								</div>
 							</div>
 							<div class="form-group">
@@ -146,7 +139,7 @@
 					%>
 
 					<div class="panel-heading area-personal">
-						<h3 class="panel-title text-center">Personal Information</h3>
+						<h3 class="panel-title text-center">Tell us about you</h3>
 					</div>
 
 					<div class="panel-body area-personal">
@@ -333,22 +326,24 @@
 				<% } %>
 
 				<div class="panel-heading">
-					<h3 class="panel-title text-center">Payment Information</h3>
+					<h3 class="panel-title text-center">Where do we pay you?</h3>
 				</div>
 				<div class="panel-body">
 					 <div class="col-sm-12"> 
+					 	<% if( type == "personal" ) { %>
 						<div class="form-group">
 							<label for="paymentMethod" class="col-sm-4 control-label">Payment Method:</label>
 							<div class="col-sm-5">
 								<select class="form-control" id="paymentMethod" name="paymentMethod">
 									<option value="deposit" selected>Direct Deposit</option>
-									<% if( type == "personal" ) { %>
-										<option value="paypal">PayPal</option>
-										<option value="venmo">Venmo</option>
-									<% } %>	
+									<option value="paypal">PayPal</option>
+									<option value="venmo">Venmo</option>
 								</select>
 							</div>
 					 	</div>
+					 	<% } else {  %>
+					 		<input type="hidden" name="paymentMethod" value="deposit" />
+					 	<% } %>
 
 					 	<div class="paymentMethodContainer deposit">
 							<div class="form-group">
@@ -380,13 +375,14 @@
 									</div>
 								</div>
 							</div>
-							<!-- <div class="col-sm-1 paymentMethodContainer venmo">
-								<div class="alert-info alert">
-									<span class="glyphicon glyphicon-info-sign"></span> Please provide either the Email Address or Phone Number associated with your Venmo account. 
-								</div>
-							</div> -->
+
 							<div class="paymentMethodContainer venmo">
 								<div class="form-group">
+									<div class="col-sm-5 col-sm-offset-4">
+										<div class="alert-info alert">
+											<span class="glyphicon glyphicon-info-sign"></span> Please provide <strong>either</strong> the Email Address or Phone Number associated with your Venmo account. 
+										</div>
+									</div>
 									<label for="venmoEmail" class="col-sm-4 control-label">Venmo Email:</label>
 									<div class="col-sm-5">
 										<input value="<%= venmoEmail ? venmoEmail : '' %>" type="email" class="form-control" id="venmoEmail" name="venmoEmail" placeholder="Venmo Email">
@@ -401,26 +397,11 @@
 							</div>
 						<% } %>
 					</div>
-						<!-- <div class="col-sm-3 col-sm-offset-9 paymentMethodContainer deposit">
-							<div class="alert-info alert">
-								<span class="glyphicon glyphicon-info-sign"></span> To receive payments directly to your Bank Account, please provide the Account Number and Routing Number associated with your chosen account.
-							</div>
-						</div> -->
 				</div>
-					<!-- <div class="col-sm-4 paymentMethodContainer paypal">
-						<div class="alert-info alert">
-							<span class="glyphicon glyphicon-info-sign"></span>  Please provide the Email Address associated with your PayPal account. 
-						</div>
-					</div> -->
-					<!-- <div class="col-sm-4 paymentMethodContainer venmo">
-						<div class="alert-info alert">
-							<span class="glyphicon glyphicon-info-sign"></span> Please provide either the Email Address or Phone Number associated with your Venmo account. 
-						</div>
-					</div> -->
 			
 
 				<div class="panel-footer text-center">
-					Almost there!<button type="submit" class="btn btn-primary">Save</button>and create a profile.
+					Almost there! <button type="submit" class="btn btn-primary">Save</button> and create a profile.
 				</div>
 			</div>
 		</div>

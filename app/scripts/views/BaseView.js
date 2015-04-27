@@ -7,7 +7,7 @@ define([
 
 		subViews: [],
 
-		debug: false,
+		debug: true,
 
 		render: function() {
 			console.log("### Render by BaseView (" + this.className + ") ###");

@@ -49,7 +49,7 @@ define([
 
 		isRoutingNumberValid: function(n) {
 
-			n = n ? n.match(/\d/g).join('') : 0;
+			n = n && n.match(/\d/g) ? n.match(/\d/g).join('') : 0;
 			
 			var c = 0, isValid = false;
 
@@ -74,110 +74,107 @@ define([
 
 		validate: function(attributes){
 
+			var _return = { 
+				fields: {},
+				type: 'model-validation'
+			};
+
 			var isBusiness = attributes.type == "business";
 			var isDeposit = attributes.paymentMethod == "deposit";
 			var isVenmo = attributes.paymentMethod == "venmo";
 			var isPaypal = attributes.paymentMethod == "paypal";
 
-			if( !isBusiness && !attributes.personalFirstname ) {
-				return 'firdaskljdlksajd';
-			}
-			 
-			if( !isBusiness && !attributes.personalLastname ) {
-				return "A last name is	required";
-			}
 
-			if( isBusiness && !attributes.businessName ) {
-				return "A businessName is required";
-			}
 
-			if( isBusiness && !attributes.businessEin ) {
-				return "A businessEin number is	required";
-			}
+			// Global fields
 
-			if( isBusiness && !attributes.businessContact ) {
-				return "A business contact is required";
-			}
-
-			if( isBusiness && !this.isBusinessEIN(attributes.businessEin) ) {
-				return "Business ein is not valid";
-			}
-			
 			if( !attributes.phone ) {
-				return "A phone number is required";
+				_return.fields.phone = 'Oops, you missed one.';
 			}
 			
-			if( !this.isPhoneValid(attributes.phone) ) {
-				return "Phone number is not valid";
-			}	
-
-			if( !isBusiness && !/^\d{4}$/.test(attributes.personalSSN) ) {
-				return "The last 4 digits of your social security number are required";
-			}
-
 			if( !attributes.street ) {
-				return "A street is required";
+				_return.fields.street = 'Oops, you missed one.';
 			}
 
 			if( !attributes.city ) {
-				return "A city is required";
-			}
-
-			if( !attributes.zipCode ) {
-				return "A zip code is required";
+				_return.fields.city = 'Oops, you missed one.';
 			}
 
 			if( !/^\d{5}$/.test(attributes.zipCode) ) {
-				return"A zip code is not correct";
+				_return.fields.zipCode = 'Oops, you missed one or the format is not a 5 digits zipCode';
 			}
 
 			if( !attributes.street ) {
-				return "A street is required";
+				_return.fields.street = 'Oops, you missed one.';
 			}
 
+			// Personal fields
+			if( !this.isPhoneValid(attributes.phone) ) {
+				_return.fields.phone = 'A valid 10 digit phone number is required';
+			}
+
+			if( !isBusiness && !attributes.personalFirstname ) {
+				_return.fields.personalFirstname = 'Oops, you missed one.';
+			}
+			 
+			if( !isBusiness && !attributes.personalLastname ) {
+				_return.fields.personalLastname = 'Oops, you missed one.';
+			}
+
+			if( !isBusiness && !/^\d{4}$/.test(attributes.personalSSN) ) {
+				_return.fields.personalSSN = 'Soc. Sec. # (last 4 digits) is required';
+			}
+
+			// Business fields
+
+			if( isBusiness && !attributes.businessName ) {
+				_return.fields.businessName = 'Oops, you missed one.';
+			}
+
+			if( isBusiness && !attributes.businessEin ) {
+				_return.fields.businessName = 'Oops, you missed one.';
+			}
+
+			if( isBusiness && !attributes.businessContact ) {
+				_return.fields.businessContact = 'Oops, you missed one.';
+			}
+
+			if( isBusiness && !this.isBusinessEIN(attributes.businessEin) ) {
+				_return.fields.businessEin = 'The EIN number must be in a valid format';
+			}	
+
+			// Payment
 			if( isDeposit && !attributes.accountHolder ) {
-				return "A account holder´s name is required";
+				_return.fields.accountHolder = 'Oops, you missed one.';
 			}
 
 			if( isDeposit && !attributes.accountNumber ) {
-				return "A account number is required";
-			}
-
-			if( isDeposit && !attributes.accountRouting ) {
-				return "A routing number is required";
+				_return.fields.accountNumber = 'Oops, you missed one.';
 			}
 
 			if( isDeposit && !this.isRoutingNumberValid(attributes.accountRouting) ) {
-				return "A routing number is not valid";
+				_return.fields.accountRouting = 'The routing number must be in a valid format';
 			}
 
-			if( isPaypal ) {
-
-				if( !attributes.paypalEmail ) {
-					return "A email for paypal is required";
-
-				} 
-
-				if( !this.isEmailValid(attributes.paypalEmail) ) {
-					return "The Paypal email is invalid";
-
-				}
-
+			if( isPaypal && !this.isEmailValid(attributes.paypalEmail) ) {
+				_return.fields.paypalEmail = "The Paypal email is invalid";
 			}
 
-			if( isVenmo ) {
+			if( isVenmo && !attributes.venmoEmail  && !attributes.venmoPhone ) {
+				_return.fields.venmoEmail = "A venmo email or phone number is required";
+				_return.fields.venmoPhone = "A venmo email or phone number is required";
+			}
+			
+			if( isVenmo && attributes.venmoEmail && !this.isEmailValid(attributes.venmoEmail) ) {
+				_return.fields.venmoEmail = "The Venmo email is invalid";
+			} 
 
-				if( !attributes.venmoEmail  && !attributes.venmoPhone ) {
-					return "A venmo email or phone number is required";
-				
-				} else if( attributes.venmoEmail && !this.isEmailValid(attributes.venmoEmail) ) {
-					return "The Venmo email is invalid";
+			if( isVenmo && attributes.venmoPhone && !this.isPhoneValid(attributes.venmoPhone) ) {
+				_return.fields.venmoPhone = "The Venmo phone number is invalid. Give us a 10 digits phone number.";
+			}
 
-				} else if( attributes.venmoPhone && !this.isPhoneValid(attributes.venmoPhone) ) {
-					return "The Venmo phone number is invalid";
-
-				}
-
+			if( _.size(_return.fields) > 0 ) {
+				return _return;
 			}
 
 		}

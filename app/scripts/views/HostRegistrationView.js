@@ -12,7 +12,7 @@ define([
 
 		template: _.template(HostRegistrationTemplate),
 
-		debug: true,
+		debug: false,
 
 		events: {
 			"submit form" : "registerHost", 
@@ -41,6 +41,7 @@ define([
 			}
 
 			this.refreshPaymentMethod();
+
 			return this;
 		},
 
@@ -84,9 +85,7 @@ define([
 			self.buttonLoader('Saving');
 			self.cleanForm();
 
-
 			var isPersonal = this.model.get("type") == "personal";
-
 			var data = {
 				phone: this._in('phone').val(),
 				street: this._in('street').val(),
