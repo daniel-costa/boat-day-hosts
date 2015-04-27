@@ -55,7 +55,7 @@ define([
 
 		},
 
-		registerDriver: function() {
+		registerDriver: function(event) {
 
 			event.preventDefault();
 
@@ -63,9 +63,7 @@ define([
 			var baseStatus = this.model.get("status");
 
 			self.buttonLoader('Saving');
-
-			this.$el.find('.form-control-feedback').hide();
-			this.$el.find('.has-error').removeClass('has-error');
+			self.cleanForm();
 
 			var data = {
 				status: "complete",
@@ -113,8 +111,7 @@ define([
 
 					_.map(error.fields, function(message, field) {
 
-						self._in(field).attr('title', message).closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
-						self._in(field).tooltip();
+						self.fieldError(field, message);
 						
 					});
 

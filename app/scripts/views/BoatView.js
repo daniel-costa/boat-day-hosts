@@ -154,7 +154,7 @@ define([
 			this._in('capacity').val('20');
 		},
 
-		save: function() {
+		save: function(event) {
 
 			event.preventDefault();
 

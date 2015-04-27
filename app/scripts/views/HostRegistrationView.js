@@ -78,7 +78,7 @@ define([
 
 		},
 
-		registerHost: function() {
+		registerHost: function(event) {
 
 			event.preventDefault();
 

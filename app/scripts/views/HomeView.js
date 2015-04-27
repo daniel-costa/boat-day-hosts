@@ -33,7 +33,7 @@ define([
 			}
 		},
 
-		signIn: function(){
+		signIn: function(event){
 
 			event.preventDefault();
 

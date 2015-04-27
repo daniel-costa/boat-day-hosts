@@ -15,7 +15,7 @@ define([
 			"submit form" : "acceptTerms"
 		},
 
-		acceptTerms: function( event){
+		acceptTerms: function(event){
 
 			event.preventDefault();
 

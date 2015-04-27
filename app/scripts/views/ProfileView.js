@@ -80,7 +80,7 @@ define([
 
 		},
 
-		saveProfile: function() {
+		saveProfile: function(event) {
 
 			event.preventDefault();
 

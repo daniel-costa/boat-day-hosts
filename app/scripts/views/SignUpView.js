@@ -103,14 +103,6 @@ define([
 			}
 		},
 
-		fieldError: function(name, message) {
-
-			this._in(name).closest('.form-group').addClass("has-error").find('.form-control-feedback').show();
-			if(message) 
-				this._in(name).attr('title', message).attr('data-toggle', 'tooltip').tooltip();
-
-		},
-
 		signUp: function(event){
 			
 			event.preventDefault();
@@ -119,10 +111,7 @@ define([
 			var err = false;
 
 			self.buttonLoader('Saving');
-
-			this.$el.find('.form-control-feedback').hide();
-			this.$el.find('.has-error').removeClass('has-error');
-			this.$el.find('[data-toggle="tooltip"]').tooltip('destroy');
+			self.cleanForm();
 
 			if(this._in('email').val() == "") {
 

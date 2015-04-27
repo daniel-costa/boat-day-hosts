@@ -1,37 +1,37 @@
 <form class="form-horizontal"> 
 	<div class="container"> 
-		<div class="panel panel-primary">
+		<div class="col-xs-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+			<div class="panel panel-primary">
 
-			<div class="panel-heading area-personal">
-				<h3 class="panel-title text-center">Driver information</h3>
-			</div>
+				<div class="panel-heading area-personal">
+					<h3 class="panel-title text-center">Tell us about you</h3>
+				</div>
 
-			<% 
-				if( birthdate ) {
-					var driverBirthdateMonth = birthdate.substring(0, 2);	
-					var driverBirthdateDay = birthdate.substring(3, 5);
-				}
-			%>
+				<% 
+					if( birthdate ) {
+						var driverBirthdateMonth = birthdate.substring(0, 2);	
+						var driverBirthdateDay = birthdate.substring(3, 5);
+					}
+				%>
 
-			<div class="panel-body area-personal">
-				<div class="col-sm-8">
-					<div class="form-group has-feedback">
-						<label for="firstname" class="col-sm-6 control-label">First Name</label>
-						<div class="col-sm-6">
+				<div class="panel-body">
+					<div class="form-group">
+						<label for="firstname" class="col-sm-4 control-label">Name</label>
+						<div class="col-sm-5">
 							<input type="text" value="<%= firstname ? firstname : '' %>" class="form-control" id="firstname" name="firstname" placeholder="First Name">
 							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
-					<div class="form-group has-feedback">
-					 	<label for="lastname" class="col-sm-6 control-label">Last Name</label>
-					 	<div class="col-sm-6">
+
+					<div class="form-group">
+					 	<div class="col-sm-5 col-sm-offset-4">
 							<input type="text" value="<%= lastname ? lastname : '' %>" class="form-control" id="lastname" name="lastname" placeholder="Last Name">
 							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
-					<div class="form-group has-feedback">
-						<label for="birthdate" class="col-sm-6 control-label">Date of Birth</label>
-						<div class="col-sm-6">
+					<div class="form-group">
+						<label for="birthdate" class="col-sm-4 control-label">Date of Birth</label>
+						<div class="col-sm-5">
 							<div class="col-xs-5" style="padding-left:0px">
 								<select class="input-small form-control" id="driverBirthdateMonth" name="driverBirthdateMonth">
 									<option value="01" <%= driverBirthdateMonth && driverBirthdateMonth == '01' ? 'selected' : '' %>>January</option>
@@ -91,44 +91,37 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group has-feedback">
-						<label for="phone" class="col-sm-6 control-label">Phone Number</label>
-						<div class="col-sm-6">
-							<input type="text" value="<%= phone ? phone : '' %>" class="form-control" id="phone" name="phone" placeholder="###-###-####">
+					<div class="form-group">
+						<label for="phone" class="col-sm-4 control-label">Phone Number</label>
+						<div class="col-sm-5">
+							<input type="text" value="<%= phone ? phone : '' %>" class="form-control" id="phone" name="phone" placeholder="Area code and all!">
 							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
-					<div class="form-group has-feedback">
-						<label for="SSN" class="col-sm-6 control-label">Social Security Number (last 4 digits)</label>
-						<div class="col-sm-6">
-							<input type="text" value="<%= ssn ? ssn : '' %>" class="form-control" id="ssn" name="ssn" placeholder="####">
+					<div class="form-group">
+						<label for="street" class="col-sm-4 control-label">Address</label>
+						<div class="col-sm-5">
+							<input value="<%= street ? street : '' %>" type="text" class="form-control" id="street" name="street" placeholder="In case we have to send you paper">
 							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
-					<div class="form-group has-feedback">
-						<div class="col-sm-6 col-sm-offset-6">
-							<div class="alert alert-info" role="alert" style="margin-bottom:0px">
-								<span class="glyphicon glyphicon-info-sign"></span> Social Security information is necessary to complete the BoatDay background screening, and will be kept strictly confidential.
-							</div>
-						</div>
-					</div>
-					<div class="form-group has-feedback">
-						<label for="street" class="col-sm-6 control-label">Address</label>
-						<div class="col-sm-6">
-							<input value="<%= street ? street : '' %>" type="text" class="form-control" id="street" name="street" placeholder="Address">
-							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
-						</div>
-					</div>
-					<div class="form-group has-feedback">
-						<label for="city" class="col-sm-6 control-label">City</label>
-						<div class="col-sm-6">
+					<div class="form-group">
+						<label for="city" class="col-sm-4 control-label">City</label>
+						<div class="col-sm-5">
 							<input value="<%= city ? city : '' %>" type="text" class="form-control" id="city" name="city" placeholder="City">
 							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
-					<div class="form-group has-feedback">
-						<label for="state" class="col-sm-6 control-label">State</label>
-						<div class="col-sm-6">
+					<div class="form-group">
+						<label for="city" class="col-sm-4 control-label">Zip Code</label>
+						<div class="col-sm-5">
+							<input value="<%= zipCode ? zipCode : '' %>"  type="text" class="form-control" id="zipCode" name="zipCode" placeholder="Zip Code">
+							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="state" class="col-sm-4 control-label">State</label>
+						<div class="col-sm-5">
 							<select class="col-sm-4 form-control" id="state" name="state">
 								<option value="AL">Alabama</option>
 								<option value="AK">Alaska</option>
@@ -192,25 +185,24 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group has-feedback">
-						<label for="zipCode" class="col-sm-6 control-label">Zip Code</label>
-						<div class="col-sm-6">
-							<input value="<%= zipCode ? zipCode : '' %>"  type="text" class="form-control" id="zipCode" name="zipCode" placeholder="Zip Code">
+					<div class="form-group">
+						<label for="SSN" class="col-sm-4 control-label">Social Security Number<br/><em style="font-weight:normal;">(last 4 digits)</em></label>
+						<div class="col-sm-5	">
+							<input type="text" value="<%= ssn ? ssn : '' %>" class="form-control" id="ssn" name="ssn" placeholder="For our background screening">
 							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
+					<!-- <div class="form-group">
+						<div class="col-sm-6 col-sm-offset-4">
+							<div class="alert alert-info" role="alert" style="margin-bottom:0px">
+								<span class="glyphicon glyphicon-info-sign"></span> Social Security information is necessary to complete the BoatDay background screening, and will not be used for any other purpose.
+							</div>
+						</div>
+					</div> -->
+				</div> 
+				<div class="panel-footer text-center">
+					Almost there! <button type="submit" class="btn btn-primary">Save</button> and create a profile.
 				</div>
-				<div class="col-sm-4">
-					<div class="alert-info alert">
-						<span class="glyphicon glyphicon-info-sign"></span> bla bla
-					</div>
-				</div>
-			</div>
-
-			<div class="panel-footer text-center">
-
-				<button type="submit" class="btn btn-primary"><%= status == 'complete' ? 'Edit your information' : 'Register as a driver' %></button>
-
 			</div>
 		</div>
 	</div>

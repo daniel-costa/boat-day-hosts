@@ -77,7 +77,7 @@ define([
 
 		},
 
-		save: function() {
+		save: function(event) {
 
 			event.preventDefault();
 			var self = this;
