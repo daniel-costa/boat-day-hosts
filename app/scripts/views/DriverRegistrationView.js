@@ -18,7 +18,7 @@ define([
 
 		},
 
-		debug: false,
+		debug: true,
 
 		render: function() {
 
@@ -36,9 +36,6 @@ define([
 
 				this.$el.find('[name="driverBirthdateYear"]').append(opt);
 			}
-
-			this.$el.find('.form-control-feedback').hide();
-			// this.$el.find('[data-toggle="tooltip"]');
 
 			return this;
 		},
@@ -88,16 +85,12 @@ define([
 
 				if( Parse.User.current().get("profile") ) {
 					
-					console.log("profile exist");
 					Parse.history.navigate('dashboard', true);
 
 				} else {
 
-					var profileData = {
-						displayName: data.firstname + " " + data.lastname.charAt(0) + "."
-					};
-
-					Parse.User.current().save({ profile: new ProfileModel(profileData) }).then(userSuccess, saveError);
+					var profile = new ProfileModel({ displayName: data.firstname + " " + data.lastname.charAt(0) + "." })
+					Parse.User.current().save({ profile: profile }).then(userSuccess, saveError);
 
 				}
 
@@ -109,15 +102,15 @@ define([
 
 				if( error.type && error.type == 'model-validation' ) {
 
-					_.map(error.fields, function(message, field) {
-
+					_.map(error.fields, function(message, field) { 
 						self.fieldError(field, message);
-						
 					});
 
 				} else {
+					
 					console.log(error);
 					self._error(error);
+
 				}
 
 			};

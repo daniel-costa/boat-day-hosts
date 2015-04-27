@@ -19,14 +19,11 @@
 						<label for="firstname" class="col-sm-4 control-label">Name</label>
 						<div class="col-sm-5">
 							<input type="text" value="<%= firstname ? firstname : '' %>" class="form-control" id="firstname" name="firstname" placeholder="First Name">
-							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
-
 					<div class="form-group">
 					 	<div class="col-sm-5 col-sm-offset-4">
 							<input type="text" value="<%= lastname ? lastname : '' %>" class="form-control" id="lastname" name="lastname" placeholder="Last Name">
-							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -95,28 +92,24 @@
 						<label for="phone" class="col-sm-4 control-label">Phone Number</label>
 						<div class="col-sm-5">
 							<input type="text" value="<%= phone ? phone : '' %>" class="form-control" id="phone" name="phone" placeholder="Area code and all!">
-							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="street" class="col-sm-4 control-label">Address</label>
 						<div class="col-sm-5">
 							<input value="<%= street ? street : '' %>" type="text" class="form-control" id="street" name="street" placeholder="In case we have to send you paper">
-							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="city" class="col-sm-4 control-label">City</label>
 						<div class="col-sm-5">
 							<input value="<%= city ? city : '' %>" type="text" class="form-control" id="city" name="city" placeholder="City">
-							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="city" class="col-sm-4 control-label">Zip Code</label>
 						<div class="col-sm-5">
 							<input value="<%= zipCode ? zipCode : '' %>"  type="text" class="form-control" id="zipCode" name="zipCode" placeholder="Zip Code">
-							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -189,16 +182,8 @@
 						<label for="SSN" class="col-sm-4 control-label">Social Security Number<br/><em style="font-weight:normal;">(last 4 digits)</em></label>
 						<div class="col-sm-5	">
 							<input type="text" value="<%= ssn ? ssn : '' %>" class="form-control" id="ssn" name="ssn" placeholder="For our background screening">
-							<span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					</div>
-					<!-- <div class="form-group">
-						<div class="col-sm-6 col-sm-offset-4">
-							<div class="alert alert-info" role="alert" style="margin-bottom:0px">
-								<span class="glyphicon glyphicon-info-sign"></span> Social Security information is necessary to complete the BoatDay background screening, and will not be used for any other purpose.
-							</div>
-						</div>
-					</div> -->
 				</div> 
 				<div class="panel-footer text-center">
 					Almost there! <button type="submit" class="btn btn-primary">Save</button> and create a profile.

@@ -34,17 +34,25 @@ define([
 
 		fieldError: function(name, message) {
 
-			this._in(name).closest('.form-group').addClass("has-error has-feedback").find('.form-control-feedback').show();
-			if(message) 
-				this._in(name).attr('title', message).attr('data-toggle', 'tooltip').tooltip();
+			var field = this._in(name);
+
+			field.closest('.form-group').addClass("has-error has-feedback");
+
+			$('<span>').addClass('glyphicon glyphicon-remove form-control-feedback field-error-auto').insertAfter(field);
+			
+			if(message) {
+				
+				field.attr('title', message).attr('data-toggle', 'tooltip').tooltip();
+
+			}
 
 		},
 
 		cleanForm: function() {
 
-			this.$el.find('.form-control-feedback').hide();
-			this.$el.find('.has-error').removeClass('has-error').removeClass('has-feedback');
-			this.$el.find('[data-toggle="tooltip"]').tooltip('destroy');
+			this.$el.find('.field-error-auto').remove();
+			this.$el.find('.has-error').removeClass('has-error has-feedback');
+			this.$el.find('[data-toggle="tooltip"]').removeAttr('data-toggle').tooltip('destroy');
 
 		},
 

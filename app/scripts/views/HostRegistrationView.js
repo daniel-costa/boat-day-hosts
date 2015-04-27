@@ -72,7 +72,7 @@ define([
 
 		refreshPaymentMethod: function() {
 
-			var paymentMethod = this._in('paymentMethod').val();			
+			var paymentMethod = this._in('paymentMethod').val();
 			this.$el.find('.paymentMethodContainer').hide();
 			this.$el.find(".paymentMethodContainer." + paymentMethod).show();
 
