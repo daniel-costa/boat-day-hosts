@@ -18,40 +18,43 @@ define([
 
 		validate: function(attributes) {
 
-			if( attributes.name == "" ) {
+			var _return = { 
+				fields: {},
+				type: 'model-validation'
+			};
 
-				return "You must to enter a display name";
+			if( attributes.name == "" ) {
+				_return.fields.name = "You must to enter a display name";
 
 			}
 
 			if( attributes.hullID == "" ) {
-
-				return "You must to enter a hull ID";
+				_return.fields.hullID = "You must to enter a hull ID";
 
 			}
 
 			if( !/^\d+$/.test(attributes.length) ) {
-
-				return "Please indicate the length of your boat";
+				_return.fields.length = "Please indicate the length of your boat";
 
 			}
 
 			if( !/^\d+$/.test(attributes.capacity) ) {
-
-				return "Please indicate the capacity of your boat";
+				_return.fields.capacity = "Please indicate the capacity of your boat";
 
 			}
 
 			if( !attributes.boatPicture ) {
-
-				return "You must to upload a boat picture";
+				_return.fields.boatPicture = "You must to upload a boat picture";
 
 			}
 
 			if( !attributes.insurance ) {
+				_return.fields.insurance = "You must upload a proof of insurance";
 
-				return "You must upload a proof of insurance";
+			}
 
+			if( _.size(_return.fields) > 0 ) {
+				return _return;
 			}
 
 		}

@@ -34,6 +34,13 @@ define([
 
 		},
 
+		render: function() {
+
+			BaseView.prototype.render.call(this);
+
+			return this;
+		},
+
 		uploadBoatPicture: function () {
 			
 			var self = this;
@@ -139,13 +146,6 @@ define([
 
 		},
 
-		render: function() {
-
-			BaseView.prototype.render.call(this);
-
-			return this;
-		},
-
 		debugAutofillFields: function() {
 
 			this._in('name').val('Fury');
@@ -159,7 +159,10 @@ define([
 			event.preventDefault();
 
 			var self = this;
-			var baseStatus = this.model.get('status');
+			var baseStatus = this.model.get("status");
+
+			self.buttonLoader('Saving');
+			self.cleanForm();
 
 			var data = {
 				status: 'complete',
@@ -197,7 +200,19 @@ define([
 
 			var saveError = function(error) {
 				
-				self._error(error);
+				self.buttonLoader();
+
+				if( error.type && error.type == 'model-validation' ) {
+
+					_.map(error.fields, function(message, field) { 
+						self.fieldError(field, message);
+					});
+
+				} else {
+
+					console.log(error);
+					self._error(error);
+				}
 
 			};
 			

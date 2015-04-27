@@ -1,65 +1,72 @@
 <form class="form-horizontal" >
 	<div class="container"> 
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title text-center">Boat</h3>
-			</div>
-			<div class="panel-body">
-				<div class="form-group">
-					<label for="name" class="col-sm-4 control-label">Boat Name</label>
-					<div class="col-sm-4">
-						<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="Name used in the application">
-					</div>
+		<div class="col-xs-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title text-center">Boat</h3>
 				</div>
-				<div class="form-group">
-					<label for="hullID" class="col-sm-4 control-label">Hull ID</label>
-					<div class="col-sm-4">
-						<input type="text" value="<%= hullID ? hullID : '' %>" class="form-control" id="hullID" name="hullID" placeholder="Your boat's Hull ID">
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="displayPicture" class="col-sm-4 control-label">Boat Picture(s)</label>
-					<div class="col-sm-4">
-						<% if( status == 'creation' || !boatPicture  ) { %>
-							<input type="file" name="boatPicture" />
-						<% } else { %>
-							<img src="<%= boatPicture.url %>" style="max-width : 150px;" />
-						<% } %>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="length" class="col-sm-4 control-label">Length</label>		
-					<div class="col-sm-4">
-						<div class="input-group">
-							<input type="text" value="<%= length ? length : '' %>" class="form-control" id="length" name="length" placeholder="Boat Length">
-							<div class="input-group-addon"><strong>feet</strong></div>
+				<div class="panel-body">
+					<div class="form-group">
+						<label for="name" class="col-sm-4 control-label">Boat Name</label>
+						<div class="col-sm-5">
+							<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="Name used in the application">
 						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="capacity" class="col-sm-4 control-label">Capacity</label>
-					<div class="col-sm-4">
-						<div class="input-group">
-						<input type="text" value="<%= capacity ? capacity : '' %>" class="form-control" id="capacity" name="capacity" placeholder="Capacity">
-							<div class="input-group-addon"><strong>passengers</strong></div>
+					<div class="form-group">
+						<label for="hullID" class="col-sm-4 control-label">Hull ID</label>
+						<div class="col-sm-5">
+							<input type="text" value="<%= hullID ? hullID : '' %>" class="form-control" id="hullID" name="hullID" placeholder="Your boat's Hull ID">
 						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="displayPicture" class="col-sm-4 control-label">Proof of insurance PNG, JPG, PDF</label>
-					<div class="col-sm-4">
-						<% if( status == 'creation' || !insurance ) { %>
-							<input type="file" name="insurance" />
-						<% } else { %>
-							<a href="<%= insurance.url %>" target="_blank">Proof of insurance</a>
-						<% } %>
+					<div class="form-group">
+						<label for="displayPicture" class="col-sm-4 control-label">Boat Picture</label>
+						<div class="col-sm-5">
+							<% if( status == 'creation' || !boatPicture  ) { %>
+								<input type="file" class="form-control" name="boatPicture" style="color:transparent"/>
+							<% } else { %>
+								<img src="<%= boatPicture.url %>" style="max-width : 150px;" />
+							<% } %>
+						</div>
 					</div>
+					<div class="form-group">
+						<label for="length" class="col-sm-4 control-label">Length</label>		
+						<div class="col-sm-5">
+							<div class="input-group">
+								<input type="text" value="<%= length ? length : '' %>" class="form-control" id="length" name="length" placeholder="Boat Length">
+								<div class="input-group-addon"><strong>feet</strong></div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="capacity" class="col-sm-4 control-label">Capacity</label>
+						<div class="col-sm-5">
+							<div class="input-group">
+							<input type="text" value="<%= capacity ? capacity : '' %>" class="form-control" id="capacity" name="capacity" placeholder="Capacity">
+								<div class="input-group-addon"><strong>passengers</strong></div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="displayPicture" class="col-sm-4 control-label">Proof of insurance</label>
+						<div class="col-sm-5">
+							<div class="alert-info alert" stlye="margin:0px auto;">
+								<span class="glyphicon glyphicon-info-sign"></span>  Please upload a photo that clearly shows your insurance. 
+							</div>
+						</div> 
+						<div class="col-sm-5 col-sm-offset-4">
+							<% if( status == 'creation' || !insurance ) { %>
+									<input type="file" class="form-control" name="insurance" style="color:transparent"/>
+							<% } else { %>
+								<a href="<%= insurance.url %>" target="_blank">Proof of insurance</a>
+							<% } %>
+						</div>	
+					</div>
+				</div>  
+				<div class="panel-footer text-center">
+					Almost there! <button type="submit" class="btn btn-primary">
+						<%= status == 'creation' ? 'Save' : 'Save' %> 
+					</button> a boat.
 				</div>
-			</div>  
-			<div class="panel-footer text-center">
-				<button type="submit" class="btn btn-primary">
-					<%= status == 'creation' ? 'Create' : 'Save' %>
-				</button>
 			</div>
 		</div>
 	</div>
