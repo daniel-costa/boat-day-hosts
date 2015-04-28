@@ -16,7 +16,6 @@ define([
 			venmoPhone: null,
 
 			street: null,
-			apartmentNumber: null, 
 			city: null,
 			zipCode: null,
 			state: null,
@@ -24,12 +23,11 @@ define([
 
 			businessName: null,
 			businessEin: null,
-			businessContact: null,
 
-			personalFirstname: null, 
-			personalLastname: null, 
-			personalBirthdate: null,
-			personalSSN: null
+			firstname: null, 
+			lastname: null, 
+			birthdate: null,
+			SSN: null
 
 		},
 
@@ -70,6 +68,7 @@ define([
 
 			var einPattern = /^[0-9]\d?-\d{7}$/;
 			return einPattern.test(ein);
+
 		},
 
 		validate: function(attributes){
@@ -79,7 +78,6 @@ define([
 				type: 'model-validation'
 			};
 
-			var isBusiness = attributes.type == "business";
 			var isDeposit = attributes.paymentMethod == "deposit";
 			var isVenmo = attributes.paymentMethod == "venmo";
 			var isPaypal = attributes.paymentMethod == "paypal";
@@ -106,38 +104,23 @@ define([
 				_return.fields.street = 'Oops, you missed one!';
 			}
 
-			// Personal fields
 			if( !this.isPhoneValid(attributes.phone) ) {
 				_return.fields.phone = 'A valid 10 digit phone number is required';
 			}
 
-			if( !isBusiness && !attributes.personalFirstname ) {
-				_return.fields.personalFirstname = 'Oops, you missed one!';
+			if( !attributes.firstname ) {
+				_return.fields.firstname = 'Oops, you missed one!';
 			}
 			 
-			if( !isBusiness && !attributes.personalLastname ) {
-				_return.fields.personalLastname = 'Oops, you missed one!';
+			if( !attributes.lastname ) {
+				_return.fields.lastname = 'Oops, you missed one!';
 			}
 
-			if( !isBusiness && !/^\d{4}$/.test(attributes.personalSSN) ) {
-				_return.fields.personalSSN = 'Soc. Sec. # (last 4 digits) is required';
+			if( !/^\d{4}$/.test(attributes.SSN) ) {
+				_return.fields.SSN = 'Soc. Sec. # (last 4 digits) is required';
 			}
 
-			// Business fields
-
-			if( isBusiness && !attributes.businessName ) {
-				_return.fields.businessName = 'Oops, you missed one!';
-			}
-
-			if( isBusiness && !attributes.businessEin ) {
-				_return.fields.businessName = 'Oops, you missed one!';
-			}
-
-			if( isBusiness && !attributes.businessContact ) {
-				_return.fields.businessContact = 'Oops, you missed one!';
-			}
-
-			if( isBusiness && !this.isBusinessEIN(attributes.businessEin) ) {
+			if( attributes.businessEin && !this.isBusinessEIN(attributes.businessEin) ) {
 				_return.fields.businessEin = 'The EIN number must be in a valid format';
 			}	
 

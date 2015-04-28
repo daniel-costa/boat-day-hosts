@@ -1,9 +1,14 @@
-- placeholders, all lower case
+- (done) placeholders, all lower case
+- (done) tell us about you: add “…” at the end
+- (done) do not let people register as a driver from home page (only direct link in email)
+- (done) host registration: keep personal fields and add business name + business EIN as “(if applicable)”
+- (done) business can use paywall & venmo
+- (done) profile picture: preview photo when added
+
 - date of birth: text cut in selects
-- tell us about you: add “…” at the end
-- do not let people register as a driver from home page (only direct link in email)
-- host registration: keep personal fields and add business name + business EIN as “(if applicable)”
-- business can use paywall & venmo
 - add example for the account and routing number
-- profile picture: preview photo when added
 - profile picture: example good photo and bad photo
+- default value for the state
+
+- Kimon: give exemple of good and bad picture
+- Kimon: give sentence for profile.

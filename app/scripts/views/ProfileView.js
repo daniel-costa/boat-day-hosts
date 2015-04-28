@@ -59,6 +59,7 @@ define([
 				var uploadSuccess = function(file) {
 					
 					self.profilePicture = parseFile;
+					var preview = $('<img/>').attr('src', parseFile.url()).css({ maxWidth : '100%' }).insertBefore(self._in('profilePicture'));
 					self.buttonLoader();
 
 				};

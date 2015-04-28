@@ -27,17 +27,17 @@ define([
 
 			BaseView.prototype.render.call(this);
 			
-			var personalBirthdateYear = this.model.get('personalBirthdate') ? this.model.get('personalBirthdate').substring(6) : 1993;
+			var birthdateYear = this.model.get('birthdate') ? this.model.get('birthdate').getFullYear() : 1993;
 
 			for(var i = 1940; i < new Date().getFullYear() - 21; i++) {
 				
 				var opt = $('<option>').val(i).text(i);
 				
-				if( personalBirthdateYear == i ) {
+				if( birthdateYear == i ) {
 					opt.attr('selected', 1);
 				}
 
-				this.$el.find('[name="personalBirthdateYear"]').append(opt);
+				this.$el.find('[name="birthdateYear"]').append(opt);
 			}
 
 			this.refreshPaymentMethod();
@@ -47,9 +47,9 @@ define([
 
 		debugAutofillFields: function() {
 			
-			this._in('personalFirstname').val('Daniel');
-			this._in('personalLastname').val('Costa');
-			this._in('personalSSN').val('9861');
+			this._in('firstname').val('Daniel');
+			this._in('lastname').val('Costa');
+			this._in('SSN').val('9861');
 
 			this._in('businessName').val('Peer-to-Pier Technologies LLC');
 			this._in('businessEin').val('46-4074689');
@@ -82,51 +82,30 @@ define([
 			event.preventDefault();
 
 			var self = this;
+
 			self.buttonLoader('Saving');
 			self.cleanForm();
 
-			var isPersonal = this.model.get("type") == "personal";
 			var data = {
 				phone: this._in('phone').val(),
 				street: this._in('street').val(),
-				apartmentNumber: this._in('apartmentNumber').val(),
 				city: this._in('city').val(),
 				zipCode: this._in('zipCode').val(),
 				state: this._in('state').val(), 
 				paymentMethod: this._in('paymentMethod').val(), 
+				accountHolder: this._in('accountHolder').val(),
+				accountNumber: this._in('accountNumber').val(),
+				accountRouting: this._in('accountRouting').val(),
+				paypalEmail: this._in('paypalEmail').val(),
+				venmoEmail: this._in('venmoEmail').val(),
+				venmoPhone: this._in('venmoPhone').val(),
+				firstname: this._in('firstname').val(),
+				lastname: this._in('lastname').val(),
+				birthdate: new Date(this._in('birthdateYear').val(), this._in('birthdateMonth').val()-1, this._in('birthdateDay').val()),
+				SSN: this._in('SSN').val(),
+				businessName: this._in('businessName').val(),
+				businessEin: this._in('businessEin').val(),
 			};
-
-			if( this._in('paymentMethod').val() == 'deposit' ) {
-
-				data.accountHolder = this._in('accountHolder').val(); 
-				data.accountNumber = this._in('accountNumber').val(); 
-				data.accountRouting = this._in('accountRouting').val(); 
-
-			} else if( this._in('paymentMethod').val() == 'paypal' ) {
-
-				data.paypalEmail = this._in('paypalEmail').val();
-
-			} else {
-
-				data.venmoEmail = this._in('venmoEmail').val();
-				data.venmoPhone = this._in('venmoPhone').val();
-
-			}
-
-			if( isPersonal ) {
-
-				data.personalFirstname = this._in('personalFirstname').val();
-				data.personalLastname = this._in('personalLastname').val();
-				data.personalBirthdate = this._in('personalBirthdateMonth').val() + "/" + this._in('personalBirthdateDay').val() + "/" + this._in('personalBirthdateYear').val();
-				data.personalSSN = this._in('personalSSN').val();
-
-			} else {
-
-				data.businessName = this._in('businessName').val();
-				data.businessEin = this._in('businessEin').val();
-				data.businessContact = this._in('businessContact').val();
-
-			}
 
 			var userStatusUpdateSuccess = function() {
 
@@ -142,13 +121,9 @@ define([
 
 				} else {
 
-					var profileData = {};
-
-					if( isPersonal ) {
-						profileData.displayName = data.personalFirstname + " " + data.personalLastname.charAt(0) + "."
-					} else {
-						profileData.displayName = data.businessName;
-					}
+					var profileData = {
+						displayName: data.firstname + " " + data.lastname.charAt(0) + "."
+					};
 
 					Parse.User.current().save({ profile: new ProfileModel(profileData) }).then(userStatusUpdateSuccess, saveError);
 
