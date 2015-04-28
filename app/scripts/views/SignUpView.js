@@ -17,7 +17,7 @@ define([
 
 		signUpType: null,
 
-		debug: true,
+		debug: false,
 
 		events: {
 			'keyup [name="password"]' : "displayPasswordStrength",

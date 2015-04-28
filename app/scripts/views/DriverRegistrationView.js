@@ -18,7 +18,7 @@ define([
 
 		},
 
-		debug: true,
+		debug: false,
 
 		render: function() {
 
