@@ -2,18 +2,18 @@
 	<div class="container"> 
 		<% 
 
-			if( date ) {
+			if(date) {
 
-				var eventMonth = date.substring(0, 2);
-				var eventDay = date.substring(3, 5);
-				var eventYear = date.substring(6, 10);
+				date = new Date(date.iso);
+				var eventDay = date.getDate();
+				var eventMonth = date.getMonth() + 1;
 			}
 
 			if( time ) {
 
-				var departureHour = time.substring(0, 2);
-				var departureMinute = time.substring(3, 5);
-				var period = time.substring(6, 8);
+				time = new Date(date.iso);
+				var departureHour = time.getHours();
+				var departureMinute = time.getMinutes();
 			}
 
 		%>

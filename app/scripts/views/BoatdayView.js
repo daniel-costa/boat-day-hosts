@@ -79,8 +79,10 @@ define([
 
 				name: this._in('name').val(), 
 				description: this._in('description').val(),
-				date: this._in('eventMonth').val() + "/" + this._in('eventDay').val() + "/" + this._in('eventYear').val(),
-				time: this._in('departureHour').val() + ":" + this._in('departureMinute').val() + " " + this._in('period').val(), 
+				//date: this._in('eventMonth').val() + "/" + this._in('eventDay').val() + "/" + this._in('eventYear').val(),
+				date: new Date(this._in('eventYear').val(), this._in('eventMonth').val()-1, this._in('eventDay').val()),
+				// time: this._in('departureHour').val() + ":" + this._in('departureMinute').val() + " " + this._in('period').val(),
+				time: new Date(this._in('departureHour').val(), this._in('departureMinute').val()) + " " +this._in('period').val(),  
 				boat: this._in('boat').val(), 
 				captain: this._in('captain').val(), 
 				location: null,
