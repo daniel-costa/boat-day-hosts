@@ -46,11 +46,11 @@ define([
 			Parse.User.current().get('host').relation('boats').query().collection().fetch().then(boatsFetchSuccess, collectionFetchError);
 
 
-			var eventYear = this.model.get('date') ? this.model.get('date').substring(6) : new Date().getFullYear();
-			for(var i = eventYear; i < new Date().getFullYear() + 3; i++) {
+			var dateYear = this.model.get('date') ? this.model.get('date').getFullYear() : new Date().getFullYear();
+			for(var i = dateYear; i < new Date().getFullYear() + 3; i++) {
 				var opt = $('<option>').val(i).text(i);
-				if( eventYear == i ) opt.attr('selected', 1);
-				this.$el.find('[name="eventYear"]').append(opt);
+				if( dateYear == i ) opt.attr('selected', 1);
+				this.$el.find('[name="dateYear"]').append(opt);
 			}
 			
 			return this;
@@ -79,10 +79,13 @@ define([
 
 				name: this._in('name').val(), 
 				description: this._in('description').val(),
-				//date: this._in('eventMonth').val() + "/" + this._in('eventDay').val() + "/" + this._in('eventYear').val(),
-				date: new Date(this._in('eventYear').val(), this._in('eventMonth').val()-1, this._in('eventDay').val()),
-				// time: this._in('departureHour').val() + ":" + this._in('departureMinute').val() + " " + this._in('period').val(),
-				time: new Date(this._in('departureHour').val(), this._in('departureMinute').val()) + " " +this._in('period').val(),  
+				date: new Date(
+					this._in('dateYear').val(), 
+					this._in('dateMonth').val()-1, 
+					this._in('dateDay').val(), 
+					this._in('dateHours').val(), 
+					this._in('dateMinutes').val(),
+					0),
 				boat: this._in('boat').val(), 
 				captain: this._in('captain').val(), 
 				location: null,
@@ -94,6 +97,7 @@ define([
 				cancellationPolicy: this.$el.find('[name="cancellationPolicy"]:checked').val()
 
 			};
+			console.log(data);
 
 			var saveSuccess = function( boatday ) {
 		

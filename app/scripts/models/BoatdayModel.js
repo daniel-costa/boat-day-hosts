@@ -11,7 +11,6 @@ define([
 			captain: null, 
 			name: null, 
 			date: null,
-			time: null, 
 			duration: null, 
 			price: null, 
 			availableSeats: null, 

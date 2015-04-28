@@ -4,7 +4,6 @@
 			<div class="panel panel-primary">
 				<% 
 					if(birthdate) {
-
 						birthdate = new Date(birthdate.iso);
 						var birthdateDay = birthdate.getDate();
 						var birthdateMonth = birthdate.getMonth() + 1;
@@ -96,12 +95,6 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="SSN" class="col-sm-4 control-label">Social Security Number<br/><em style="font-weight:normal;">(last 4 digits)</em></label>
-						<div class="col-sm-5">
-							<input value="<%= SSN ? SSN : '' %>" type="text" class="form-control" id="SSN" name="SSN" placeholder="for our background screening">
-						</div>
-					</div>
-					<div class="form-group">
 						<label for="street" class="col-sm-4 control-label">Address</label>
 						<div class="col-sm-5">
 							<input value="<%= street ? street : '' %>" type="text" class="form-control" id="street" name="street" placeholder="in case we have to send you paper">
@@ -183,6 +176,12 @@
 								<option value="WI" <%= state && state == "WI" ? 'selected' : '' %>>Wisconsin</option>
 								<option value="WY" <%= state && state == "WY" ? 'selected' : '' %>>Wyoming</option>
 							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="SSN" class="col-sm-4 control-label">Social Security Number<br/><em style="font-weight:normal;">(last 4 digits)</em></label>
+						<div class="col-sm-5">
+							<input value="<%= SSN ? SSN : '' %>" type="text" class="form-control" id="SSN" name="SSN" placeholder="for our background screening">
 						</div>
 					</div>
 				</div>

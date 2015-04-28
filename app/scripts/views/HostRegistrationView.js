@@ -67,6 +67,8 @@ define([
 			this._in('venmoEmail').val('venmo@boatdayapp.com');
 			this._in('venmoPhone').val('912-123-1234');
 
+			this._in('state').find('option[value="FL"]').attr('selected', 1);
+
 		},
 
 		refreshPaymentMethod: function() {

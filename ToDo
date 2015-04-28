@@ -4,11 +4,11 @@
 - (done) host registration: keep personal fields and add business name + business EIN as “(if applicable)”
 - (done) business can use paywall & venmo
 - (done) profile picture: preview photo when added
+- (done) profile picture: example good photo and bad photo
+- (done) default value for the state
 
 - date of birth: text cut in selects
 - add example for the account and routing number
-- profile picture: example good photo and bad photo
-- default value for the state
 
 - Kimon: give exemple of good and bad picture
 - Kimon: give sentence for profile.
