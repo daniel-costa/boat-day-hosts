@@ -13,7 +13,7 @@ define([
 			date: null,
 			time: null, 
 			duration: null, 
-			pricePerSeat: null, 
+			price: null, 
 			availableSeats: null, 
 			minimumSeats: null, 
 			location: null, 
@@ -41,8 +41,8 @@ define([
 				_return.fields.name = "A event name is required";
 			}
 
-			if( !/^[0-9]+([\.][0-9]+)?$/g.test(attributes.pricePerSeat) ) {
-				_return.fields.pricePerSeat = "A price per seat is not valid";
+			if( !/^[0-9]+([\.][0-9]+)?$/g.test(attributes.price) ) {
+				_return.fields.price = "A price per seat is not valid";
 			}
 
 			if( !/^\d+$/.test(attributes.availableSeats) ) {

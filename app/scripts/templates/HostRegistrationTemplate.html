@@ -6,14 +6,14 @@
 				<% if( type == "business" ) { %>
 
 					<div class="panel-heading area-business">
-						<h3 class="panel-title text-center">Tell us about you</h3>
+						<h3 class="panel-title text-center">Tell us about you...</h3>
 					</div>
 
 					<div class="panel-body area-business">
-						<div class="form-group">
+						<div class="form-group has-feedback">
 							<label for="businessName" class="col-sm-4 control-label" >Business Name</label>
 							<div class="col-sm-5">
-								<input value="<%= businessName ? businessName : '' %>" type="text" class="form-control" id="businessName" name="businessName" placeholder="business name">
+								<input value="<%= businessName ? businessName : '' %>" type="text" class="form-control" id="businessName" name="businessName" placeholder="what you call your business">
 							</div>
 						</div>
 						<div class="form-group">
@@ -132,7 +132,7 @@
 					%>
 
 					<div class="panel-heading area-personal">
-						<h3 class="panel-title text-center">Tell us about you</h3>
+						<h3 class="panel-title text-center">Tell us about you...</h3>
 					</div>
 
 					<div class="panel-body area-personal">
@@ -312,7 +312,7 @@
 				<% } %>
 
 				<div class="panel-heading">
-					<h3 class="panel-title text-center">Where do we pay you?</h3>
+					<h3 class="panel-title text-center">How do we pay you?</h3>
 				</div>
 				<div class="panel-body">
 					<div class="col-sm-12"> 
@@ -335,7 +335,7 @@
 							<div class="form-group">
 							   <label for="accountHolder" class="col-sm-4 control-label">Account Holder</label>
 							   <div class="col-sm-5">
-								  <input value="<%= accountHolder ? accountHolder : '' %>" type="text" class="form-control" id="accountHolder" name="accountHolder" placeholder="name of account holder">
+								  <input value="<%= accountHolder ? accountHolder : '' %>" type="text" class="form-control" id="accountHolder" name="accountHolder" placeholder="name on account">
 							   </div>
 							</div>
 							<div class="form-group">
@@ -384,7 +384,7 @@
 					</div>
 				</div>
 				<div class="panel-footer text-center">
-					Almost there! <button type="submit" class="btn btn-primary">Save</button> and create a profile.
+					Almost there! <button type="submit" class="btn btn-primary">Create a profile</button> to finish registration.
 				</div>
 			</div>
 		</div>

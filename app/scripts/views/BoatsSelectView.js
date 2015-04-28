@@ -12,7 +12,7 @@ define([
 		className: "view-boats-select form-control",
 		
 		attributes: {
-			style: "margin-bottom:0px;"
+			name: "boat"
 		},
 
 		template: _.template(BoatsSelectTemplate),

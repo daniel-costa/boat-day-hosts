@@ -35,11 +35,11 @@ define([
 			};
 
 			if( !attributes.firstname ) {
-				_return.fields.firstname = 'Oops, you missed one.';
+				_return.fields.firstname = 'Oops, you missed one!';
 			}
 
 			if( !attributes.lastname ) {
-				_return.fields.lastname = 'Oops, you missed one.';
+				_return.fields.lastname = 'Oops, you missed one!';
 			}
 
 			if( !this.isPhoneValid(attributes.phone) ) {
@@ -51,15 +51,15 @@ define([
 			}
 
 			if( !attributes.street ) {
-				_return.fields.street = 'Oops, you missed one.';
+				_return.fields.street = 'Oops, you missed one!';
 			}
 
 			if( !attributes.city ) {
-				_return.fields.city = 'Oops, you missed one.';
+				_return.fields.city = 'Oops, you missed one!';
 			}
 
 			if( !/^\d{5}$/.test(attributes.zipCode) ) {
-				_return.fields.zipCode = 'Oops, you missed one or the format is not a 5 digits zipCode';
+				_return.fields.zipCode = 'Oops, you missed one! Please  enter a 5 digit zip code.';
 			}
 
 			if( _.size(_return.fields) > 0 ) {

@@ -26,20 +26,14 @@
 				<div class="panel-body">
 					<div class="form-group">
 						<label for="name" class="col-sm-4 control-label">Name</label>
-						<div class="col-sm-4">
+						<div class="col-sm-5">
 							<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="BoatDay Name">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="description" class="col-sm-4 control-label">Description</label>
-						<div class="col-sm-4">
-							<textarea class="form-control" name="description" id="description"  placeholder="BoatDay description"><%= description ?  description : '' %></textarea>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="departureLocation" class="col-sm-4 control-label">Departure Location</label>
-						<div class="col-sm-4">
-							
+						<div class="col-sm-5">
+							<textarea class="form-control" name="description" id="description" rows="4"  placeholder="BoatDay description"><%= description ?  description : '' %></textarea>
 						</div>
 					</div>
 
@@ -172,18 +166,14 @@
 
 					<div class="form-group">
 						<label for="boat" class="col-sm-4 control-label">Boat</label>
-						<div class="col-sm-4">
-							<select class="col-sm-4 form-control" id="boat" name="boat" disabled>
-								<option value="">Loading...</option>
-							</select>
+						<div class="col-sm-5 boats">
+							<em>Loading...</em>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="captain" class="col-sm-4 control-label">BoatDay Captain</label>
-						<div class="col-sm-4">
-							<select class="col-sm-4 form-control" id="captain" name="captain" disabled>
-								<option value="">Loading...</option>
-							</select>
+						<div class="col-sm-4 captains">
+							<em>Select a boat first</em>
 						</div>
 					</div>
 					<div class="form-group">
@@ -204,7 +194,7 @@
 						<div class="col-sm-2">
 							<div class="input-group">
 								<div class="input-group-addon"><strong>$</strong></div>
-								<input type="text" value="<%= pricePerSeat ? pricePerSeat : '' %>" class="form-control" id="price" name="price" placeholder="Price Per Person">
+								<input type="text" value="<%= price ? price : '' %>" class="form-control" id="price" name="price" placeholder="Price Per Person">
 							</div>
 						</div>
 					</div>
@@ -219,38 +209,72 @@
 							</select>
 						</div>
 					</div> -->
-					<div class="form-group">
-						<label for="bookingPolicy" class="col-sm-4 control-label">Booking Policy </label>
-						<div class="col-sm-4">
-							<select class="col-sm-4 form-control" id="bookingPolicy" name="bookingPolicy">
-								<option value="automatic" <%= bookingPolicy && bookingPolicy == 'automatic' ? 'selected' : '' %>>Automatically Approve Guest Requests</option>
-								<option value="manual" <%= bookingPolicy && bookingPolicy == 'manual' ? 'selected' : '' %>>Manually Approve Guest Requests</option>
-							</select>
+				</div>
+
+				<div class="panel-heading">
+					<h3 class="panel-title text-center">Where is the departure location?</h3>
+				</div>
+
+				<div class="panel-body" style="padding:0px;">
+					<div class="embed-responsive embed-responsive-16by9">
+						<iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d57482.30199341941!2d-80.23108009999999!3d25.782323950000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2sfr!4v1430140190964" style="border:0"></iframe>
+					</div>
+				</div>
+
+				<div class="panel-heading">
+					<h3 class="panel-title text-center">How would you like to handle the seats requests?</h3>
+				</div>
+
+				<div class="panel-body">
+					<div class="form-group" style="margin-bottom:0px">
+						<div class="col-sm-10 col-sm-offset-1">
+							<p>
+								<label style="font-weight:normal">
+									<input type="radio" name="bookingPolicy" value="flexible" checked> <strong>Manually, </strong>
+									I want to validated every seat request giving me the right to choose the best fit for my event.
+								</label>
+							</p>
+							<p>
+								<label style="font-weight:normal">
+									<input type="radio" name="bookingPolicy" value="moderate"> <strong>Automatically, </strong>
+									Every guest will be automatically validated without my approval. I know once a guest is validated, I can't cancel is seat.
+								</label>
+							</p>
+							<p style="margin-bottom:0px">
+								<label style="font-weight:normal">
+									<input type="radio" name="bookingPolicy" value="strict"> <strong>Half-way, </strong>
+									Every guest who was on my boat and for whom I gave a positive feedback will be automatically validated. Seat requests from new guests need my approval.
+								</label>
+							</p>
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="cancellationPolicy" class="col-sm-4 control-label">Cancellation Policy</label>
-						<div class="col-sm-4">
-							<select class="col-sm-4 form-control" id="cancellationPolicy" name="cancellationPolicy">
-								<option value="flexible" <%= cancellationPolicy && cancellationPolicy == 'flexible' ? 'selected' : '' %>>Flexible</option>
-								<option value="moderate" <%= cancellationPolicy && cancellationPolicy == 'moderate' ? 'selected' : '' %>>Moderate</option>
-								<option value="strict" <%= cancellationPolicy && cancellationPolicy == 'strict' ? 'selected' : '' %>>Strict</option>
-							</select>
-						</div>
-						<div class="col-sm-4" id="flexible-info">
-							<div class="alert-info alert">
-								<span class="glyphicon glyphicon-info-sign"></span> Flexible: full refund 1 day prior to arrival, except fees.  
-							</div>
-						</div>
-						<div class="col-sm-4" id="moderate-info">
-							<div class="alert-info alert">
-								<span class="glyphicon glyphicon-info-sign"></span> Moderate: full refund 3 days prior to arrival, except fees.
-							</div>
-						</div>
-						<div class="col-sm-4" id="strict-info">
-							<div class="alert-info alert">
-								<span class="glyphicon glyphicon-info-sign"></span> Strict: 50% refund five days prior to arrival, except fees.
-							</div>
+				</div>
+
+				<div class="panel-heading">
+					<h3 class="panel-title text-center">Which cancellation suits you better?</h3>
+				</div>
+
+				<div class="panel-body">
+					<div class="form-group" style="margin-bottom:0px">
+						<div class="col-sm-10 col-sm-offset-1">
+							<p>
+								<label style="font-weight:normal">
+									<input type="radio" name="cancellationPolicy" value="flexible" checked> <strong>Flexible, </strong>
+									full refund 1 day prior to arrival, except fees.
+								</label>
+							</p>
+							<p>
+								<label style="font-weight:normal">
+									<input type="radio" name="cancellationPolicy" value="moderate"> <strong>Moderate, </strong>
+									full refund 3 days prior to arrival, except fees.
+								</label>
+							</p>
+							<p style="margin-bottom:0px">
+								<label style="font-weight:normal">
+									<input type="radio" name="cancellationPolicy" value="strict"> <strong>Strict, </strong>
+									50% refund five days prior to arrival, except fees.
+								</label>
+							</p>
 						</div>
 					</div>
 				</div>	

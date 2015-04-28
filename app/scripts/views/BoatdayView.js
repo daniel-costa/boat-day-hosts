@@ -28,12 +28,12 @@ define([
 			BaseView.prototype.render.call(this);
 
 			var self = this;
-			
+
 			var boatsFetchSuccess = function(collection) {
 
 				var boatsView = new BoatsSelectView({ collection: collection });
 				self.subViews.push(boatsView);
-				self.$el.find('[name="boat"]').html(boatsView.render().el).removeAttr('disabled');
+				self.$el.find('.boats').html(boatsView.render().el);
 
 			};
 
@@ -63,7 +63,7 @@ define([
 			this._in('price').val('25');
 			this._in('availableSeats').val('10');
 			this._in('minimumSeats').val('5');
-			this._in('desription').val('This event has many top DJs in the world.');
+			this._in('description').val('This event has many top DJs in the world.');
 
 		},
 
@@ -76,19 +76,20 @@ define([
 			var data = {
 
 				status: 'complete',
-				boat: this._in('boat').val(), 
-				captain: this._in('captain').val(), 
+
 				name: this._in('name').val(), 
+				description: this._in('description').val(),
 				date: this._in('eventMonth').val() + "/" + this._in('eventDay').val() + "/" + this._in('eventYear').val(),
 				time: this._in('departureHour').val() + ":" + this._in('departureMinute').val() + " " + this._in('period').val(), 
+				boat: this._in('boat').val(), 
+				captain: this._in('captain').val(), 
 				location: null,
 				duration: this._in('duration').val(), 
 				price: this._in('price').val(), 
 				availableSeats: this._in('availableSeats').val(), 
 				minimumSeats: this._in('minimumSeats').val(), 
-				description: this._in('eventDescription').val(),
-				bookingPolicy: this._in('bookingPolicy').val(), 
-				cancellationPolicy: this._in('cancellationPolicy').val()
+				bookingPolicy: this.$el.find('[name="bookingPolicy"]:checked').val(),
+				cancellationPolicy: this.$el.find('[name="cancellationPolicy"]:checked').val()
 
 			};
 
@@ -123,7 +124,7 @@ define([
 				self.buttonLoader();
 
 				if( error.type && error.type == 'model-validation' ) {
-
+					console.log(error);
 					_.map(error.fields, function(message, field) { 
 						self.fieldError(field, message);
 					});

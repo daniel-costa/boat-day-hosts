@@ -117,14 +117,14 @@ define([
 
 			if(this._in('email').val() == "") {
 
-				this.fieldError('email', 'Oops, you missed one.');
+				this.fieldError('email', 'Oops, you missed one!');
 				err = true;
 
 			}
 
 			if(this._in('password').val() == "") {
 
-				this.fieldError('password', 'Oops, you missed one.');
+				this.fieldError('password', 'Oops, you missed one!');
 				err = true;
 				var errPass = true;
 
@@ -132,7 +132,7 @@ define([
 			
 			if(this._in('passwordConfirm').val() == "") {
 
-				this.fieldError('passwordConfirm', 'Oops, you missed one.');
+				this.fieldError('passwordConfirm', 'Oops, you missed one!');
 				err = true;
 				var errPassconf = true;
 

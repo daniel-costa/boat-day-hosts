@@ -87,23 +87,23 @@ define([
 			// Global fields
 
 			if( !attributes.phone ) {
-				_return.fields.phone = 'Oops, you missed one.';
+				_return.fields.phone = 'Oops, you missed one!';
 			}
 			
 			if( !attributes.street ) {
-				_return.fields.street = 'Oops, you missed one.';
+				_return.fields.street = 'Oops, you missed one!';
 			}
 
 			if( !attributes.city ) {
-				_return.fields.city = 'Oops, you missed one.';
+				_return.fields.city = 'Oops, you missed one!';
 			}
 
 			if( !/^\d{5}$/.test(attributes.zipCode) ) {
-				_return.fields.zipCode = 'Oops, you missed one or the format is not a 5 digits zipCode';
+				_return.fields.zipCode = 'Oops, you missed one! Please  enter a 5 digit zip code.';
 			}
 
 			if( !attributes.street ) {
-				_return.fields.street = 'Oops, you missed one.';
+				_return.fields.street = 'Oops, you missed one!';
 			}
 
 			// Personal fields
@@ -112,11 +112,11 @@ define([
 			}
 
 			if( !isBusiness && !attributes.personalFirstname ) {
-				_return.fields.personalFirstname = 'Oops, you missed one.';
+				_return.fields.personalFirstname = 'Oops, you missed one!';
 			}
 			 
 			if( !isBusiness && !attributes.personalLastname ) {
-				_return.fields.personalLastname = 'Oops, you missed one.';
+				_return.fields.personalLastname = 'Oops, you missed one!';
 			}
 
 			if( !isBusiness && !/^\d{4}$/.test(attributes.personalSSN) ) {
@@ -126,15 +126,15 @@ define([
 			// Business fields
 
 			if( isBusiness && !attributes.businessName ) {
-				_return.fields.businessName = 'Oops, you missed one.';
+				_return.fields.businessName = 'Oops, you missed one!';
 			}
 
 			if( isBusiness && !attributes.businessEin ) {
-				_return.fields.businessName = 'Oops, you missed one.';
+				_return.fields.businessName = 'Oops, you missed one!';
 			}
 
 			if( isBusiness && !attributes.businessContact ) {
-				_return.fields.businessContact = 'Oops, you missed one.';
+				_return.fields.businessContact = 'Oops, you missed one!';
 			}
 
 			if( isBusiness && !this.isBusinessEIN(attributes.businessEin) ) {
@@ -143,15 +143,15 @@ define([
 
 			// Payment
 			if( isDeposit && !attributes.accountHolder ) {
-				_return.fields.accountHolder = 'Oops, you missed one.';
+				_return.fields.accountHolder = 'Oops, you missed one!';
 			}
 
 			if( isDeposit && !attributes.accountNumber ) {
-				_return.fields.accountNumber = 'Oops, you missed one.';
+				_return.fields.accountNumber = 'Oops, you missed one!';
 			}
 
 			if( isDeposit && !this.isRoutingNumberValid(attributes.accountRouting) ) {
-				_return.fields.accountRouting = 'The routing number must be in a valid format';
+				_return.fields.accountRouting = 'Oops, you missed one! Please enter a valid 9 digit routing number';
 			}
 
 			if( isPaypal && !this.isEmailValid(attributes.paypalEmail) ) {

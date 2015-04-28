@@ -4,7 +4,7 @@
 			<div class="panel panel-primary">
 
 				<div class="panel-heading area-personal">
-					<h3 class="panel-title text-center">Tell us about you</h3>
+					<h3 class="panel-title text-center">Tell us about you...</h3>
 				</div>
 
 				<% 
@@ -18,12 +18,12 @@
 					<div class="form-group">
 						<label for="firstname" class="col-sm-4 control-label">Name</label>
 						<div class="col-sm-5">
-							<input type="text" value="<%= firstname ? firstname : '' %>" class="form-control" id="firstname" name="firstname" placeholder="first name">
+							<input type="text" value="<%= firstname ? firstname : '' %>" class="form-control" id="firstname" name="firstname" placeholder="First Name">
 						</div>
 					</div>
 					<div class="form-group">
 					 	<div class="col-sm-5 col-sm-offset-4">
-							<input type="text" value="<%= lastname ? lastname : '' %>" class="form-control" id="lastname" name="lastname" placeholder="last name">
+							<input type="text" value="<%= lastname ? lastname : '' %>" class="form-control" id="lastname" name="lastname" placeholder="Last Name">
 						</div>
 					</div>
 					<div class="form-group">
@@ -91,13 +91,13 @@
 					<div class="form-group">
 						<label for="phone" class="col-sm-4 control-label">Phone Number</label>
 						<div class="col-sm-5">
-							<input type="text" value="<%= phone ? phone : '' %>" class="form-control" id="phone" name="phone" placeholder="area code and all!">
+							<input type="text" value="<%= phone ? phone : '' %>" class="form-control" id="phone" name="phone" placeholder="Area code and all!">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="street" class="col-sm-4 control-label">Address</label>
 						<div class="col-sm-5">
-							<input value="<%= street ? street : '' %>" type="text" class="form-control" id="street" name="street" placeholder="in case we have to send you paper">
+							<input value="<%= street ? street : '' %>" type="text" class="form-control" id="street" name="street" placeholder="In case we have to send you paper">
 						</div>
 					</div>
 					<div class="form-group">
@@ -107,9 +107,9 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="zipCode" class="col-sm-4 control-label">Zip Code</label>
+						<label for="city" class="col-sm-4 control-label">Zip Code</label>
 						<div class="col-sm-5">
-							<input value="<%= zipCode ? zipCode : '' %>"  type="text" class="form-control" id="zipCode" name="zipCode" placeholder="zip code">
+							<input value="<%= zipCode ? zipCode : '' %>"  type="text" class="form-control" id="zipCode" name="zipCode" placeholder="Zip Code">
 						</div>
 					</div>
 					<div class="form-group">
@@ -180,8 +180,8 @@
 					</div>
 					<div class="form-group">
 						<label for="SSN" class="col-sm-4 control-label">Social Security Number<br/><em style="font-weight:normal;">(last 4 digits)</em></label>
-						<div class="col-sm-5">
-							<input type="text" value="<%= ssn ? ssn : '' %>" class="form-control" id="ssn" name="ssn" placeholder="for our background screening">
+						<div class="col-sm-5	">
+							<input type="text" value="<%= ssn ? ssn : '' %>" class="form-control" id="ssn" name="ssn" placeholder="For our background screening">
 						</div>
 					</div>
 				</div> 
