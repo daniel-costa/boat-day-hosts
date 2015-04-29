@@ -11,6 +11,9 @@ define([
 
 		template: _.template(BoatTemplate),
 
+		boatPicture: null, 
+		insurance: null,
+
 		debug: true,
 
 		events: {
@@ -27,10 +30,10 @@ define([
 
 		initialize: function() {
 
-			if( this.model.get('status') != 'creation' ) {
-				this.tempInsurance = this.model.get('insurance');
-				this.tempBoatPicture = this.model.get('boatPicture');
-			}
+			// if( this.model.get('status') != 'creation' ) {
+			// 	this.tempInsurance = this.model.get('insurance');
+			// 	this.tempBoatPicture = this.model.get('boatPicture');
+			// }
 
 		},
 
@@ -41,110 +44,159 @@ define([
 			return this;
 		},
 
-		uploadBoatPicture: function () {
-			
+		uploadBoatPicture: function() {
+
 			var self = this;
-			var e = event;
+			var files = event.target.files;
+			var parseFile = null;
+			
+			self.buttonLoader('Uploading...');
 
-			self.buttonLoader('uploading picture');
+			if( files.length == 1) {
 
-			if( e.target.files.length == 1 ) {
-
-				var file = e.target.files[0];
-				var name;
-
-				if( file.type == 'image/png' ) {
+				if( files[0].type == 'image/png' ) {
 					
-					name = 'profilePicture.png';
+					parseFile = new Parse.File('boatPicture.png', files[0]);
 
-				} else if( file.type == 'image/jpeg' ) {
+				} else if( files[0].type == 'image/jpeg' ) {
 
-					name = 'profilePicture.jpg';
+					parseFile = new Parse.File('boatPicture.jpg', files[0]);
 
 				} else {
 
-					this._error('Your profile picture "' + file.name + '" must be in the format PNG or a JPEG');
-					$(e.target).val('');
+					self.fieldError('boatPicture', 'Bad format, try with a PNG or JPEG picture.');
 					self.buttonLoader();
+					$(event.target).val('');
 					return null;
 
 				}
 
 				var uploadSuccess = function(file) {
-
-					self.tempBoatPicture = file;
+					
+					self.boatPicture = parseFile;
+					var preview = $('<img/>').attr('src', parseFile.url()).css({ maxWidth : '100%' }).insertBefore(self._in('boatPicture'));
 					self.buttonLoader();
 
 				};
 
 				var uploadError = function(error) {
 
-					console.log(error);
-					self._error('An error occured when we tried to upload your picture, try again please.');
+					self.fieldError('boatPicture', 'An error occured when we tried to upload your boat picture, try again please.');
 					self.buttonLoader();
 
 				};
 				
-				new Parse.File(name, file).save().then(uploadSuccess, uploadError);
+				parseFile.save().then(uploadSuccess, uploadError);
 
 			}
 
 		},
 
-
-		uploadInsurance: function () {
+		uploadInsurance: function() {
 
 			var self = this;
-			var e = event;
+			var files = event.target.files;
+			var parseFile = null;
+			
+			self.buttonLoader('Uploading...');
 
-			self.buttonLoader('uploading file');
+			if( files.length == 1) {
 
-			if( e.target.files.length == 1 ) {
-
-				var file = e.target.files[0];
-				var name;
-
-				if( file.type == 'image/png' ) {
+				if( files[0].type == 'image/png' ) {
 					
-					name = 'proofInsurance.png';
+					parseFile = new Parse.File('insurance.png', files[0]);
 
-				} else if( file.type == 'image/jpeg' ) {
+				} else if( files[0].type == 'image/jpeg' ) {
 
-					name = 'proofInsurance.jpg';
+					parseFile = new Parse.File('insurance.jpg', files[0]);
 
-				} else if( file.type == 'application/pdf' ) {
+				} else if( files[0].type == 'application/pdf') {
 
-					name = 'proofInsurance.pdf';
+					parseFile = new Parse.File('insurance.pdf', files[0]);
 
-				} else {
+				}else {
 
-					this._error('Your proof of insurance "' + file.name + '" must be in the format PNG, JPEG or PDF');
-					$(e.target).val('');
+					self.fieldError('insurance', 'Bad format, try with a PNG, JPEG or PDF picture.');
 					self.buttonLoader();
-					return;
+					$(event.target).val('');
+					return null;
 
 				}
 
 				var uploadSuccess = function(file) {
-
-					self.tempInsurance = file;
+					
+					self.insurance = parseFile;
+					var preview = $('<img/>').attr('src', parseFile.url()).css({ maxWidth : '100%' }).insertBefore(self._in('insurance'));
 					self.buttonLoader();
 
 				};
 
 				var uploadError = function(error) {
 
-					console.log(error);
-					self._error('An error occured when we tried to upload your file, try again please.');
+					self.fieldError('insurance', 'An error occured when we tried to upload your insurance, try again please.');
 					self.buttonLoader();
 
 				};
 				
-				new Parse.File(name, file).save().then(uploadSuccess, uploadError);
+				parseFile.save().then(uploadSuccess, uploadError);
 
 			}
 
 		},
+
+		// uploadInsurance: function () {
+
+		// 	var self = this;
+		// 	var e = event;
+
+		// 	self.buttonLoader('uploading file');
+
+		// 	if( e.target.files.length == 1 ) {
+
+		// 		var file = e.target.files[0];
+		// 		var name;
+
+		// 		if( file.type == 'image/png' ) {
+					
+		// 			name = 'proofInsurance.png';
+
+		// 		} else if( file.type == 'image/jpeg' ) {
+
+		// 			name = 'proofInsurance.jpg';
+
+		// 		} else if( file.type == 'application/pdf' ) {
+
+		// 			name = 'proofInsurance.pdf';
+
+		// 		} else {
+
+		// 			this._error('Your proof of insurance "' + file.name + '" must be in the format PNG, JPEG or PDF');
+		// 			$(e.target).val('');
+		// 			self.buttonLoader();
+		// 			return;
+
+		// 		}
+
+		// 		var uploadSuccess = function(file) {
+
+		// 			self.tempInsurance = file;
+		// 			self.buttonLoader();
+
+		// 		};
+
+		// 		var uploadError = function(error) {
+
+		// 			console.log(error);
+		// 			self._error('An error occured when we tried to upload your file, try again please.');
+		// 			self.buttonLoader();
+
+		// 		};
+				
+		// 		new Parse.File(name, file).save().then(uploadSuccess, uploadError);
+
+		// 	}
+
+		// },
 
 		debugAutofillFields: function() {
 
@@ -170,8 +222,10 @@ define([
 				hullID: this._in('hullID').val(),
 				length: this._in('length').val(),
 				capacity: this._in('capacity').val(),
-				insurance: this.tempInsurance,
-				boatPicture: this.tempBoatPicture
+				// insurance: this.tempInsurance,
+				// boatPicture: this.tempBoatPicture
+				boatPicture: this.boatPicture, 
+				insurance: this.insurance
 			};
 
 			var saveSuccess = function( boat ) {
@@ -180,18 +234,19 @@ define([
 
 					var hostSaveSuccess = function() {
 						Parse.history.navigate('boat/'+boat.id, true);
+
 					};
 
 					var hostSaveError = function(error) {
 						console.log(error);
 					}
+					console.log("CHECKPOINT 1");
 
 					var host = Parse.User.current().get("host");
 					host.relation('boats').add(boat);
 					host.save().then(hostSaveSuccess, hostSaveError);
 
 				} else {
-					
 					Parse.history.navigate('dashboard', true);
 
 				}

@@ -123,8 +123,6 @@ define([
 
 			};
 
-			
-
 			var saveError = function(error) {
 				
 				self.buttonLoader();
