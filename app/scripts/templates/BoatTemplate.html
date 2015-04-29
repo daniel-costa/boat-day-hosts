@@ -21,10 +21,9 @@
 					<div class="form-group">
 						<label for="displayPicture" class="col-sm-4 control-label">Boat Picture</label>
 						<div class="col-sm-5">
-							<% if( status == 'creation' || !boatPicture  ) { %>
-								<input type="file" class="form-control" name="boatPicture" style="color:transparent"/>
-							<% } else { %>
-								<img src="<%= boatPicture.url %>" style="max-width : 150px;" />
+							<input type="file" class="form-control" name="boatPicture" style="color:transparent"/>
+							<% if( boatPicture && status != 'creation') { %>
+								<img class="previewBoatPicture" src="<%= boatPicture.url %>" style="max-width : 100%;" />
 							<% } %>
 						</div>
 					</div>
@@ -50,22 +49,20 @@
 						<label for="displayPicture" class="col-sm-4 control-label">Proof of insurance</label>
 						<div class="col-sm-5">
 							<div class="alert-info alert" stlye="margin:0px auto;">
-								<span class="glyphicon glyphicon-info-sign"></span>  Please upload a photo that clearly shows your insurance. 
+								<span class="glyphicon glyphicon-info-sign"></span>  Please upload a photo that clearly shows your insurance. The photo must be in PDF, JPEG or PNG.
 							</div>
 						</div> 
 						<div class="col-sm-5 col-sm-offset-4">
-							<% if( status == 'creation' || !insurance ) { %>
-									<input type="file" class="form-control" name="insurance" style="color:transparent"/>
-							<% } else { %>
-								<!-- <a href="<%= insurance.url %>" target="_blank">Proof of insurance</a> -->
-								<img src="<%= insurance.url %>" style="max-width : 150px;" />
+							<input type="file" class="form-control" name="insurance" style="color:transparent"/>
+							<% if( insurance && status != 'creation' ) { %>
+								<a class="previewProofOfInsurance" href="<%= insurance.url %>" target="_blank">Proof of insurance</a>
 							<% } %>
 						</div>	
 					</div>
 				</div>  
 				<div class="panel-footer text-center">
 					Almost there! <button type="submit" class="btn btn-primary">
-						<%= status == 'creation' ? 'Save' : 'Save' %> 
+						<%= status == 'creation' ? 'Add boat' : 'Save' %> 
 					</button> a boat.
 				</div>
 			</div>

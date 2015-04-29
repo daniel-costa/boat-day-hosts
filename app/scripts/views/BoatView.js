@@ -11,9 +11,6 @@ define([
 
 		template: _.template(BoatTemplate),
 
-		boatPicture: null, 
-		insurance: null,
-
 		debug: true,
 
 		events: {
@@ -25,15 +22,14 @@ define([
 		},
 
 		tempBoatPicture: null,
-
 		tempInsurance: null,
 
 		initialize: function() {
 
-			// if( this.model.get('status') != 'creation' ) {
-			// 	this.tempInsurance = this.model.get('insurance');
-			// 	this.tempBoatPicture = this.model.get('boatPicture');
-			// }
+			if( this.model.get('status') != 'creation' ) {
+				this.tempInsurance = this.model.get('insurance');
+				this.tempBoatPicture = this.model.get('boatPicture');
+			}
 
 		},
 
@@ -44,7 +40,7 @@ define([
 			return this;
 		},
 
-		uploadBoatPicture: function() {
+		uploadBoatPicture: function(event) {
 
 			var self = this;
 			var files = event.target.files;
@@ -73,8 +69,14 @@ define([
 
 				var uploadSuccess = function(file) {
 					
-					self.boatPicture = parseFile;
-					var preview = $('<img/>').attr('src', parseFile.url()).css({ maxWidth : '100%' }).insertBefore(self._in('boatPicture'));
+					self.tempBoatPicture = parseFile;
+
+					if( self.$el.find('.previewBoatPicture').length == 1 ) {
+						self.$el.find('.previewBoatPicture').attr('src', parseFile.url());
+					} else {
+						$('<img/>').addClass('previewBoatPicture').attr('src', parseFile.url()).css({ maxWidth : '100%' }).insertAfter(self._in('boatPicture'));	
+					}
+
 					self.buttonLoader();
 
 				};
@@ -92,7 +94,7 @@ define([
 
 		},
 
-		uploadInsurance: function() {
+		uploadInsurance: function(event) {
 
 			var self = this;
 			var files = event.target.files;
@@ -125,8 +127,8 @@ define([
 
 				var uploadSuccess = function(file) {
 					
-					self.insurance = parseFile;
-					var preview = $('<img/>').attr('src', parseFile.url()).css({ maxWidth : '100%' }).insertBefore(self._in('insurance'));
+					self.tempInsurance = parseFile;
+					$('<a/>').addClass('previewBoatPicture').attr('href', parseFile.url()).text("Proof of insurance").insertAfter(self._in('insurance'));
 					self.buttonLoader();
 
 				};
@@ -143,60 +145,6 @@ define([
 			}
 
 		},
-
-		// uploadInsurance: function () {
-
-		// 	var self = this;
-		// 	var e = event;
-
-		// 	self.buttonLoader('uploading file');
-
-		// 	if( e.target.files.length == 1 ) {
-
-		// 		var file = e.target.files[0];
-		// 		var name;
-
-		// 		if( file.type == 'image/png' ) {
-					
-		// 			name = 'proofInsurance.png';
-
-		// 		} else if( file.type == 'image/jpeg' ) {
-
-		// 			name = 'proofInsurance.jpg';
-
-		// 		} else if( file.type == 'application/pdf' ) {
-
-		// 			name = 'proofInsurance.pdf';
-
-		// 		} else {
-
-		// 			this._error('Your proof of insurance "' + file.name + '" must be in the format PNG, JPEG or PDF');
-		// 			$(e.target).val('');
-		// 			self.buttonLoader();
-		// 			return;
-
-		// 		}
-
-		// 		var uploadSuccess = function(file) {
-
-		// 			self.tempInsurance = file;
-		// 			self.buttonLoader();
-
-		// 		};
-
-		// 		var uploadError = function(error) {
-
-		// 			console.log(error);
-		// 			self._error('An error occured when we tried to upload your file, try again please.');
-		// 			self.buttonLoader();
-
-		// 		};
-				
-		// 		new Parse.File(name, file).save().then(uploadSuccess, uploadError);
-
-		// 	}
-
-		// },
 
 		debugAutofillFields: function() {
 
@@ -222,14 +170,12 @@ define([
 				hullID: this._in('hullID').val(),
 				length: this._in('length').val(),
 				capacity: this._in('capacity').val(),
-				// insurance: this.tempInsurance,
-				// boatPicture: this.tempBoatPicture
-				boatPicture: this.boatPicture, 
-				insurance: this.insurance
+				insurance: this.tempInsurance,
+				boatPicture: this.tempBoatPicture
 			};
 
 			var saveSuccess = function( boat ) {
-				
+					console.log("baseStatus="+baseStatus);
 				if( baseStatus == 'creation' ) {
 
 					var hostSaveSuccess = function() {
@@ -247,6 +193,7 @@ define([
 					host.save().then(hostSaveSuccess, hostSaveError);
 
 				} else {
+
 					Parse.history.navigate('dashboard', true);
 
 				}
@@ -255,6 +202,7 @@ define([
 
 			var saveError = function(error) {
 				
+					console.log(error);
 				self.buttonLoader();
 
 				if( error.type && error.type == 'model-validation' ) {
@@ -265,7 +213,6 @@ define([
 
 				} else {
 
-					console.log(error);
 					self._error(error);
 				}
 
