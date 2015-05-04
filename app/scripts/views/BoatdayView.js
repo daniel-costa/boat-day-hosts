@@ -94,7 +94,8 @@ define([
 				availableSeats: this._in('availableSeats').val(), 
 				minimumSeats: this._in('minimumSeats').val(), 
 				bookingPolicy: this.$el.find('[name="bookingPolicy"]:checked').val(),
-				cancellationPolicy: this.$el.find('[name="cancellationPolicy"]:checked').val()
+				cancellationPolicy: this.$el.find('[name="cancellationPolicy"]:checked').val(), 
+				category: this._in('category').val()
 
 			};
 			console.log(data);

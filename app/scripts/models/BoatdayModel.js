@@ -18,7 +18,8 @@ define([
 			location: null, 
 			description: null,
 			bookingPolicy: null, 
-			cancellationPolicy: null
+			cancellationPolicy: null, 
+			category: null
 		},
 
 		validate: function(attributes) {

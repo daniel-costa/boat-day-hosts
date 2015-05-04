@@ -128,7 +128,12 @@ define([
 				var uploadSuccess = function(file) {
 					
 					self.tempInsurance = parseFile;
-					$('<a/>').addClass('previewBoatPicture').attr('href', parseFile.url()).text("Proof of insurance").insertAfter(self._in('insurance'));
+
+					if( self.$el.find('.previewProofOfInsurance').length == 1 ) {
+						self.$el.find('.previewProofOfInsurance').attr('href', parseFile.url());
+					} else {
+						$('<a/>').addClass('previewProofOfInsurance').attr('href', parseFile.url()).text("Proof of insurance").insertAfter(self._in('insurance'));
+					}
 					self.buttonLoader();
 
 				};
@@ -186,7 +191,6 @@ define([
 					var hostSaveError = function(error) {
 						console.log(error);
 					}
-					console.log("CHECKPOINT 1");
 
 					var host = Parse.User.current().get("host");
 					host.relation('boats').add(boat);
