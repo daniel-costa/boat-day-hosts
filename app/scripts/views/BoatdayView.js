@@ -12,7 +12,7 @@ define([
 
 		template: _.template(BoatdayTemplate),
 
-		debug: true,
+		debug: false,
 
 		events: {
 			
@@ -105,7 +105,7 @@ define([
 				if( baseStatus == 'creation' ) {
 
 					var hostSaveSuccess = function() {
-						Parse.history.navigate('boatday/'+boatday.id, true);
+						Parse.history.navigate('dashboard', true);
 					};
 
 					var hostSaveError = function(error) {
