@@ -46,7 +46,7 @@ define([
 			}
 
 			if( !/^\d+$/.test(attributes.availableSeats) ) {
-				_return.fields.city = "A available seats is not valid";
+				_return.fields.availableSeats = "A available seats is not valid";
 			}
 
 			if( !attributes.description ) {

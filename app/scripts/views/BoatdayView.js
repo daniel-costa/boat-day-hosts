@@ -2,10 +2,11 @@ define([
 'jquery', 
 'underscore', 
 'parse',
+'models/BoatModel',
 'views/BaseView',
 'views/BoatsSelectView',
 'text!templates/BoatdayTemplate.html'
-], function($, _, Parse, BaseView, BoatsSelectView, BoatdayTemplate){
+], function($, _, Parse, BoatModel, BaseView, BoatsSelectView, BoatdayTemplate){
 	var BoatdayView = BaseView.extend({
 
 		className:"view-event",
@@ -86,7 +87,6 @@ define([
 					this._in('dateHours').val(), 
 					this._in('dateMinutes').val(),
 					0),
-				boat: this._in('boat').val(), 
 				captain: this._in('captain').val(), 
 				location: null,
 				duration: this._in('duration').val(), 
@@ -98,7 +98,6 @@ define([
 				category: this._in('category').val()
 
 			};
-			console.log(data);
 
 			var saveSuccess = function( boatday ) {
 		
@@ -143,8 +142,14 @@ define([
 
 			};
 			
-			this.model.save(data).then(saveSuccess, saveError);
+			var boatSuccess = function(boat) {
 
+				data.boat = boat;
+				self.model.save(data).then(saveSuccess, saveError);
+
+			};
+
+			new Parse.Query(BoatModel).get(this._in('boat').val()).then(boatSuccess, saveError);
 
 		}
 	});

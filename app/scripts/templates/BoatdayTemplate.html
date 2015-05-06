@@ -11,7 +11,6 @@
 				var dateMinutes = dateJS.getMinutes();
 			}
 
-
 		%>
 		
 		<div class="col-xs-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
@@ -37,10 +36,10 @@
 						<div class="col-sm-6">
 							<div class="col-xs-4" style="padding-left:0px">
 								<select class="input-small form-control" id="category" name="category">
-									<option value="01" <%= category && category == '01' ? 'selected' : '' %>>01</option>
-									<option value="02" <%= category && category == '02' ? 'selected' : '' %>>02</option>
-									<option value="03" <%= category && category == '03' ? 'selected' : '' %>>03</option>
-									<option value="04" <%= category && category == '04' ? 'selected' : '' %>>04</option>
+									<option value="leisure" <%= category && category == 'leisure' ? 'selected' : '' %>>Leisure</option>
+									<option value="sports" <%= category && category == 'sports' ? 'selected' : '' %>>Water Sports</option>
+									<option value="sailing" <%= category && category == 'sailing' ? 'selected' : '' %>>Sailing</option>
+									<option value="fishing" <%= category && category == 'fishing' ? 'selected' : '' %>>Fishing</option>
 								</select>		
 							</div>
 						</div>
