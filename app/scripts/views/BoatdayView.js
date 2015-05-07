@@ -87,7 +87,6 @@ define([
 		showContingentFieldsFishing: function() {
 
 			this.$el.find('.equipmentProvidedFishing').show();
-			//this.$el.find('[name="equipmentProvidedSport"]:checked')?$('.equipmentProvidedFishing').show():$('.equipmentProvidedFishing').hide();
 
 		},
 
@@ -131,7 +130,10 @@ define([
 						cruising: this.$el.find('[name="featuresLeisureCruising"]').is(':checked'),
 						partying: this.$el.find('[name="featuresLeisurePartying"]').is(':checked'),
 						sightseeing: this.$el.find('[name="featuresLeisureSightseeing"]').is(':checked'),
-						other: this.$el.find('[name="featuresLeisureOther"]').is(':checked')
+						//other: this.$el.find('[name="featuresLeisureOther"]').is(':checked')
+						sightseeing: this.$el.find('[name="featuresLeisureSightseeing"]').is(':checked'),
+						sightseeing: this.$el.find('[name="featuresLeisureSightseeing"]').is(':checked'),
+						sightseeing: this.$el.find('[name="featuresLeisureSightseeing"]').is(':checked'),
 					},
 					fishing: {
 						flats: false,
