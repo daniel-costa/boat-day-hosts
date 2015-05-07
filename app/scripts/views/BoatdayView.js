@@ -4,8 +4,9 @@ define([
 'parse',
 'views/BaseView',
 'views/BoatsSelectView',
-'text!templates/BoatdayTemplate.html'
-], function($, _, Parse, BaseView, BoatsSelectView, BoatdayTemplate){
+'text!templates/BoatdayTemplate.html',
+'models/BoatModel',
+], function($, _, Parse, BaseView, BoatsSelectView, BoatdayTemplate, BoatModel){
 	var BoatdayView = BaseView.extend({
 
 		className:"view-event",
@@ -105,17 +106,8 @@ define([
 			var data = {
 
 				status: 'complete',
-
-				//name: this._in('name').val(), 
 				description: this._in('description').val(),
-				date: new Date(
-					this._in('dateYear').val(), 
-					this._in('dateMonth').val()-1, 
-					this._in('dateDay').val(), 
-					this._in('dateHours').val(), 
-					this._in('dateMinutes').val(),
-					0),
-				boat: this._in('boat').val(), 
+				date: new Date(this._in('dateYear').val(), this._in('dateMonth').val()-1, this._in('dateDay').val(), this._in('dateHours').val(), this._in('dateMinutes').val(), 0),
 				captain: this._in('captain').val(), 
 				location: null,
 				duration: parseInt(this._in('duration').val()), 
@@ -130,10 +122,7 @@ define([
 						cruising: this.$el.find('[name="featuresLeisureCruising"]').is(':checked'),
 						partying: this.$el.find('[name="featuresLeisurePartying"]').is(':checked'),
 						sightseeing: this.$el.find('[name="featuresLeisureSightseeing"]').is(':checked'),
-						//other: this.$el.find('[name="featuresLeisureOther"]').is(':checked')
-						sightseeing: this.$el.find('[name="featuresLeisureSightseeing"]').is(':checked'),
-						sightseeing: this.$el.find('[name="featuresLeisureSightseeing"]').is(':checked'),
-						sightseeing: this.$el.find('[name="featuresLeisureSightseeing"]').is(':checked'),
+						other: this.$el.find('[name="featuresLeisureOther"]').is(':checked')
 					},
 					fishing: {
 						flats: false,
@@ -183,8 +172,6 @@ define([
 					}
 				}
 			};
-			console.log(this.$el.find('[name="featuresLeisureCruising"]'));
-			console.log(this.$el.find('[name="featuresLeisureCruising"]').is(':checked'));
 
 			var saveSuccess = function( boatday ) {
 		
@@ -229,8 +216,14 @@ define([
 
 			};
 			
-			this.model.save(data).then(saveSuccess, saveError);
+			var boatSuccess = function(boat) {
 
+				data.boat = boat;
+				self.model.save(data).then(saveSuccess, saveError);
+
+			};
+
+			new Parse.Query(BoatModel).get(this._in('boat').val()).then(boatSuccess, saveError);
 
 		}
 	});
