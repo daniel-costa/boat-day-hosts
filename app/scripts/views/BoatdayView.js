@@ -125,50 +125,52 @@ define([
 						other: this.$el.find('[name="featuresLeisureOther"]').is(':checked')
 					},
 					fishing: {
-						flats: false,
-						lake: false,
-						offshore: false,
-						recreational: false,
-						other: false,
-						equipment: {
-							bait: false,
-							lines: false,
-							hooks: false,
-							lures: false,
-							nets: false,
-							rods: false,
-							sinkers: false
+						flats: this.$el.find('[name="featuresFishingFlats"]').is(':checked'),
+						lake: this.$el.find('[name="featuresFishingLake"]').is(':checked'),
+						offshore: this.$el.find('[name="featuresFishingOffshore"]').is(':checked'),
+						recreational: this.$el.find('[name="featuresFishingRecreational"]').is(':checked'),
+						other: this.$el.find('[name="featuresFishingOther"]').is(':checked'),
+						equipment: this.$el.find('[name="featuresFishingEquipment"]').is(':checked'),
+						equipmentItems: {
+							bait: this.$el.find('[name="featuresFishingEquipmentBait"]').is(':checked'),
+							lines: this.$el.find('[name="featuresFishingEquipmentLines"]').is(':checked'),
+							hooks: this.$el.find('[name="featuresFishingEquipmentHooks"]').is(':checked'),
+							lures: this.$el.find('[name="featuresFishingEquipmentLures"]').is(':checked'),
+							nets: this.$el.find('[name="featuresFishingEquipmentNets"]').is(':checked'),
+							rods: this.$el.find('[name="featuresFishingEquipmentRods"]').is(':checked'),
+							sinkers: this.$el.find('[name="featuresFishingEquipmentSinkers"]').is(':checked')
 						}
 					},
 					sports: {
-						snorkeling: false,
-						tubing: false,
-						wakeBoarding: false,
-						waterSkiing: false,
-						equipment: {
-							fins: false,
-							helmets: false,
-							masks: false,
-							snorkels: false,
-							towLine: false,
-							tubes: false,
-							wakeboard: false,
-							waterSkis: false
+						snorkeling: this.$el.find('[name="featuresSportsSnorkeling"]').is(':checked'),
+						tubing: this.$el.find('[name="featuresSportStubing"]').is(':checked'),
+						wakeBoarding: this.$el.find('[name="featuresSportsWakeBoarding"]').is(':checked'),
+						waterSkiing: this.$el.find('[name="featuresSportsWaterSkiing"]').is(':checked'),
+						equipment: this.$el.find('[name="featuresSportsEquipment"]').is(':checked'),
+						equipmentItems: {
+							fins: this.$el.find('[name="featuresSportsEquipmentFins"]').is(':checked'),
+							helmets: this.$el.find('[name="featuresSportsEquipmentHelmets"]').is(':checked'),
+							masks: this.$el.find('[name="featuresSportsEquipmentMasks"]').is(':checked'),
+							snorkels: this.$el.find('[name="featuresSportsEquipmentSnorkels"]').is(':checked'),
+							towLine: this.$el.find('[name="featuresSportsEquipmentTowLine"]').is(':checked'),
+							tubes: this.$el.find('[name="featuresSportsEquipmentTubes"]').is(':checked'),
+							wakeboard: this.$el.find('[name="featuresSportsEquipmentWakeboard"]').is(':checked'),
+							waterSkis: this.$el.find('[name="featuresSportsEquipmentWaterSkis"]').is(':checked')
 						}
 					},
 					global: {
-						children: false,
-						smoking: false,
-						drinking: false,
-						pets: false 
+						children: this.$el.find('[name="featuresGlobalChildren"]').is(':checked'),
+						smoking: this.$el.find('[name="featuresGlobalSmoking"]').is(':checked'),
+						drinking: this.$el.find('[name="featuresGlobalDrinking"]').is(':checked'),
+						pets: this.$el.find('[name="featuresGlobalPets"]').is(':checked') 
 					}, 
 					extras: {
-						food: false,
-						drink: false,
-						music: false,
-						towels: false,
-						sunscreen: false,
-						inflatables: false
+						food: this.$el.find('[name="featuresExtrasFood"]').is(':checked'),
+						drink: this.$el.find('[name="featuresExtrasDrink"]').is(':checked'),
+						music: this.$el.find('[name="featuresExtrasMusic"]').is(':checked'),
+						towels: this.$el.find('[name="featuresExtrasTowels"]').is(':checked'),
+						sunscreen: this.$el.find('[name="featuresExtrasSunscreen"]').is(':checked'),
+						inflatables: this.$el.find('[name="featuresExtrasInflatables"]').is(':checked')
 					}
 				}
 			};
