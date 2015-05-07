@@ -46,33 +46,18 @@
 					</div>
 					<div class="activityContainer leisure">
 						<div class="col-sm-5 col-sm-offset-4">
-							<div class="alert-info alert" stlye="margin:0px auto;">
-								<label style="font-weight:normal">
-									<input type="checkbox" name="crusing" value="crusing"> Crusing
-								</label>&nbsp;&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="partying" value="partying"> Partying
-								</label>&nbsp;&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="sightseeing" value="sightseeing"> Sightseeing
-								</label>&nbsp;&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="pantoonBoat" value="pantoonBoat"> Pontoon Boat
-								</label>&nbsp;&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="airBoat" value="airBoat"> Air Boat
-								</label>&nbsp;&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="catamaran" value="catamaran"> Catamaran
-								</label><br>
-								<div class="form-group">
-									<label for="specificEvent" class="col-sm-4 control-label" style="font-weight:normal">Specific Event:</label>
-									<div class="col-sm-8">
-										<input type="text" value="" class="form-control" id="specificEvent" name="specificEvent" placeholder=" Name">
-									</div>
-								</div>
-								
-							</div>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="featuresLeisureCruising" <%= features.leisure.cruising ? 'checked': '' %>> Crusing
+							</label><br/>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="featuresLeisurePartying" <%= features.leisure.partying ? 'checked': '' %>> Partying
+							</label><br/>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="featuresLeisureSightseeing" <%= features.leisure.sightseeing ? 'checked': '' %>> Sightseeing
+							</label><br/>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="featuresLeisureOther" <%= features.leisure.other ? 'checked': '' %>> Other
+							</label>
 						</div>
 					</div>
 					<div class="activityContainer fishing">
@@ -448,19 +433,19 @@
 						<div class="col-sm-10 col-sm-offset-1">
 							<p>
 								<label style="font-weight:normal">
-									<input type="radio" name="bookingPolicy" value="flexible" checked> <strong>Manually, </strong>
+									<input type="radio" name="bookingPolicy" value="manually" checked> <strong>Manually, </strong>
 									I want to validated every seat request giving me the right to choose the best fit for my event.
 								</label>
 							</p>
 							<p>
 								<label style="font-weight:normal">
-									<input type="radio" name="bookingPolicy" value="moderate"> <strong>Automatically, </strong>
+									<input type="radio" name="bookingPolicy" value="automatically"> <strong>Automatically, </strong>
 									Every guest will be automatically validated without my approval. I know once a guest is validated, I can't cancel is seat.
 								</label>
 							</p>
 							<p style="margin-bottom:0px">
 								<label style="font-weight:normal">
-									<input type="radio" name="bookingPolicy" value="strict"> <strong>Half-way, </strong>
+									<input type="radio" name="bookingPolicy" value="halfway"> <strong>Half-way, </strong>
 									Every guest who was on my boat and for whom I gave a positive feedback will be automatically validated. Seat requests from new guests need my approval.
 								</label>
 							</p>

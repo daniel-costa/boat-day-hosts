@@ -125,10 +125,64 @@ define([
 				minimumSeats: parseInt(this._in('minimumSeats').val()), 
 				bookingPolicy: this.$el.find('[name="bookingPolicy"]:checked').val(),
 				cancellationPolicy: this.$el.find('[name="cancellationPolicy"]:checked').val(), 
-				category: this._in('activity').val()
-
+				category: this._in('activity').val(),
+				features: {
+					leisure: {
+						cruising: this.$el.find('[name="featuresLeisureCruising"]').is(':checked'),
+						partying: this.$el.find('[name="featuresLeisurePartying"]').is(':checked'),
+						sightseeing: this.$el.find('[name="featuresLeisureSightseeing"]').is(':checked'),
+						other: this.$el.find('[name="featuresLeisureOther"]').is(':checked')
+					},
+					fishing: {
+						flats: false,
+						lake: false,
+						offshore: false,
+						recreational: false,
+						other: false,
+						equipment: {
+							bait: false,
+							lines: false,
+							hooks: false,
+							lures: false,
+							nets: false,
+							rods: false,
+							sinkers: false
+						}
+					},
+					sports: {
+						snorkeling: false,
+						tubing: false,
+						wakeBoarding: false,
+						waterSkiing: false,
+						equipment: {
+							fins: false,
+							helmets: false,
+							masks: false,
+							snorkels: false,
+							towLine: false,
+							tubes: false,
+							wakeboard: false,
+							waterSkis: false
+						}
+					},
+					global: {
+						children: false,
+						smoking: false,
+						drinking: false,
+						pets: false 
+					}, 
+					extras: {
+						food: false,
+						drink: false,
+						music: false,
+						towels: false,
+						sunscreen: false,
+						inflatables: false
+					}
+				}
 			};
-			console.log(data);
+			console.log(this.$el.find('[name="featuresLeisureCruising"]'));
+			console.log(this.$el.find('[name="featuresLeisureCruising"]').is(':checked'));
 
 			var saveSuccess = function( boatday ) {
 		

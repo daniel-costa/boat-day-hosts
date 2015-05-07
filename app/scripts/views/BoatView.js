@@ -178,16 +178,13 @@ define([
 				insurance: this.tempInsurance,
 				boatPicture: this.tempBoatPicture, 
 				//boatFeatures: this.$el.find('[class="boatfeatures"]:checked').val()
-				boatFeatures: [this.$el.find('[class="boatfeatures"]:checked').val().split(','))], 
 			};
 
 			var saveSuccess = function( boat ) {
-				console.log("baseStatus="+baseStatus);
 				if( baseStatus == 'creation' ) {
 
 					var hostSaveSuccess = function() {
-						Parse.history.navigate('boat/'+boat.id, true);
-
+						Parse.history.navigate('dashboard', true);
 					};
 
 					var hostSaveError = function(error) {
@@ -200,11 +197,8 @@ define([
 
 
 				} else {
-
-					Parse.history.navigate('dashboard', true);
-
+					Parse.history.navigate('dashboard', true);	
 				}
-
 			};
 
 			var saveError = function(error) {

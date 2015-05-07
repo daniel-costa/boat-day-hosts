@@ -9,7 +9,6 @@ define([
 			host: null, 
 			boat: null, 
 			captain: null, 
-			//name: null, 
 			date: null,
 			duration: null, 
 			price: null, 
@@ -19,7 +18,61 @@ define([
 			description: null,
 			bookingPolicy: null, 
 			cancellationPolicy: null, 
-			category: null
+			category: null,
+			features: {
+				leisure: {
+					cruising: false,
+					partying: false,
+					sightseeing: false,
+					other: false
+				},
+				fishing: {
+					flats: false,
+					lake: false,
+					offshore: false,
+					recreational: false,
+					other: false,
+					equipment: {
+						bait: false,
+						lines: false,
+						hooks: false,
+						lures: false,
+						nets: false,
+						rods: false,
+						sinkers: false
+					}
+				},
+				sports: {
+					snorkeling: false,
+					tubing: false,
+					wakeBoarding: false,
+					waterSkiing: false,
+					equipment: {
+						fins: false,
+						helmets: false,
+						masks: false,
+						snorkels: false,
+						towLine: false,
+						tubes: false,
+						wakeboard: false,
+						waterSkis: false
+					}
+				},
+				global: {
+					children: false,
+					smoking: false,
+					drinking: false,
+					pets: false 
+				}, 
+				extras: {
+					food: false,
+					drink: false,
+					music: false,
+					towels: false,
+					sunscreen: false,
+					inflatables: false
+				}
+			}
 		},
 
 		validate: function(attributes) {

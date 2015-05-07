@@ -13,7 +13,8 @@ define([
 			capacity: null,
 			insurance: null,
 			boatPicture: null, 
-			boatFeatures: null
+			boatFeatures: {
+			}
 
 		},
 
