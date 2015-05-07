@@ -132,13 +132,13 @@ define([
 						other: this.$el.find('[name="featuresFishingOther"]').is(':checked'),
 						equipment: this.$el.find('[name="featuresFishingEquipment"]').is(':checked'),
 						equipmentItems: {
-							bait: this.$el.find('[name="featuresFishingEquipmentBait"]').is(':checked'),
-							lines: this.$el.find('[name="featuresFishingEquipmentLines"]').is(':checked'),
-							hooks: this.$el.find('[name="featuresFishingEquipmentHooks"]').is(':checked'),
-							lures: this.$el.find('[name="featuresFishingEquipmentLures"]').is(':checked'),
-							nets: this.$el.find('[name="featuresFishingEquipmentNets"]').is(':checked'),
-							rods: this.$el.find('[name="featuresFishingEquipmentRods"]').is(':checked'),
-							sinkers: this.$el.find('[name="featuresFishingEquipmentSinkers"]').is(':checked')
+							bait: this.$el.find('[name="featuresFishingEquipmentItemsBait"]').is(':checked'),
+							lines: this.$el.find('[name="featuresFishingEquipmentItemsLines"]').is(':checked'),
+							hooks: this.$el.find('[name="featuresFishingEquipmentItemsHooks"]').is(':checked'),
+							lures: this.$el.find('[name="featuresFishingEquipmentItemsLures"]').is(':checked'),
+							nets: this.$el.find('[name="featuresFishingEquipmentItemsNets"]').is(':checked'),
+							rods: this.$el.find('[name="featuresFishingEquipmentItemsRods"]').is(':checked'),
+							sinkers: this.$el.find('[name="featuresFishingEquipmentItemsSinkers"]').is(':checked')
 						}
 					},
 					sports: {
@@ -148,14 +148,14 @@ define([
 						waterSkiing: this.$el.find('[name="featuresSportsWaterSkiing"]').is(':checked'),
 						equipment: this.$el.find('[name="featuresSportsEquipment"]').is(':checked'),
 						equipmentItems: {
-							fins: this.$el.find('[name="featuresSportsEquipmentFins"]').is(':checked'),
-							helmets: this.$el.find('[name="featuresSportsEquipmentHelmets"]').is(':checked'),
-							masks: this.$el.find('[name="featuresSportsEquipmentMasks"]').is(':checked'),
-							snorkels: this.$el.find('[name="featuresSportsEquipmentSnorkels"]').is(':checked'),
-							towLine: this.$el.find('[name="featuresSportsEquipmentTowLine"]').is(':checked'),
-							tubes: this.$el.find('[name="featuresSportsEquipmentTubes"]').is(':checked'),
-							wakeboard: this.$el.find('[name="featuresSportsEquipmentWakeboard"]').is(':checked'),
-							waterSkis: this.$el.find('[name="featuresSportsEquipmentWaterSkis"]').is(':checked')
+							fins: this.$el.find('[name="featuresSportsEquipmentItemsFins"]').is(':checked'),
+							helmets: this.$el.find('[name="featuresSportsEquipmentItemsHelmets"]').is(':checked'),
+							masks: this.$el.find('[name="featuresSportsEquipmentItemsMasks"]').is(':checked'),
+							snorkels: this.$el.find('[name="featuresSportsEquipmentItemsSnorkels"]').is(':checked'),
+							towLine: this.$el.find('[name="featuresSportsEquipmentItemsTowLine"]').is(':checked'),
+							tubes: this.$el.find('[name="featuresSportsEquipmentItemsTubes"]').is(':checked'),
+							wakeboard: this.$el.find('[name="featuresSportsEquipmentItemsWakeboard"]').is(':checked'),
+							waterSkis: this.$el.find('[name="featuresSportsEquipmentItemsWaterSkis"]').is(':checked')
 						}
 					},
 					global: {
