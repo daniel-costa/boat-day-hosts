@@ -19,8 +19,8 @@ define([
 			
 			"submit form" : "save",
 			'change [name="activity"]' : "refreshActivity", 
-			'change [name="equipmentProvidedFishing"]': "showContingentFieldsFishing", 
-			'change [name="equipmentProvidedSport"]': "showContingentFieldsSport"
+			'change [name="featuresFishingEquipment"]': "showFishingEquipment", 
+			'change [name="featuresSportsEquipment"]': "showSportsEquipment"
 		}, 
 
 		initialize: function() {
@@ -77,23 +77,18 @@ define([
 			var activity = this._in('activity').val();
 			this.$el.find('.activityContainer').hide();
 			this.$el.find(".activityContainer." + activity).show();
-
-			this.$el.find('.equipmentProvidedFishing').hide();
-			this.$el.find('.equipmentProvidedWaterSport').hide();
-			this.$el.find('[name="equipmentProvidedFishing"]').prop('checked', false);
-			this.$el.find('[name="equipmentProvidedSport"]').prop('checked', false);
 		
 		},
 
-		showContingentFieldsFishing: function() {
-
-			this.$el.find('.equipmentProvidedFishing').show();
+		showFishingEquipment: function() {
+			console.log(123);
+			this.$el.find('.activityContainer.fishing .equipment-list').toggle();
 
 		},
 
-		showContingentFieldsSport:function() {
+		showSportsEquipment:function() {
 
-			this.$el.find('.equipmentProvidedWaterSport').show();
+			this.$el.find('.activityContainer.sports .equipment-list').toggle();
 
 		},
 
