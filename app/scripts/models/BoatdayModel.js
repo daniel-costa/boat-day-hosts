@@ -32,7 +32,8 @@ define([
 					offshore: false,
 					recreational: false,
 					other: false,
-					equipment: {
+					equipment: false,
+					equipmentItems: {
 						bait: false,
 						lines: false,
 						hooks: false,
@@ -47,7 +48,8 @@ define([
 					tubing: false,
 					wakeBoarding: false,
 					waterSkiing: false,
-					equipment: {
+					equipment: false,
+					equipmentItems: {
 						fins: false,
 						helmets: false,
 						masks: false,
