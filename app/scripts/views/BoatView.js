@@ -173,14 +173,16 @@ define([
 				status: 'complete',
 				name: this._in('name').val(),
 				hullID: this._in('hullID').val(),
-				length: this._in('length').val(),
-				capacity: this._in('capacity').val(),
+				length: parseInt(this._in('length').val()),
+				capacity: parseInt(this._in('capacity').val()),
 				insurance: this.tempInsurance,
-				boatPicture: this.tempBoatPicture
+				boatPicture: this.tempBoatPicture, 
+				//boatFeatures: this.$el.find('[class="boatfeatures"]:checked').val()
+				boatFeatures: [this.$el.find('[class="boatfeatures"]:checked').val().split(','))], 
 			};
 
 			var saveSuccess = function( boat ) {
-					console.log("baseStatus="+baseStatus);
+				console.log("baseStatus="+baseStatus);
 				if( baseStatus == 'creation' ) {
 
 					var hostSaveSuccess = function() {
@@ -196,6 +198,7 @@ define([
 					host.relation('boats').add(boat);
 					host.save().then(hostSaveSuccess, hostSaveError);
 
+
 				} else {
 
 					Parse.history.navigate('dashboard', true);
@@ -206,7 +209,7 @@ define([
 
 			var saveError = function(error) {
 				
-					console.log(error);
+				console.log(error);
 				self.buttonLoader();
 
 				if( error.type && error.type == 'model-validation' ) {

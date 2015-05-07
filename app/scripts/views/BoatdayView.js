@@ -2,22 +2,24 @@ define([
 'jquery', 
 'underscore', 
 'parse',
-'models/BoatModel',
 'views/BaseView',
 'views/BoatsSelectView',
 'text!templates/BoatdayTemplate.html'
-], function($, _, Parse, BoatModel, BaseView, BoatsSelectView, BoatdayTemplate){
+], function($, _, Parse, BaseView, BoatsSelectView, BoatdayTemplate){
 	var BoatdayView = BaseView.extend({
 
 		className:"view-event",
 
 		template: _.template(BoatdayTemplate),
 
-		debug: false,
+		debug: true,
 
 		events: {
 			
-			"submit form" : "save"
+			"submit form" : "save",
+			'change [name="activity"]' : "refreshActivity", 
+			'change [name="equipmentProvidedFishing"]': "showContingentFieldsFishing", 
+			'change [name="equipmentProvidedSport"]': "showContingentFieldsSport"
 		}, 
 
 		initialize: function() {
@@ -53,7 +55,8 @@ define([
 				if( dateYear == i ) opt.attr('selected', 1);
 				this.$el.find('[name="dateYear"]').append(opt);
 			}
-			
+
+			this.refreshActivity();
 			return this;
 
 		},
@@ -68,6 +71,32 @@ define([
 
 		},
 
+		refreshActivity: function() {
+
+			var activity = this._in('activity').val();
+			this.$el.find('.activityContainer').hide();
+			this.$el.find(".activityContainer." + activity).show();
+
+			this.$el.find('.equipmentProvidedFishing').hide();
+			this.$el.find('.equipmentProvidedWaterSport').hide();
+			this.$el.find('[name="equipmentProvidedFishing"]').prop('checked', false);
+			this.$el.find('[name="equipmentProvidedSport"]').prop('checked', false);
+		
+		},
+
+		showContingentFieldsFishing: function() {
+
+			this.$el.find('.equipmentProvidedFishing').show();
+			//this.$el.find('[name="equipmentProvidedSport"]:checked')?$('.equipmentProvidedFishing').show():$('.equipmentProvidedFishing').hide();
+
+		},
+
+		showContingentFieldsSport:function() {
+
+			this.$el.find('.equipmentProvidedWaterSport').show();
+
+		},
+
 		save: function(event) {
 
 			event.preventDefault();
@@ -78,7 +107,7 @@ define([
 
 				status: 'complete',
 
-				name: this._in('name').val(), 
+				//name: this._in('name').val(), 
 				description: this._in('description').val(),
 				date: new Date(
 					this._in('dateYear').val(), 
@@ -87,24 +116,26 @@ define([
 					this._in('dateHours').val(), 
 					this._in('dateMinutes').val(),
 					0),
+				boat: this._in('boat').val(), 
 				captain: this._in('captain').val(), 
 				location: null,
-				duration: this._in('duration').val(), 
-				price: this._in('price').val(), 
-				availableSeats: this._in('availableSeats').val(), 
-				minimumSeats: this._in('minimumSeats').val(), 
+				duration: parseInt(this._in('duration').val()), 
+				price: parseInt(this._in('price').val()), 
+				availableSeats: parseInt(this._in('availableSeats').val()), 
+				minimumSeats: parseInt(this._in('minimumSeats').val()), 
 				bookingPolicy: this.$el.find('[name="bookingPolicy"]:checked').val(),
 				cancellationPolicy: this.$el.find('[name="cancellationPolicy"]:checked').val(), 
-				category: this._in('category').val()
+				category: this._in('activity').val()
 
 			};
+			console.log(data);
 
 			var saveSuccess = function( boatday ) {
 		
 				if( baseStatus == 'creation' ) {
 
 					var hostSaveSuccess = function() {
-						Parse.history.navigate('dashboard', true);
+						Parse.history.navigate('boatday/'+boatday.id, true);
 					};
 
 					var hostSaveError = function(error) {
@@ -142,14 +173,8 @@ define([
 
 			};
 			
-			var boatSuccess = function(boat) {
+			this.model.save(data).then(saveSuccess, saveError);
 
-				data.boat = boat;
-				self.model.save(data).then(saveSuccess, saveError);
-
-			};
-
-			new Parse.Query(BoatModel).get(this._in('boat').val()).then(boatSuccess, saveError);
 
 		}
 	});

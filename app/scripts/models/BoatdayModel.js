@@ -9,7 +9,7 @@ define([
 			host: null, 
 			boat: null, 
 			captain: null, 
-			name: null, 
+			//name: null, 
 			date: null,
 			duration: null, 
 			price: null, 
@@ -37,9 +37,9 @@ define([
 				_return.fields.captain = "A captain name is required";
 			}
 
-			if( !attributes.name ) {
-				_return.fields.name = "A event name is required";
-			}
+			// if( !attributes.name ) {
+			// 	_return.fields.name = "A event name is required";
+			// }
 
 			if( !/^[0-9]+([\.][0-9]+)?$/g.test(attributes.price) ) {
 				_return.fields.price = "A price per seat is not valid";
