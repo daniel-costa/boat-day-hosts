@@ -3,35 +3,48 @@
 		<div class="col-xs-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<h3 class="panel-title text-center">Boat</h3>
+					<h3 class="panel-title text-center">Add a Boat</h3>
 				</div>
 				<div class="panel-body">
 					<div class="form-group">
 						<label for="name" class="col-sm-4 control-label">Boat Name</label>
 						<div class="col-sm-5">
-							<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="name used in the application">
+							<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="what she`s called">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="hullID" class="col-sm-4 control-label">Hull ID</label>
+						<label for="boatType" class="col-sm-4 control-label">Type of Boat </label>
 						<div class="col-sm-5">
-							<input type="text" value="<%= hullID ? hullID : '' %>" class="form-control" id="hullID" name="hullID" placeholder="your boat's hull id">
+							<input type="text" value="" class="form-control" id="boatType" name="boatType" placeholder="who made your boat">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="displayPicture" class="col-sm-4 control-label">Boat Picture</label>
+						<label for="hullID" class="col-sm-4 control-label">Hull ID (HIN)</label>
 						<div class="col-sm-5">
-							<input type="file" class="form-control" name="boatPicture" style="color:transparent"/>
+							<input type="text" value="<%= hullID ? hullID : '' %>" class="form-control" id="hullID" name="hullID" placeholder="### ##### ####">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="displayPicture" class="col-sm-4 control-label">Boat Photo(s)</label>
+						<div class="col-sm-5">
+							<div class="alert-info alert" stlye="margin:0px auto;">
+								<span class="glyphicon glyphicon-info-sign"></span>  
+							</div>
+						</div> 
+						<div class="col-sm-5 col-sm-offset-4" >
+							<!-- <input type="file" class="form-control" name="boatPicture" style="color:transparent"/>
 							<% if( boatPicture && status != 'creation') { %>
 								<img class="previewBoatPicture" src="<%= boatPicture.url %>" style="max-width : 100%;" />
-							<% } %>
+							<% } %> -->
+							<!-- <a href="#" onclick="document.getElementById('fileID').click(); return false;" />Choose File(s)</a> -->
+							<input type="file" id="fileID" style="visibility: hidden;" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="length" class="col-sm-4 control-label">Length</label>		
 						<div class="col-sm-5">
 							<div class="input-group">
-								<input type="text" value="<%= length ? length : '' %>" class="form-control" id="length" name="length" placeholder="boat length">
+								<input type="text" value="<%= length ? length : '' %>" class="form-control" id="length" name="length" placeholder="# of">
 								<div class="input-group-addon"><strong>feet</strong></div>
 							</div>
 						</div>
@@ -40,16 +53,16 @@
 						<label for="capacity" class="col-sm-4 control-label">Capacity</label>
 						<div class="col-sm-5">
 							<div class="input-group">
-							<input type="text" value="<%= capacity ? capacity : '' %>" class="form-control" id="capacity" name="capacity" placeholder="capacity">
+							<input type="text" value="<%= capacity ? capacity : '' %>" class="form-control" id="capacity" name="capacity" placeholder="# of">
 								<div class="input-group-addon"><strong>passengers</strong></div>
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="displayPicture" class="col-sm-4 control-label">Proof of insurance</label>
+						<label for="displayPicture" class="col-sm-4 control-label">Proof of Insurance</label>
 						<div class="col-sm-5">
 							<div class="alert-info alert" stlye="margin:0px auto;">
-								<span class="glyphicon glyphicon-info-sign"></span>  Please upload a photo that clearly shows your insurance. The photo must be in PDF, JPEG or PNG.
+								<span class="glyphicon glyphicon-info-sign"></span>  
 							</div>
 						</div> 
 						<div class="col-sm-5 col-sm-offset-4">
@@ -62,77 +75,75 @@
 					<div class="form-group">
 						<label for="boatFeature" class="col-sm-4 control-label">Boat Features</label>
 						<div class="col-sm-5">	
-							<div class="alert-info alert" stlye="margin:0px auto;">
-								<label style="font-weight:normal">
-									<input type="checkbox" name="airConditioning" value="air conditioning" class="boatfeatures"> Air Conditioning 
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="anchor" value="anchor" class="boatfeatures"> Anchor 
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="autopilot" value="autopilot" class="boatfeatures"> Autopilot 
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="cooler" value="cooler" class="boatfeatures"> Cooler
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="depthFinder" value="depthFinder" class="boatfeatures"> Depth Finder 
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="fishFinder" value="fishFinder" class="boatfeatures"> Fish Finder  
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="gps" value="GPS" class="boatfeatures"> GPS
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="grill" value="grill" class="boatfeatures"> Grill
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="internet" value="internet" class="boatfeatures"> Internet 
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="liveBaitWell" value="liveBaitWell" class="boatfeatures"> Live Bait Well 
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="microwave" value="microwave" class="boatfeatures"> Microwave
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="radar" value="radar" class="boatfeatures"> Radar 
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="refrigeration" value="refrigeration" class="boatfeatures"> Refrigeration
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="rodHolder" value="rodHolder" class="boatfeatures"> Rod Holder 
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="shower" value="shower" class="boatfeatures"> Shower
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="sink" value="sink" class="boatfeatures"> Sink
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="stereo" value="stereo" class="boatfeatures"> Stereo 
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="stereoAuxInput" value="stereoAuxInput" class="boatfeatures"> Stereo Aux Input
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="sonar" value="sonar" class="boatfeatures"> Sonar
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="swimLadder" value="swimLadder" class="boatfeatures"> Swim Ladder
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="tvDvd" value="tvDvd" class="boatfeatures"> TV/DVD 
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="trollingMotor" value="trollingMotor" class="boatfeatures"> Trolling Motor
-								</label>&nbsp;
-								<label style="font-weight:normal">
-									<input type="checkbox" name="wakeboardTower" value="wakeboardTower" class="boatfeatures"> Wakeboard Tower 
-								</label>
-							</div>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="airConditioning" value="air conditioning" class="boatfeatures"> Air Conditioning 
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="anchor" value="anchor" class="boatfeatures"> Anchor 
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="autopilot" value="autopilot" class="boatfeatures"> Autopilot 
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="cooler" value="cooler" class="boatfeatures"> Cooler
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="depthFinder" value="depthFinder" class="boatfeatures"> Depth Finder 
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="fishFinder" value="fishFinder" class="boatfeatures"> Fish Finder  
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="gps" value="GPS" class="boatfeatures"> GPS
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="grill" value="grill" class="boatfeatures"> Grill
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="internet" value="internet" class="boatfeatures"> Internet 
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="liveBaitWell" value="liveBaitWell" class="boatfeatures"> Live Bait Well 
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="microwave" value="microwave" class="boatfeatures"> Microwave
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="radar" value="radar" class="boatfeatures"> Radar 
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="refrigeration" value="refrigeration" class="boatfeatures"> Refrigeration
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="rodHolder" value="rodHolder" class="boatfeatures"> Rod Holder 
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="shower" value="shower" class="boatfeatures"> Shower
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="sink" value="sink" class="boatfeatures"> Sink
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="stereo" value="stereo" class="boatfeatures"> Stereo 
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="stereoAuxInput" value="stereoAuxInput" class="boatfeatures"> Stereo Aux Input
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="sonar" value="sonar" class="boatfeatures"> Sonar
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="swimLadder" value="swimLadder" class="boatfeatures"> Swim Ladder
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="tvDvd" value="tvDvd" class="boatfeatures"> TV/DVD 
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="trollingMotor" value="trollingMotor" class="boatfeatures"> Trolling Motor
+							</label><br>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="wakeboardTower" value="wakeboardTower" class="boatfeatures"> Wakeboard Tower 
+							</label>
 
 						</div>
 						

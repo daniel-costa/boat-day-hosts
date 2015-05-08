@@ -177,6 +177,7 @@ define([
 				capacity: parseInt(this._in('capacity').val()),
 				insurance: this.tempInsurance,
 				boatPicture: this.tempBoatPicture, 
+				boatType: this._in('boatType').val()
 				//boatFeatures: this.$el.find('[class="boatfeatures"]:checked').val()
 			};
 
