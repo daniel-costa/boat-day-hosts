@@ -4,14 +4,14 @@ define([
 'parse',
 'views/BaseView',
 'views/BoatsSelectView',
-'text!templates/BoatdayTemplate.html',
+'text!templates/BoatDayTemplate.html',
 'models/BoatModel',
-], function($, _, Parse, BaseView, BoatsSelectView, BoatdayTemplate, BoatModel){
-	var BoatdayView = BaseView.extend({
+], function($, _, Parse, BaseView, BoatsSelectView, BoatDayTemplate, BoatModel){
+	var BoatDayView = BaseView.extend({
 
 		className:"view-event",
 
-		template: _.template(BoatdayTemplate),
+		template: _.template(BoatDayTemplate),
 
 		debug: true,
 
@@ -170,12 +170,12 @@ define([
 				}
 			};
 
-			var saveSuccess = function( boatday ) {
+			var saveSuccess = function( boatDay ) {
 		
 				if( baseStatus == 'creation' ) {
 
 					var hostSaveSuccess = function() {
-						Parse.history.navigate('boatday/'+boatday.id, true);
+						Parse.history.navigate('boatDay/'+boatDay.id, true);
 					};
 
 					var hostSaveError = function(error) {
@@ -183,7 +183,7 @@ define([
 					}
 
 					var host = Parse.User.current().get("host");
-					host.relation('boatdays').add(boatday);
+					host.relation('boatDays').add(boatDay);
 					host.save().then(hostSaveSuccess, hostSaveError);
 
 				} else {
@@ -224,6 +224,6 @@ define([
 
 		}
 	});
-	return BoatdayView;
+	return BoatDayView;
 
 });

@@ -5,7 +5,7 @@ define([
 	'parse',
 	'models/BoatModel',
 	'models/DriverModel',
-	'models/BoatdayModel',
+	'models/BoatDayModel',
 	'views/HomeView',
 	'views/DashboardView',
 	'views/TermsView',
@@ -14,11 +14,11 @@ define([
 	'views/DriverRegistrationView',
 	'views/ProfileView',
 	'views/BoatView', 
-	'views/BoatdayView'
+	'views/BoatDayView'
 ], function(
 	$, _, Parse, 
-	BoatModel, DriverModel, BoatdayModel,
-	HomeView, DashboardView, TermsView, SignUpView, HostRegistrationView, DriverRegistrationView, ProfileView, BoatView, BoatdayView) {
+	BoatModel, DriverModel, BoatDayModel,
+	HomeView, DashboardView, TermsView, SignUpView, HostRegistrationView, DriverRegistrationView, ProfileView, BoatView, BoatDayView) {
 	
 	var AppRouter = Parse.Router.extend({
 
@@ -28,8 +28,8 @@ define([
 			'sign-out': 'signOut',
 			'boat/add': 'showBoatView',
 			'boat/:boatid': 'showBoatView',
-			'boatday/add': 'showBoatdayView',
-			'boatday/:boatdayid': 'showBoatdayView',
+			'boatDay/add': 'showBoatDayView',
+			'boatDay/:boatdayid': 'showBoatDayView',
 			'driver/edit': 'showDriverView',
 			'host': 'showHostView',
 			'host/edit': 'showHostView',
@@ -111,34 +111,33 @@ define([
 
 		},
 
-		showBoatdayView: function( boatdayid ) {
+		showBoatDayView: function( boatDayid ) {
 
 			var self = this;
 			var cb = function() {
 				
-				if( boatdayid ) {
+				if( boatDayid ) {
 
-					var boatdayQuerySuccess = function(boatday) {
+					var boatDayQuerySuccess = function(boatDay) {
 
-						self.render(new BoatdayView({ model: boatday })); 
+						self.render(new BoatDayView({ model: boatDay })); 
 					};
 
-					var boatdayQueryError = function(error){
+					var boatDayQueryError = function(error){
 
 						console.log(error);
 
 					};
 
-					Parse.User.current().get('host').relation('boatdays').query().get(boatdayid).then(boatdayQuerySuccess, boatdayQueryError);
+					Parse.User.current().get('host').relation('boatDays').query().get(boatDayid).then(boatDayQuerySuccess, boatDayQueryError);
 
 				} else {
 
-					var boatday = new BoatdayModel({ host: Parse.User.current().get('host') });
-					self.render(new BoatdayView({ model: boatday }));
+					var boatDay = new BoatDayModel({ host: Parse.User.current().get('host') });
+					self.render(new BoatDayView({ model: boatDay }));
 					
 				}
 			};
-
 			this.handleGuestAndSignUp(cb);
 		},
 

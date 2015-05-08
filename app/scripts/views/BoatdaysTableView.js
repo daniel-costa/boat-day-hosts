@@ -3,19 +3,19 @@ define([
 'underscore', 
 'parse',
 'views/BaseView',
-'text!templates/BoatdaysTableTemplate.html'
-], function($, _, Parse, BaseView, BoatdaysTableTemplate){
+'text!templates/BoatDaysTableTemplate.html'
+], function($, _, Parse, BaseView, BoatDaysTableTemplate){
 	var DashboardView = BaseView.extend({
 
 		tagName: "table",
 
-		className: "view-boatdays-table table",
+		className: "view-boatDays-table table",
 		
 		attributes: {
 			style: "margin-bottom:0px;"
 		},
 
-		template: _.template(BoatdaysTableTemplate),
+		template: _.template(BoatDaysTableTemplate),
 
 		events : {
 

@@ -4,9 +4,9 @@ define([
 'parse',
 'views/BaseView',
 'views/BoatsTableView',
-'views/BoatdaysTableView',
+'views/BoatDaysTableView',
 'text!templates/DashboardTemplate.html'
-], function($, _, Parse, BaseView, BoatsTableView, BoatdaysTableView, DashboardTemplate){
+], function($, _, Parse, BaseView, BoatsTableView, BoatDaysTableView, DashboardTemplate){
 	var DashboardView = BaseView.extend({
 
 		className: "view-dashboard",
@@ -57,11 +57,11 @@ define([
 
 			};
 
-			var boatdaysFetchSuccess = function(collection) {
+			var boatDaysFetchSuccess = function(collection) {
 
-				var boatdaysView = new BoatdaysTableView({ collection: collection });
-				self.subViews.push(boatdaysView);
-				self.$el.find('.boatdays').html(boatdaysView.render().el);
+				var boatDaysView = new BoatDaysTableView({ collection: collection });
+				self.subViews.push(boatDaysView);
+				self.$el.find('.boatDays').html(boatDaysView.render().el);
 
 			};	
 
@@ -72,7 +72,7 @@ define([
 			};
 
 			Parse.User.current().get('host').relation('boats').query().collection().fetch().then(boatsFetchSuccess, collectionFetchError);
-			Parse.User.current().get('host').relation('boatdays').query().collection().fetch().then(boatdaysFetchSuccess, collectionFetchError);
+			Parse.User.current().get('host').relation('boatDays').query().collection().fetch().then(boatDaysFetchSuccess, collectionFetchError);
 
 		},
 

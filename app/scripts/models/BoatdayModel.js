@@ -1,7 +1,7 @@
 define([
 'parse'
 ], function(Parse){
-	var BoatdayModel = Parse.Object.extend("Boatday", {
+	var BoatDayModel = Parse.Object.extend("BoatDay", {
 
 		defaults: {
 
@@ -110,5 +110,5 @@ define([
 		 }
 
 	});
-	return BoatdayModel;
+	return BoatDayModel;
 });
