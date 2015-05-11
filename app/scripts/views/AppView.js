@@ -26,7 +26,24 @@ define([
 			// ToDo Check if already exist and dont add new
 		},
 
-		initialize: function() {
+		initialize: function(cb) {
+
+			if( Parse.User.current() ) {
+				// var x = function(a) {
+				// 	console.log(a);
+				// 	console.log(Parse.User.current());
+				// };
+				// var query = new Parse.Query(Parse.User);
+				// query.include("profile");
+				// query.include("host");
+				// query.include("driver");
+				// query.get(Parse.User.current().id).then(x);
+
+				// ToDo : Fetch information
+				cb();
+			} else {
+				cb();
+			}
 		}
 
 	});

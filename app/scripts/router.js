@@ -10,15 +10,15 @@ define([
 	'views/DashboardView',
 	'views/TermsView',
 	'views/SignUpView',
-	'views/HostRegistrationView',
-	'views/DriverRegistrationView',
+	'views/HostView',
+	'views/DriverView',
 	'views/ProfileView',
 	'views/BoatView', 
 	'views/BoatDayView'
 ], function(
 	$, _, Parse, 
 	BoatModel, DriverModel, BoatDayModel,
-	HomeView, DashboardView, TermsView, SignUpView, HostRegistrationView, DriverRegistrationView, ProfileView, BoatView, BoatDayView) {
+	HomeView, DashboardView, TermsView, SignUpView, HostView, DriverView, ProfileView, BoatView, BoatDayView) {
 	
 	var AppRouter = Parse.Router.extend({
 
@@ -30,9 +30,9 @@ define([
 			'boat/:boatid': 'showBoatView',
 			'boatDay/add': 'showBoatDayView',
 			'boatDay/:boatdayid': 'showBoatDayView',
-			'driver/edit': 'showDriverView',
+			'driver': 'showDriverView',
 			'host': 'showHostView',
-			'host/edit': 'showHostView',
+			'profile': 'showProfileView',
 			'*actions': 'showDashboardView'
 		},
 
@@ -138,6 +138,7 @@ define([
 					
 				}
 			};
+
 			this.handleGuestAndSignUp(cb);
 		},
 
@@ -147,7 +148,7 @@ define([
 
 			var cb = function() {
 
-				self.render(new DriverRegistrationView({ model: Parse.User.current().get('driver') }));	
+				self.render(new DriverView({ model: Parse.User.current().get('driver') }));	
 
 			};
 
@@ -159,9 +160,29 @@ define([
 
 			var self = this;
 
-			var cb = function() {
-				
-				self.render(new HostRegistrationView({ model: Parse.User.current().get('host') }));	
+			var cb = function( ) {
+
+				self.render(new HostView({ model: Parse.User.current().get('host') }));	
+
+			};
+
+			this.handleGuestAndSignUp(cb);
+
+		},
+
+		showProfileView: function() {
+
+			var self = this;
+
+			var cb = function( ) {
+
+				var profileSuccess = function(profile) {
+					
+					self.render(new ProfileView({ model: profile }));
+
+				};
+
+				Parse.User.current().get("profile").fetch().then(profileSuccess);
 
 			};
 
@@ -174,26 +195,22 @@ define([
 			if( !Parse.User.current() ) {
 				
 				this.showHomeView();
-				return false;
+				return ;
 					
 			}
 
 			if( Parse.User.current().get("status") == "creation" ) {
 
 				this.handleSignUp();
-				return false;
+				return ;
 			}
 
 
 			if( Parse.User.current().get('host') && !Parse.User.current().get('host').createdAt ) {
 
-				console.log("**Fetch host**");
-
 				Parse.User.current().get('host').fetch().done(cb);
 
 			} else if( Parse.User.current().get('driver') && !Parse.User.current().get('driver').createdAt ) {
-
-				console.log("**Fetch driver**");
 
 				Parse.User.current().get('driver').fetch().done(cb);
 
@@ -239,7 +256,7 @@ define([
 
 				var driverSuccess = function(driver) {
 					
-					self.render(new DriverRegistrationView({ model: driver }));	
+					self.render(new DriverView({ model: driver }));	
 
 				};
 
@@ -250,7 +267,7 @@ define([
 
 				var hostSuccess = function(host) {
 
-					self.render(new HostRegistrationView({ model: host }));	
+					self.render(new HostView({ model: host }));	
 
 				};
 

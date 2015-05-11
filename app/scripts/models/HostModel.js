@@ -5,6 +5,7 @@ define([
 
 		defaults: {
 
+			status: 'creation',
 			type: null,
 			phone: null,
 			paymentMethod: null,

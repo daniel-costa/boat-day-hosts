@@ -29,9 +29,11 @@ require(['parse', 'router', 'views/AppView', 'bootstrap'], function(Parse, AppRo
 	
 	Parse.initialize("8YpQsh2LwXpCgkmTIIncFSFALHmeaotGVDTBqyUv", "FaULY8BIForvAYZwVwqX4IAmfsyxckikiZ2NFuEp");
 	
-	new AppView;
-	new AppRouter();
+	var cb = function() {
+		new AppRouter();
+		Parse.history.start();
+	}
 
-	Parse.history.start();
+	new AppView(cb);
 
 });

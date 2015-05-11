@@ -4,13 +4,13 @@ define([
 'parse',
 'views/BaseView',
 'models/ProfileModel',
-'text!templates/HostRegistrationTemplate.html'
-], function($, _, Parse, BaseView, ProfileModel, HostRegistrationTemplate){
-	var HostRegistrationView = BaseView.extend({
+'text!templates/HostTemplate.html'
+], function($, _, Parse, BaseView, ProfileModel, HostTemplate){
+	var HostView = BaseView.extend({
 
 		className: "view-host-registration",
 
-		template: _.template(HostRegistrationTemplate),
+		template: _.template(HostTemplate),
 
 		debug: true,
 
@@ -47,28 +47,31 @@ define([
 
 		debugAutofillFields: function() {
 			
-			this._in('firstname').val('Daniel');
-			this._in('lastname').val('Costa');
-			this._in('SSN').val('9861');
+			if( this.model.get('status') == 'creation' ) {
 
-			this._in('businessName').val('Peer-to-Pier Technologies LLC');
-			this._in('businessEin').val('46-4074689');
-			this._in('businessContact').val('Daniel Costa');
+				this._in('firstname').val('Daniel');
+				this._in('lastname').val('Costa');
+				this._in('SSN').val('9861');
 
-			this._in('phone').val('123-123-1234');
-			this._in('street').val('9861 SW 117th Ct');
-			this._in('city').val('Miami');
-			this._in('zipCode').val('98613');
+				this._in('businessName').val('Peer-to-Pier Technologies LLC');
+				this._in('businessEin').val('46-4074689');
+				this._in('businessContact').val('Daniel Costa');
 
-			this._in('accountHolder').val('Daniel Costa');
-			this._in('accountNumber').val('1039531801');
-			this._in('accountRouting').val('324377516');
-			this._in('paypalEmail').val('paypal@boatdayapp.com');
-			this._in('venmoEmail').val('venmo@boatdayapp.com');
-			this._in('venmoPhone').val('912-123-1234');
+				this._in('phone').val('123-123-1234');
+				this._in('street').val('9861 SW 117th Ct');
+				this._in('city').val('Miami');
+				this._in('zipCode').val('98613');
 
-			this._in('state').find('option[value="FL"]').attr('selected', 1);
+				this._in('accountHolder').val('Daniel Costa');
+				this._in('accountNumber').val('1039531801');
+				this._in('accountRouting').val('324377516');
+				this._in('paypalEmail').val('paypal@boatdayapp.com');
+				this._in('venmoEmail').val('venmo@boatdayapp.com');
+				this._in('venmoPhone').val('912-123-1234');
 
+				this._in('state').find('option[value="FL"]').attr('selected', 1);
+			
+			}
 		},
 
 		refreshPaymentMethod: function() {
@@ -89,6 +92,7 @@ define([
 			self.cleanForm();
 
 			var data = {
+				status: "complete",
 				phone: this._in('phone').val(),
 				street: this._in('street').val(),
 				city: this._in('city').val(),
@@ -108,20 +112,20 @@ define([
 				businessName: this._in('businessName').val(),
 				businessEin: this._in('businessEin').val(),
 			};
-
-			var userStatusUpdateSuccess = function() {
-
-				Parse.history.loadUrl( Parse.history.fragment );
-
-			};
-
+			console.log(data);
 			var hostRegistrationSuccess = function() {
 
-				if(Parse.User.current().get("profile") ) {
-
+				if( Parse.User.current().get("profile") ) {
+					console.log('dashboard');
 					Parse.history.navigate("dashboard", true);
 
 				} else {
+
+					var userStatusUpdateSuccess = function() {
+
+						Parse.history.loadUrl( Parse.history.fragment );
+
+					};
 
 					var profileData = {
 						displayName: data.firstname + " " + data.lastname.charAt(0) + "."
@@ -156,5 +160,5 @@ define([
 		}
 
 	});
-	return HostRegistrationView;
+	return HostView;
 });

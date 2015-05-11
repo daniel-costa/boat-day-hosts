@@ -33,6 +33,7 @@ define([
 		render: function() {
 			
 			BaseView.prototype.render.call(this);
+			
 			this.$el.find('.alert-info').hide();
 
 			if( this.signUpType == 'driver' ) {

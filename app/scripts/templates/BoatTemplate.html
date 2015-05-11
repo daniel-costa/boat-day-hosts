@@ -3,48 +3,36 @@
 		<div class="col-xs-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<h3 class="panel-title text-center">Add a Boat</h3>
+					<h3 class="panel-title text-center">
+						<%= status == 'creation' ? 'Add a Boat' : '' %>
+						<%= status == 'editing' ? 'Boat waiting for submition' : '' %>
+						<%= status == 'submitted' ? 'Boat in review' : '' %>
+					</h3>
 				</div>
 				<div class="panel-body">
 					<div class="form-group">
 						<label for="name" class="col-sm-4 control-label">Boat Name</label>
 						<div class="col-sm-5">
-							<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="what she`s called">
+							<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="what she`s called" <%= status != 'creation' ? 'readonly' : '' %>>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="boatType" class="col-sm-4 control-label">Type of Boat </label>
+						<label for="type" class="col-sm-4 control-label">Type of Boat </label>
 						<div class="col-sm-5">
-							<input type="text" value="" class="form-control" id="boatType" name="boatType" placeholder="who made your boat">
+							<input type="text" value="<%= type ? type : '' %>" class="form-control" id="type" name="type" placeholder="who made your boat" <%= status != 'creation' ? 'readonly' : '' %>>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="hullID" class="col-sm-4 control-label">Hull ID (HIN)</label>
 						<div class="col-sm-5">
-							<input type="text" value="<%= hullID ? hullID : '' %>" class="form-control" id="hullID" name="hullID" placeholder="### ##### ####">
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="displayPicture" class="col-sm-4 control-label">Boat Photo(s)</label>
-						<div class="col-sm-5">
-							<div class="alert-info alert" stlye="margin:0px auto;">
-								<span class="glyphicon glyphicon-info-sign"></span>  
-							</div>
-						</div> 
-						<div class="col-sm-5 col-sm-offset-4" >
-							<!-- <input type="file" class="form-control" name="boatPicture" style="color:transparent"/>
-							<% if( boatPicture && status != 'creation') { %>
-								<img class="previewBoatPicture" src="<%= boatPicture.url %>" style="max-width : 100%;" />
-							<% } %> -->
-							<!-- <a href="#" onclick="document.getElementById('fileID').click(); return false;" />Choose File(s)</a> -->
-							<input type="file" id="fileID" style="visibility: hidden;" />
+							<input type="text" value="<%= hullID ? hullID : '' %>" class="form-control" id="hullID" name="hullID" placeholder="### ##### ####" <%= status != 'creation' ? 'readonly' : '' %>>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="length" class="col-sm-4 control-label">Length</label>		
 						<div class="col-sm-5">
 							<div class="input-group">
-								<input type="text" value="<%= length ? length : '' %>" class="form-control" id="length" name="length" placeholder="# of">
+								<input type="text" value="<%= length ? length : '' %>" class="form-control" id="length" name="length" placeholder="# of" <%= status != 'creation' ? 'readonly' : '' %>>
 								<div class="input-group-addon"><strong>feet</strong></div>
 							</div>
 						</div>
@@ -53,107 +41,147 @@
 						<label for="capacity" class="col-sm-4 control-label">Capacity</label>
 						<div class="col-sm-5">
 							<div class="input-group">
-							<input type="text" value="<%= capacity ? capacity : '' %>" class="form-control" id="capacity" name="capacity" placeholder="# of">
+							<input type="text" value="<%= capacity ? capacity : '' %>" class="form-control" id="capacity" name="capacity" placeholder="# of" <%= status != 'creation' ? 'readonly' : '' %>>
 								<div class="input-group-addon"><strong>passengers</strong></div>
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="panel-heading">
+					<h3 class="panel-title text-center">Boat Features</h3>
+				</div>
+				<div class="panel-body">
 					<div class="form-group">
-						<label for="displayPicture" class="col-sm-4 control-label">Proof of Insurance</label>
-						<div class="col-sm-5">
-							<div class="alert-info alert" stlye="margin:0px auto;">
-								<span class="glyphicon glyphicon-info-sign"></span>  
-							</div>
-						</div> 
-						<div class="col-sm-5 col-sm-offset-4">
-							<input type="file" class="form-control" name="insurance" style="color:transparent"/>
-							<% if( insurance && status != 'creation' ) { %>
-								<a class="previewProofOfInsurance" href="<%= insurance.url %>" target="_blank">Proof of insurance</a>
-							<% } %>
-						</div>	
-					</div>
-					<div class="form-group">
-						<label for="boatFeature" class="col-sm-4 control-label">Boat Features</label>
-						<div class="col-sm-5">	
+						<div class="col-sm-4">	
 							<label style="font-weight:normal">
-								<input type="checkbox" name="airConditioning" value="air conditioning" class="boatfeatures"> Air Conditioning 
+								<input type="checkbox" name="featureAirConditioning" class="boatfeatures" <%= features.airConditioning ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Air Conditioning 
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="anchor" value="anchor" class="boatfeatures"> Anchor 
+								<input type="checkbox" name="featureAutopilot" class="boatfeatures" <%= features.autopilot ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Autopilot 
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="autopilot" value="autopilot" class="boatfeatures"> Autopilot 
+								<input type="checkbox" name="featureCooler" class="boatfeatures" <%= features.cooler ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Cooler
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="cooler" value="cooler" class="boatfeatures"> Cooler
+								<input type="checkbox" name="featureDepthFinder" class="boatfeatures" <%= features.depthFinder ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Depth Finder 
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="depthFinder" value="depthFinder" class="boatfeatures"> Depth Finder 
+								<input type="checkbox" name="featureFishFinder" class="boatfeatures" <%= features.fishFinder ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Fish Finder  
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="fishFinder" value="fishFinder" class="boatfeatures"> Fish Finder  
+								<input type="checkbox" name="featureGps" class="boatfeatures" <%= features.gps ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> GPS
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="gps" value="GPS" class="boatfeatures"> GPS
+								<input type="checkbox" name="featureGrill" class="boatfeatures" <%= features.grill ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Grill
+							</label><br>
+						</div>
+						<div class="col-sm-4">
+							<label style="font-weight:normal">
+								<input type="checkbox" name="featureInternet" class="boatfeatures" <%= features.internet ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Internet 
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="grill" value="grill" class="boatfeatures"> Grill
+								<input type="checkbox" name="featureLiveBaitWell" class="boatfeatures" <%= features.liveBaitWell ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Live Bait Well 
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="internet" value="internet" class="boatfeatures"> Internet 
+								<input type="checkbox" name="featureMicrowave" class="boatfeatures" <%= features.microwave ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Microwave
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="liveBaitWell" value="liveBaitWell" class="boatfeatures"> Live Bait Well 
+								<input type="checkbox" name="featureRefrigeration" class="boatfeatures" <%= features.refrigeration ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Refrigeration
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="microwave" value="microwave" class="boatfeatures"> Microwave
+								<input type="checkbox" name="featureRodHolder" class="boatfeatures" <%= features.rodHolder ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Rod Holder 
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="radar" value="radar" class="boatfeatures"> Radar 
+								<input type="checkbox" name="featureShower" class="boatfeatures" <%= features.shower ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Shower
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="refrigeration" value="refrigeration" class="boatfeatures"> Refrigeration
+								<input type="checkbox" name="featureSink" class="boatfeatures" <%= features.sink ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Sink
+							</label><br>
+						</div>
+						<div class="col-sm-4">
+							<label style="font-weight:normal">
+								<input type="checkbox" name="featureStereo" class="boatfeatures" <%= features.stereo ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Stereo 
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="rodHolder" value="rodHolder" class="boatfeatures"> Rod Holder 
+								<input type="checkbox" name="featureStereoAuxInput" class="boatfeatures" <%= features.stereoAuxInput ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Stereo Aux Input
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="shower" value="shower" class="boatfeatures"> Shower
+								<input type="checkbox" name="featureSonar" class="boatfeatures" <%= features.sonar ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Sonar
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="sink" value="sink" class="boatfeatures"> Sink
+								<input type="checkbox" name="featureSwimLadder" class="boatfeatures" <%= features.swimLadder ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Swim Ladder
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="stereo" value="stereo" class="boatfeatures"> Stereo 
+								<input type="checkbox" name="featureTvDvd" class="boatfeatures" <%= features.tvDvd ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> TV/DVD 
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="stereoAuxInput" value="stereoAuxInput" class="boatfeatures"> Stereo Aux Input
+								<input type="checkbox" name="featureTrollingMotor" class="boatfeatures" <%= features.trollingMotor ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Trolling Motor
 							</label><br>
 							<label style="font-weight:normal">
-								<input type="checkbox" name="sonar" value="sonar" class="boatfeatures"> Sonar
-							</label><br>
-							<label style="font-weight:normal">
-								<input type="checkbox" name="swimLadder" value="swimLadder" class="boatfeatures"> Swim Ladder
-							</label><br>
-							<label style="font-weight:normal">
-								<input type="checkbox" name="tvDvd" value="tvDvd" class="boatfeatures"> TV/DVD 
-							</label><br>
-							<label style="font-weight:normal">
-								<input type="checkbox" name="trollingMotor" value="trollingMotor" class="boatfeatures"> Trolling Motor
-							</label><br>
-							<label style="font-weight:normal">
-								<input type="checkbox" name="wakeboardTower" value="wakeboardTower" class="boatfeatures"> Wakeboard Tower 
+								<input type="checkbox" name="featureWakeboardTower" class="boatfeatures" <%= features.wakeboardTower ? 'checked' : '' %> <%= status != 'creation' ? 'disabled readonly' : '' %>> Wakeboard Tower 
 							</label>
 
 						</div>
 						
 					</div>
+				</div> 
 
-				</div>  
+				<% if( status != 'creation' ) { %>
+
+					<div class="panel-heading">
+						<h3 class="panel-title text-center">Boat Photo(s)</h3>
+					</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<label for="displayPicture" class="col-sm-4 control-label">Upload a file</label>
+							<div class="col-sm-5" >
+								<input type="file" class="form-control" name="boatPictures" style="color:transparent"/>
+							</div>
+						</div>
+						<div class="row boatPictures" style="line-height:auto; height:auto">
+
+						</div>
+					</div>
+
+					<div class="panel-heading">
+						<h3 class="panel-title text-center">Proof of Insurance</h3>
+					</div>
+
+					<div class="panel-body">
+						<div class="form-group">
+							<label for="displayPicture" class="col-sm-4 control-label">Upload a file</label>
+							<div class="col-sm-5">
+								<input type="file" class="form-control" name="insurance" style="color:transparent"/>
+							</div>	
+						</div>
+					</div>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>File</th>
+								<th>Upload date</th>
+							</tr>
+						</thead>
+						<tbody class="proofOfInsurance">
+
+						</tbody>
+					</table>
+
+				<% } %>
+
 				<div class="panel-footer text-center">
-					Almost there! <button type="submit" class="btn btn-primary">
-						<%= status == 'creation' ? 'Add boat' : 'Save' %> 
-					</button> a boat.
+					<% if( status == 'creation') { %>
+						<button type="submit" class="btn btn-primary">Add boat</button>
+					<% } %>
+
+					<% if( status == 'editing') { %>
+						<button type="submit" class="btn btn-primary">Submit for review</button>
+					<% } %>
+
+					<% if( status == 'complete') { %>
+						<strong>The BoatDay Team is reviewing your boat</strong>
+					<% } %>
 				</div>
 			</div>
 		</div>

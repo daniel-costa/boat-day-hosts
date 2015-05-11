@@ -20,6 +20,9 @@ define([
 
 		initialize: function(){
 
+			if( this.model.get('status') != 'creation' ) {
+				this.profilePicture = this.model.get('profilePicture');
+			}
 		},
 
 		render: function() {
@@ -59,7 +62,13 @@ define([
 				var uploadSuccess = function(file) {
 					
 					self.profilePicture = parseFile;
-					var preview = $('<img/>').attr('src', parseFile.url()).css({ maxWidth : '100%' }).insertBefore(self._in('profilePicture'));
+
+					if( self.$el.find('.previewProfilePicture').length == 1 ) {
+						self.$el.find('.previewProfilePicture').attr('src', parseFile.url());
+					} else {
+						$('<img/>').addClass('previewProfilePicture').attr('src', parseFile.url()).css({ maxWidth : '100%' }).insertAfter(self._in('profilePicture'));	
+					}
+
 					self.buttonLoader();
 
 				};
@@ -85,8 +94,9 @@ define([
 
 			self.buttonLoader('Saving');
 			self.cleanForm();
-
+			console.log(this.profilePicture2);
 			var data = {
+				status: "complete",
 				displayName: this._in('displayName').val(),
 				about: this._in('about').val(),
 				profilePicture: this.profilePicture
@@ -94,7 +104,7 @@ define([
 
 			var userStatusUpdateSuccess = function() {
 
-				Parse.history.loadUrl( Parse.history.fragment );
+				Parse.history.navigate('dashboard', true);
 
 			};
 

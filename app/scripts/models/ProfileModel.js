@@ -5,12 +5,12 @@ define([
 
 		defaults: {
 
+			status: 'creation',
 			displayName: null, 
 			profilePicture: null, 
-			about: null
+			about: null,
 
 		},
-
 
 		validate: function(attributes){
 

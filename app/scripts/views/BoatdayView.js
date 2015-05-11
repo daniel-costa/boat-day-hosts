@@ -64,12 +64,13 @@ define([
 
 		debugAutofillFields: function() {
 
-			this._in('name').val('Summer sound festival');
-			this._in('price').val('25');
-			this._in('availableSeats').val('10');
-			this._in('minimumSeats').val('5');
-			this._in('description').val('This event has many top DJs in the world.');
-
+			if( this.model.get('status') == 'creation' ) {
+				this._in('name').val('Summer sound festival');
+				this._in('price').val('25');
+				this._in('availableSeats').val('10');
+				this._in('minimumSeats').val('5');
+				this._in('description').val('This event has many top DJs in the world.');
+			}
 		},
 
 		refreshActivity: function() {
@@ -81,7 +82,7 @@ define([
 		},
 
 		showFishingEquipment: function() {
-			console.log(123);
+
 			this.$el.find('.activityContainer.fishing .equipment-list').toggle();
 
 		},

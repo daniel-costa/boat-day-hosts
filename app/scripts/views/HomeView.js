@@ -14,25 +14,9 @@ define([
 		events: {
 
 			"submit form" : "signIn",
-			"click .signUp" : "signUp"
 
 		},
-
-		signUp: function() {
-
-			if( this.$el.find('[name="signUp"]:checked').val() == 'host' ) {
-
-				Parse.history.navigate('sign-up/host', true);
-
-			} 
-
-			if( this.$el.find('[name="signUp"]:checked').val() == 'driver' ) {
-
-				Parse.history.navigate('sign-up/driver', true);
-
-			}
-		},
-
+		
 		signIn: function(event){
 
 			event.preventDefault();

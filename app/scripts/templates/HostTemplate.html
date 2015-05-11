@@ -8,6 +8,8 @@
 						var birthdateDay = birthdate.getDate();
 						var birthdateMonth = birthdate.getMonth() + 1;
 					}
+
+					var ro = status == 'complete' ? 'readonly' : '';
 				%>
 
 				<div class="panel-heading area-personal">
@@ -17,12 +19,12 @@
 					<div class="form-group">
 						<label for="firstname" class="col-sm-4 control-label">Name</label>
 						<div class="col-sm-5">
-							<input value="<%= firstname ? firstname : '' %>"  type="text" class="form-control" id="firstname" name="firstname" placeholder="first name">
+							<input value="<%= firstname ? firstname : '' %>"  type="text" class="form-control" id="firstname" name="firstname" placeholder="first name" <%= ro %>>
 						</div>
 					</div>
 					<div class="form-group">
 					 	<div class="col-sm-5 col-sm-offset-4">
-							<input value="<%= lastname ? lastname : '' %>" type="text" class="form-control" id="lastname" name="lastname" placeholder="last name">
+							<input value="<%= lastname ? lastname : '' %>" type="text" class="form-control" id="lastname" name="lastname" placeholder="last name" <%= ro %>>
 						</div>
 					</div>
 					<div class="form-group">
@@ -194,7 +196,7 @@
 						<div class="form-group has-feedback">
 							<label for="businessName" class="col-sm-4 control-label" >Business Name</label>
 							<div class="col-sm-5">
-								<input value="<%= businessName ? businessName : '' %>" type="text" class="form-control" id="businessName" name="businessName" placeholder="company name (optional)">
+								<input value="<%= businessName ? businessName : '' %>" type="text" class="form-control" id="businessName" name="businessName" placeholder="company name (optional)" <%= ro %>>
 							</div>
 						</div>
 						<div class="form-group">
@@ -202,7 +204,7 @@
 							<div class="col-sm-5">
 								<div class="input-group">
 									<div class="input-group-addon"><strong>EIN</strong></div>
-									<input value="<%= businessEin ? businessEin : '' %>" type="text" class="form-control" id="businessEin" name="businessEin" placeholder="(optional)">
+									<input value="<%= businessEin ? businessEin : '' %>" type="text" class="form-control" id="businessEin" name="businessEin" placeholder="(optional)" <%= ro %>>
 								</div>
 							</div>
 						</div>
@@ -278,7 +280,11 @@
 					</div>
 				</div>
 				<div class="panel-footer text-center">
-					Almost there! <button type="submit" class="btn btn-primary">Create a profile</button> to finish registration.
+					<% if( status == 'creation' ) { %>
+						Almost there! <button type="submit" class="btn btn-primary">Create a profile</button> to finish registration.
+					<% } else { %>
+						<button type="submit" class="btn btn-primary">Save</button>
+					<% } %>
 				</div>
 			</div>
 		</div>

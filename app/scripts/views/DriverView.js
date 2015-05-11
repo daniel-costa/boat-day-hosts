@@ -4,13 +4,13 @@ define([
 'parse',
 'views/BaseView',
 'models/ProfileModel',
-'text!templates/DriverRegistrationTemplate.html'
-], function($, _, Parse, BaseView, ProfileModel, DriverRegistrationTemplate){
-	var DriverregistrationView = BaseView.extend({
+'text!templates/DriverTemplate.html'
+], function($, _, Parse, BaseView, ProfileModel, DriverTemplate){
+	var DriverView = BaseView.extend({
 
 		className: "view-driver-registration",
 
-		template: _.template(DriverRegistrationTemplate),
+		template: _.template(DriverTemplate),
 
 		events: {
 
@@ -42,14 +42,16 @@ define([
 
 		debugAutofillFields: function() {
 
-			this._in('firstname').val('Bibash');
-			this._in('lastname').val('Shah');
-			this._in('phone').val('123 123 1234');
-			this._in('ssn').val('1234');
-			this._in('street').val('9861 SW 117th CT');
-			this._in('city').val('Miami');
-			this._in('zipCode').val('12345');
-
+			if( this.model.get('status') == 'creation' ) {
+				this._in('firstname').val('Bibash');
+				this._in('lastname').val('Shah');
+				this._in('phone').val('123 123 1234');
+				this._in('ssn').val('1234');
+				this._in('street').val('9861 SW 117th CT');
+				this._in('city').val('Miami');
+				this._in('zipCode').val('12345');
+			}
+			
 		},
 
 		registerDriver: function(event) {
@@ -120,5 +122,5 @@ define([
 		}
 
 	});
-	return DriverregistrationView;
+	return DriverView;
 });
