@@ -244,6 +244,24 @@ define([
 			if( baseStatus == 'editing' ) {
 				// amount of pictures : _.size(self.boatPictures)
 				// amount of proofs of insurance : _.size(self.proofOfInsurance)
+				if (_.size(self.boatPictures) == 0) {
+
+					this.fieldError('boatPictures', 'Oops, you missed one!');
+					err = true;
+				}
+
+				if (_.size(self.proofOfInsurance) == 0) {
+
+					this.fieldError('insurance', 'Oops, you missed one!');
+					err = true;
+				}
+
+				if( err ) {
+
+				self.buttonLoader();
+				return;
+
+				}
 				
 				return;
 			}
