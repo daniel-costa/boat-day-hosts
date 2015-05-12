@@ -48,7 +48,8 @@ define([
 					var tpl = _.template(ProfilePictureTemplate);
 					self.$el.find('.boatPictures').append(tpl({ 
 						id: fh.id, 
-						url: fh.get('file').url()
+						url: fh.get('file').url(),
+						canDelete: self.model.get("status") == 'editing'
 					}));
 					self.boatPictures[fh.id] = fh;
 				});
@@ -242,8 +243,9 @@ define([
 			self.cleanForm();
 			
 			if( baseStatus == 'editing' ) {
-				// amount of pictures : _.size(self.boatPictures)
-				// amount of proofs of insurance : _.size(self.proofOfInsurance)
+				
+				var err = false;
+
 				if (_.size(self.boatPictures) == 0) {
 
 					this.fieldError('boatPictures', 'Oops, you missed one!');
@@ -257,19 +259,14 @@ define([
 				}
 
 				if( err ) {
-
-				self.buttonLoader();
-				return;
-
+					self.buttonLoader();
+					return;
 				}
 				
-				return;
 			}
 
-			var nextStatus = baseStatus == 'editing' ? 'complete' : 'editing';
-
 			var data = {
-				status: nextStatus,
+				status: baseStatus == 'editing' ? 'complete' : 'editing',
 				name: this._in('name').val(),
 				hullID: this._in('hullID').val(),
 				length: parseInt(this._in('length').val()),

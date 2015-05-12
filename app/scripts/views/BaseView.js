@@ -23,6 +23,12 @@ define([
 			return this;
 		},
 
+		getRandomNumber: function(min, max) {
+		
+			return Math.round(Math.random() * (max - min) + min);
+		
+		},
+
 		afterRender: function() {
 
 			if( this.debug ) {

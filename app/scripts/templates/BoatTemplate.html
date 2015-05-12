@@ -6,7 +6,7 @@
 					<h3 class="panel-title text-center">
 						<%= status == 'creation' ? 'Add a Boat' : '' %>
 						<%= status == 'editing' ? 'Boat waiting for submition' : '' %>
-						<%= status == 'submitted' ? 'Boat in review' : '' %>
+						<%= status == 'complete' ? 'Boat in review' : '' %>
 					</h3>
 				</div>
 				<div class="panel-body">
@@ -132,12 +132,14 @@
 						<h3 class="panel-title text-center">Boat Photo(s)</h3>
 					</div>
 					<div class="panel-body">
-						<div class="form-group">
-							<label for="displayPicture" class="col-sm-4 control-label">Upload a file</label>
-							<div class="col-sm-5" >
-								<input type="file" class="form-control" name="boatPictures" style="color:transparent"/>
+						<% if( status == 'editing') { %>
+							<div class="form-group">
+								<label for="displayPicture" class="col-sm-4 control-label">Upload a file</label>
+								<div class="col-sm-5" >
+									<input type="file" class="form-control" name="boatPictures" style="color:transparent"/>
+								</div>
 							</div>
-						</div>
+						<% } %>
 						<div class="row boatPictures" style="line-height:auto; height:auto">
 
 						</div>
@@ -146,15 +148,16 @@
 					<div class="panel-heading">
 						<h3 class="panel-title text-center">Proof of Insurance</h3>
 					</div>
-
-					<div class="panel-body">
-						<div class="form-group">
-							<label for="displayPicture" class="col-sm-4 control-label">Upload a file</label>
-							<div class="col-sm-5">
-								<input type="file" class="form-control" name="insurance" style="color:transparent"/>
-							</div>	
+					<% if( status == 'editing') { %>
+						<div class="panel-body">
+							<div class="form-group">
+								<label for="displayPicture" class="col-sm-4 control-label">Upload a file</label>
+								<div class="col-sm-5">
+									<input type="file" class="form-control" name="insurance" style="color:transparent"/>
+								</div>	
+							</div>
 						</div>
-					</div>
+					<% } %>
 					<table class="table">
 						<thead>
 							<tr>
