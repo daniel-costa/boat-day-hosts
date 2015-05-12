@@ -211,16 +211,18 @@
 					</div>
 					<div class="form-group activityContainer leisure">
 						<label for="activity" class="col-sm-4 control-label">Category</label>
-						<div class="col-sm-8">
+						<div class="col-sm-3">
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresLeisureCruising" <%= features.leisure.cruising ? 'checked': '' %>> Crusing
-							</label><br/>
+							</label><br>
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresLeisurePartying" <%= features.leisure.partying ? 'checked': '' %>> Partying
-							</label><br/>
+							</label><br>
+						</div>
+						<div class="col-sm-3">
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresLeisureSightseeing" <%= features.leisure.sightseeing ? 'checked': '' %>> Sightseeing
-							</label><br/>
+							</label><br>
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresLeisureOther" <%= features.leisure.other ? 'checked': '' %>> Other
 							</label> 
@@ -228,7 +230,7 @@
 					</div>
 					<div class="form-group activityContainer fishing">
 						<label for="activity" class="col-sm-4 control-label">Category</label>
-						<div class="col-sm-8">
+						<div class="col-sm-3">
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresFishingFlats" <%= features.fishing.flats ? 'checked': '' %>> Flats Fishing
 							</label><br/>
@@ -238,6 +240,8 @@
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresFishingOffshore" <%= features.fishing.offshore ? 'checked': '' %>> Offshore Fishing (limit 12 miles out)
 							</label><br/>
+						</div>
+						<div class="col-sm-3">
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresFishingRecreational" <%= features.fishing.recreational ? 'checked': '' %>> Recreational Fishing (just for fun)
 							</label><br/>
@@ -252,7 +256,9 @@
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresFishingEquipment" <%= features.fishing.equipment ? 'checked': '' %>> Equipment Provided
 							</label><br/>
-							<div class="equipment-list" <%= features.sports.equipment ? '': 'style="display:none"' %>>
+						</div>
+						<div class="equipment-list" <%= features.sports.equipment ? '': 'style="display:none"' %>>
+							<div class="col-sm-2">
 								<label style="font-weight:normal">
 									<input type="checkbox" name="featuresFishingEquipmentItemsBait" <%= features.fishing.equipmentItems.bait ? 'checked': '' %>> Bait
 								</label><br/>
@@ -262,12 +268,16 @@
 								<label style="font-weight:normal">
 									<input type="checkbox" name="featuresFishingEquipmentItemsHooks" <%= features.fishing.equipmentItems.hooks ? 'checked': '' %>> Hooks
 								</label><br/>
+							</div>
+							<div class="col-sm-2">
 								<label style="font-weight:normal">
 									<input type="checkbox" name="featuresFishingEquipmentItemsLures" <%= features.fishing.equipmentItems.lures ? 'checked': '' %>> Lures
 								</label><br/>
 								<label style="font-weight:normal">
 									<input type="checkbox" name="featuresFishingEquipmentItemsNets" <%= features.fishing.equipmentItems.nets ? 'checked': '' %>> Nets
 								</label><br/>
+							</div>
+							<div class="col-sm-2">
 								<label style="font-weight:normal">
 									<input type="checkbox" name="featuresFishingEquipmentItemsRods" <%= features.fishing.equipmentItems.rods ? 'checked': '' %>> Rods
 								</label><br/>
@@ -279,13 +289,15 @@
 					</div>
 					<div class="form-group activityContainer sports">
 						<label for="activity" class="col-sm-4 control-label">Category</label>
-						<div class="col-sm-8">
+						<div class="col-sm-3">
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresSportsSnorkeling" <%= features.sports.snorkeling ? 'checked': '' %>> Snorkeling
 							</label><br/>
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresSportStubing" <%= features.sports.tubing ? 'checked': '' %>> Tubing
 							</label><br/>
+						</div>
+						<div class="col-sm-3">
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresSportsWakeBoarding" <%= features.sports.wakeBoarding ? 'checked': '' %>> Wake Boarding
 							</label><br/>
@@ -300,43 +312,51 @@
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresSportsEquipment" <%= features.sports.equipment ? 'checked': '' %>> Equipment Provided
 							</label>
-							<div class="equipment-list" <%= features.sports.equipment ? '': 'style="display:none"' %>>
-								<label style="font-weight:normal">
-									<input type="checkbox" name="featuresSportsEquipmentItemsFins" <%= features.sports.equipmentItems.fins ? 'checked': '' %>> Fins
-								</label><br/>
-								<label style="font-weight:normal">
-									<input type="checkbox" name="featuresSportsEquipmentItemsHelmets" <%= features.sports.equipmentItems.helmets ? 'checked': '' %>> Helmets
-								</label><br/>
-								<label style="font-weight:normal">
-									<input type="checkbox" name="featuresSportsEquipmentItemsMasks" <%= features.sports.equipmentItems.masks ? 'checked': '' %>> Masks
-								</label><br/>
-								<label style="font-weight:normal">
-									<input type="checkbox" name="featuresSportsEquipmentItemsSnorkels" <%= features.sports.equipmentItems.snorkels ? 'checked': '' %>> Snorkels
-								</label><br/>
-								<label style="font-weight:normal">
-									<input type="checkbox" name="featuresSportsEquipmentItemsTowLine" <%= features.sports.equipmentItems.towLine ? 'checked': '' %>> Tow Line
-								</label><br/>
-								<label style="font-weight:normal">
-									<input type="checkbox" name="featuresSportsEquipmentItemsTubes" <%= features.sports.equipmentItems.tubes ? 'checked': '' %>> Tubes
-								</label><br/>
-								<label style="font-weight:normal">
-									<input type="checkbox" name="featuresSportsEquipmentItemsWakeboard" <%= features.sports.equipmentItems.wakeboard ? 'checked': '' %>> Wakeboard
-								</label><br/>
-								<label style="font-weight:normal">
-									<input type="checkbox" name="featuresSportsEquipmentItemsWaterSkis" <%= features.sports.equipmentItems.waterSkis ? 'checked': '' %>> Water Skis
-								</label><br/>
+						</div>
+						<div class="equipment-list" <%= features.sports.equipment ? '': 'style="display:none"' %>>
+							<div class="col-sm-2">
+							<label style="font-weight:normal">
+								<input type="checkbox" name="featuresSportsEquipmentItemsFins" <%= features.sports.equipmentItems.fins ? 'checked': '' %>> Fins
+							</label><br/>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="featuresSportsEquipmentItemsHelmets" <%= features.sports.equipmentItems.helmets ? 'checked': '' %>> Helmets
+							</label><br/>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="featuresSportsEquipmentItemsMasks" <%= features.sports.equipmentItems.masks ? 'checked': '' %>> Masks
+							</label><br/>
+							</div>
+							<div class="col-sm-2">
+							<label style="font-weight:normal">
+								<input type="checkbox" name="featuresSportsEquipmentItemsSnorkels" <%= features.sports.equipmentItems.snorkels ? 'checked': '' %>> Snorkels
+							</label><br/>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="featuresSportsEquipmentItemsTowLine" <%= features.sports.equipmentItems.towLine ? 'checked': '' %>> Tow Line
+							</label><br/>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="featuresSportsEquipmentItemsTubes" <%= features.sports.equipmentItems.tubes ? 'checked': '' %>> Tubes
+							</label><br/>
+							</div>
+							<div class="col-sm-2">
+							<label style="font-weight:normal">
+								<input type="checkbox" name="featuresSportsEquipmentItemsWakeboard" <%= features.sports.equipmentItems.wakeboard ? 'checked': '' %>> Wakeboard
+							</label><br/>
+							<label style="font-weight:normal">
+								<input type="checkbox" name="featuresSportsEquipmentItemsWaterSkis" <%= features.sports.equipmentItems.waterSkis ? 'checked': '' %>> Water Skis
+							</label><br/>
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="familySettings" class="col-sm-4 control-label">Family Settings</label>
-						<div class="col-sm-8">
+						<div class="col-sm-3">
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresGlobalChildren" <%= features.global.children ? 'checked': '' %>> Recommended for Children 
 							</label><br/>
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresGlobalSmoking" <%= features.global.smoking ? 'checked': '' %>> Smoking Permitted
 							</label><br/>
+						</div>
+						<div class="col-sm-3">
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresGlobalDrinking" <%= features.global.drinking ? 'checked': '' %>> Drinking Permitted 
 							</label><br/>
@@ -347,19 +367,23 @@
 					</div>
 					<div class="form-group">
 						<label for="extras" class="col-sm-4 control-label">Extras</label>
-						<div class="col-sm-8">
+						<div class="col-sm-2">
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresExtrasFood" <%= features.extras.food ? 'checked': '' %>> Food
 							</label><br>
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresExtrasDrink" <%= features.extras.drink ? 'checked': '' %>> Drink
 							</label><br>
+						</div>
+						<div class="col-sm-2">
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresExtrasMusic" <%= features.extras.music ? 'checked': '' %>> Music
 							</label><br>
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresExtrasTowels" <%= features.extras.towels ? 'checked': '' %>> Towels
 							</label><br>
+						</div>
+						<div class="col-sm-2">
 							<label style="font-weight:normal">
 								<input type="checkbox" name="featuresExtrasSunscreen" <%= features.extras.sunscreen ? 'checked': '' %>> Sunscreen
 							</label><br/>

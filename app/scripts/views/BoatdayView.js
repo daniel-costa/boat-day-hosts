@@ -115,58 +115,58 @@ define([
 				category: this._in('activity').val(),
 				features: {
 					leisure: {
-						cruising: this.$el.find('[name="featuresLeisureCruising"]').is(':checked'),
-						partying: this.$el.find('[name="featuresLeisurePartying"]').is(':checked'),
-						sightseeing: this.$el.find('[name="featuresLeisureSightseeing"]').is(':checked'),
-						other: this.$el.find('[name="featuresLeisureOther"]').is(':checked')
+						cruising: Boolean(this.$el.find('[name="featuresLeisureCruising"]').is(':checked')),
+						partying: Boolean(this.$el.find('[name="featuresLeisurePartying"]').is(':checked')),
+						sightseeing: Boolean(this.$el.find('[name="featuresLeisureSightseeing"]').is(':checked')),
+						other: Boolean(this.$el.find('[name="featuresLeisureOther"]').is(':checked'))
 					},
 					fishing: {
-						flats: this.$el.find('[name="featuresFishingFlats"]').is(':checked'),
-						lake: this.$el.find('[name="featuresFishingLake"]').is(':checked'),
-						offshore: this.$el.find('[name="featuresFishingOffshore"]').is(':checked'),
-						recreational: this.$el.find('[name="featuresFishingRecreational"]').is(':checked'),
-						other: this.$el.find('[name="featuresFishingOther"]').is(':checked'),
-						equipment: this.$el.find('[name="featuresFishingEquipment"]').is(':checked'),
+						flats: Boolean(this.$el.find('[name="featuresFishingFlats"]').is(':checked')),
+						lake: Boolean(this.$el.find('[name="featuresFishingLake"]').is(':checked')),
+						offshore: Boolean(this.$el.find('[name="featuresFishingOffshore"]').is(':checked')),
+						recreational: Boolean(this.$el.find('[name="featuresFishingRecreational"]').is(':checked')),
+						other: Boolean(this.$el.find('[name="featuresFishingOther"]').is(':checked')),
+						equipment: Boolean(this.$el.find('[name="featuresFishingEquipment"]').is(':checked')),
 						equipmentItems: {
-							bait: this.$el.find('[name="featuresFishingEquipmentItemsBait"]').is(':checked'),
-							lines: this.$el.find('[name="featuresFishingEquipmentItemsLines"]').is(':checked'),
-							hooks: this.$el.find('[name="featuresFishingEquipmentItemsHooks"]').is(':checked'),
-							lures: this.$el.find('[name="featuresFishingEquipmentItemsLures"]').is(':checked'),
-							nets: this.$el.find('[name="featuresFishingEquipmentItemsNets"]').is(':checked'),
-							rods: this.$el.find('[name="featuresFishingEquipmentItemsRods"]').is(':checked'),
-							sinkers: this.$el.find('[name="featuresFishingEquipmentItemsSinkers"]').is(':checked')
+							bait: Boolean(this.$el.find('[name="featuresFishingEquipmentItemsBait"]').is(':checked')),
+							lines: Boolean(this.$el.find('[name="featuresFishingEquipmentItemsLines"]').is(':checked')),
+							hooks: Boolean(this.$el.find('[name="featuresFishingEquipmentItemsHooks"]').is(':checked')),
+							lures: Boolean(this.$el.find('[name="featuresFishingEquipmentItemsLures"]').is(':checked')),
+							nets: Boolean(this.$el.find('[name="featuresFishingEquipmentItemsNets"]').is(':checked')),
+							rods: Boolean(this.$el.find('[name="featuresFishingEquipmentItemsRods"]').is(':checked')),
+							sinkers: Boolean(this.$el.find('[name="featuresFishingEquipmentItemsSinkers"]').is(':checked'))
 						}
 					},
 					sports: {
-						snorkeling: this.$el.find('[name="featuresSportsSnorkeling"]').is(':checked'),
-						tubing: this.$el.find('[name="featuresSportStubing"]').is(':checked'),
-						wakeBoarding: this.$el.find('[name="featuresSportsWakeBoarding"]').is(':checked'),
-						waterSkiing: this.$el.find('[name="featuresSportsWaterSkiing"]').is(':checked'),
-						equipment: this.$el.find('[name="featuresSportsEquipment"]').is(':checked'),
+						snorkeling: Boolean(this.$el.find('[name="featuresSportsSnorkeling"]').is(':checked')),
+						tubing: Boolean(this.$el.find('[name="featuresSportStubing"]').is(':checked')),
+						wakeBoarding: Boolean(this.$el.find('[name="featuresSportsWakeBoarding"]').is(':checked')),
+						waterSkiing: Boolean(this.$el.find('[name="featuresSportsWaterSkiing"]').is(':checked')),
+						equipment: Boolean(this.$el.find('[name="featuresSportsEquipment"]').is(':checked')),
 						equipmentItems: {
-							fins: this.$el.find('[name="featuresSportsEquipmentItemsFins"]').is(':checked'),
-							helmets: this.$el.find('[name="featuresSportsEquipmentItemsHelmets"]').is(':checked'),
-							masks: this.$el.find('[name="featuresSportsEquipmentItemsMasks"]').is(':checked'),
-							snorkels: this.$el.find('[name="featuresSportsEquipmentItemsSnorkels"]').is(':checked'),
-							towLine: this.$el.find('[name="featuresSportsEquipmentItemsTowLine"]').is(':checked'),
-							tubes: this.$el.find('[name="featuresSportsEquipmentItemsTubes"]').is(':checked'),
-							wakeboard: this.$el.find('[name="featuresSportsEquipmentItemsWakeboard"]').is(':checked'),
-							waterSkis: this.$el.find('[name="featuresSportsEquipmentItemsWaterSkis"]').is(':checked')
+							fins: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsFins"]').is(':checked')),
+							helmets: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsHelmets"]').is(':checked')),
+							masks: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsMasks"]').is(':checked')),
+							snorkels: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsSnorkels"]').is(':checked')),
+							towLine: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsTowLine"]').is(':checked')),
+							tubes: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsTubes"]').is(':checked')),
+							wakeboard: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsWakeboard"]').is(':checked')),
+							waterSkis: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsWaterSkis"]').is(':checked'))
 						}
 					},
 					global: {
-						children: this.$el.find('[name="featuresGlobalChildren"]').is(':checked'),
-						smoking: this.$el.find('[name="featuresGlobalSmoking"]').is(':checked'),
-						drinking: this.$el.find('[name="featuresGlobalDrinking"]').is(':checked'),
-						pets: this.$el.find('[name="featuresGlobalPets"]').is(':checked') 
+						children: Boolean(this.$el.find('[name="featuresGlobalChildren"]').is(':checked')),
+						smoking: Boolean(this.$el.find('[name="featuresGlobalSmoking"]').is(':checked')),
+						drinking: Boolean(this.$el.find('[name="featuresGlobalDrinking"]').is(':checked')),
+						pets: Boolean(this.$el.find('[name="featuresGlobalPets"]').is(':checked')) 
 					}, 
 					extras: {
-						food: this.$el.find('[name="featuresExtrasFood"]').is(':checked'),
-						drink: this.$el.find('[name="featuresExtrasDrink"]').is(':checked'),
-						music: this.$el.find('[name="featuresExtrasMusic"]').is(':checked'),
-						towels: this.$el.find('[name="featuresExtrasTowels"]').is(':checked'),
-						sunscreen: this.$el.find('[name="featuresExtrasSunscreen"]').is(':checked'),
-						inflatables: this.$el.find('[name="featuresExtrasInflatables"]').is(':checked')
+						food: Boolean(this.$el.find('[name="featuresExtrasFood"]').is(':checked')),
+						drink: Boolean(this.$el.find('[name="featuresExtrasDrink"]').is(':checked')),
+						music: Boolean(this.$el.find('[name="featuresExtrasMusic"]').is(':checked')),
+						towels: Boolean(this.$el.find('[name="featuresExtrasTowels"]').is(':checked')),
+						sunscreen: Boolean(this.$el.find('[name="featuresExtrasSunscreen"]').is(':checked')),
+						inflatables: Boolean(this.$el.find('[name="featuresExtrasInflatables"]').is(':checked'))
 					}
 				}
 			};
