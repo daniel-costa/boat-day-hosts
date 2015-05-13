@@ -184,7 +184,7 @@ define([
 					}
 
 					var host = Parse.User.current().get("host");
-					host.relation('boatDays').add(boatDay);
+					host.relation('boatdays').add(boatDay);
 					host.save().then(hostSaveSuccess, hostSaveError);
 
 				} else {

@@ -129,7 +129,7 @@ define([
 
 					};
 
-					Parse.User.current().get('host').relation('boatDays').query().get(boatDayid).then(boatDayQuerySuccess, boatDayQueryError);
+					Parse.User.current().get('host').relation('boatdays').query().get(boatDayid).then(boatDayQuerySuccess, boatDayQueryError);
 
 				} else {
 

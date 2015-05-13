@@ -9,7 +9,7 @@ define([
 
 		tagName: "table",
 
-		className: "view-boatDays-table table",
+		className: "view-boatdays-table table",
 		
 		attributes: {
 			style: "margin-bottom:0px;"

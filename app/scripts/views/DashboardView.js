@@ -57,11 +57,11 @@ define([
 
 			};
 
-			var boatDaysFetchSuccess = function(collection) {
+			var boatdaysFetchSuccess = function(collection) {
 
-				var boatDaysView = new BoatDaysTableView({ collection: collection });
-				self.subViews.push(boatDaysView);
-				self.$el.find('.boatDays').html(boatDaysView.render().el);
+				var boatdaysView = new BoatDaysTableView({ collection: collection });
+				self.subViews.push(boatdaysView);
+				self.$el.find('.boatdays').html(boatdaysView.render().el);
 
 			};	
 
@@ -72,7 +72,7 @@ define([
 			};
 
 			Parse.User.current().get('host').relation('boats').query().collection().fetch().then(boatsFetchSuccess, collectionFetchError);
-			Parse.User.current().get('host').relation('boatDays').query().collection().fetch().then(boatDaysFetchSuccess, collectionFetchError);
+			Parse.User.current().get('host').relation('boatdays').query().collection().fetch().then(boatdaysFetchSuccess, collectionFetchError);
 
 		},
 
