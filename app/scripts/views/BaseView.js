@@ -1,9 +1,12 @@
 define([
-'parse'
-], function(Parse){
+'parse',
+'text!templates/TopNavigationTemplate.html'
+], function(Parse, TopNavigationTemplate){
 	var BaseView = Parse.View.extend({
 
 		className: "view-base",
+
+		topNav: _.template(TopNavigationTemplate),
 
 		subViews: [],
 
@@ -20,7 +23,19 @@ define([
 				this.$el.html(this.template());
 			}
 
+			this.displayTopNav();
+
 			return this;
+		},
+
+		displayTopNav: function() {
+
+			var tn = this.$el.find('.top-nav');
+
+			if( tn.length == 1 ) {
+				tn.html(this.topNav());
+			}
+
 		},
 
 		getRandomNumber: function(min, max) {

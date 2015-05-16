@@ -134,7 +134,7 @@ define([
 
 				} else {
 
-					self.fieldError('boatPicture', 'Bad format, try with a PNG or JPEG picture.');
+					self.fieldError('boatPictures', 'Bad format, try with a PNG or JPEG picture.');
 					self.buttonLoader();
 					$(event.target).val('');
 					return null;
@@ -154,7 +154,7 @@ define([
 
 				var uploadError = function(error) {
 
-					self.fieldError('boatPicture', 'An error occured when we tried to upload your boat picture, try again please.');
+					self.fieldError('boatPictures', 'An error occured when we tried to upload your boat picture, try again please.');
 					self.buttonLoader();
 					$(event.target).val('');
 

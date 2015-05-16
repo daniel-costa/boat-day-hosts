@@ -1,3 +1,5 @@
+<div class="top-nav"></div>
+
 <form class="form-horizontal" >
 	<div class="container"> 
 		<% 
@@ -41,77 +43,17 @@
 					<div class="form-group">
 						<label for="availableSeats" class="col-sm-4 control-label">Available Seats</label>
 						<div class="col-sm-3">
-							<input type="text" value="<%= availableSeats ? availableSeats : '' %>" class="form-control" id="availableSeats" name="availableSeats" placeholder="max 15">
+							<input type="text" value="<%= availableSeats ? availableSeats : '' %>" class="form-control" id="availableSeats" name="availableSeats" placeholder="min 2">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="minimumSeats" class="col-sm-4 control-label">Minimum Seats to go out</label>
+						<label for="date" class="col-sm-4 control-label">Date</label>
 						<div class="col-sm-3">
-							<input type="text" value="<%= minimumSeats ? minimumSeats : '' %>" class="form-control" id="minimumSeats" name="minimumSeats" placeholder="min 2">
-						</div>
-					</div>
-					<div class="col-sm-5 col-sm-offset-4">
-						<div class="alert-info alert" stlye="margin:0px auto;">
-							<span class="glyphicon glyphicon-info-sign"></span> 
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="eventDate" class="col-sm-4 control-label">Date</label>
-						<div class="col-sm-6">
-							<div class="col-xs-4" style="padding-left:0px">
-								<select class="input-small form-control" id="dateMonth" name="dateMonth">
-									<option value="01" <%= dateMonth && dateMonth == '01' ? 'selected' : '' %>>January</option>
-									<option value="02" <%= dateMonth && dateMonth == '02' ? 'selected' : '' %>>February</option>
-									<option value="03" <%= dateMonth && dateMonth == '03' ? 'selected' : '' %>>March</option>
-									<option value="04" <%= dateMonth && dateMonth == '04' ? 'selected' : '' %>>April</option>
-									<option value="05" <%= dateMonth && dateMonth == '05' ? 'selected' : '' %>>May</option>
-									<option value="06" <%= dateMonth && dateMonth == '06' ? 'selected' : '' %>>June</option>
-									<option value="07" <%= dateMonth && dateMonth == '07' ? 'selected' : '' %>>July</option>
-									<option value="08" <%= dateMonth && dateMonth == '08' ? 'selected' : '' %>>August</option>
-									<option value="09" <%= dateMonth && dateMonth == '09' ? 'selected' : '' %>>September</option>
-									<option value="10" <%= dateMonth && dateMonth == '10' ? 'selected' : '' %>>October</option>
-									<option value="11" <%= dateMonth && dateMonth == '11' ? 'selected' : '' %>>November</option>
-									<option value="12" <%= dateMonth && dateMonth == '12' ? 'selected' : '' %>>December</option>
-								</select>		
-							</div>
-							<div class="col-xs-3" style="padding-left:0px;padding-right : 0px">
-								<select class="input-small form-control" id="dateDay" name="dateDay">
-									<option value="01" <%= dateDay && dateDay == '01' ? 'selected' : '' %>>1st</option>
-									<option value="02" <%= dateDay && dateDay == '02' ? 'selected' : '' %>>2nd</option>
-									<option value="03" <%= dateDay && dateDay == '03' ? 'selected' : '' %>>3rd</option>
-									<option value="04" <%= dateDay && dateDay == '04' ? 'selected' : '' %>>4th</option>
-									<option value="05" <%= dateDay && dateDay == '05' ? 'selected' : '' %>>5th</option>
-									<option value="06" <%= dateDay && dateDay == '06' ? 'selected' : '' %>>6th</option>
-									<option value="07" <%= dateDay && dateDay == '07' ? 'selected' : '' %>>7th</option>
-									<option value="08" <%= dateDay && dateDay == '08' ? 'selected' : '' %>>8th</option>
-									<option value="09" <%= dateDay && dateDay == '09' ? 'selected' : '' %>>9th</option>
-									<option value="10" <%= dateDay && dateDay == '10' ? 'selected' : '' %>>10th</option>
-									<option value="11" <%= dateDay && dateDay == '11' ? 'selected' : '' %>>11th</option>
-									<option value="12" <%= dateDay && dateDay == '12' ? 'selected' : '' %>>12th</option>
-									<option value="13" <%= dateDay && dateDay == '13' ? 'selected' : '' %>>13th</option>
-									<option value="14" <%= dateDay && dateDay == '14' ? 'selected' : '' %>>14th</option>
-									<option value="15" <%= dateDay && dateDay == '15' ? 'selected' : '' %>>15th</option>
-									<option value="16" <%= dateDay && dateDay == '16' ? 'selected' : '' %>>16th</option>
-									<option value="17" <%= dateDay && dateDay == '17' ? 'selected' : '' %>>17th</option>
-									<option value="18" <%= dateDay && dateDay == '18' ? 'selected' : '' %>>18th</option>
-									<option value="19" <%= dateDay && dateDay == '19' ? 'selected' : '' %>>19th</option>
-									<option value="20" <%= dateDay && dateDay == '20' ? 'selected' : '' %>>20th</option>
-									<option value="21" <%= dateDay && dateDay == '21' ? 'selected' : '' %>>21st</option>
-									<option value="22" <%= dateDay && dateDay == '22' ? 'selected' : '' %>>22nd</option>
-									<option value="23" <%= dateDay && dateDay == '23' ? 'selected' : '' %>>23rd</option>
-									<option value="24" <%= dateDay && dateDay == '24' ? 'selected' : '' %>>24th</option>
-									<option value="25" <%= dateDay && dateDay == '25' ? 'selected' : '' %>>25th</option>
-									<option value="26" <%= dateDay && dateDay == '26' ? 'selected' : '' %>>26th</option>
-									<option value="27" <%= dateDay && dateDay == '27' ? 'selected' : '' %>>27th</option>
-									<option value="28" <%= dateDay && dateDay == '28' ? 'selected' : '' %>>28th</option>
-									<option value="29" <%= dateDay && dateDay == '29' ? 'selected' : '' %>>29th</option>
-									<option value="30" <%= dateDay && dateDay == '30' ? 'selected' : '' %>>30th</option>
-									<option value="31" <%= dateDay && dateDay == '31' ? 'selected' : '' %>>31st</option>
-								</select>
-							</div>
-							<div class="col-xs-3" style="padding-right:0px">
-								<select class="input-small form-control" id="dateYear" name="dateYear">
-								</select>
+							<div class="input-group date" data-provide="datepicker" data-date-format="mm/dd/yyyy" >
+								<input type="date" value="<%= date ? date : '' %>" class="form-control" id="date" />
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</span>
 							</div>
 						</div>
 					</div>
@@ -185,6 +127,15 @@
 								<option value="11.5" <%= duration && duration == '11.5' ? 'selected' : '' %>>11.5</option>
 								<option value="12.0" <%= duration && duration == '12.0' ? 'selected' : '' %>>12.0</option>
 							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="price" class="col-sm-4 control-label">Price Per Seat</label>
+						<div class="col-sm-2">
+							<div class="input-group">
+								<div class="input-group-addon"><strong>$</strong></div>
+								<input type="text" value="<%= price ? price : '' %>" class="form-control" id="price" name="price" placeholder="Price Per Person">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -392,15 +343,6 @@
 							</label>
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="price" class="col-sm-4 control-label">Price Per Seat</label>
-						<div class="col-sm-2">
-							<div class="input-group">
-								<div class="input-group-addon"><strong>$</strong></div>
-								<input type="text" value="<%= price ? price : '' %>" class="form-control" id="price" name="price" placeholder="Price Per Person">
-							</div>
-						</div>
-					</div>
 				</div>
 					<!-- <div class="form-group">
 						<label for="activities" class="col-sm-4 control-label">Activities Boxes</label>
@@ -450,33 +392,36 @@
 							</p>
 							<p style="margin-bottom:0px">
 								<label style="font-weight:normal">
-									<input type="radio" name="bookingPolicy" value="halfway"> <strong>Half-way, </strong>
-									Every guest who was on my boat and for whom I gave a positive feedback will be automatically validated. Seat requests from new guests need my approval.
+									<input type="radio" name="bookingPolicy" value="halfway"> <strong>Trusted Book: </strong>
+									Automatically acceots requests from Guests who have attended one of my BoatDays and received a positive review. I want to review all other requests.
 								</label>
 							</p>
 						</div>
 					</div>
 				</div>
 				<div class="panel-heading">
-					<h3 class="panel-title text-center">What is your policy on cancellations?</h3>
+					<h3 class="panel-title text-center">
+						What is your policy on Guest cancellations?
+						<a href="https://www.boatdayapp.com/faq" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a>
+					</h3>
 				</div>
 
 				<div class="panel-body">
 					<div class="form-group" style="margin-bottom:0px">
-						<div class="col-sm-10 col-sm-offset-1">
+						<div class="col-sm-12 col-sm-offset-1">
 							<p>
 								<label style="font-weight:normal">
-									<input type="radio" name="cancellationPolicy" value="flexible" checked> <strong>Flexible:</strong> Full refund up to 1 day prior to departure, except fees.
+									<input type="radio" name="cancellationPolicy" value="flexible" checked> <strong>Flexible:</strong> Full refund up to 1 day prior to departure time, except fees.
 								</label>
 							</p>
 							<p>
 								<label style="font-weight:normal">
-									<input type="radio" name="cancellationPolicy" value="moderate"> <strong>Moderate: </strong>Full refund up to 3 days prior to departure, except fees.
+									<input type="radio" name="cancellationPolicy" value="moderate"> <strong>Moderate: </strong>Full refund up to 3 days prior to departure time, except fees.
 								</label>
 							</p>
 							<p style="margin-bottom:0px">
 								<label style="font-weight:normal">
-									<input type="radio" name="cancellationPolicy" value="strict"> <strong>Strict: </strong>50% refund up to five days prior to departure, except fees.
+									<input type="radio" name="cancellationPolicy" value="strict"> <strong>Strict: </strong>50% refund up to five days prior to departure time, except fees.
 								</label>
 							</p>
 						</div>

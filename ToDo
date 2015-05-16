@@ -10,5 +10,18 @@
 - date of birth: text cut in selects
 - add example for the account and routing number
 
-- Kimon: give exemple of good and bad picture
-- Kimon: give sentence for profile.
+- (done) Kimon: give exemple of good and bad picture
+- (done) Kimon: give sentence for profile.
+
+- Thumbnail border in the profile picture
+- Captains display only if the host has some linked to the boat
+- Add captains in the boat page
+- Date validation in boatdays: not in the past
+- Duration	
+- Minimum seats us trackbar
+- BoatDay: Minimum of 2 available seats
+- Price per seat slider: 5 to 150 by 5$ step
+- Display information when slide price:
+-- Afordable 5 40
+-- Moderate 45 to 80
+-- High 85 to 150

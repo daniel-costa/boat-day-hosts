@@ -10,10 +10,7 @@
 	<tbody>
 		<% _.each( collection, function( boat ) { %>
 			<tr>
-				<td>
-					<div class="thumbnail" style="background-image: url(<%= boat.boatPicture ? boat.boatPicture.url : '' %>)"> </div>
-					<%= boat.name %>
-				</td>
+				<th><%= boat.name %> - <%= boat.type %></td>
 				<td class="text-center"><%= boat.hullID %></td>
 				<td class="text-center"><%= boat.status %></td>
 				<td class="text-center">

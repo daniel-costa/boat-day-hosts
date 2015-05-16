@@ -13,7 +13,6 @@ define([
 			duration: null, 
 			price: null, 
 			availableSeats: null, 
-			minimumSeats: null, 
 			location: null, 
 			description: null,
 			bookingPolicy: null, 
@@ -92,22 +91,8 @@ define([
 				_return.fields.captain = "A captain name is required";
 			}
 
-			if( !/^[0-9]+([\.][0-9]+)?$/g.test(attributes.availableSeats) ) {
-				_return.fields.availableSeats = "A available seats is not valid";
-			}
-
-			if( attributes.availableSeats < 2 || attributes.availableSeats > 15 ) {
-				console.log("Available seats"+"="+attributes.availableSeats);
-				_return.fields.availableSeats = "A available seats value must be between 2 and 15";
-			}
-
-			if( !attributes.minimumSeats ) {
-				_return.fields.minimumSeats = "A minimum seats is required";
-			}
-				console.log("Available seats"+"="+attributes.availableSeats);
-
-			if( attributes.minimumSeats < 2 || attributes.minimumSeats > attributes.availableSeats ) {
-				_return.fields.minimumSeats = "A minimum seats value must be between 2 and available seats";
+			if( !attributes.availableSeats ) {
+				_return.fields.availableSeats = "A minimum seats is required";
 			}
 
 			if( !/^[0-9]+([\.][0-9]+)?$/g.test(attributes.price) ) {

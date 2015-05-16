@@ -66,14 +66,10 @@ body {
 }
 
 .view-home .content .input-group button {
-	border: 1px solid #15a7c0;
-	background: white;
-	color: #15a7c0;
 	border-left: none;
-	padding-left: 0px;
 }
 
-.view-home .content .input-group-addon { 
+.view-home .input-group-addon { 
 	border: 1px solid #15a7c0;
 	background: white;
 	color : #15a7c0;
@@ -85,6 +81,11 @@ body {
 	color: #666;
 }
 
+.btn-default {
+	border: 1px solid #15a7c0;
+	background: white;
+	color: #15a7c0;
+}
 
 .btn-primary {
 	background: #15a7c0;
@@ -115,6 +116,11 @@ body {
 
 .panel-primary label {
 	font-weight: 400;
+}
+
+h1 {
+	font-weight: 300;
+	margin-bottom: 30px;
 }
 
 img.app-loader {

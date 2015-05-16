@@ -58,6 +58,7 @@ define([
 			}
 
 			this.refreshActivity();
+
 			return this;
 
 		},
@@ -67,8 +68,7 @@ define([
 			if( this.model.get('status') == 'creation' ) {
 				this._in('name').val('Summer sound festival');
 				this._in('price').val('25');
-				this._in('availableSeats').val('10');
-				this._in('minimumSeats').val('5');
+				this._in('availableSeats').val('5');
 				this._in('description').val('This event has many top DJs in the world.');
 			}
 		},
@@ -108,8 +108,6 @@ define([
 				location: null,
 				duration: parseInt(this._in('duration').val()), 
 				price: parseInt(this._in('price').val()), 
-				availableSeats: parseInt(this._in('availableSeats').val()), 
-				minimumSeats: parseInt(this._in('minimumSeats').val()), 
 				bookingPolicy: this.$el.find('[name="bookingPolicy"]:checked').val(),
 				cancellationPolicy: this.$el.find('[name="cancellationPolicy"]:checked').val(), 
 				category: this._in('activity').val(),
