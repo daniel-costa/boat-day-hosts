@@ -111,16 +111,16 @@ define([
 
 		},
 
-		showBoatDayView: function( boatDayid ) {
+		showBoatDayView: function( id ) {
 
 			var self = this;
 			var cb = function() {
 				
-				if( boatDayid ) {
+				if( id ) {
 
-					var boatDayQuerySuccess = function(boatDay) {
+					var boatDayQuerySuccess = function(boatday) {
 
-						self.render(new BoatDayView({ model: boatDay })); 
+						self.render(new BoatDayView({ model: boatday })); 
 					};
 
 					var boatDayQueryError = function(error){
@@ -129,12 +129,12 @@ define([
 
 					};
 
-					Parse.User.current().get('host').relation('boatdays').query().get(boatDayid).then(boatDayQuerySuccess, boatDayQueryError);
+					Parse.User.current().get('host').relation('boatdays').query().get(id).then(boatDayQuerySuccess, boatDayQueryError);
 
 				} else {
 
-					var boatDay = new BoatDayModel({ host: Parse.User.current().get('host') });
-					self.render(new BoatDayView({ model: boatDay }));
+					var boatday = new BoatDayModel({ host: Parse.User.current().get('host') });
+					self.render(new BoatDayView({ model: boatday }));
 					
 				}
 			};

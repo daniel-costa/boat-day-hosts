@@ -3,8 +3,9 @@ define([
 'underscore', 
 'parse',
 'views/BaseView',
+'text!templates/ThumbPictureTemplate.html',
 'text!templates/ProfileTemplate.html'
-], function($, _, Parse, BaseView, ProfileTemplate){
+], function($, _, Parse, BaseView, ThumbPictureTemplate, ProfileTemplate){
 	var ProfileView = BaseView.extend({
 
 		className: "view-profile",
@@ -29,7 +30,35 @@ define([
 
 			BaseView.prototype.render.call(this);
 
+			if( this.model.get('status') != 'creation' ) {
+				this.displayProfilePicture(this.model.get('profilePicture').url());
+			}
+
 			return this;
+		},
+		
+		debugAutofillFields: function() {
+			
+			if( this.model.get('status') == 'creation' ) {
+
+				this._in('about').val('something about me');
+
+			}
+
+		},
+
+		displayProfilePicture: function(url) {
+
+			var tpl = _.template(ThumbPictureTemplate);
+			var tplData = { 
+				id: null, 
+				url: url,
+				canDelete: false,
+				fullWidth: true
+			};
+			console.log(url);
+			this.$el.find('.profilePicturePreview').html(tpl(tplData));
+
 		},
 
 		uploadPicture: function () {
@@ -61,14 +90,8 @@ define([
 
 				var uploadSuccess = function(file) {
 					
-					self.profilePicture = parseFile;
-
-					if( self.$el.find('.previewProfilePicture').length == 1 ) {
-						self.$el.find('.previewProfilePicture').attr('src', parseFile.url());
-					} else {
-						$('<img/>').addClass('previewProfilePicture').attr('src', parseFile.url()).css({ maxWidth : '100%' }).insertAfter(self._in('profilePicture'));	
-					}
-
+					self.profilePicture = file;
+					self.displayProfilePicture(file.url());
 					self.buttonLoader();
 
 				};
@@ -94,7 +117,9 @@ define([
 
 			self.buttonLoader('Saving');
 			self.cleanForm();
-			console.log(this.profilePicture2);
+
+			var baseStatus = this.model.get('status');
+
 			var data = {
 				status: "complete",
 				displayName: this._in('displayName').val(),
@@ -104,7 +129,11 @@ define([
 
 			var userStatusUpdateSuccess = function() {
 
-				Parse.history.navigate('dashboard', true);
+				if( baseStatus == 'creation' ) {
+					Parse.history.loadUrl( Parse.history.fragment );
+				} else {
+					Parse.history.navigate('dashboard', true);
+				}
 
 			};
 

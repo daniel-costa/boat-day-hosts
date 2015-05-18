@@ -13,7 +13,7 @@ define([
 
 		template: _.template(BoatDayTemplate),
 
-		debug: true,
+		debug: false,
 
 		events: {
 			
@@ -49,7 +49,6 @@ define([
 
 			Parse.User.current().get('host').relation('boats').query().collection().fetch().then(boatsFetchSuccess, collectionFetchError);
 
-
 			var dateYear = this.model.get('date') ? this.model.get('date').getFullYear() : new Date().getFullYear();
 			for(var i = dateYear; i < new Date().getFullYear() + 3; i++) {
 				var opt = $('<option>').val(i).text(i);
@@ -57,10 +56,71 @@ define([
 				this.$el.find('[name="dateYear"]').append(opt);
 			}
 
+			this.$el.find('.date').datepicker({
+				format: 'mm/dd/yyyy',
+				startDate: '0d',
+				todayBtn: true,
+				todayHighlight: true,
+				autoclose: true
+			}).datepicker('setUTCDate', this.model.get('date'));
+			console.log(this.model.get('date'));
+
+			this._in('availableSeats').slider({ 
+				tooltip: 'hide'
+			}).on("slide", function(slideEvt) {
+				self.$el.find('.preview-availableSeats').text(slideEvt.value  + ' available seats');
+			}).slider('setValue', this._in('availableSeats').slider('getValue'), true, false);
+
+			this._in('duration').slider({
+				tooltip: 'hide'
+			}).on("slide", function(slideEvt) {
+				var display = slideEvt.value + ' hour' + (slideEvt.value != 1 ? 's' : '')
+				self.$el.find('.preview-duration').text(display);
+			}).slider('setValue', this._in('duration').slider('getValue'), true, false)
+
+			this._in('price').slider({
+				tooltip: 'hide'
+			}).on("slide", function(slideEvt) {
+				self.refreshPriceHint(slideEvt.value);
+				self.$el.find('.preview-price').text(slideEvt.value  + ' USD');
+			}).slider('setValue', this._in('price').slider('getValue'), true, false)
+
+			this._in('departureTime').slider({
+				tooltip: 'hide'
+			}).on("slide", function(slideEvt) {
+			
+				var h = parseInt(slideEvt.value);
+				var mm = (slideEvt.value-h) * 60;
+				var dd = ' AM';
+
+				if( h >= 12 ) {
+					dd = ' PM';
+					h -= 12;
+				}
+
+				var display = (h==0?12:h)+(mm==0?'':':'+mm)+dd;
+
+				self.$el.find('.preview-departureTime').text(display);
+			}).slider('setValue', this._in('departureTime').slider('getValue'), true, false)
+
 			this.refreshActivity();
 
 			return this;
 
+		},
+
+		refreshPriceHint: function(price) {
+			
+			var text = 'high';
+
+
+			if( price < 40 ) {
+				text = 'afordable';
+			} else if( price < 80 ) {
+				text = 'moderate';
+			}
+
+			this.$el.find('.priceHint').html('<span class="glyphicon glyphicon-info-sign"></span> BoatDay\s users will considerate this price as <strong>' + text + '</strong>.');
 		},
 
 		debugAutofillFields: function() {
@@ -102,12 +162,15 @@ define([
 			var data = {
 
 				status: 'complete',
+				name: this._in('name').val(),
 				description: this._in('description').val(),
-				date: new Date(this._in('dateYear').val(), this._in('dateMonth').val()-1, this._in('dateDay').val(), this._in('dateHours').val(), this._in('dateMinutes').val(), 0),
+				date: this._in('date').datepicker('getUTCDate'),
+				departureTime: this._in('departureTime').slider('getValue'),
 				captain: this._in('captain').val(), 
 				location: null,
-				duration: parseInt(this._in('duration').val()), 
-				price: parseInt(this._in('price').val()), 
+				availableSeats: self._in('availableSeats').slider('getValue'),
+				duration: self._in('duration').slider('getValue'),
+				price: self._in('price').slider('getValue'), 
 				bookingPolicy: this.$el.find('[name="bookingPolicy"]:checked').val(),
 				cancellationPolicy: this.$el.find('[name="cancellationPolicy"]:checked').val(), 
 				category: this._in('activity').val(),
@@ -169,12 +232,12 @@ define([
 				}
 			};
 
-			var saveSuccess = function( boatDay ) {
+			var saveSuccess = function( boatday ) {
 		
 				if( baseStatus == 'creation' ) {
 
 					var hostSaveSuccess = function() {
-						Parse.history.navigate('boatDay/'+boatDay.id, true);
+						Parse.history.navigate('boatday/'+boatday.id, true);
 					};
 
 					var hostSaveError = function(error) {
@@ -182,7 +245,7 @@ define([
 					}
 
 					var host = Parse.User.current().get("host");
-					host.relation('boatdays').add(boatDay);
+					host.relation('boatdays').add(boatday);
 					host.save().then(hostSaveSuccess, hostSaveError);
 
 				} else {

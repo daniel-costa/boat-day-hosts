@@ -6,22 +6,17 @@
 - (done) profile picture: preview photo when added
 - (done) profile picture: example good photo and bad photo
 - (done) default value for the state
-
-- date of birth: text cut in selects
-- add example for the account and routing number
-
+- (done) add example for the account and routing number
 - (done) Kimon: give exemple of good and bad picture
 - (done) Kimon: give sentence for profile.
+- (done) Date validation in boatdays: not in the past
+- (done) Duration use slider
+- (done) Minimum seats use slider
+- (done) BoatDay: Minimum of 2 available seats
+- (done) Price per seat slider: 5 to 150 by 5$ step
+- (done) Display information when slide price:
+- (done) Thumbnail border in the profile picture
 
-- Thumbnail border in the profile picture
+- date of birth: text cut in selects
 - Captains display only if the host has some linked to the boat
 - Add captains in the boat page
-- Date validation in boatdays: not in the past
-- Duration	
-- Minimum seats us trackbar
-- BoatDay: Minimum of 2 available seats
-- Price per seat slider: 5 to 150 by 5$ step
-- Display information when slide price:
--- Afordable 5 40
--- Moderate 45 to 80
--- High 85 to 150

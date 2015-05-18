@@ -1,6 +1,6 @@
 <form class="form-horizontal"> 
 	<div class="container"> 
-		<div class="col-xs-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+		<div class="col-xs-24 col-md-20 col-lg-16 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-4">
 			<div class="panel panel-primary">
 
 				<div class="panel-heading area-personal">
@@ -16,20 +16,20 @@
 
 				<div class="panel-body">
 					<div class="form-group">
-						<label for="firstname" class="col-sm-4 control-label">Name</label>
-						<div class="col-sm-5">
+						<label for="firstname" class="col-sm-8 control-label">Name</label>
+						<div class="col-sm-10">
 							<input type="text" value="<%= firstname ? firstname : '' %>" class="form-control" id="firstname" name="firstname" placeholder="first name">
 						</div>
 					</div>
 					<div class="form-group">
-					 	<div class="col-sm-5 col-sm-offset-4">
+					 	<div class="col-sm-10 col-sm-offset-8">
 							<input type="text" value="<%= lastname ? lastname : '' %>" class="form-control" id="lastname" name="lastname" placeholder="last name">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="birthdate" class="col-sm-4 control-label">Date of Birth</label>
-						<div class="col-sm-5">
-							<div class="col-xs-5" style="padding-left:0px">
+						<label for="birthdate" class="col-sm-8 control-label">Date of Birth</label>
+						<div class="col-sm-10">
+							<div class="col-xs-10" style="padding-left:0px">
 								<select class="input-small form-control" id="driverBirthdateMonth" name="driverBirthdateMonth">
 									<option value="01" <%= driverBirthdateMonth && driverBirthdateMonth == '01' ? 'selected' : '' %>>January</option>
 									<option value="02" <%= driverBirthdateMonth && driverBirthdateMonth == '02' ? 'selected' : '' %>>February</option>
@@ -46,7 +46,7 @@
 								</select>
 							</div>
 
-							<div class="col-xs-3" style="padding-left:0px;padding-right : 0px">
+							<div class="col-xs-6" style="padding-left:0px;padding-right : 0px">
 								<select class="input-small form-control" id="driverBirthdateDay" name="driverBirthdateDay">
 									<option value="01" <%= driverBirthdateDay && driverBirthdateDay == '01' ? 'selected' : '' %>>1st</option>
 									<option value="02" <%= driverBirthdateDay && driverBirthdateDay == '02' ? 'selected' : '' %>>2nd</option>
@@ -82,40 +82,40 @@
 								</select>
 							</div>
 
-							<div class="col-xs-4" style="padding-right:0px">
+							<div class="col-xs-8" style="padding-right:0px">
 								<select class="input-small form-control" id="driverBirthdateYear" name="driverBirthdateYear">
 								</select>
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="phone" class="col-sm-4 control-label">Phone Number</label>
-						<div class="col-sm-5">
+						<label for="phone" class="col-sm-8 control-label">Phone Number</label>
+						<div class="col-sm-10">
 							<input type="text" value="<%= phone ? phone : '' %>" class="form-control" id="phone" name="phone" placeholder="area code and all!">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="street" class="col-sm-4 control-label">Address</label>
-						<div class="col-sm-5">
+						<label for="street" class="col-sm-8 control-label">Address</label>
+						<div class="col-sm-10">
 							<input value="<%= street ? street : '' %>" type="text" class="form-control" id="street" name="street" placeholder="in case we have to send you paper">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="city" class="col-sm-4 control-label">City</label>
-						<div class="col-sm-5">
+						<label for="city" class="col-sm-8 control-label">City</label>
+						<div class="col-sm-10">
 							<input value="<%= city ? city : '' %>" type="text" class="form-control" id="city" name="city" placeholder="city">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="city" class="col-sm-4 control-label">Zip Code</label>
-						<div class="col-sm-5">
+						<label for="city" class="col-sm-8 control-label">Zip Code</label>
+						<div class="col-sm-10">
 							<input value="<%= zipCode ? zipCode : '' %>"  type="text" class="form-control" id="zipCode" name="zipCode" placeholder="zip code">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="state" class="col-sm-4 control-label">State</label>
-						<div class="col-sm-5">
-							<select class="col-sm-4 form-control" id="state" name="state">
+						<label for="state" class="col-sm-8 control-label">State</label>
+						<div class="col-sm-10">
+							<select class="col-sm-8 form-control" id="state" name="state">
 								<option value="AL">Alabama</option>
 								<option value="AK">Alaska</option>
 								<option value="AS">American Samoa</option>
@@ -179,8 +179,8 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="SSN" class="col-sm-4 control-label">Social Security Number<br/><em style="font-weight:normal;">(last 4 digits)</em></label>
-						<div class="col-sm-5	">
+						<label for="SSN" class="col-sm-8 control-label">Social Security Number<br/><em style="font-weight:normal;">(last 4 digits)</em></label>
+						<div class="col-sm-10	">
 							<input type="text" value="<%= ssn ? ssn : '' %>" class="form-control" id="ssn" name="ssn" placeholder="for our background screening">
 						</div>
 					</div>

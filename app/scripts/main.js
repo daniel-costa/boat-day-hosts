@@ -14,6 +14,7 @@ require.config({
 		text:       'vendor/requirejs-text/text',
 		bootstrap:  'vendor/bootstrap/dist/js/bootstrap',
 		datepicker: 'vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker',
+		slider: 	'vendor/seiyria-bootstrap-slider/dist/bootstrap-slider.min',
 	},
 	shim: {
         jquery: {
@@ -32,11 +33,15 @@ require.config({
         datepicker: {
             deps: ["jquery", "bootstrap"],
             exports: 'datepicker'
+        },
+        slider: {
+            deps: ["jquery", "bootstrap"],
+            exports: 'slider'
         }
 	}
 });
 
-require(['parse', 'router', 'views/AppView', 'bootstrap', 'datepicker'], function(Parse, AppRouter, AppView) {
+require(['parse', 'router', 'views/AppView', 'bootstrap', 'datepicker', 'slider'], function(Parse, AppRouter, AppView) {
 	
 	Parse.initialize("8YpQsh2LwXpCgkmTIIncFSFALHmeaotGVDTBqyUv", "FaULY8BIForvAYZwVwqX4IAmfsyxckikiZ2NFuEp");
 	

@@ -6,10 +6,12 @@ define([
 		defaults: {
 
 			status: 'creation', 
+			name: null,
 			host: null, 
 			boat: null, 
 			captain: null, 
 			date: null,
+			departureTime: null,
 			duration: null, 
 			price: null, 
 			availableSeats: null, 
@@ -83,6 +85,10 @@ define([
 				type: 'model-validation'
 			};
 
+			if( attributes.name == "" ) {
+				_return.fields.name = "A name for your BoatDay is required";
+			}
+
 			if( attributes.boat == "" ) {
 				_return.fields.boat = "A boat name is required";
 			}
@@ -92,7 +98,7 @@ define([
 			}
 
 			if( !attributes.availableSeats ) {
-				_return.fields.availableSeats = "A minimum seats is required";
+				_return.fields.availableSeats = "Available seats is required";
 			}
 
 			if( !/^[0-9]+([\.][0-9]+)?$/g.test(attributes.price) ) {

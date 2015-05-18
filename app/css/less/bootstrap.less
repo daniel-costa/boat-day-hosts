@@ -1,0 +1,91 @@
+
+@grid-columns:                   24;
+@icon-font-path:                 "../../scripts/vendor/bootstrap/fonts/";
+
+@body-bg:                        #eff3f4;
+@text-color:                     #3d7f8d;
+@brand-primary:                  #3ac0bc;
+@font-size-base:                 15px;
+
+@btn-font-weight:                500;
+@btn-default-color:              #3ac0bc;
+@btn-default-bg:                 #fff;
+@btn-default-border:             #3ac0bc;
+@btn-primary-color:              #fff;
+@btn-primary-bg:                 #f5b019;
+@btn-primary-border:             #f5b019;
+@btn-border-width: 	             2px;
+
+@input-border:                   #cfd8dc;
+@input-color:                    #b1bfcc;
+@input-border-width:             2px;
+@input-color-placeholder:        @input-color;
+
+@link-color:                     #546e7a;
+
+
+.btn {
+	border-width: @btn-border-width;
+}
+
+.btn-lg {
+    height: @input-height-large;
+    padding: @padding-large-vertical @padding-large-horizontal;
+    font-size: @font-size-base;
+    line-height: @line-height-large;
+    border-radius: @border-radius-large;
+}
+
+.form-control {
+	border-width: @input-border-width;
+	font-weight: 500;
+}
+
+.input-lg {
+  .input-size(@input-height-large; @padding-large-vertical; @padding-large-horizontal; @font-size-base; @line-height-large; @input-border-radius-large);
+}
+
+.button-variant-default(@color; @background; @border) {
+  color: @color;
+  background-color: @background;
+  border-color: @border;
+
+  &:hover,
+  &:focus,
+  &.focus,
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    color: @color;
+    background-color: @color;
+        border-color: @color;
+        color: @background;
+  }
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.active {
+      background-color: @background;
+          border-color: @border;
+    }
+  }
+
+  .badge {
+    color: @background;
+    background-color: @color;
+  }
+}
+
+.btn-default {
+  .button-variant-default(@btn-default-color; @btn-default-bg; @btn-default-border);
+}

@@ -12,6 +12,8 @@ define([
 
 		debug: true,
 
+		__ANIMATION_ENDS__: 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+
 		render: function() {
 			console.log("### Render by BaseView (" + this.className + ") ###");
 
@@ -90,7 +92,6 @@ define([
 
 			this.$el.find('.field-error-auto').remove();
 			this.$el.find('.has-error').removeClass('has-error has-feedback');
-			console.log(this.$el.find('.field-error-flag'));
 			this.$el.find('.field-error-flag').popover('hide').unbind('focus mouseenter mouseleave hover blur');
 
 		},
@@ -123,9 +124,13 @@ define([
 			this.remove();
 		},
 		
-		_in: function(name) {
-			
-			return this.$el.find('[name="' + name + '"]');
+		_in: function(names) {
+			var str = "";
+			_.each(names.split(','), function(item) {
+				if(str!="") str += ', ';
+				str += '[name="' + item.trim() + '"]';
+			})
+			return this.$el.find(str);
 
 		},
 

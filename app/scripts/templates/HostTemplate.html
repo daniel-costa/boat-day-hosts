@@ -1,8 +1,10 @@
-<div class="top-nav"></div>
+<% if(Parse.User.current().get("status") == 'complete') { %>
+	<div class="top-nav"></div>
+<% } %>
 
 <form class="form-horizontal"> 
 	<div class="container"> 
-		<div class="col-xs-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+		<div class="col-xs-24 col-md-20 col-lg-16 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-4">
 			<div class="panel panel-primary">
 				<% 
 					if(birthdate) {
@@ -19,20 +21,20 @@
 				</div>
 				<div class="panel-body area-personal">
 					<div class="form-group">
-						<label for="firstname" class="col-sm-4 control-label">Name</label>
-						<div class="col-sm-5">
+						<label for="firstname" class="col-sm-8 control-label">Name</label>
+						<div class="col-sm-10">
 							<input value="<%= firstname ? firstname : '' %>"  type="text" class="form-control" id="firstname" name="firstname" placeholder="first name" <%= ro %>>
 						</div>
 					</div>
 					<div class="form-group">
-					 	<div class="col-sm-5 col-sm-offset-4">
+					 	<div class="col-sm-10 col-sm-offset-8">
 							<input value="<%= lastname ? lastname : '' %>" type="text" class="form-control" id="lastname" name="lastname" placeholder="last name" <%= ro %>>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">Date of Birth</label>
-						<div class="col-sm-5">
-							<div class="col-xs-5" style="padding-left:0px">
+						<label class="col-sm-8 control-label">Date of Birth</label>
+						<div class="col-sm-10">
+							<div class="col-xs-10" style="padding-left:0px">
 								<select class="input-small form-control" id="birthdateMonth" name="birthdateMonth">
 									<option value="1" <%= birthdateMonth && birthdateMonth == 1 ? 'selected' : '' %>>January</option>
 									<option value="2" <%= birthdateMonth && birthdateMonth == 2 ? 'selected' : '' %>>February</option>
@@ -49,7 +51,7 @@
 								</select>
 							</div>
 
-							<div class="col-xs-3" style="padding-left:0px;padding-right : 0px">
+							<div class="col-xs-6" style="padding-left:0px;padding-right : 0px">
 								<select class="input-small form-control" id="birthdateDay" name="birthdateDay">
 									<option value="1"  <%= birthdateDay && birthdateDay == 1  ? 'selected' : '' %>>1st</option>
 									<option value="2"  <%= birthdateDay && birthdateDay == 2  ? 'selected' : '' %>>2nd</option>
@@ -85,7 +87,7 @@
 								</select>
 							</div>
 
-							<div class="col-xs-4" style="padding-right:0px">
+							<div class="col-xs-8" style="padding-right:0px">
 								<select class="input-small form-control" id="birthdateYear" name="birthdateYear">
 								</select>
 							</div>
@@ -93,33 +95,33 @@
 					</div>
 
 					<div class="form-group">
-						<label for="phone" class="col-sm-4 control-label">Phone Number</label>
-						<div class="col-sm-5">
+						<label for="phone" class="col-sm-8 control-label">Phone Number</label>
+						<div class="col-sm-10">
 							<input value="<%= phone ? phone : '' %>" type="text" class="form-control" id="phone" name="phone" placeholder="area code and all!">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="street" class="col-sm-4 control-label">Address</label>
-						<div class="col-sm-5">
+						<label for="street" class="col-sm-8 control-label">Address</label>
+						<div class="col-sm-10">
 							<input value="<%= street ? street : '' %>" type="text" class="form-control" id="street" name="street" placeholder="in case we have to send you paper">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="city" class="col-sm-4 control-label">City</label>
-						<div class="col-sm-5">
+						<label for="city" class="col-sm-8 control-label">City</label>
+						<div class="col-sm-10">
 							<input value="<%= city ? city : '' %>" type="text" class="form-control" id="city" name="city" placeholder="city">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="zipCode" class="col-sm-4 control-label">Zip Code</label>
-						<div class="col-sm-5">
+						<label for="zipCode" class="col-sm-8 control-label">Zip Code</label>
+						<div class="col-sm-10">
 							<input value="<%= zipCode ? zipCode : '' %>" type="text" class="form-control" id="zipCode" name="zipCode" placeholder="zip code">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="state" class="col-sm-4 control-label">State</label>
-						<div class="col-sm-5">
-							<select class="col-sm-4 form-control" id="state" name="state">
+						<label for="state" class="col-sm-8 control-label">State</label>
+						<div class="col-sm-10">
+							<select class="col-sm-8 form-control" id="state" name="state">
 								<option value="AL" <%= state && state == "AL" ? 'selected' : '' %>>Alabama</option>
 								<option value="AK" <%= state && state == "AK" ? 'selected' : '' %>>Alaska</option>
 								<option value="AS" <%= state && state == "AS" ? 'selected' : '' %>>American Samoa</option>
@@ -183,8 +185,8 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="SSN" class="col-sm-4 control-label">Social Security Number<br/><em style="font-weight:normal;">(last 4 digits only)</em></label>
-						<div class="col-sm-5">
+						<label for="SSN" class="col-sm-8 control-label">Social Security Number<br/><em style="font-weight:normal;">(last 4 digits only)</em></label>
+						<div class="col-sm-10">
 							<input value="<%= SSN ? SSN : '' %>" type="text" class="form-control" id="SSN" name="SSN" placeholder="for our background screening">
 						</div>
 					</div>
@@ -196,14 +198,14 @@
 					</div>
 					<div class="panel-body">
 						<div class="form-group has-feedback">
-							<label for="businessName" class="col-sm-4 control-label" >Business Name</label>
-							<div class="col-sm-5">
+							<label for="businessName" class="col-sm-8 control-label" >Business Name</label>
+							<div class="col-sm-10">
 								<input value="<%= businessName ? businessName : '' %>" type="text" class="form-control" id="businessName" name="businessName" placeholder="company name (optional)" <%= ro %>>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="businessEin" class="col-sm-4 control-label">Employer Identification Number</label>
-							<div class="col-sm-5">
+							<label for="businessEin" class="col-sm-8 control-label">Employer Identification Number</label>
+							<div class="col-sm-10">
 								<div class="input-group">
 									<div class="input-group-addon"><strong>EIN</strong></div>
 									<input value="<%= businessEin ? businessEin : '' %>" type="text" class="form-control" id="businessEin" name="businessEin" placeholder="(optional)" <%= ro %>>
@@ -217,10 +219,10 @@
 					<h3 class="panel-title text-center">How do we pay you?</h3>
 				</div>
 				<div class="panel-body">
-					<div class="col-sm-12"> 
+					<div class="col-sm-24"> 
 						<div class="form-group">
-							<label for="paymentMethod" class="col-sm-4 control-label">Payment Method</label>
-							<div class="col-sm-5">
+							<label for="paymentMethod" class="col-sm-8 control-label">Payment Method</label>
+							<div class="col-sm-10">
 								<select class="form-control" id="paymentMethod" name="paymentMethod">
 									<option value="deposit" selected>Direct Deposit</option>
 									<option value="paypal">PayPal</option>
@@ -231,25 +233,25 @@
 
 					 	<div class="paymentMethodContainer deposit">
 							<div class="form-group">
-								<div class="col-sm-5 col-sm-offset-4">
+								<div class="col-sm-10 col-sm-offset-8">
 									<img src="resources/check.jpg" style="max-width:100%;"/>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="accountHolder" class="col-sm-4 control-label">Account Holder</label>
-								<div class="col-sm-5">
+								<label for="accountHolder" class="col-sm-8 control-label">Account Holder</label>
+								<div class="col-sm-10">
 								  <input value="<%= accountHolder ? accountHolder : '' %>" type="text" class="form-control" id="accountHolder" name="accountHolder" placeholder="name on account">
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="accountNumber" class="col-sm-4 control-label">Account Number</label>
-								<div class="col-sm-5">
+								<label for="accountNumber" class="col-sm-8 control-label">Account Number</label>
+								<div class="col-sm-10">
 									<input value="<%= accountNumber ? accountNumber : '' %>" type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="account number">
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="accountRouting" class="col-sm-4 control-label">Routing Number</label>
-								<div class="col-sm-5">
+								<label for="accountRouting" class="col-sm-8 control-label">Routing Number</label>
+								<div class="col-sm-10">
 									 <input value="<%= accountRouting ? accountRouting : '' %>" type="text" class="form-control" id="accountRouting" name="accountRouting" placeholder="routing number">
 						 		 </div>
 							</div>
@@ -258,27 +260,27 @@
 						<% if( type == "personal" ) { %>
 							<div class="paymentMethodContainer paypal">
 								<div class="form-group">
-									<label for="paypalEmail" class="col-sm-4 control-label">Paypal Email</label>
-									<div class="col-sm-5">
+									<label for="paypalEmail" class="col-sm-8 control-label">Paypal Email</label>
+									<div class="col-sm-10">
 										<input value="<%= paypalEmail ? paypalEmail : '' %>" type="email" class="form-control" id="paypalEmail" name="paypalEmail" placeholder="paypal email">
 									</div>
 								</div>
 							</div>
 							<div class="paymentMethodContainer venmo">
 								<div class="form-group">
-									<div class="col-sm-5 col-sm-offset-4">
+									<div class="col-sm-10 col-sm-offset-8">
 										<div class="alert-info alert">
 											<span class="glyphicon glyphicon-info-sign"></span> Please provide <strong>either</strong> the Email Address or Phone Number associated with your Venmo account. 
 										</div>
 									</div>
-									<label for="venmoEmail" class="col-sm-4 control-label">Venmo Email</label>
-									<div class="col-sm-5">
+									<label for="venmoEmail" class="col-sm-8 control-label">Venmo Email</label>
+									<div class="col-sm-10">
 										<input value="<%= venmoEmail ? venmoEmail : '' %>" type="email" class="form-control" id="venmoEmail" name="venmoEmail" placeholder="venmo email">
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="venmoPhone" class="col-sm-4 control-label">Venmo Phone Number</label>
-									<div class="col-sm-5">
+									<label for="venmoPhone" class="col-sm-8 control-label">Venmo Phone Number</label>
+									<div class="col-sm-10">
 										<input value="<%= venmoPhone ? venmoPhone : '' %>" type="text" class="form-control" id="venmoPhone" name="venmoPhone" placeholder="area code and all!">
 									</div>
 								</div>

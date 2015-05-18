@@ -5,9 +5,9 @@ define([
 'models/FileHolder',
 'views/BaseView',
 'text!templates/BoatTemplate.html',
-'text!templates/ProfilePictureTemplate.html',
+'text!templates/ThumbPictureTemplate.html',
 'text!templates/ProofOFInsuranceTemplate.html'
-], function($, _, Parse, FileHolder, BaseView, BoatTemplate, ProfilePictureTemplate, ProofOFInsuranceTemplate){
+], function($, _, Parse, FileHolder, BaseView, BoatTemplate, ThumbPictureTemplate, ProofOFInsuranceTemplate){
 	var BoatView = BaseView.extend({
 
 		className: "view-boat",
@@ -45,11 +45,12 @@ define([
 
 			var fetchSuccess = function(collection) {
 				_.each(collection.models, function( fh ) {
-					var tpl = _.template(ProfilePictureTemplate);
+					var tpl = _.template(ThumbPictureTemplate);
 					self.$el.find('.boatPictures').append(tpl({ 
 						id: fh.id, 
 						url: fh.get('file').url(),
-						canDelete: self.model.get("status") == 'editing'
+						canDelete: self.model.get("status") == 'editing',
+						fullWidth: false
 					}));
 					self.boatPictures[fh.id] = fh;
 				});

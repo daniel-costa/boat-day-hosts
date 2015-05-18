@@ -112,11 +112,11 @@ define([
 				businessName: this._in('businessName').val(),
 				businessEin: this._in('businessEin').val(),
 			};
-			console.log(data);
+			
 			var hostRegistrationSuccess = function() {
 
 				if( Parse.User.current().get("profile") ) {
-					console.log('dashboard');
+
 					Parse.history.navigate("dashboard", true);
 
 				} else {
