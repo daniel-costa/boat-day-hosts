@@ -17,17 +17,46 @@ define([
 		render: function() {
 			console.log("### Render by BaseView (" + this.className + ") ###");
 
-			if(this.model) {	
-				this.$el.html(this.template(this.model.toJSON()));
-			} else if(this.collection) {
-				this.$el.html(this.template({ collection: this.collection.toJSON() }));
-			} else {
-				this.$el.html(this.template());
+			var data = {
+				self: this
+			};
+
+			if(this.model) {
+				_.extend(data, this.model._toFullJSON());
 			}
+
+			if(this.collection) {
+				var x = this.collection.map(function(model){ return model._toFullJSON(); })
+				console.log(x);
+				_.extend(data, { collection: this.collection.toJSON() });
+			} 
+
+			this.$el.html(this.template(data));
 
 			this.displayTopNav();
 
 			return this;
+		},
+
+		dateParseToDisplayDate: function (date) {
+
+			return new Date(date.iso).toLocaleDateString();
+
+		},
+
+		departureTimeToDisplayTime: function(time) {
+
+			var h = parseInt(time);
+			var mm = (time-h) * 60;
+			var dd = 'AM';
+
+			if( h >= 12 ) {
+				dd = 'PM';
+				h -= 12;
+			}
+
+			return (h==0?12:h)+':'+(mm==0?'00':+(mm < 10 ? '0'+mm : mm))+' '+dd;
+			
 		},
 
 		isEmailValid: function(email) {
@@ -36,7 +65,7 @@ define([
     		return emailPattern.test(email);
 
 		},
-		
+
 		displayTopNav: function() {
 
 			var tn = this.$el.find('.top-nav');
@@ -59,6 +88,36 @@ define([
 				this.debugAutofillFields();
 			}
 			
+		},
+
+		scorePassword: function(pass) {
+			var score = 0;
+
+			if (!pass)
+				return score;
+
+			// award every unique letter until 5 repetitions
+			var letters = new Object();
+			for (var i=0; i<pass.length; i++) {
+				letters[pass[i]] = (letters[pass[i]] || 0) + 1;
+				score += 5.0 / letters[pass[i]];
+			}
+
+			// bonus points for mixing it up
+			var variations = {
+				digits: /\d/.test(pass),
+				lower: /[a-z]/.test(pass),
+				upper: /[A-Z]/.test(pass),
+				nonWords: /\W/.test(pass),
+			}
+
+			var variationCount = 0;
+			for (var check in variations) {
+				variationCount += (variations[check] == true) ? 1 : 0;
+			}
+			score += (variationCount - 1) * 10;
+
+			return parseInt(score);
 		},
 
 		fieldError: function(name, message) {

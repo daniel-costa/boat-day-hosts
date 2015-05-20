@@ -1,54 +1,31 @@
 define([
-'jquery', 
-'underscore', 
-'parse',
+'models/CaptainRequestModel',
 'views/BaseView',
 'views/BoatsTableView',
 'views/BoatDaysTableView',
+'views/CaptainRequestsTableView',
 'text!templates/DashboardTemplate.html'
-], function($, _, Parse, BaseView, BoatsTableView, BoatDaysTableView, DashboardTemplate){
+], function(CaptainRequestModel, BaseView, BoatsTableView, BoatDaysTableView, CaptainRequestsTableView, DashboardTemplate){
 	var DashboardView = BaseView.extend({
 
 		className: "view-dashboard",
 		
 		template: _.template(DashboardTemplate),
-
-		events : {
-		},
-
-		initialize: function() {
-		},
-
+		
 		render: function() {
 
 			BaseView.prototype.render.call(this);
 			
 			var self = this;
-
-			this.$el.find('.area').hide();
-
-			if( Parse.User.current().get('host') ) {
-
-				this.renderHost();
-				this.$el.find('.area-host').show();
-				
-			}
-
-			if( Parse.User.current().get('driver') ) {
-
-				this.renderDriver();
-				this.$el.find('.area-driver').show();
-				
-			}
-
-			return this;
-
-		},
-
-		renderHost: function() {
-
-			var self = this;
 			
+			var captainRequestsFetchSuccess = function(collection) {
+
+				var captainRequestsView = new CaptainRequestsTableView({ data: collection });
+				self.subViews.push(captainRequestsView);
+				self.$el.find('.captainRequests').html(captainRequestsView.render().el);
+
+			};
+
 			var boatsFetchSuccess = function(collection) {
 
 				var boatsView = new BoatsTableView({ collection: collection });
@@ -59,9 +36,9 @@ define([
 
 			var boatdaysFetchSuccess = function(collection) {
 
-				var boatdaysView = new BoatDaysTableView({ collection: collection });
-				self.subViews.push(boatdaysView);
-				self.$el.find('.boatdays').html(boatdaysView.render().el);
+				var BoatDaysView = new BoatDaysTableView({ collection: collection });
+				self.subViews.push(BoatDaysView);
+				self.$el.find('.boatdays').html(BoatDaysView.render().el);
 
 			};	
 
@@ -71,12 +48,23 @@ define([
 
 			};
 
-			Parse.User.current().get('host').relation('boats').query().collection().fetch().then(boatsFetchSuccess, collectionFetchError);
-			Parse.User.current().get('host').relation('boatdays').query().collection().fetch().then(boatdaysFetchSuccess, collectionFetchError);
+			var queryBoats = Parse.User.current().get('host').relation('boats').query();
+			queryBoats.descending('name');
+			queryBoats.collection().fetch().then(boatsFetchSuccess, collectionFetchError);
 
-		},
+			var queryBoatDays = Parse.User.current().get('host').relation('boatdays').query();
+			queryBoatDays.ascending('date,departureTime');
+			queryBoatDays.collection().fetch().then(boatdaysFetchSuccess, collectionFetchError);
 
-		renderDriver: function() {
+			var queryCaptainRequests = new Parse.Query(CaptainRequestModel);
+			queryCaptainRequests.ascending('createdAt');
+			queryCaptainRequests.equalTo('email', Parse.User.current().getEmail());
+			queryCaptainRequests.equalTo('status', 'pending');
+			queryCaptainRequests.include('boat');
+			queryCaptainRequests.include('fromProfile');
+			queryCaptainRequests.collection().fetch().then(captainRequestsFetchSuccess, collectionFetchError);
+
+			return this;
 
 		}
 

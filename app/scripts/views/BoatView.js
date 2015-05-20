@@ -18,20 +18,19 @@ define([
 
 		debug: true,
 		
-		boatPictures: {},
+		boatPictures: null,
 		proofOfInsurance: {},
 
 		events: {
-
 			"submit form" : "save",
 			"change [name='boatPictures']": "uploadBoatPicture",
 			"change [name='insurance']": "uploadInsurance",
+			"keypress [name='captain-email']": 'checkEnter',
 			"click .delete-picture": 'deleteBoatPicture',
-			"click .add-driver": "addDriver"
-
+			"click .add-captain": "addCaptain"
 		},
 
-		initialize: function() {
+		initialize: function(data) {
 
 			if( this.model.get('status') != 'creation' ) {
 				this.displayBoatPictures();
@@ -41,64 +40,11 @@ define([
 
 		},
 
-		addDriver: function(event) {
-			
-			event.preventDefault();
+		checkEnter: function(event) {
 
-			var self = this;
-
-			self.buttonLoader('Adding driver...');
-
-			if( !self.isEmailValid(self._in('captain-email').val()) ) {
-				this.fieldError('captain-email', 'Oops.. The email doesn\'t seem valid.');
-				self.buttonLoader();
-				return;
+			if( event.keyCode == 13 ) {
+				this.addCaptain(event);
 			}
-
-			var saveCaptainSuccess = function(captain) { 
-				self.model.relation('captains').add(captain);
-				self.model.save().then(saveBoatSuccess, saveError);
-			}
-
-			var saveBoatSuccess = function() {
-				self._in('captain-email').val('');
-				self.displayCaptains();
-				self.buttonLoader();
-			};
-
-			var saveError = function(error) {
-				console.log(error);
-				self._error('Oops... Something went wrong, try again please.');
-				self.buttonLoader();
-			};
-
-			var addRelation = function(captain, profile) {
-				var data = {
-					email: self._in('captain-email').val(),
-					captain: captain,
-					profile: profile
-				}
-				var captain = new CaptainRequestModel(data);
-				captain.save().then(saveCaptainSuccess, saveError);
-			};
-
-			var query = new Parse.Query(Parse.User);
-			query.equalTo('email', self._in('captain-email').val());
-			query.count().then(function(total) {
-
-				if( total == 0 ) {
-
-					addRelation();
-
-				} else {
-
-					query.first().then(function(user) {
-						addRelation(user.get('driver'), user.get('profile'));						
-					});
-
-				}
-
-			});
 
 		},
 
@@ -107,25 +53,25 @@ define([
 			var self = this;
 			
 			self.$el.find('.captainsList').html('');
+			
+			var tpl = _.template(CaptainsTableTemplate);
 
-			var fetchSuccess = function(collection) {
-				_.each(collection.models, function( captain ) {
-					var tpl = _.template(CaptainsTableTemplate);
-					self.$el.find('.captainsList').append(tpl({ 
-						id: captain.id, 
-						email: captain.get('email'),
-						status: captain.get('status')
-					}));
-				});
+			var displayObject = function( captain ) {
+				self.$el.find('.captainsList').append(tpl({ 
+					id: captain.id, 
+					email: captain.get('email'),
+					status: captain.get('status')
+				}));
 			};
 
-			var fetchError = function(error) {
-				console.log(error);
+			var displayAll = function(matches) {
+				_.each(matches, displayObject);
 			};
 
 			var query = self.model.relation('captains').query();
 			query.descending("createdAt");
-			query.collection().fetch().then(fetchSuccess, fetchError);
+			query.find().then(displayAll);
+
 		},
 
 		displayBoatPictures: function() {
@@ -133,25 +79,27 @@ define([
 			var self = this;
 
 			self.$el.find('.boatPictures').html('');
+			self.boatPictures = {};
 
-			var fetchSuccess = function(collection) {
-				_.each(collection.models, function( fh ) {
-					var tpl = _.template(ThumbPictureTemplate);
-					self.$el.find('.boatPictures').append(tpl({ 
-						id: fh.id, 
-						url: fh.get('file').url(),
-						canDelete: self.model.get("status") == 'editing',
-						fullWidth: false
-					}));
-					self.boatPictures[fh.id] = fh;
-				});
+			var tpl = _.template(ThumbPictureTemplate);
+
+			var displayObject = function( fh ) {	
+				self.$el.find('.boatPictures').append(tpl({ 
+					id: fh.id, 
+					url: fh.get('file').url(),
+					canDelete: self.model.get("status") == 'editing',
+					fullWidth: false
+				}));
+				self.boatPictures[fh.id] = fh;
 			};
 
-			var fetchError = function(error) {
-				console.log(error);
+			var displayAll = function(matches) {
+				_.each(matches, displayObject);
 			};
 
-			self.model.relation('boatPictures').query().collection().fetch().then(fetchSuccess, fetchError);
+			var query = self.model.relation('boatPictures').query();
+			query.descending("createdAt");
+			query.find().then(displayAll);
 		},
 
 		displayProofOfInsurance: function() {
@@ -160,23 +108,24 @@ define([
 
 			self.$el.find('.proofOfInsurance').html('');
 
-			var fetchSuccess = function(collection) {
-				_.each(collection.models, function( fh ) {
-					var tpl = _.template(ProofOFInsuranceTemplate);
-					self.$el.find('.proofOfInsurance').append(tpl({ 
-						id: fh.id, 
-						url: fh.get('file').url(),
-						createdAt: fh.createdAt
-					}));
-					self.proofOfInsurance[fh.id] = fh;
-				});
+			var tpl = _.template(ProofOFInsuranceTemplate);
+
+			var displayObject = function( fh ) {		
+				self.$el.find('.proofOfInsurance').append(tpl({ 
+					id: fh.id, 
+					url: fh.get('file').url(),
+					createdAt: fh.createdAt
+				}));
+				self.proofOfInsurance[fh.id] = fh;
 			};
 
-			var fetchError = function(error) {
-				console.log(error);
+			var displayAll = function(matches) {
+				_.each(matches, displayObject);
 			};
 
-			self.model.relation('proofOfInsurance').query().collection().fetch().then(fetchSuccess, fetchError);
+			var query = self.model.relation('proofOfInsurance').query();
+			query.descending("createdAt");
+			query.find().then(displayAll);
 		},
 
 		deleteBoatPicture: function(event) {
@@ -189,21 +138,78 @@ define([
 			});
 		},
 
-		deleteProofOfInsurance: function(event) {
+		addCaptain: function(event) {
+
 			event.preventDefault();
+
 			var self = this;
-			var fid = $(event.currentTarget).attr('file-id');
-			self.model.relation('proofOfInsurance').remove(self.boatPictures[fid]);
-			self.model.save().then(function() {
-				self.displayProofOfInsurance();
-			});
-		},
 
-		render: function() {
+			self.buttonLoader('Adding Captain...');
+			self.cleanForm();
 
-			BaseView.prototype.render.call(this);
+			if( !self.isEmailValid(self._in('captain-email').val()) ) {
+				self.fieldError('captain-email', 'Oops.. The email doesn\'t seem valid.');
+				self.buttonLoader();
+				return;
+			}
 
-			return this;
+			var createCaptainRequest = function(email, captain, profile) {
+
+				var saveBoatSuccess = function() {
+					self._in('captain-email').val('');
+					self.displayCaptains();
+					self.buttonLoader();
+				};
+
+				var saveCaptainSuccess = function(captain) { 
+					self.model.relation('captains').add(captain);
+					self.model.save().then(saveBoatSuccess);
+				};
+
+				var data = {
+					email: email,
+					captainHost: captain,
+					captainProfile: profile,
+					fromHost: Parse.User.current().get('host'),
+					fromProfile: Parse.User.current().get('profile'),
+					boat: self.model
+				};
+
+				var captain = new CaptainRequestModel(data);
+				captain.save().then(saveCaptainSuccess);
+
+			};
+
+			var query = self.model.relation('captains').query();
+			query.equalTo('email', self._in('captain-email').val());
+			query.count().then(function(total) {
+
+				if( total > 0 ) {
+					self.fieldError('captain-email', 'Oops.. Seems your already have this user as a captain of this boat.');
+					self.buttonLoader();
+					return;
+				}
+					
+
+				var query = new Parse.Query(Parse.User);
+				query.equalTo('email', self._in('captain-email').val());
+				query.count().then(function(total) {
+
+					if( total == 0 ) {
+
+						createCaptainRequest(self._in('captain-email').val());
+
+					} else {
+
+						query.first().then(function(user) {
+							createCaptainRequest(self._in('captain-email').val(), user.get('host'), user.get('profile'));
+						});
+
+					}
+
+				});
+			})
+
 		},
 
 		uploadBoatPicture: function(event) {
@@ -213,6 +219,7 @@ define([
 			var parseFile = null;
 			
 			self.buttonLoader('Uploading...');
+			self.cleanForm();
 
 			if( files.length == 1) {
 
@@ -265,6 +272,7 @@ define([
 			var parseFile = null;
 			
 			self.buttonLoader('Uploading...');
+			self.cleanForm();
 
 			if( files.length == 1) {
 
@@ -404,7 +412,6 @@ define([
 					var host = Parse.User.current().get("host");
 					host.relation('boats').add(boat);
 					host.save().then(hostSaveSuccess, hostSaveError);
-
 
 				} else {
 					

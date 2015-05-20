@@ -1,6 +1,6 @@
 - (done) placeholders, all lower case
 - (done) tell us about you: add “…” at the end
-- (done) do not let people register as a driver from home page (only direct link in email)
+- (done) do not let people register as a captain from home page (only direct link in email)
 - (done) host registration: keep personal fields and add business name + business EIN as “(if applicable)”
 - (done) business can use paywall & venmo
 - (done) profile picture: preview photo when added
@@ -16,13 +16,25 @@
 - (done) Price per seat slider: 5 to 150 by 5$ step
 - (done) Display information when slide price:
 - (done) Thumbnail border in the profile picture1
+- (done) add CaptainRequest : email, Host, Profile
+- (done) add relation in boat
+- (done) check if captain is in the boat requests already when added from a boat
+- (done) Add check in host signup if captain is in already requested
+- (done) Frogot password
+- (done) Add captains in the boat page
+- (done) test if not empty on type of boat when adding a boat
+- (done) add sort descending on collections in the app
+- (done) configure parse facebook information
+- (done) check buttons in the app and tag as submit or button
+- (done) date of birth: text cut in selects
 
-- add DriverRequest : email, Driver, Profile
-- add relation in boat
-- load boat pictures
-- Add check in driver subscription
-- Froget password
-- Send email to drivers from parse.
-- date of birth: text cut in selects
-- Captains display only if the host has some linked to the boat
-- Add captains in the boat page
+- load boat pictures in boatday page
+- Send email to captains from parse when added from a boat
+- refactory file upload
+- display captains requests in the dashboard
+- Maps in boatdays
+
+- add domain to parse
+- add domain to mailgun
+- host app on parse.com
+- create email templates on parse for forgetting password

@@ -52,6 +52,11 @@ define([
 				_return.fields.name = "You must to enter a display name";
 
 			}
+			
+			if( attributes.type == "" ) {
+				_return.fields.type = "You must to enter a type of boat";
+
+			}
 
 			if( attributes.hullID == "" ) {
 				_return.fields.hullID = "You must to enter a hull ID";

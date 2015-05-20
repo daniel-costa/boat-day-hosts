@@ -10,7 +10,7 @@ require.config({
 		jquery:     'vendor/jquery/dist/jquery.min',
 		underscore: 'vendor/underscore/underscore-min',
 		// backbone:   'vendor/backbone/backbone',
-		parse:      'vendor/parse/parse.min',
+		parse:      'vendor/parse/parse',
 		text:       'vendor/requirejs-text/text',
 		bootstrap:  'vendor/bootstrap/dist/js/bootstrap',
 		datepicker: 'vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker',

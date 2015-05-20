@@ -17,23 +17,6 @@ define([
 
 		template: _.template(BoatsTableTemplate),
 
-		events : {
-
-		},
-
-		initialize: function() {
-
-
-		},
-
-		render: function() {
-
-			BaseView.prototype.render.call(this);
-
-			return this;
-
-		}
-
 	});
 	return DashboardView;
 });

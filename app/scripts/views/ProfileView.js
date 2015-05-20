@@ -2,10 +2,11 @@ define([
 'jquery', 
 'underscore', 
 'parse',
+'models/CaptainRequestModel',
 'views/BaseView',
 'text!templates/ThumbPictureTemplate.html',
 'text!templates/ProfileTemplate.html'
-], function($, _, Parse, BaseView, ThumbPictureTemplate, ProfileTemplate){
+], function($, _, Parse, CaptainRequestModel, BaseView, ThumbPictureTemplate, ProfileTemplate){
 	var ProfileView = BaseView.extend({
 
 		className: "view-profile",
@@ -24,6 +25,7 @@ define([
 			if( this.model.get('status') != 'creation' ) {
 				this.profilePicture = this.model.get('profilePicture');
 			}
+
 		},
 
 		render: function() {
@@ -34,6 +36,12 @@ define([
 				this.displayProfilePicture(this.model.get('profilePicture').url());
 			}
 
+			if( this._in('displayName').val() === '' ) {
+				var host = Parse.User.current().get('host');
+				var displayName = host.get('firstname') + ' ' + host.get('lastname').charAt(0) + '.';
+				this._in('displayName').val(displayName);	
+			}
+			
 			return this;
 		},
 		
@@ -130,9 +138,26 @@ define([
 			var userStatusUpdateSuccess = function() {
 
 				if( baseStatus == 'creation' ) {
-					Parse.history.loadUrl( Parse.history.fragment );
+					
+					var navigate = function() {
+						Parse.history.loadUrl( Parse.history.fragment );
+					};
+
+					var updateRequest = function(request) {
+						request.save({
+							captainProfile: self.model,
+							captainHost: Parse.User.current().get('host')
+						});
+					}
+
+					var query = new Parse.Query(CaptainRequestModel);
+					query.equalTo('email', Parse.User.current().getEmail());
+					query.each(updateRequest).then(navigate, saveError);
+
 				} else {
+					
 					Parse.history.navigate('dashboard', true);
+
 				}
 
 			};

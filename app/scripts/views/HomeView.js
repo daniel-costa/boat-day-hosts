@@ -29,7 +29,7 @@ define([
 		createAccount: function() {
 
 			this.$el.find('.content').addClass('zoomOut').one(this.__ANIMATION_ENDS__, function() {
-				Parse.history.navigate('sign-up/host', true);	
+				Parse.history.navigate('sign-up', true);	
 			});
 			
 		},

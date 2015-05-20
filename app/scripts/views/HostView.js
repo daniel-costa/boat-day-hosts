@@ -91,6 +91,8 @@ define([
 			self.buttonLoader('Saving');
 			self.cleanForm();
 
+			var baseStatus = this.model.get('status');
+
 			var data = {
 				status: "complete",
 				phone: this._in('phone').val(),
@@ -115,23 +117,13 @@ define([
 			
 			var hostRegistrationSuccess = function() {
 
-				if( Parse.User.current().get("profile") ) {
+				if( baseStatus == 'creation' ) {
 
-					Parse.history.navigate("dashboard", true);
+					Parse.history.loadUrl(Parse.history.fragment);
 
 				} else {
 
-					var userStatusUpdateSuccess = function() {
-
-						Parse.history.loadUrl( Parse.history.fragment );
-
-					};
-
-					var profileData = {
-						displayName: data.firstname + " " + data.lastname.charAt(0) + "."
-					};
-
-					Parse.User.current().save({ profile: new ProfileModel(profileData) }).then(userStatusUpdateSuccess, saveError);
+					Parse.history.navigate("dashboard", true);
 
 				}
 

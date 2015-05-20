@@ -47,7 +47,9 @@ define([
 
 			};
 
-			Parse.User.current().get('host').relation('boats').query().collection().fetch().then(boatsFetchSuccess, collectionFetchError);
+			var query = Parse.User.current().get('host').relation('boats').query();
+			query.ascending('name');
+			query.collection().fetch().then(boatsFetchSuccess, collectionFetchError);
 
 			var dateYear = this.model.get('date') ? this.model.get('date').getFullYear() : new Date().getFullYear();
 			for(var i = dateYear; i < new Date().getFullYear() + 3; i++) {
@@ -88,18 +90,7 @@ define([
 			this._in('departureTime').slider({
 				tooltip: 'hide'
 			}).on("slide", function(slideEvt) {
-			
-				var h = parseInt(slideEvt.value);
-				var mm = (slideEvt.value-h) * 60;
-				var dd = ' AM';
-
-				if( h >= 12 ) {
-					dd = ' PM';
-					h -= 12;
-				}
-
-				var display = (h==0?12:h)+(mm==0?'':':'+mm)+dd;
-
+				var display = self.departureTimeToDisplayTime(slideEvt.value);
 				self.$el.find('.preview-departureTime').text(display);
 			}).slider('setValue', this._in('departureTime').slider('getValue'), true, false)
 

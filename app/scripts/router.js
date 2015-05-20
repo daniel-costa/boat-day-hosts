@@ -4,33 +4,32 @@ define([
 	'underscore',
 	'parse',
 	'models/BoatModel',
-	'models/DriverModel',
 	'models/BoatDayModel',
 	'views/HomeView',
+	'views/ForgotPasswordView',
 	'views/DashboardView',
 	'views/TermsView',
 	'views/SignUpView',
 	'views/HostView',
-	'views/DriverView',
 	'views/ProfileView',
 	'views/BoatView', 
 	'views/BoatDayView'
 ], function(
 	$, _, Parse, 
-	BoatModel, DriverModel, BoatDayModel,
-	HomeView, DashboardView, TermsView, SignUpView, HostView, DriverView, ProfileView, BoatView, BoatDayView) {
+	BoatModel, BoatDayModel,
+	HomeView, ForgotPasswordView, DashboardView, TermsView, SignUpView, HostView, ProfileView, BoatView, BoatDayView) {
 	
 	var AppRouter = Parse.Router.extend({
 
 		routes: {
 			'home': 'showHomeView',
-			'sign-up/:type': 'showSignUpView',
+			'sign-up': 'showSignUpView',
 			'sign-out': 'signOut',
+			'forgot-password': 'showForgotPasswordView',
 			'boat/new': 'showBoatView',
 			'boat/:boatid': 'showBoatView',
 			'boatday/new': 'showBoatDayView',
 			'boatday/:boatdayid': 'showBoatDayView',
-			'driver': 'showDriverView',
 			'host': 'showHostView',
 			'profile': 'showProfileView',
 			'*actions': 'showDashboardView'
@@ -51,6 +50,12 @@ define([
 
 		},
 
+		showForgotPasswordView: function() {
+
+			this.render(new ForgotPasswordView());
+
+		},
+
 		showSignUpView: function( type ) {
 
 			if( Parse.User.current() ) {
@@ -60,7 +65,7 @@ define([
 
 			}
 			
-			this.render(new SignUpView({ type: type }));
+			this.render(new SignUpView());
 
 		},
 
@@ -101,7 +106,7 @@ define([
 				} else {
 
 					var boat = new BoatModel({ host: Parse.User.current().get('host') });
-					self.render(new BoatView({ model: boat }));
+					self.render(new BoatView({ model: boat, init: true }));
 
 				}
 
@@ -140,20 +145,6 @@ define([
 			};
 
 			this.handleGuestAndSignUp(cb);
-		},
-
-		showDriverView: function(driverid) {
-
-			var self = this;
-
-			var cb = function() {
-
-				self.render(new DriverView({ model: Parse.User.current().get('driver') }));	
-
-			};
-
-			this.handleGuestAndSignUp(cb);
-
 		},
 
 		showHostView: function() {
@@ -210,10 +201,6 @@ define([
 
 				Parse.User.current().get('host').fetch().done(cb);
 
-			} else if( Parse.User.current().get('driver') && !Parse.User.current().get('driver').createdAt ) {
-
-				Parse.User.current().get('driver').fetch().done(cb);
-
 			} else {
 				
 				cb();
@@ -238,43 +225,29 @@ define([
 				return;
 
 			}
+			
+			var profileSuccess = function(profile) {
 
-			if( Parse.User.current().get('profile') ) {
+				if( Parse.User.current().get("host").get('status') == 'creation' ) {
+				
+					self.render(new HostView({ model: Parse.User.current().get("host") }));	
 
-				var profileSuccess = function(profile) {
-					
+				} else {
+
 					self.render(new ProfileView({ model: profile }));
 
-				};
+				}
 
+			};
+
+			var hostSuccess = function(host) {
+				
 				Parse.User.current().get("profile").fetch().then(profileSuccess, callbackError);
-				return;
 
-			}
+			};
 
-			if( Parse.User.current().get('driver') ) {
+			Parse.User.current().get("host").fetch().then(hostSuccess, callbackError);
 
-				var driverSuccess = function(driver) {
-					
-					self.render(new DriverView({ model: driver }));	
-
-				};
-
-				Parse.User.current().get("driver").fetch().then(driverSuccess, callbackError);
-				return;
-
-			} else {
-
-				var hostSuccess = function(host) {
-
-					self.render(new HostView({ model: host }));	
-
-				};
-
-				Parse.User.current().get("host").fetch().then(hostSuccess, callbackError);
-				return;
-
-			}
 
 		},
 

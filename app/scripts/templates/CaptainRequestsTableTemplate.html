@@ -1,0 +1,32 @@
+<% if(collection.length > 0) { %>
+	<thead>
+		<tr>
+			<th> </th>
+			<th class="text-center">Host</th>
+			<th class="text-center">Boat</th>
+			<th class="text-center">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% _.each( collection, function( captainRequest ) { %>
+		<%= console.log(captainRequest) %>
+			<tr>
+				<th><%= captainRequest.boat.name %> - <%= captainRequest.boat.type %></td>
+				<td class="text-center"><%= captainRequest.fromProfile.displayName %></td>
+				<td class="text-center">
+					<a href="#/boat/">
+						<span class="glyphicon glyphicon-pencil"/></span>
+					</a>
+				</td>
+			</tr> 
+		<% }); %>
+	</tbody>
+<% } else { %>
+	<tbody>
+		<tr>
+			<td class="text-center" colspan="4">
+				<em>No captain requests added</em>
+			</td>
+		</tr>
+	</tbody>
+<% } %>

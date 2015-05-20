@@ -6,8 +6,11 @@ define([
 		defaults: {
 			status: 'pending',
 			email: null,
-			captain: null,
-			profile: null
+			captainHost: null,
+			captainProfile: null,
+			fromHost: null,
+			fromProfile: null,
+			boat: null
 		}
  
 	});
