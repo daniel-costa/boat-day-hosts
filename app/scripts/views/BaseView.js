@@ -30,6 +30,13 @@ define([
 			return this;
 		},
 
+		isEmailValid: function(email) {
+
+			var emailPattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    		return emailPattern.test(email);
+
+		},
+		
 		displayTopNav: function() {
 
 			var tn = this.$el.find('.top-nav');

@@ -15,8 +15,14 @@
 - (done) BoatDay: Minimum of 2 available seats
 - (done) Price per seat slider: 5 to 150 by 5$ step
 - (done) Display information when slide price:
-- (done) Thumbnail border in the profile picture
+- (done) Thumbnail border in the profile picture1
 
+- add DriverRequest : email, Driver, Profile
+- add relation in boat
+- load boat pictures
+- Add check in driver subscription
+- Froget password
+- Send email to drivers from parse.
 - date of birth: text cut in selects
 - Captains display only if the host has some linked to the boat
 - Add captains in the boat page

@@ -2,12 +2,14 @@ define([
 'jquery', 
 'underscore', 
 'parse',
-'models/FileHolder',
+'models/FileHolderModel',
+'models/CaptainRequestModel',
 'views/BaseView',
 'text!templates/BoatTemplate.html',
 'text!templates/ThumbPictureTemplate.html',
-'text!templates/ProofOFInsuranceTemplate.html'
-], function($, _, Parse, FileHolder, BaseView, BoatTemplate, ThumbPictureTemplate, ProofOFInsuranceTemplate){
+'text!templates/ProofOFInsuranceTemplate.html',
+'text!templates/CaptainsTableTemplate.html'
+], function($, _, Parse, FileHolderModel, CaptainRequestModel, BaseView, BoatTemplate, ThumbPictureTemplate, ProofOFInsuranceTemplate, CaptainsTableTemplate){
 	var BoatView = BaseView.extend({
 
 		className: "view-boat",
@@ -24,7 +26,8 @@ define([
 			"submit form" : "save",
 			"change [name='boatPictures']": "uploadBoatPicture",
 			"change [name='insurance']": "uploadInsurance",
-			"click .delete-picture": 'deleteBoatPicture'
+			"click .delete-picture": 'deleteBoatPicture',
+			"click .add-driver": "addDriver"
 
 		},
 
@@ -33,8 +36,96 @@ define([
 			if( this.model.get('status') != 'creation' ) {
 				this.displayBoatPictures();
 				this.displayProofOfInsurance();
+				this.displayCaptains();
 			}
 
+		},
+
+		addDriver: function(event) {
+			
+			event.preventDefault();
+
+			var self = this;
+
+			self.buttonLoader('Adding driver...');
+
+			if( !self.isEmailValid(self._in('captain-email').val()) ) {
+				this.fieldError('captain-email', 'Oops.. The email doesn\'t seem valid.');
+				self.buttonLoader();
+				return;
+			}
+
+			var saveCaptainSuccess = function(captain) { 
+				self.model.relation('captains').add(captain);
+				self.model.save().then(saveBoatSuccess, saveError);
+			}
+
+			var saveBoatSuccess = function() {
+				self._in('captain-email').val('');
+				self.displayCaptains();
+				self.buttonLoader();
+			};
+
+			var saveError = function(error) {
+				console.log(error);
+				self._error('Oops... Something went wrong, try again please.');
+				self.buttonLoader();
+			};
+
+			var addRelation = function(captain, profile) {
+				var data = {
+					email: self._in('captain-email').val(),
+					captain: captain,
+					profile: profile
+				}
+				var captain = new CaptainRequestModel(data);
+				captain.save().then(saveCaptainSuccess, saveError);
+			};
+
+			var query = new Parse.Query(Parse.User);
+			query.equalTo('email', self._in('captain-email').val());
+			query.count().then(function(total) {
+
+				if( total == 0 ) {
+
+					addRelation();
+
+				} else {
+
+					query.first().then(function(user) {
+						addRelation(user.get('driver'), user.get('profile'));						
+					});
+
+				}
+
+			});
+
+		},
+
+		displayCaptains: function() {
+			
+			var self = this;
+			
+			self.$el.find('.captainsList').html('');
+
+			var fetchSuccess = function(collection) {
+				_.each(collection.models, function( captain ) {
+					var tpl = _.template(CaptainsTableTemplate);
+					self.$el.find('.captainsList').append(tpl({ 
+						id: captain.id, 
+						email: captain.get('email'),
+						status: captain.get('status')
+					}));
+				});
+			};
+
+			var fetchError = function(error) {
+				console.log(error);
+			};
+
+			var query = self.model.relation('captains').query();
+			query.descending("createdAt");
+			query.collection().fetch().then(fetchSuccess, fetchError);
 		},
 
 		displayBoatPictures: function() {
@@ -143,7 +234,7 @@ define([
 				}
 
 				var uploadSuccess = function(file) {
-					new FileHolder({ file: file }).save().then(function(fh) {
+					new FileHolderModel({ file: file }).save().then(function(fh) {
 						self.model.relation('boatPictures').add(fh);
 						self.model.save().then(function() {
 							self.displayBoatPictures();
@@ -199,7 +290,7 @@ define([
 				}
 
 				var uploadSuccess = function(file) {
-					new FileHolder({ file: file }).save().then(function(fh) {
+					new FileHolderModel({ file: file }).save().then(function(fh) {
 						self.model.relation('proofOfInsurance').add(fh);
 						self.model.save().then(function() {
 							self.displayProofOfInsurance();
