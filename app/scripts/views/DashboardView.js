@@ -20,7 +20,7 @@ define([
 			
 			var captainRequestsFetchSuccess = function(collection) {
 
-				var captainRequestsView = new CaptainRequestsTableView({ data: collection });
+				var captainRequestsView = new CaptainRequestsTableView({ collection: collection });
 				self.subViews.push(captainRequestsView);
 				self.$el.find('.captainRequests').html(captainRequestsView.render().el);
 

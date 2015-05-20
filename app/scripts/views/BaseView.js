@@ -26,13 +26,10 @@ define([
 			}
 
 			if(this.collection) {
-				var x = this.collection.map(function(model){ return model._toFullJSON(); })
-				console.log(x);
 				_.extend(data, { collection: this.collection.toJSON() });
 			} 
 
 			this.$el.html(this.template(data));
-
 			this.displayTopNav();
 
 			return this;

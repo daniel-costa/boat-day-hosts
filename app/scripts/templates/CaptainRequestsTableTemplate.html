@@ -9,7 +9,6 @@
 	</thead>
 	<tbody>
 		<% _.each( collection, function( captainRequest ) { %>
-		<%= console.log(captainRequest) %>
 			<tr>
 				<th><%= captainRequest.boat.name %> - <%= captainRequest.boat.type %></td>
 				<td class="text-center"><%= captainRequest.fromProfile.displayName %></td>

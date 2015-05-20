@@ -5,7 +5,7 @@ define([
 'views/BaseView',
 'text!templates/CaptainRequestsTableTemplate.html'
 ], function($, _, Parse, BaseView, CaptainRequestsTableTemplate){
-	var DashboardView = BaseView.extend({
+	var CaptainRequestsTableView = BaseView.extend({
 
 		tagName: "table",
 
@@ -18,5 +18,5 @@ define([
 		template: _.template(CaptainRequestsTableTemplate),
 
 	});
-	return DashboardView;
+	return CaptainRequestsTableView;
 });
