@@ -27,13 +27,14 @@
 - (done) configure parse facebook information
 - (done) check buttons in the app and tag as submit or button
 - (done) date of birth: text cut in selects
+- (done) display captains requests in the dashboard
 
 - load boat pictures in boatday page
 - Send email to captains from parse when added from a boat
 - refactory file upload
-- display captains requests in the dashboard
 - Maps in boatdays
 
+- Clean unused files
 - add domain to parse
 - add domain to mailgun
 - host app on parse.com

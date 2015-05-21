@@ -18,12 +18,34 @@ define([
 		events: {
 			
 			"submit form" : "save",
+			'change [name="boat"]' : "boatSelected", 
 			'change [name="activity"]' : "refreshActivity", 
 			'change [name="featuresFishingEquipment"]': "showFishingEquipment", 
 			'change [name="featuresSportsEquipment"]': "showSportsEquipment"
 		}, 
 
-		initialize: function() {
+		boatSelected: function(event) {
+
+			var self = this;
+			var boatid = $(event.currentTarget).val();
+
+			var captainsFetchSuccess = function(collection) {
+				collection.each(function(captainRequest) {
+					console.log(captainRequest.get('captainProfile').get('displayName'));
+				})
+			};
+
+			var appendCaptain = function(captainRequest) {
+				console.log(captainRequest.get('captainProfile').get('displayName'));
+			};
+
+			new Parse.Query(BoatModel).get(boatid).then(function(boat) {
+				var queryCaptains = boat.relation('captains').query();
+				queryCaptains.equalTo('status', 'accepted');
+				queryCaptains.include('captainProfile');
+				// queryCaptains.collection().fetch().then(captainsFetchSuccess);
+				queryCaptains.each(appendCaptain);
+			});
 
 		},
 
@@ -38,7 +60,7 @@ define([
 				var boatsView = new BoatsSelectView({ collection: collection });
 				self.subViews.push(boatsView);
 				self.$el.find('.boats').html(boatsView.render().el);
-
+				self._in('boat').change();
 			};
 
 			var collectionFetchError = function(error) {
@@ -47,9 +69,9 @@ define([
 
 			};
 
-			var query = Parse.User.current().get('host').relation('boats').query();
-			query.ascending('name');
-			query.collection().fetch().then(boatsFetchSuccess, collectionFetchError);
+			var queryBoats = Parse.User.current().get('host').relation('boats').query();
+			queryBoats.ascending('name');
+			queryBoats.collection().fetch().then(boatsFetchSuccess, collectionFetchError);
 
 			var dateYear = this.model.get('date') ? this.model.get('date').getFullYear() : new Date().getFullYear();
 			for(var i = dateYear; i < new Date().getFullYear() + 3; i++) {
@@ -65,7 +87,6 @@ define([
 				todayHighlight: true,
 				autoclose: true
 			}).datepicker('setUTCDate', this.model.get('date'));
-			console.log(this.model.get('date'));
 
 			this._in('availableSeats').slider({ 
 				tooltip: 'hide'
