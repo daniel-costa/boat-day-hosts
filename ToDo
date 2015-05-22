@@ -39,13 +39,9 @@
 
 - load boat pictures in boatday page
 - Send email to captains from parse when added from a boat
-
 - Maps in boatdays
 - Clean unused files
 - host app on parse.com
-- create email templates on parse for forgetting password
-
-
 
 o Features next release
 - Function to force the user re-accepting the terms & conditions
