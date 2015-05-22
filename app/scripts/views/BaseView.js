@@ -41,6 +41,42 @@ define([
 
 		},
 
+		censorEmailFronString: function(str) {
+
+			var pattern = /[^@\s]*@[^@\s]*\.[^@\s]*/g;
+			var replacement = "[censored]";
+			return str.replace(pattern, replacement);
+
+		},
+
+		censorLinksFronString: function(str) {
+
+			var pattern = /[a-zA-Z]*[:\/\/]*[A-Za-z0-9\-_]+\.+[A-Za-z0-9\.\/%&=\?\-_]+/ig;
+			var replacement = "[censored]";
+			return str.replace(pattern, replacement);
+
+		},
+
+		censorPhoneNumbersFronString: function(str) {
+
+			var pattern = /(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/ig;
+			var replacement = "[censored]";
+			return str.replace(pattern, replacement);
+
+		},
+
+		censorAll: function(str) {
+
+			return  this.censorPhoneNumbersFronString(this.censorLinksFronString(this.censorEmailFronString(str)));
+
+		},
+
+		censorField: function(event) {
+
+			$(event.currentTarget).val( this.censorAll($(event.currentTarget).val()));
+			
+		},
+
 		departureTimeToDisplayTime: function(time) {
 
 			var h = parseInt(time);

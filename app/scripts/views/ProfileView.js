@@ -17,7 +17,8 @@ define([
 
 		events: {
 			"submit form" : "saveProfile",
-			"change [name='profilePicture']": "uploadPicture"
+			"change [name='profilePicture']": "uploadPicture",
+			"blur [name='about']": "censorField"
 		},
 
 		initialize: function(){
@@ -44,7 +45,7 @@ define([
 			
 			return this;
 		},
-		
+
 		debugAutofillFields: function() {
 			
 			if( this.model.get('status') == 'creation' ) {

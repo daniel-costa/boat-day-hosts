@@ -70,7 +70,9 @@ body {
 
 }
 
-.checkboxes label {
+.checkboxes label,
+.policy-cancellation label,
+.policy-booking label {
 	font-weight: normal;
 	display: block;
 }

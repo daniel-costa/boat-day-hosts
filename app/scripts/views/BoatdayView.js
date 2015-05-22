@@ -21,7 +21,8 @@ define([
 			'change [name="boat"]' : "boatSelected", 
 			'change [name="activity"]' : "refreshActivity", 
 			'change [name="featuresFishingEquipment"]': "showFishingEquipment", 
-			'change [name="featuresSportsEquipment"]': "showSportsEquipment"
+			'change [name="featuresSportsEquipment"]': "showSportsEquipment",
+			'blur [name="description"]': 'censorField'
 		}, 
 
 		boatSelected: function(event) {
@@ -84,38 +85,59 @@ define([
 				format: 'mm/dd/yyyy',
 				startDate: '0d',
 				todayBtn: true,
-				todayHighlight: true,
+				// todayHighlight: true,
 				autoclose: true
 			}).datepicker('setUTCDate', this.model.get('date'));
 
-			this._in('availableSeats').slider({ 
+			var slidersConfig = { 
 				tooltip: 'hide'
-			}).on("slide", function(slideEvt) {
-				self.$el.find('.preview-availableSeats').text(slideEvt.value  + ' available seats');
-			}).slider('setValue', this._in('availableSeats').slider('getValue'), true, false);
+			};
 
-			this._in('duration').slider({
-				tooltip: 'hide'
-			}).on("slide", function(slideEvt) {
+			var updateTotalCalculator = function() {
+				// ToDo take value from parse config
+				var price = self._in('price').slider('getValue');
+				var priceNet = (1 - 0.15) * price;
+				var seats = self._in('availableSeats').slider('getValue');
+				self.$el.find('.preview-calculator').text('$'+ (seats * priceNet));
+			};
+
+			var availableSeatsSlideEvent = function(slideEvt) {
+				self.$el.find('.preview-availableSeats').text(slideEvt.value  + ' available seats');
+				updateTotalCalculator();
+			};
+
+			var durationSlideEvent = function(slideEvt) {
 				var display = slideEvt.value + ' hour' + (slideEvt.value != 1 ? 's' : '')
 				self.$el.find('.preview-duration').text(display);
-			}).slider('setValue', this._in('duration').slider('getValue'), true, false)
+			};
 
-			this._in('price').slider({
-				tooltip: 'hide'
-			}).on("slide", function(slideEvt) {
+			var priceSlideEvent = function(slideEvt) {
 				self.refreshPriceHint(slideEvt.value);
 				self.$el.find('.preview-price').text('$'+slideEvt.value);
-			}).slider('setValue', this._in('price').slider('getValue'), true, false)
+				updateTotalCalculator();
+			};
 
-			this._in('departureTime').slider({
-				tooltip: 'hide'
-			}).on("slide", function(slideEvt) {
+			var departureTimeSlideEvent = function(slideEvt) {
+				var maxDuration = Math.min(12, 24 - slideEvt.value);
+				var duration = self._in('duration').slider('getValue')
+				self._in('duration').slider({max: maxDuration}).slider('setValue', duration > maxDuration ? maxDuration : duration, true, false);;
 				var display = self.departureTimeToDisplayTime(slideEvt.value);
 				self.$el.find('.preview-departureTime').text(display);
-			}).slider('setValue', this._in('departureTime').slider('getValue'), true, false)
+			};
+
+			this._in('availableSeats').slider(slidersConfig).on("slide", availableSeatsSlideEvent);
+			this._in('departureTime').slider(slidersConfig).on("slide", departureTimeSlideEvent);
+			this._in('duration').slider(slidersConfig).on("slide", durationSlideEvent);
+			this._in('price').slider(slidersConfig).on("slide", priceSlideEvent);
+
+			this._in('availableSeats').slider('setValue', this._in('availableSeats').slider('getValue'), true, false)
+			this._in('departureTime').slider('setValue', this._in('departureTime').slider('getValue'), true, false);
+			this._in('duration').slider('setValue', this._in('duration').slider('getValue'), true, false);
+			this._in('price').slider('setValue', this._in('price').slider('getValue'), true, false);
 
 			this.refreshActivity();
+
+			this.$el.find('[data-toggle="tooltip"]').tooltip();
 
 			return this;
 
