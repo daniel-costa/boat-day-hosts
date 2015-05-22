@@ -41,7 +41,7 @@ define([
 			}
 
 			this.refreshPaymentMethod();
-
+			this.$el.find('[data-toggle="tooltip"]').tooltip()
 			return this;
 		},
 

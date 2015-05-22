@@ -86,6 +86,10 @@ define([
 
 			var captainRequestsFetchSuccess = function(requests) {
 
+				self.$el.find('.captainRequestsHolder').html('');
+				
+				if(requests.length == 0)
+					return;
 
 				var data = { data: [] };
 
@@ -104,7 +108,7 @@ define([
 
  				var tpl = _.template(DashboardCaptainRequestRowTemplate);
 
-				self.$el.find('.captainRequests').html(tpl(data));
+				self.$el.find('.captainRequestsHolder').html(tpl(data));
 
 			};
 

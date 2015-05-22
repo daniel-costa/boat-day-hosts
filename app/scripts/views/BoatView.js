@@ -87,7 +87,8 @@ define([
 				self.$el.find('.boatPictures').append(tpl({ 
 					id: fh.id, 
 					url: fh.get('file').url(),
-					canDelete: self.model.get("status") == 'editing',
+					// canDelete: self.model.get("status") == 'editing',
+					canDelete: true,
 					fullWidth: false
 				}));
 				self.boatPictures[fh.id] = fh;
@@ -325,9 +326,10 @@ define([
 
 			if( this.model.get('status') == 'creation' ) {
 				this._in('name').val('Fury');
-				this._in('hullID').val('2463');
+				this._in('hullID').val('691 93231 8431');
 				this._in('length').val('10');
 				this._in('capacity').val('20');
+				this._in('buildYear').val('1996');
 			}
 
 		},
@@ -369,6 +371,7 @@ define([
 				status: baseStatus == 'editing' ? 'complete' : 'editing',
 				name: this._in('name').val(),
 				hullID: this._in('hullID').val(),
+				buildYear: this._in('buildYear').val(),
 				length: parseInt(this._in('length').val()),
 				capacity: parseInt(this._in('capacity').val()),
 				type: this._in('type').val(),

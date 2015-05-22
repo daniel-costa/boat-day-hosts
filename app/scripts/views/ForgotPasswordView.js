@@ -24,7 +24,7 @@ define([
 
 			var requestPasswordResetSuccess = function() {
 
-				self.$el.find('.form').html('<h5 class="text-center">We sent you an email to redefine your password.</h5>');
+				self.$el.find('.form').html('<h5 class="text-center">A password reset link has been sent to your email.</h5>');
 
 			};
 

@@ -69,3 +69,8 @@ body {
 	background-size : cover;
 
 }
+
+.checkboxes label {
+	font-weight: normal;
+	display: block;
+}

@@ -39,3 +39,7 @@
 - add domain to mailgun
 - host app on parse.com
 - create email templates on parse for forgetting password
+
+
+- test if boatdayapp.net redirects directly to .com
+- test if boatdayhosts.net redirects directly to .com

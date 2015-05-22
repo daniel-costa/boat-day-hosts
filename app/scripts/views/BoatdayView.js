@@ -105,7 +105,7 @@ define([
 				tooltip: 'hide'
 			}).on("slide", function(slideEvt) {
 				self.refreshPriceHint(slideEvt.value);
-				self.$el.find('.preview-price').text(slideEvt.value  + ' USD');
+				self.$el.find('.preview-price').text('$'+slideEvt.value);
 			}).slider('setValue', this._in('price').slider('getValue'), true, false)
 
 			this._in('departureTime').slider({
@@ -123,16 +123,16 @@ define([
 
 		refreshPriceHint: function(price) {
 			
-			var text = 'high';
+			// var text = 'high';
 
 
-			if( price < 40 ) {
-				text = 'afordable';
-			} else if( price < 80 ) {
-				text = 'moderate';
-			}
+			// if( price < 40 ) {
+			// 	text = 'afordable';
+			// } else if( price < 80 ) {
+			// 	text = 'moderate';
+			// }
 
-			this.$el.find('.priceHint').html('<span class="glyphicon glyphicon-info-sign"></span> BoatDay\s users will considerate this price as <strong>' + text + '</strong>.');
+			// this.$el.find('.priceHint').html('<span class="glyphicon glyphicon-info-sign"></span> BoatDay\s users will considerate this price as <strong>' + text + '</strong>.');
 		},
 
 		debugAutofillFields: function() {

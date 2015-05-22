@@ -9,6 +9,7 @@ define([
 			host: null,
 			name: null, 
 			hullID: null,
+			buildYear: null,
 			length: null,
 			capacity: null,
 			type: null, 
@@ -50,27 +51,26 @@ define([
 
 			if( attributes.name == "" ) {
 				_return.fields.name = "You must to enter a display name";
-
 			}
 			
 			if( attributes.type == "" ) {
 				_return.fields.type = "You must to enter a type of boat";
-
 			}
 
 			if( attributes.hullID == "" ) {
 				_return.fields.hullID = "You must to enter a hull ID";
+			}
 
+			if( !/^\d+$/.test(attributes.buildYear) || attributes.buildYear < 1900 || attributes.buildYear > new Date().getFullYear()) {
+				_return.fields.buildYear = "Please indicate a valid build year";
 			}
 
 			if( !/^\d+$/.test(attributes.length) ) {
 				_return.fields.length = "Please indicate the length of your boat";
-
 			}
 
 			if( !/^\d+$/.test(attributes.capacity) ) {
 				_return.fields.capacity = "Please indicate the capacity of your boat";
-
 			}
 
 			if( _.size(_return.fields) > 0 ) {
