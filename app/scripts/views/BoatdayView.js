@@ -25,6 +25,20 @@ define([
 			'blur [name="description"]': 'censorField'
 		}, 
 
+		initialize: function() {
+
+			var mapOptions = {
+
+				center: new google.maps.LatLng(60.15982082134764, 24.936861991882324),
+				zoom: 14,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+
+			};
+			
+			var map = new google.maps.Map(this.$el.find('[name="map"]'), mapOptions);
+
+		}, 
+
 		boatSelected: function(event) {
 
 			var self = this;
