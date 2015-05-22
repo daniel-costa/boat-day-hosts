@@ -1,0 +1,38 @@
+<form class="form-horizontal"> 
+	<div class="container"> 
+		<div class="col-xs-24 col-md-20 col-lg-16 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title text-center">
+						Help center
+					</h3>
+				</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<label for="reportType" class="col-sm-8 control-label">Report type</label>
+						<div class="col-sm-10">
+							<select class="input-small form-control" id="reportType" name="reportType">
+								<option value="lost">Lost & Found</option> 
+								<option value="report-user">Report a User</option>
+								<option value="update-host">Update Host Information,</option>
+								<option value="report-damage">Report Damage</option>
+								<option value="feedback" selected>General Feedback</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-24">
+						<div class="form-group">
+							<label for="feedback" class="col-sm-8 control-label">Report</label>
+							<div class="col-sm-10">
+								<textarea rows="15" name="feedback" class="form-control" placeholder="Explain your your report here"></textarea>
+							</div>
+						</div>
+					</div>
+				</div> 
+				<div class="panel-footer text-center">
+				 	<button type="submit" class="btn btn-primary">Send</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
