@@ -1,7 +1,4 @@
 define([
-'jquery', 
-'underscore', 
-'parse',
 'models/FileHolderModel',
 'models/CaptainRequestModel',
 'views/BaseView',
@@ -9,7 +6,7 @@ define([
 'text!templates/ThumbPictureTemplate.html',
 'text!templates/ProofOFInsuranceTemplate.html',
 'text!templates/CaptainsTableTemplate.html'
-], function($, _, Parse, FileHolderModel, CaptainRequestModel, BaseView, BoatTemplate, ThumbPictureTemplate, ProofOFInsuranceTemplate, CaptainsTableTemplate){
+], function(FileHolderModel, CaptainRequestModel, BaseView, BoatTemplate, ThumbPictureTemplate, ProofOFInsuranceTemplate, CaptainsTableTemplate){
 	var BoatView = BaseView.extend({
 
 		className: "view-boat",

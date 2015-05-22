@@ -1,7 +1,4 @@
-define([
-'jquery',
-'parse',
-], function($, Parse){
+define(['parse'], function(Parse){
 	var AppView = Parse.View.extend({
 
 		el: document,
@@ -28,15 +25,8 @@ define([
 
 		initialize: function(cb) {
 
-			if( Parse.User.current() ) {
-
-				cb();
-				
-			} else {
-
-				cb();
-				
-			}
+			cb();
+			
 		}
 
 	});

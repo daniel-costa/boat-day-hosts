@@ -1,8 +1,5 @@
 // Filename: router.js
 define([
-	'jquery',
-	'underscore',
-	'parse',
 	'models/BoatModel',
 	'models/BoatDayModel',
 	'views/HomeView',
@@ -18,7 +15,6 @@ define([
 	'views/BoatView', 
 	'views/BoatDayView'
 ], function(
-	$, _, Parse, 
 	BoatModel, BoatDayModel,
 	HomeView, ForgotPasswordView, ResetPasswordView, InvalidLinkView, PasswordChangedView, DashboardView, TermsView, SignUpView, HostView, ProfileView, BoatView, BoatDayView) {
 	

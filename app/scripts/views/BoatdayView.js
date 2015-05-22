@@ -1,12 +1,9 @@
 define([
-'jquery', 
-'underscore', 
-'parse',
 'views/BaseView',
 'views/BoatsSelectView',
 'text!templates/BoatDayTemplate.html',
-'models/BoatModel',
-], function($, _, Parse, BaseView, BoatsSelectView, BoatDayTemplate, BoatModel){
+'models/BoatModel'
+], function(BaseView, BoatsSelectView, BoatDayTemplate, BoatModel, gmaps){
 	var BoatDayView = BaseView.extend({
 
 		className:"view-event",
@@ -24,45 +21,6 @@ define([
 			'change [name="featuresSportsEquipment"]': "showSportsEquipment",
 			'blur [name="description"]': 'censorField'
 		}, 
-
-		initialize: function() {
-
-			var mapOptions = {
-
-				center: new google.maps.LatLng(60.15982082134764, 24.936861991882324),
-				zoom: 14,
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-
-			};
-			
-			var map = new google.maps.Map(this.$el.find('[name="map"]'), mapOptions);
-
-		}, 
-
-		boatSelected: function(event) {
-
-			var self = this;
-			var boatid = $(event.currentTarget).val();
-
-			var captainsFetchSuccess = function(collection) {
-				collection.each(function(captainRequest) {
-					console.log(captainRequest.get('captainProfile').get('displayName'));
-				})
-			};
-
-			var appendCaptain = function(captainRequest) {
-				console.log(captainRequest.get('captainProfile').get('displayName'));
-			};
-
-			new Parse.Query(BoatModel).get(boatid).then(function(boat) {
-				var queryCaptains = boat.relation('captains').query();
-				queryCaptains.equalTo('status', 'accepted');
-				queryCaptains.include('captainProfile');
-				// queryCaptains.collection().fetch().then(captainsFetchSuccess);
-				queryCaptains.each(appendCaptain);
-			});
-
-		},
 
 		render: function() {
 
@@ -154,6 +112,31 @@ define([
 			this.$el.find('[data-toggle="tooltip"]').tooltip();
 
 			return this;
+
+		},
+
+		boatSelected: function(event) {
+
+			var self = this;
+			var boatid = $(event.currentTarget).val();
+
+			var captainsFetchSuccess = function(collection) {
+				collection.each(function(captainRequest) {
+					console.log(captainRequest.get('captainProfile').get('displayName'));
+				})
+			};
+
+			var appendCaptain = function(captainRequest) {
+				console.log(captainRequest.get('captainProfile').get('displayName'));
+			};
+
+			new Parse.Query(BoatModel).get(boatid).then(function(boat) {
+				var queryCaptains = boat.relation('captains').query();
+				queryCaptains.equalTo('status', 'accepted');
+				queryCaptains.include('captainProfile');
+				// queryCaptains.collection().fetch().then(captainsFetchSuccess);
+				queryCaptains.each(appendCaptain);
+			});
 
 		},
 

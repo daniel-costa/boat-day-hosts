@@ -1,10 +1,7 @@
 define([
-'jquery', 
-'underscore', 
-'parse',
 'views/BaseView',
 'text!templates/TermsTemplate.html'
-], function($, _, Parse, BaseView, TermsTemplate){
+], function(BaseView, TermsTemplate){
 	var TermsView = BaseView.extend({
 
 		className: "view-terms",

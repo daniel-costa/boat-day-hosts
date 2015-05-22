@@ -1,10 +1,7 @@
 define([
-'jquery', 
-'underscore', 
-'parse',
 'views/BaseView',
 'text!templates/HomeTemplate.html'
-], function($, _, Parse, BaseView, HomeTemplate){
+], function(BaseView, HomeTemplate){
 	var HomeView = BaseView.extend({
 
 		className: "view-home",

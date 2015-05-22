@@ -1,12 +1,9 @@
 define([
-'jquery', 
-'underscore', 
-'parse',
 'models/HostModel',
 'models/ProfileModel',
 'views/BaseView',
 'text!templates/SignUpTemplate.html'
-], function($, _, Parse, HostModel, ProfileModel, BaseView, SignUpAccountTemplate){
+], function(HostModel, ProfileModel, BaseView, SignUpAccountTemplate){
 	var SignUpAccountView = BaseView.extend({
 
 		className: "view-sign-up",

@@ -29,20 +29,22 @@
 - (done) date of birth: text cut in selects
 - (done) display captains requests in the dashboard
 - (done) add domain to parse
+- (done) refactory file upload
+- (done) Solve error messages from render in ResetPassword
+- (done) add domain to mailgun
+- (done) create email templates on parse for forgetting password
+- (done) test if boatdayapp.net redirects directly to .com
+- (done) test if boatdayhosts.net redirects directly to .com
+- (done) Implement certifications
 
 - load boat pictures in boatday page
 - Send email to captains from parse when added from a boat
-- refactory file upload
+
 - Maps in boatdays
-- Solve error messages from render in ResetPassword
 - Clean unused files
-- add domain to mailgun
 - host app on parse.com
 - create email templates on parse for forgetting password
 
-
-- test if boatdayapp.net redirects directly to .com
-- test if boatdayhosts.net redirects directly to .com
 
 
 o Features next release

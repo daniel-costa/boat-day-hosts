@@ -1,10 +1,7 @@
 define([
-'jquery', 
-'underscore', 
-'parse',
 'views/BaseView',
 'text!templates/CaptainRequestsTableTemplate.html'
-], function($, _, Parse, BaseView, CaptainRequestsTableTemplate){
+], function(BaseView, CaptainRequestsTableTemplate){
 	var CaptainRequestsTableView = BaseView.extend({
 
 		tagName: "table",

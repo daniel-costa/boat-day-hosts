@@ -28,7 +28,14 @@ define([
 			firstname: null, 
 			lastname: null, 
 			birthdate: null,
-			SSN: null
+			SSN: null,
+
+			certBSC: null,
+			certCCL: null,
+			certMCL: null,
+			certFL: null,
+			certSL: null,
+			certFAC: null
 
 		},
 

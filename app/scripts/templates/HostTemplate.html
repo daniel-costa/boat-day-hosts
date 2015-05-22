@@ -197,6 +197,65 @@
 						</div>
 					</div>
 				</div>
+				<div class="panel-heading">
+					<h3 class="panel-title text-center">Licences</h3>
+				</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<label for="certBSC" class="col-sm-8 control-label">Boater Safety Course</label>
+						<div class="col-sm-10">
+							<input value="" type="file" class="upload form-control" id="certBSC" name="certBSC">
+							<% if( certBSC ) { %>
+								<a href="<%= certBSC.url %>" class="preview" target="_blank">Licence preview</a>
+							<% } %>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="certCCL" class="col-sm-8 control-label">Charterboat Captain<br/><em style="font-weight:normal;">("6 Pack")</em></label>
+						<div class="col-sm-10">
+							<input value="" type="file" class="upload form-control" id="certCCL" name="certCCL">
+							<% if( certCCL ) { %>
+								<a href="<%= certCCL.url %>" class="preview" target="_blank">Licence preview</a>
+							<% } %>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="certMCL" class="col-sm-8 control-label">Master Captain's License</label>
+						<div class="col-sm-10">
+							<input value="" type="file" class="upload form-control" id="certMCL" name="certMCL">
+							<% if( certMCL  ) { %>
+								<a href="<%= certMCL.url %>" class="preview" target="_blank">Licence preview</a>
+							<% } %>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="certFL" class="col-sm-8 control-label">Fishing License</label>
+						<div class="col-sm-10">
+							<input value="" type="file" class="upload form-control" id="certFL" name="certFL">
+							<% if( certFL ) { %>
+								<a href="<%= certFL.url %>" class="preview" target="_blank">Licence preview</a>
+							<% } %>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="certSL" class="col-sm-8 control-label">Sailing Certification</label>
+						<div class="col-sm-10">
+							<input value="" type="file" class="upload form-control" id="certSL" name="certSL">
+							<% if( certSL ) { %>
+								<a href="<%= certSL.url %>" class="preview" target="_blank">Licence preview</a>
+							<% } %>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="certFAC" class="col-sm-8 control-label">First Aid Certification</label>
+						<div class="col-sm-10">
+							<input value="" type="file" class="upload form-control" id="certFAC" name="certFAC">
+							<% if( certFAC ) { %>
+								<a href="<%= certFAC.url %>" class="preview" target="_blank">Licence preview</a>
+							<% } %>
+						</div>
+					</div>
+				</div>
 
 				<% if( type == "business" ) { %>
 					<div class="panel-heading">

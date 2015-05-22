@@ -1,10 +1,7 @@
 define([
-'jquery', 
-'underscore', 
-'parse',
 'views/BaseView',
 'text!templates/BoatDaysTableTemplate.html'
-], function($, _, Parse, BaseView, BoatDaysTableTemplate){
+], function(BaseView, BoatDaysTableTemplate){
 	var DashboardView = BaseView.extend({
 
 		tagName: "table",

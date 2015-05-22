@@ -1,11 +1,8 @@
 define([
-'jquery', 
-'underscore', 
-'parse',
 'views/BaseView',
 'models/ProfileModel',
 'text!templates/HostTemplate.html'
-], function($, _, Parse, BaseView, ProfileModel, HostTemplate){
+], function(BaseView, ProfileModel, HostTemplate){
 	var HostView = BaseView.extend({
 
 		className: "view-host-registration",
@@ -14,13 +11,43 @@ define([
 
 		debug: true,
 
+
 		events: {
 			"submit form" : "registerHost", 
-			'change [name="paymentMethod"]' : "refreshPaymentMethod"
+			'change [name="paymentMethod"]' : "refreshPaymentMethod",
+			"change .upload": "uploadCertification",
 		},
 
 		initialize: function(){
+			this.profilePicture = this.model.get('profilePicture');
 
+			this.tempBinaries.certBSC = this.model.get('certBSC');
+			this.tempBinaries.certCCL = this.model.get('certCCL');
+			this.tempBinaries.certMCL = this.model.get('certMCL');
+			this.tempBinaries.certFL = this.model.get('certFL');
+			this.tempBinaries.certSL = this.model.get('certSL');
+			this.tempBinaries.certFAC = this.model.get('certFAC');
+
+			console.log(this.tempBinaries);
+		},
+
+		uploadCertification: function(event) {
+
+			var cb = function(file) {
+				
+				var parent = $(event.currentTarget).closest('div');
+				var preview = parent.find('.preview');
+
+				if( preview.length == 1 ) {
+					preview.attr('href', file.url());
+				} else {
+					var link = $('<a>').attr({ 'href': file.url(), target: '_blank' }).text('Licence preview').addClass('preview');
+					parent.append(link);	
+				}
+
+			}
+
+			this.uploadFile(event, cb);
 		},
 
 		render: function() {
@@ -114,6 +141,12 @@ define([
 				SSN: this._in('SSN').val(),
 				businessName: this._in('businessName').val(),
 				businessEin: this._in('businessEin').val(),
+				certBSC: self.tempBinaries.certBSC,
+				certCCL: self.tempBinaries.certCCL,
+				certMCL: self.tempBinaries.certMCL,
+				certFL: self.tempBinaries.certFL,
+				certSL: self.tempBinaries.certSL,
+				certFAC: self.tempBinaries.certFAC
 			};
 			
 			var hostRegistrationSuccess = function() {

@@ -1,12 +1,9 @@
 define([
-'jquery', 
-'underscore', 
-'parse',
 'models/CaptainRequestModel',
 'views/BaseView',
 'text!templates/ThumbPictureTemplate.html',
 'text!templates/ProfileTemplate.html'
-], function($, _, Parse, CaptainRequestModel, BaseView, ThumbPictureTemplate, ProfileTemplate){
+], function(CaptainRequestModel, BaseView, ThumbPictureTemplate, ProfileTemplate){
 	var ProfileView = BaseView.extend({
 
 		className: "view-profile",
@@ -65,56 +62,21 @@ define([
 				canDelete: false,
 				fullWidth: true
 			};
-			console.log(url);
+
 			this.$el.find('.profilePicturePreview').html(tpl(tplData));
 
 		},
 
-		uploadPicture: function () {
+		uploadPicture: function (event) {
 
 			var self = this;
-			var files = event.target.files;
-			var parseFile = null;
-			
-			self.buttonLoader('Uploading...');
-
-			if( files.length == 1) {
-
-				if( files[0].type == 'image/png' ) {
-					
-					parseFile = new Parse.File('profilePicture.png', files[0]);
-
-				} else if( files[0].type == 'image/jpeg' ) {
-
-					parseFile = new Parse.File('profilePicture.jpg', files[0]);
-
-				} else {
-
-					self.fieldError('profilePicture', 'Bad format, try with a PNG or JPEG picture.');
-					self.buttonLoader();
-					$(event.target).val('');
-					return null;
-
-				}
-
-				var uploadSuccess = function(file) {
-					
-					self.profilePicture = file;
-					self.displayProfilePicture(file.url());
-					self.buttonLoader();
-
-				};
-
-				var uploadError = function(error) {
-
-					self.fieldError('profilePicture', 'An error occured when we tried to upload your picture, try again please.');
-					self.buttonLoader();
-
-				};
+			var cb = function(file) {
 				
-				parseFile.save().then(uploadSuccess, uploadError);
+				self.displayProfilePicture(file.url());
 
 			}
+
+			this.uploadFile(event, cb, { pdf: false});
 
 		},
 
@@ -133,7 +95,7 @@ define([
 				status: "complete",
 				displayName: this._in('displayName').val(),
 				about: this._in('about').val(),
-				profilePicture: this.profilePicture
+				profilePicture: this.tempBinaries.profilePicture
 			};
 
 			var userStatusUpdateSuccess = function() {

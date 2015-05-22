@@ -1,10 +1,7 @@
 define([
-'jquery', 
-'underscore', 
-'parse',
 'views/BaseView',
 'text!templates/BoatsSelectTemplate.html'
-], function($, _, Parse, BaseView, BoatsSelectTemplate){
+], function(BaseView, BoatsSelectTemplate){
 	var DashboardView = BaseView.extend({
 
 		tagName: "select",

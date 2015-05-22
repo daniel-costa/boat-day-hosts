@@ -12,6 +12,8 @@ define([
 
 		debug: true,
 
+		tempBinaries: { },
+
 		__ANIMATION_ENDS__: 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
 
 		render: function() {
@@ -33,6 +35,74 @@ define([
 			this.displayTopNav();
 
 			return this;
+		},
+
+		uploadFile: function(event, cb, opts) {
+
+			if( typeof opts === "undefined" ) {
+				opts = {};
+			}
+
+			var opts = {
+				png: typeof opts.png === "undefined" || opts.png,
+				jpg: typeof opts.jpg === "undefined" || opts.jpg,
+				pdf: typeof opts.pdf === "undefined" || opts.pdf
+			};
+			console.log(opts);
+
+			var self = this;
+			var files = event.target.files;
+			var parseFile = null;
+			var fieldName = $(event.currentTarget).attr('name');
+
+			self.buttonLoader('Uploading...');
+
+			if( files.length == 1) {
+
+				if( opts.png && files[0].type == 'image/png' ) {
+					
+					parseFile = new Parse.File(fieldName+'.png', files[0]);
+
+				} else if( opts.jpg && files[0].type == 'image/jpeg' ) {
+
+					parseFile = new Parse.File(fieldName+'.jpg', files[0]);
+
+				} else if( opts.pdf && files[0].type == 'application/pdf') {
+
+					parseFile = new Parse.File(fieldName+'.pdf', files[0]);
+
+				} else {
+
+					var formats = "";
+					formats += opts.png ? ' PNG' : '';
+					formats += opts.jpg ? ' JPEG' : '';
+					formats += opts.pdf ? ' PDF' : '';
+					self.fieldError(fieldName, 'Bad format. Supported formats:'+formats);
+					self.buttonLoader();
+					$(event.target).val('');
+					return null;
+
+				}
+
+				var uploadSuccess = function(file) {
+					
+					self.tempBinaries[fieldName] = file;
+					cb(file);
+					$(event.target).val('');
+					self.buttonLoader();
+
+				};
+
+				var uploadError = function(error) {
+
+					self.fieldError(fieldName, 'An error occured when we tried to upload your picture, try again please.');
+					self.buttonLoader();
+
+				};
+				
+				parseFile.save().then(uploadSuccess, uploadError);
+
+			}
 		},
 
 		dateParseToDisplayDate: function (date) {
