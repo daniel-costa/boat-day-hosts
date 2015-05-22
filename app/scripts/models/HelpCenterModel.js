@@ -8,6 +8,8 @@ define([
 			status: 'unread',
 			category: null,
 			feedback: null,
+			user: null
+
 		},
 
 		validate: function(attributes){
@@ -18,7 +20,7 @@ define([
 			};
 
 
-			if( !attributes.feedback ) {
+			if( attributes.feedback == '' ) {
 				_return.fields.feedback = 'Oops, you missed one!';
 			}
 	

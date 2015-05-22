@@ -1,8 +1,7 @@
 define([
 'views/BaseView',
-'models/HelpCenterModel',
 'text!templates/HelpCenterTemplate.html'
-], function(BaseView, HelpCenterModel, HelpCenterTemplate){
+], function(BaseView, HelpCenterTemplate){
 	var HelpCenterView = BaseView.extend({
 
 		className:"view-help-center",
@@ -10,38 +9,28 @@ define([
 		template: _.template(HelpCenterTemplate),
 
 		events: {
-			
 			"submit form" : "sendReport"
 		}, 
-
-		initialize: function() {
-
-		}, 
-
-		render: function() {
-
-			BaseView.prototype.render.call(this);
-
-			return this;
-		},
 
 		sendReport: function(event) {
 
 			event.preventDefault();
-			var self = this;
 
+			var self = this;
 			self.buttonLoader('Saving');
 			self.cleanForm();
 
 			var data = {
-				status: "unread",
 				category: this._in('reportType').val(),
 				feedback: this._in('feedback').val(), 
+				user: Parse.User.current()
 			};
 
 			var reportSubmitSuccess = function() {
 
+				self._info('Thank you for your feedback. We will answer by email asap');
 				Parse.history.navigate("dashboard", true);
+
 			};
 
 			var saveError = function(error) {

@@ -2,6 +2,7 @@
 define([
 	'models/BoatModel',
 	'models/BoatDayModel',
+	'models/HelpCenterModel',
 	'views/HomeView',
 	'views/ForgotPasswordView',
 	'views/ResetPasswordView',
@@ -16,7 +17,7 @@ define([
 	'views/BoatDayView', 
 	'views/HelpCenterView'
 ], function(
-	BoatModel, BoatDayModel,
+	BoatModel, BoatDayModel, HelpCenterModel,
 	HomeView, ForgotPasswordView, ResetPasswordView, InvalidLinkView, PasswordChangedView, DashboardView, TermsView, SignUpView, HostView, ProfileView, BoatView, BoatDayView, HelpCenterView) {
 	
 	var AppRouter = Parse.Router.extend({
@@ -208,7 +209,7 @@ define([
 			var self = this;
 			var cb = function() {
 
-				self.render(new HelpCenterView());
+				self.render(new HelpCenterView({ model: new HelpCenterModel() }));
 
 			};
 
