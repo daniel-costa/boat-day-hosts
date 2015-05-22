@@ -28,14 +28,14 @@
 - (done) check buttons in the app and tag as submit or button
 - (done) date of birth: text cut in selects
 - (done) display captains requests in the dashboard
+- (done) add domain to parse
 
 - load boat pictures in boatday page
 - Send email to captains from parse when added from a boat
 - refactory file upload
 - Maps in boatdays
-
+- Solve error messages from render in ResetPassword
 - Clean unused files
-- add domain to parse
 - add domain to mailgun
 - host app on parse.com
 - create email templates on parse for forgetting password
@@ -43,3 +43,7 @@
 
 - test if boatdayapp.net redirects directly to .com
 - test if boatdayhosts.net redirects directly to .com
+
+
+o Features next release
+- Function to force the user re-accepting the terms & conditions

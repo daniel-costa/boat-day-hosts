@@ -7,6 +7,9 @@ define([
 	'models/BoatDayModel',
 	'views/HomeView',
 	'views/ForgotPasswordView',
+	'views/ResetPasswordView',
+	'views/InvalidLinkView',
+	'views/PasswordChangedView',
 	'views/DashboardView',
 	'views/TermsView',
 	'views/SignUpView',
@@ -17,7 +20,7 @@ define([
 ], function(
 	$, _, Parse, 
 	BoatModel, BoatDayModel,
-	HomeView, ForgotPasswordView, DashboardView, TermsView, SignUpView, HostView, ProfileView, BoatView, BoatDayView) {
+	HomeView, ForgotPasswordView, ResetPasswordView, InvalidLinkView, PasswordChangedView, DashboardView, TermsView, SignUpView, HostView, ProfileView, BoatView, BoatDayView) {
 	
 	var AppRouter = Parse.Router.extend({
 
@@ -26,6 +29,9 @@ define([
 			'sign-up': 'showSignUpView',
 			'sign-out': 'signOut',
 			'forgot-password': 'showForgotPasswordView',
+			'reset-password?*queryString': 'showResetPasswordView',
+			'invalid-link': 'showInvalidLinkView',
+			'password-changed': 'showPasswordChangedView',
 			'boat/new': 'showBoatView',
 			'boat/:boatid': 'showBoatView',
 			'boatday/new': 'showBoatDayView',
@@ -53,6 +59,24 @@ define([
 		showForgotPasswordView: function() {
 
 			this.render(new ForgotPasswordView());
+
+		},
+
+		showResetPasswordView: function(queryString) {
+
+			this.render(new ResetPasswordView({ queryString: queryString}));
+
+		},
+
+		showInvalidLinkView: function() {
+
+			this.render(new InvalidLinkView());
+
+		},
+
+		showPasswordChangedView: function() {
+
+			this.render(new PasswordChangedView());
 
 		},
 

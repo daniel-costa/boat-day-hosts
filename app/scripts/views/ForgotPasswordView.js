@@ -1,10 +1,7 @@
 define([
-'jquery', 
-'underscore', 
-'parse',
 'views/BaseView',
 'text!templates/ForgotPasswordTemplate.html'
-], function($, _, Parse, BaseView, ForgotPasswordTemplate){
+], function(BaseView, ForgotPasswordTemplate){
 	var ForgotPasswordView = BaseView.extend({
 
 		className: "view-home",
@@ -20,7 +17,6 @@ define([
 			event.preventDefault();
 
 			var self = this;
-			console.log(123);
 
 			var requestPasswordResetSuccess = function() {
 
