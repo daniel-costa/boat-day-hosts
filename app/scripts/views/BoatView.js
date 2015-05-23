@@ -85,7 +85,7 @@ define([
 					self.$el.find('.boatPictures').append(tpl({ 
 						id: fh.id, 
 						url: fh.get('file').url(),
-						canDelete: matches.length > 1,
+						canDelete: self.model.get('status') == 'editing',
 						fullWidth: false
 					}));
 					self.boatPictures[fh.id] = fh;
