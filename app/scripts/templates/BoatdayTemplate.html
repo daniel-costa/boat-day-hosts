@@ -81,14 +81,28 @@
 							<div class="preview-price"></div>
 							<input type="text" class="form-control" id="price" name="price" data-slider-min="5" data-slider-max="250" data-slider-step="5" data-slider-value="<%= price ? price : 50 %>">
 						</div>
-						<div class="col-sm-16 col-sm-offset-8">
+						<div class="col-sm-8 col-sm-offset-8">
 							<div class="priceHint"></div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="price" class="col-sm-8 control-label">Total Price Calculator</label>
 						<div class="col-sm-10">
-							<span class="preview-calculator"></span> <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Estimated contribution you will receive if your boat is fully booked."></span>
+							<!--  -->
+							<table class="table table-bordered">
+								<tr>
+									<td class="totalSeats"></td>
+									<td class="text-right totalPriceUSD"></td>
+								</tr>
+								<tr>
+									<td class="totalBD">Service Fee</td>
+									<td class="text-right totalBoatDayUSD"></td>
+								</tr>
+								<tr>
+									<td style="border-top: double 3px black;" class="totalHost">Total <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Estimated contribution you will receive if your boat is fully booked."></span></td>
+									<td style="border-top: double 3px black;" class="text-right totalHostUSD"></td>
+								</tr>
+							</table>
 						</div>
 					</div>
 				</div>

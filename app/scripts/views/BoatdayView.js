@@ -72,10 +72,18 @@ define([
 
 			var updateTotalCalculator = function() {
 				// ToDo take value from parse config
-				var price = self._in('price').slider('getValue');
-				var priceNet = (1 - 0.15) * price;
-				var seats = self._in('availableSeats').slider('getValue');
-				self.$el.find('.preview-calculator').text('$'+ (seats * priceNet));
+				var pricePerSeat = self._in('price').slider('getValue');
+				var totalSeats = self._in('availableSeats').slider('getValue');
+				var totalPriceUSD = pricePerSeat * totalSeats;
+				var totalBoatDayUSD = 0.15 * totalPriceUSD;
+				var totalHostUSD = totalPriceUSD - totalBoatDayUSD;
+
+
+				self.$el.find('.totalSeats').text(totalSeats + " seats x $ " + pricePerSeat);
+				self.$el.find('.totalPriceUSD').text('$ ' + totalPriceUSD);
+				self.$el.find('.totalBoatDayUSD').text('$ ' + totalBoatDayUSD);
+				self.$el.find('.totalHostUSD').text('$ ' + totalHostUSD);
+				
 			};
 
 			var availableSeatsSlideEvent = function(slideEvt) {
