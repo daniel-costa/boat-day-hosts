@@ -39,12 +39,16 @@ o current 2.1.0
 - (done) Implement certifications
 - (done) Maps in boatdays
 - (done) Display address in text field when clicking on the boatday map
+- (done) Bug with dates in BoatDay, cant change the date once submitted
+- (done) Send email to captains from parse when added from a boat
+- (done) Retrieve position from parse boatday map
+- (done) Add total seats in dashboard for boatdays list
+- (done) Retrieve position from parse boatday map
 
-- Bug with dates in BoatDay, cant change the date once submitted
-- Retrieve position from parse boatday map
-
-- Send email to captains from parse when added from a boat
-- load boat pictures in boatday page
+- Display Captain select in boatday
+- Handle captain empty field in boat day
+- Save captain profile in boatday
+- Add boat name in dashboard for boatdays list
 - check if we can submit multiple times forms
 
 - host app on parse.com
@@ -52,9 +56,10 @@ o current 2.1.0
 - Check grunt JS api
 - Clean unused files
 
-o Features next release v2.2.0
+o Features next release 2.2.0
 - Add notifications panel
 - Add a management système to accept and deny requests from guest (wall, report, etc...)
+- Add total approved guests in dashboard for boatdays list
 
 o Features next release v2.3.0
 - Function to force the user re-accepting the terms & conditions

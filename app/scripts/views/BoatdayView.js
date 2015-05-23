@@ -82,7 +82,6 @@ define([
 				var totalBoatDayUSD = 0.15 * totalPriceUSD;
 				var totalHostUSD = totalPriceUSD - totalBoatDayUSD;
 
-
 				self.$el.find('.totalSeats').text(totalSeats + " seats x $" + pricePerSeat);
 				self.$el.find('.totalPriceUSD').text('$' + totalPriceUSD);
 				self.$el.find('.totalBoatDayUSD').text('$' + totalBoatDayUSD);
@@ -108,8 +107,8 @@ define([
 
 			var departureTimeSlideEvent = function(slideEvt) {
 				var maxDuration = Math.min(12, 24 - slideEvt.value);
-				var duration = self._in('duration').slider('getValue')
-				self._in('duration').slider({max: maxDuration}).slider('setValue', duration > maxDuration ? maxDuration : duration, true, false);;
+				var duration = self._in('duration').slider('getValue');
+				self._in('duration').slider({max: maxDuration}).slider('setValue', duration > maxDuration ? maxDuration : duration, true, false);
 				var display = self.departureTimeToDisplayTime(slideEvt.value);
 				self.$el.find('.preview-departureTime').text(display);
 			};
@@ -157,9 +156,8 @@ define([
 				}
 
 				if( self.model.get('location') ) {
-					
-					// new google.maps.LatLng(self.model.get('location'))
-					// moveMarker(position);
+
+					self.moveMarker(new google.maps.LatLng(self.model.get('location').latitude, self.model.get('location').longitude));
 
 				}
 
@@ -244,11 +242,16 @@ define([
 			};
 
 			new Parse.Query(BoatModel).get(boatid).then(function(boat) {
+
+				var _max = Math.min(15, boat.get('capacity'));
+				var _current = self._in('availableSeats').slider('getValue');
+				self._in('availableSeats').slider({max: _max}).slider('setValue', _current > _max ? _max : _current, true, false);
+
 				var queryCaptains = boat.relation('captains').query();
 				queryCaptains.equalTo('status', 'accepted');
 				queryCaptains.include('captainProfile');
-				// queryCaptains.collection().fetch().then(captainsFetchSuccess);
 				queryCaptains.each(appendCaptain);
+
 			});
 
 		},

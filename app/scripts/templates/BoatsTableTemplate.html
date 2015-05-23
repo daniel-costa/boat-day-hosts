@@ -1,19 +1,21 @@
 <% if(collection.length > 0) { %>
 	<thead>
 		<tr>
-			<th> </th>
-			<th class="text-center">Hull ID</th>
+			<th>Name</th>
+			<th>Year</th>
+			<th>Type</th>
 			<th class="text-center">Status</th>
-			<th class="text-center">Actions</th>
+			<th> </th>
 		</tr>
 	</thead>
 	<tbody>
 		<% _.each( collection, function( boat ) { %>
 			<tr>
-				<th><%= boat.name %> - <%= boat.type %></td>
-				<td class="text-center"><%= boat.hullID %></td>
+				<td class="text-left"><%= boat.name %></td>
+				<td class="text-left"><%= boat.buildYear %></td>
+				<td class="text-left"><%= boat.type %></td>
 				<td class="text-center"><%= boat.status %></td>
-				<td class="text-center">
+				<td class="text-right">
 					<a href="#/boat/<%= boat.objectId %>">
 						<span class="glyphicon glyphicon-pencil"/></span>
 					</a>

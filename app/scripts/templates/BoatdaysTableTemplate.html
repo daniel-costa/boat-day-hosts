@@ -1,19 +1,28 @@
 <% if(collection.length > 0) { %>
 	<thead>
 		<tr>
-			<th class="text-center">Name</th>
-			<th class="text-center">Actions</th>
+			<th>Date</th>
+			<th>Name</th>
+			<th>Boat</th>
+			<th>Duration</th>
+			<th>Seats</th>
+			<th>Guests</th>
+			<th> </th>
 		</tr>
 	</thead>
 	<tbody>
 		<% _.each( collection, function( boatday ) { %>
 			<tr>
-				<td class="text-center"><%= boatday.name %></td>
-				<td class="text-center">
+				<td class="text-left">
 					<%= self.dateParseToDisplayDate(boatday.date) %> at
 					<%= self.departureTimeToDisplayTime(boatday.departureTime) %>
 				</td>
-				<td class="text-center">
+				<td class="text-left"><%= boatday.name %></td>
+				<td class="text-left"><%= boatday.boat.name %></td>
+				<td class="text-left"><%= boatday.duration %> hours</td>
+				<td class="text-left"><%= boatday.availableSeats %></td>
+				<td>0</td>
+				<td class="text-right">
 					<a href="#/boatday/<%= boatday.objectId %>">
 						<span class="glyphicon glyphicon-pencil"/></span>
 					</a>
