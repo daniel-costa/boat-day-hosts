@@ -61,10 +61,14 @@ define([
 			this.$el.find('.date').datepicker({
 				format: 'mm/dd/yyyy',
 				startDate: '0d',
-				todayBtn: true,
-				// todayHighlight: true,
 				autoclose: true
-			}).datepicker('setUTCDate', this.model.get('date'));
+			});
+
+			if( this.model.get('date') ) {
+
+				this.$el.find('.date').datepicker('setDate', this.model.get('date'));
+
+			}
 
 			var slidersConfig = { 
 				tooltip: 'hide'
@@ -309,7 +313,7 @@ define([
 				status: 'complete',
 				name: this._in('name').val(),
 				description: this._in('description').val(),
-				date: this._in('date').datepicker('getUTCDate'),
+				date: this._in('date').datepicker('getDate'),
 				departureTime: this._in('departureTime').slider('getValue'),
 				captain: this._in('captain').val(), 
 				location: self._marker ? new Parse.GeoPoint({latitude: self._marker.getPosition().lat(), longitude: self._marker.getPosition().lng()}) : null,

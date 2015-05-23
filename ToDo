@@ -38,8 +38,9 @@ o current 2.1.0
 - (done) test if boatdayhosts.net redirects directly to .com
 - (done) Implement certifications
 - (done) Maps in boatdays
+- (done) Display address in text field when clicking on the boatday map
 
-- Display address in text field when clicking on the boatday map
+- Bug with dates in BoatDay, cant change the date once submitted
 - Retrieve position from parse boatday map
 
 - Send email to captains from parse when added from a boat
