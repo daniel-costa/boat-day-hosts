@@ -1,3 +1,4 @@
+o current 2.1.0
 - (done) placeholders, all lower case
 - (done) tell us about you: add “…” at the end
 - (done) do not let people register as a captain from home page (only direct link in email)
@@ -37,11 +38,20 @@
 - (done) test if boatdayhosts.net redirects directly to .com
 - (done) Implement certifications
 
-- load boat pictures in boatday page
 - Send email to captains from parse when added from a boat
 - Maps in boatdays
-- Clean unused files
-- host app on parse.com
+- load boat pictures in boatday page
+- check if we can submit multiple times forms
 
-o Features next release
+- host app on parse.com
+- Check stripe services
+- Check grunt JS api
+- Clean unused files
+
+o Features next release v2.2.0
+- Add notifications panel
+- Add a management système to accept and deny requests from guest (wall, report, etc...)
+
+o Features next release v2.3.0
 - Function to force the user re-accepting the terms & conditions
+- Slider price in BoatDayView: the last option after 250$ must be "manual price" and we display a field to add a price manually.

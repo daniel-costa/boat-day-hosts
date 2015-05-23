@@ -9,10 +9,30 @@ define([
 		template: _.template(HelpCenterTemplate),
 
 		events: {
-			"submit form" : "sendReport"
+			"submit form" : "sendFeedback",
+			"change .upload": "uploadCertification"
 		}, 
 
-		sendReport: function(event) {
+		uploadCertification: function(event) {
+
+			var cb = function(file) {
+				
+				var parent = $(event.currentTarget).closest('div');
+				var preview = parent.find('.preview');
+
+				if( preview.length == 1 ) {
+					preview.attr('href', file.url());
+				} else {
+					var link = $('<a>').attr({ 'href': file.url(), target: '_blank' }).text('File preview').addClass('preview');
+					parent.append(link);	
+				}
+
+			}
+
+			this.uploadFile(event, cb);
+		},
+
+		sendFeedback: function(event) {
 
 			event.preventDefault();
 
@@ -21,9 +41,12 @@ define([
 			self.cleanForm();
 
 			var data = {
-				category: this._in('reportType').val(),
+				category: this._in('category').val(),
 				feedback: this._in('feedback').val(), 
-				user: Parse.User.current()
+				user: Parse.User.current(),
+				file1: self.tempBinaries.file1,
+				file2: self.tempBinaries.file2,
+				file3: self.tempBinaries.file3
 			};
 
 			var reportSubmitSuccess = function() {

@@ -1,9 +1,10 @@
 define([
+'async!http://maps.google.com/maps/api/js?sensor=false',
 'views/BaseView',
 'views/BoatsSelectView',
 'text!templates/BoatDayTemplate.html',
 'models/BoatModel'
-], function(BaseView, BoatsSelectView, BoatDayTemplate, BoatModel, gmaps){
+], function(gmaps, BaseView, BoatsSelectView, BoatDayTemplate, BoatModel){
 	var BoatDayView = BaseView.extend({
 
 		className:"view-event",
@@ -21,6 +22,10 @@ define([
 			'change [name="featuresSportsEquipment"]': "showSportsEquipment",
 			'blur [name="description"]': 'censorField'
 		}, 
+
+		_map: null,
+
+		_marker: null,
 
 		render: function() {
 
@@ -111,7 +116,89 @@ define([
 
 			this.$el.find('[data-toggle="tooltip"]').tooltip();
 
+			this.setupGoogleMap();
+
 			return this;
+
+		},
+
+		setupGoogleMap: function() {
+
+			var self = this;
+
+			var displayMap = function(latlng) {
+
+				var opts = {
+					zoom: 10,
+					center: latlng
+				};
+
+				if( !self._map ) {
+					
+					var ctn = self.$el.find('.map').get(0);
+					self._map = new google.maps.Map(ctn, opts);
+
+					google.maps.event.addListener(self._map, 'click', function(event) {
+
+						self.moveMarker(event.latLng)
+
+					});
+
+				}
+
+				if( self.model.get('location') ) {
+					
+					// new google.maps.LatLng(self.model.get('location'))
+					// moveMarker(position);
+
+				}
+
+			};
+
+			var handlePosition = function(position) {
+
+    			displayMap(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+
+			};
+
+			var handleNoPosition = function(error) {
+
+				displayMap(new google.maps.LatLng(25.761919, -80.190225));
+
+			};
+
+			if (navigator.geolocation) {
+
+				navigator.geolocation.getCurrentPosition(handlePosition, handleNoPosition);
+
+			} else {
+
+				handleNoPosition();
+
+			}
+
+		},
+
+		moveMarker: function(latlng) {
+
+			var self = this;
+
+			self._map.panTo(latlng);
+
+			if( !self._marker ) {
+					
+				self._marker = new google.maps.Marker({
+					map: self._map,
+					draggable: true,
+					animation: google.maps.Animation.DROP,
+					position: latlng
+				});
+
+			} else {
+
+				self._marker.setPosition(latlng);
+
+			}
 
 		},
 
@@ -187,8 +274,11 @@ define([
 		save: function(event) {
 
 			event.preventDefault();
+
 			var self = this;
 			var baseStatus = this.model.get('status');
+			
+			self.cleanForm();
 
 			var data = {
 
@@ -198,7 +288,7 @@ define([
 				date: this._in('date').datepicker('getUTCDate'),
 				departureTime: this._in('departureTime').slider('getValue'),
 				captain: this._in('captain').val(), 
-				location: null,
+				location: self._marker ? new Parse.GeoPoint({latitude: self._marker.getPosition().lat(), longitude: self._marker.getPosition().lng()}) : null,
 				availableSeats: self._in('availableSeats').slider('getValue'),
 				duration: self._in('duration').slider('getValue'),
 				price: self._in('price').slider('getValue'), 

@@ -61,7 +61,10 @@
 					<div class="form-group">
 						<label for="duration" class="col-sm-8 control-label">Duration</label>
 						<div class="col-sm-10">
-							<div class="preview-duration"></div>
+							<div>
+								<span class="preview-duration"></span>
+								<a href="https://www.boatdayapp.com/faq" target="_blank"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="All BoatDays must depart and return on the same day, and are limited to a maximum of 12 hours duration. Learn more by clicking on this help icon."></span></a>
+							</div>
 							<input type="text" class="form-control" id="duration" name="duration" data-slider-min="0.5" data-slider-max="12" data-slider-step="0.5" data-slider-value="<%= duration ? duration : 6 %>">
 						</div>
 					</div>
@@ -76,16 +79,16 @@
 						<label for="price" class="col-sm-8 control-label">Price Per Seat</label>
 						<div class="col-sm-10">
 							<div class="preview-price"></div>
-							<input type="text" class="form-control" id="price" name="price" data-slider-min="5" data-slider-max="150" data-slider-step="5" data-slider-value="<%= price ? price : 50 %>">
+							<input type="text" class="form-control" id="price" name="price" data-slider-min="5" data-slider-max="250" data-slider-step="5" data-slider-value="<%= price ? price : 50 %>">
 						</div>
 						<div class="col-sm-16 col-sm-offset-8">
 							<div class="priceHint"></div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="price" class="col-sm-8 control-label">Total Price Calculator </label>
+						<label for="price" class="col-sm-8 control-label">Total Price Calculator</label>
 						<div class="col-sm-10">
-							<div class="preview-calculator"></div>
+							<span class="preview-calculator"></span> <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Estimated contribution you will receive if your boat is fully booked."></span>
 						</div>
 					</div>
 				</div>
@@ -200,9 +203,12 @@
 				</div>
 				<div class="panel-body">
 					<div class="form-group">
-						<label for="departureLocation" class="col-sm-8 control-label">Departure Location</label>
+						<label for="location" class="col-sm-8 control-label">
+							Departure Location
+							<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Click on the map to set a location."></span>
+						</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="departureLocation" name="departureLocation" placeholder="search a map">
+							<input type="text" class="form-control" id="location" name="location" readonly>
 						</div>
 					</div>
 

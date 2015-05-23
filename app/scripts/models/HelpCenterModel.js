@@ -8,8 +8,10 @@ define([
 			status: 'unread',
 			category: null,
 			feedback: null,
-			user: null
-
+			user: null,
+			file1: null,
+			file2: null,
+			file3: null
 		},
 
 		validate: function(attributes){

@@ -80,19 +80,16 @@ define([
 
 			var tpl = _.template(ThumbPictureTemplate);
 
-			var displayObject = function( fh ) {	
-				self.$el.find('.boatPictures').append(tpl({ 
-					id: fh.id, 
-					url: fh.get('file').url(),
-					// canDelete: self.model.get("status") == 'editing',
-					canDelete: true,
-					fullWidth: false
-				}));
-				self.boatPictures[fh.id] = fh;
-			};
-
 			var displayAll = function(matches) {
-				_.each(matches, displayObject);
+				_.each(matches, function( fh ) {	
+					self.$el.find('.boatPictures').append(tpl({ 
+						id: fh.id, 
+						url: fh.get('file').url(),
+						canDelete: matches.length > 1,
+						fullWidth: false
+					}));
+					self.boatPictures[fh.id] = fh;
+				});
 			};
 
 			var query = self.model.relation('boatPictures').query();
@@ -141,12 +138,14 @@ define([
 			event.preventDefault();
 
 			var self = this;
-
+			var addCaptainButton = self.$el.find('button.add-captain');
+			self.buttonLoader('Adding Captain...', addCaptainButton);
 			self.buttonLoader('Adding Captain...');
 			self.cleanForm();
 
 			if( !self.isEmailValid(self._in('captain-email').val()) ) {
 				self.fieldError('captain-email', 'Oops.. The email doesn\'t seem valid.');
+					self.buttonLoader(false, addCaptainButton);
 				self.buttonLoader();
 				return;
 			}
@@ -156,6 +155,7 @@ define([
 				var saveBoatSuccess = function() {
 					self._in('captain-email').val('');
 					self.displayCaptains();
+					self.buttonLoader(false, addCaptainButton);
 					self.buttonLoader();
 				};
 
@@ -184,6 +184,7 @@ define([
 
 				if( total > 0 ) {
 					self.fieldError('captain-email', 'Oops.. Seems your already have this user as a captain of this boat.');
+					self.buttonLoader(false, addCaptainButton);
 					self.buttonLoader();
 					return;
 				}

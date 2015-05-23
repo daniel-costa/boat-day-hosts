@@ -109,6 +109,14 @@ define([
 				_return.fields.description = "A event description is required";
 			}
 
+			if( !attributes.location ) {
+				_return.fields.location = "Please choose a departure location";
+			}
+
+			if( !attributes.date ) {
+				_return.fields.date = "Please choose a date";
+			}
+
 			if( _.size(_return.fields) > 0 ) {
 				return _return;
 			}
