@@ -79,10 +79,10 @@ define([
 				var totalHostUSD = totalPriceUSD - totalBoatDayUSD;
 
 
-				self.$el.find('.totalSeats').text(totalSeats + " seats x $ " + pricePerSeat);
-				self.$el.find('.totalPriceUSD').text('$ ' + totalPriceUSD);
-				self.$el.find('.totalBoatDayUSD').text('$ ' + totalBoatDayUSD);
-				self.$el.find('.totalHostUSD').text('$ ' + totalHostUSD);
+				self.$el.find('.totalSeats').text(totalSeats + " seats x $" + pricePerSeat);
+				self.$el.find('.totalPriceUSD').text('$' + totalPriceUSD);
+				self.$el.find('.totalBoatDayUSD').text('$' + totalBoatDayUSD);
+				self.$el.find('.totalHostUSD').text('$' + totalHostUSD);
 				
 			};
 
