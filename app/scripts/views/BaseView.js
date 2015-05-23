@@ -1,12 +1,15 @@
 define([
 'parse',
-'text!templates/TopNavigationTemplate.html'
-], function(Parse, TopNavigationTemplate){
+'text!templates/TopNavigationTemplate.html',
+'text!templates/ModalTemplate.html',
+], function(Parse, TopNavigationTemplate, ModalTemplate){
 	var BaseView = Parse.View.extend({
 
 		className: "view-base",
 
 		topNav: _.template(TopNavigationTemplate),
+
+		modalTpl:  _.template(ModalTemplate),
 
 		subViews: [],
 
@@ -34,7 +37,56 @@ define([
 			this.$el.html(this.template(data));
 			this.displayTopNav();
 
+			this.$el.find('[data-toggle="tooltip"]').tooltip();
+
 			return this;
+		},
+
+		modal: function(opts) {
+
+			var self = this;
+
+
+			var params = {
+				title:            typeof opts.title         !== 'undefined' ? opts.title : '',
+				body:             typeof opts.body          !== 'undefined' ? opts.body : '',
+				closeButton:      typeof opts.closeButton   !== 'undefined' ? opts.closeButton : false,
+				closeButton:      typeof opts.cancelButton  !== 'undefined' ? opts.cancelButton : true,
+				closeButtonText:  typeof opts.closeButton   !== 'undefined' ? opts.closeButton : 'Close',
+				noButton:         typeof opts.noButton      !== 'undefined' ? opts.noButton : true,
+				noButtonText:     typeof opts.noButtonText  !== 'undefined' ? opts.noButtonText : 'No',
+				yesButton:        typeof opts.yesButton     !== 'undefined' ? opts.yesButton : true,
+				yesButtonText:    typeof opts.yesButtonText !== 'undefined' ? opts.yesButtonText : 'Yes'
+			};
+
+			console.log(opts);
+			console.log(params);
+			var _modal = $(self.modalTpl(params));
+
+			if(opts.noCb) {
+				var cb = function () {
+					opts.noCb();
+					_modal.modal('hide');
+				}
+				_modal.find('.btn-no').click(opts.cb);	
+			}
+
+			if(opts.yesCb) {
+				var cb = function () {
+					opts.yesCb();
+					_modal.modal('hide');
+				}
+				_modal.find('.btn-yes').click(cb);
+			}
+			
+			_modal.on('hidden.bs.modal', function() {
+				_modal.remove();
+			});
+
+			this.$el.append(_modal);
+
+			_modal.modal();
+
 		},
 
 		uploadFile: function(event, cb, opts) {

@@ -126,8 +126,6 @@ define([
 
 			this.refreshActivity();
 
-			this.$el.find('[data-toggle="tooltip"]').tooltip();
-
 			this.setupGoogleMap();
 
 			return this;

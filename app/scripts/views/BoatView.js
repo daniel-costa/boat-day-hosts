@@ -338,6 +338,35 @@ define([
 
 			var self = this;
 			var baseStatus = this.model.get("status");
+			
+			var cb = function() {
+				self.saveData();
+			};
+
+			if( baseStatus == 'creation' ) {
+
+				this.modal({
+					title: 'Add Boat',
+					body: 'Be sure to double check! Once this information is submitted it can only be changed by contacting us in the Host Center.',
+					noButton: false,
+					yesButtonText: 'Continue',
+					yesCb: cb
+				});
+
+			} else {
+
+				cb();
+				
+			}
+
+		},
+
+		saveData: function(event) {
+
+			// event.preventDefault();
+
+			var self = this;
+			var baseStatus = this.model.get("status");
 
 			self.buttonLoader('Saving');
 			self.cleanForm();
