@@ -191,7 +191,23 @@ define([
 
 			var self = this;
 
+			var gotAddress = function (results, status) {
+
+				if (status === google.maps.GeocoderStatus.OK) {
+
+					if (results[0]) {
+						
+						self._in('location').val(results[0].formatted_address);
+					
+					}
+
+				}
+
+			};
+
 			self._map.panTo(latlng);
+
+			new google.maps.Geocoder().geocode({ 'latLng': latlng }, gotAddress);
 
 			if( !self._marker ) {
 					
