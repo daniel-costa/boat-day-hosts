@@ -182,7 +182,7 @@ define([
 			query.equalTo('email', self._in('captain-email').val());
 			query.count().then(function(total) {
 
-				if( total > 0 ) {
+				if( total > 0 && false) {
 					self.fieldError('captain-email', 'Oops.. Seems your already have this user as a captain of this boat.');
 					self.buttonLoader(false, addCaptainButton);
 					self.buttonLoader();
@@ -356,7 +356,7 @@ define([
 			} else {
 
 				cb();
-				
+
 			}
 
 		},
