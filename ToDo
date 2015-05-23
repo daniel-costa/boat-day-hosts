@@ -37,9 +37,12 @@ o current 2.1.0
 - (done) test if boatdayapp.net redirects directly to .com
 - (done) test if boatdayhosts.net redirects directly to .com
 - (done) Implement certifications
+- (done) Maps in boatdays
+
+- Display address in text field when clicking on the boatday map
+- Retrieve position from parse boatday map
 
 - Send email to captains from parse when added from a boat
-- Maps in boatdays
 - load boat pictures in boatday page
 - check if we can submit multiple times forms
 
