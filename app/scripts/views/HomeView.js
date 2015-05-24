@@ -36,10 +36,12 @@ define([
 			event.preventDefault();
 
 			var self = this;
-
+		
 			var logInSuccess = function(user) {
 
-				Parse.history.navigate('dashboard', true);
+				$(document).trigger('fetchUserInfo', function() {
+					Parse.history.navigate('dashboard', true);
+				});
 
 			};
 

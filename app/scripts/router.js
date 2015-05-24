@@ -190,13 +190,7 @@ define([
 
 			var cb = function( ) {
 
-				var profileSuccess = function(profile) {
-					
-					self.render(new ProfileView({ model: profile }));
-
-				};
-
-				Parse.User.current().get("profile").fetch().then(profileSuccess);
+				self.render(new ProfileView({ model: Parse.User.current().get('profile') }));
 
 			};
 
@@ -250,27 +244,22 @@ define([
 
 			}
 			
-			var profileSuccess = function(profile) {
+			var cb = function() {
 
+				console.log(123);
 				if( Parse.User.current().get("host").get('status') == 'creation' ) {
 				
 					self.render(new HostView({ model: Parse.User.current().get("host") }));	
 
 				} else {
 
-					self.render(new ProfileView({ model: profile }));
+					self.render(new ProfileView({ model: Parse.User.current().get("profile") }));
 
 				}
 
 			};
 
-			var hostSuccess = function(host) {
-				
-				Parse.User.current().get("profile").fetch().then(profileSuccess, callbackError);
-
-			};
-
-			Parse.User.current().get("host").fetch().then(hostSuccess, callbackError);
+			$(document).trigger('fetchUserInfo', cb);
 
 
 		},

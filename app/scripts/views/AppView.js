@@ -6,7 +6,8 @@ define(['parse'], function(Parse){
 		events: {
 			'globalError': 'displayError',
 			'globalInfo': 'displayInfo',
-			'globalMessage': 'displayMessage'
+			'globalMessage': 'displayMessage',
+			'fetchUserInfo': 'fetchUserInfo'
 		},
 
 		displayError: function(event, message) {
@@ -25,8 +26,15 @@ define(['parse'], function(Parse){
 
 		initialize: function(cb) {
 
+			this.fetchUserInfo(event, cb);
 
-			if( Parse.User.current() && Parse.User.current().get("status") != "creation" ) {
+		},
+
+		fetchUserInfo: function(event, cb) {
+
+			if( Parse.User.current() ) {
+
+				console.log('** fetch user infos **');
 
 				var callbackError = function(error) {
 					console.log(error);
@@ -39,8 +47,11 @@ define(['parse'], function(Parse){
 				Parse.User.current().get("host").fetch().then(hostSuccess, callbackError);
 
 			} else {
+
 				cb();
+				
 			}
+
 		}
 
 	});

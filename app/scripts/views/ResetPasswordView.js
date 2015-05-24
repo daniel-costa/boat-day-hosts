@@ -14,14 +14,14 @@ define([
 		queryString: null,
 
 		initialize: function(data) {
+			
 			this.queryString = data.queryString;
+
 		},
 
 		render: function() {
 		
 			BaseView.prototype.render.call(this);
-
-			console.log(this.queryString);
 
 			var urlParams = {};
 			var pair;

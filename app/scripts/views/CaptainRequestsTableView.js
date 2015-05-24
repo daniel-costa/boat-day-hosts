@@ -12,12 +12,8 @@ define([
 			style: "margin-bottom:0px;"
 		},
 
-		template: _.template(CaptainRequestsTableTemplate),
-
-		initialize: function() {
-			console.log(this.collection);
-		}
-
+		template: _.template(CaptainRequestsTableTemplate)
+		
 	});
 	return CaptainRequestsTableView;
 });

@@ -27,8 +27,6 @@ define([
 			this.tempBinaries.certFL = this.model.get('certFL');
 			this.tempBinaries.certSL = this.model.get('certSL');
 			this.tempBinaries.certFAC = this.model.get('certFAC');
-
-			console.log(this.tempBinaries);
 		},
 
 		uploadCertification: function(event) {

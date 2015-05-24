@@ -104,7 +104,6 @@ define([
 				jpg: typeof opts.jpg === "undefined" || opts.jpg,
 				pdf: typeof opts.pdf === "undefined" || opts.pdf
 			};
-			console.log(opts);
 
 			var self = this;
 			var files = event.target.files;

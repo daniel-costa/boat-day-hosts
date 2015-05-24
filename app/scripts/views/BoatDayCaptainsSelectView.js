@@ -17,7 +17,6 @@ define([
 		currentCaptain: null,
 		
 		initialize: function(data) {
-			console.log(data.currentCaptain);
 			this.currentCaptain = data.currentCaptain;
 		}
 
