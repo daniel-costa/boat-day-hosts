@@ -105,7 +105,7 @@ define([
 			}
 
 			if( !/^\d{5}$/.test(attributes.zipCode) ) {
-				_return.fields.zipCode = 'Oops, you missed one! Please  enter a 5 digit zip code.';
+				_return.fields.zipCode = 'Oops, you missed one! Please enter your 5 digit zip code.';
 			}
 
 			if( !attributes.street ) {
@@ -113,7 +113,7 @@ define([
 			}
 
 			if( !this.isPhoneValid(attributes.phone) ) {
-				_return.fields.phone = 'A valid 10 digit phone number is required';
+				_return.fields.phone = 'Oops, you missed one! Enter your phone number, area code and all.';
 			}
 
 			if( !attributes.firstname ) {
@@ -125,11 +125,11 @@ define([
 			}
 
 			if( !/^\d{4}$/.test(attributes.SSN) ) {
-				_return.fields.SSN = 'Soc. Sec. # (last 4 digits) is required';
+				_return.fields.SSN = 'Soc. Sec. # (last 4 digits) is required.';
 			}
 
 			if( attributes.businessEin && !this.isBusinessEIN(attributes.businessEin) ) {
-				_return.fields.businessEin = 'The EIN number must be in a valid format';
+				_return.fields.businessEin = 'The EIN number must be in a valid 9 digit format.';
 			}	
 
 			// Payment
@@ -142,24 +142,24 @@ define([
 			}
 
 			if( isDeposit && !this.isRoutingNumberValid(attributes.accountRouting) ) {
-				_return.fields.accountRouting = 'Oops, you missed one! Please enter a valid 9 digit routing number';
+				_return.fields.accountRouting = 'Oops, you missed one! Please enter a valid 9 digit routing number.';
 			}
 
 			if( isPaypal && !this.isEmailValid(attributes.paypalEmail) ) {
-				_return.fields.paypalEmail = "The Paypal email is invalid";
+				_return.fields.paypalEmail = "The email you entered was not recognized by Paypal, please try again.";
 			}
 
 			if( isVenmo && !attributes.venmoEmail  && !attributes.venmoPhone ) {
-				_return.fields.venmoEmail = "A venmo email or phone number is required";
-				_return.fields.venmoPhone = "A venmo email or phone number is required";
+				_return.fields.venmoEmail = "A venmo email or phone number is required.";
+				_return.fields.venmoPhone = "A venmo email or phone number is required.";
 			}
 			
 			if( isVenmo && attributes.venmoEmail && !this.isEmailValid(attributes.venmoEmail) ) {
-				_return.fields.venmoEmail = "The Venmo email is invalid";
+				_return.fields.venmoEmail = "The email you entered was not recongized by Venmo, please try again.";
 			} 
 
 			if( isVenmo && attributes.venmoPhone && !this.isPhoneValid(attributes.venmoPhone) ) {
-				_return.fields.venmoPhone = "The Venmo phone number is invalid. Give us a 10 digits phone number.";
+				_return.fields.venmoPhone = "The phone number you entered was not recognized by Venmo, please try again.";
 			}
 
 			if( _.size(_return.fields) > 0 ) {

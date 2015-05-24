@@ -50,27 +50,27 @@ define([
 			};
 
 			if( attributes.name == "" ) {
-				_return.fields.name = "You must to enter a display name";
+				_return.fields.name = "Oops, you missed one! Please enter the name of your boat.";
 			}
 			
 			if( attributes.type == "" ) {
-				_return.fields.type = "You must to enter a type of boat";
+				_return.fields.type = "Oops, you missed one! Please enter the make of your boat.";
 			}
 
 			if( attributes.hullID == "" ) {
-				_return.fields.hullID = "You must to enter a hull ID";
+				_return.fields.hullID = "Oops, you missed one! Please enter a valid hull ID.";
 			}
 
 			if( !/^\d+$/.test(attributes.buildYear) || attributes.buildYear < 1900 || attributes.buildYear > new Date().getFullYear()) {
-				_return.fields.buildYear = "Please indicate a valid build year";
+				_return.fields.buildYear = "Oops, you missed one!";
 			}
 
 			if( !/^\d+$/.test(attributes.length) ) {
-				_return.fields.length = "Please indicate the length of your boat";
+				_return.fields.length = "Oops, you missed one!";
 			}
 
 			if( !/^\d+$/.test(attributes.capacity) ) {
-				_return.fields.capacity = "Please indicate the capacity of your boat";
+				_return.fields.capacity = "Oops, you missed one! How many Guests fit aboard your boat?";
 			}
 
 			if( _.size(_return.fields) > 0 ) {

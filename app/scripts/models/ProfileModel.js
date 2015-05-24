@@ -21,12 +21,12 @@ define([
 
 			if( attributes.about == "" ) {
 
-				_return.fields.about = "Oops, you missed one!  Share a little about yourself.";
+				_return.fields.about = "Oops, you missed one! Tell Guests a little about yourself.";
 			}
 
 			if( !attributes.profilePicture ) {
 
-				_return.fields.profilePicture = "Oops, you missed one!  Please upload a photo. ";
+				_return.fields.profilePicture = "Oops, you missed one! Please upload a photo.";
 
 			}
 

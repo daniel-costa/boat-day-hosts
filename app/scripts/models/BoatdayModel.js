@@ -86,11 +86,11 @@ define([
 			};
 
 			if( attributes.name == "" ) {
-				_return.fields.name = "A name for your BoatDay is required";
+				_return.fields.name = "Oops, you missed one! Please provide a name for your BoatDay.";
 			}
 
 			if( attributes.boat == "" ) {
-				_return.fields.boat = "A boat name is required";
+				_return.fields.boat = "Oops, you missed one! Please select the boat for your BoatDay.";
 			}
 
 			if( attributes.captain == "#" ) {
@@ -98,7 +98,7 @@ define([
 			}
 
 			if( !attributes.availableSeats ) {
-				_return.fields.availableSeats = "Available seats is required";
+				_return.fields.availableSeats = "Oops, you missed one! Please specify the number of avialable seats for your BoatDay.";
 			}
 
 			if( !/^[0-9]+([\.][0-9]+)?$/g.test(attributes.price) ) {
@@ -106,15 +106,15 @@ define([
 			}
 
 			if( !attributes.description ) {
-				_return.fields.description = "A event description is required";
+				_return.fields.description = "Oops, you missed one! Please describe your BoatDay for potential Guests.";
 			}
 
 			if( !attributes.location ) {
-				_return.fields.location = "Please choose a departure location";
+				_return.fields.location = "Oops, you missed one! Please tell Guests where to come aboard your BoatDay.";
 			}
 
 			if( !attributes.date ) {
-				_return.fields.date = "Please choose a date";
+				_return.fields.date = "Oops, you missed one! Please choose a date for your BoatDay.";
 			}
 
 			if( _.size(_return.fields) > 0 ) {
