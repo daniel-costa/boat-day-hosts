@@ -37,7 +37,9 @@ define(['parse'], function(Parse){
 				};
 
 				Parse.User.current().get("host").fetch().then(hostSuccess, callbackError);
-				
+
+			} else {
+				cb();
 			}
 		}
 

@@ -13,7 +13,9 @@ define([
 
 		subViews: [],
 
-		debug: true,
+		debug: false,
+
+		globalDebug: false,
 
 		tempBinaries: { },
 
@@ -241,7 +243,7 @@ define([
 
 		afterRender: function() {
 
-			if( this.debug ) {
+			if( this.globalDebug && this.debug ) {
 				this.debugAutofillFields();
 			}
 			
