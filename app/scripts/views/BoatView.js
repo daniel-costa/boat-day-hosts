@@ -377,13 +377,13 @@ define([
 
 				if (_.size(self.boatPictures) == 0) {
 
-					this.fieldError('boatPictures', 'Oops, you missed one!');
+					this.fieldError('boatPictures', 'Oops, you missed one. Don’t forget to upload at least one great photo of your boat.');
 					err = true;
 				}
 
 				if (_.size(self.proofOfInsurance) == 0) {
 
-					this.fieldError('insurance', 'Oops, you missed one!');
+					this.fieldError('insurance', 'Oops, you missed one! Please upload proof of insurance for your boat.');
 					err = true;
 				}
 
@@ -398,7 +398,7 @@ define([
 				status: baseStatus == 'editing' ? 'complete' : 'editing',
 				name: this._in('name').val(),
 				hullID: this._in('hullID').val(),
-				buildYear: this._in('buildYear').val(),
+				buildYear: parseInt(this._in('buildYear').val()),
 				length: parseInt(this._in('length').val()),
 				capacity: parseInt(this._in('capacity').val()),
 				type: this._in('type').val(),

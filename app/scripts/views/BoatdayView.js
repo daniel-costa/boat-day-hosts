@@ -1,10 +1,11 @@
 define([
 'async!http://maps.google.com/maps/api/js?sensor=false',
 'views/BaseView',
-'views/BoatsSelectView',
+'views/BoatDayBoatsSelectView',
+'views/BoatDayCaptainsSelectView',
 'text!templates/BoatDayTemplate.html',
 'models/BoatModel'
-], function(gmaps, BaseView, BoatsSelectView, BoatDayTemplate, BoatModel){
+], function(gmaps, BaseView, BoatDayBoatsSelectView, BoatDayCaptainsSelectView, BoatDayTemplate, BoatModel){
 	var BoatDayView = BaseView.extend({
 
 		className:"view-event",
@@ -27,6 +28,10 @@ define([
 
 		_marker: null,
 
+		collectionBoats: null,
+
+		collectionCaptains: null,
+
 		render: function() {
 
 			BaseView.prototype.render.call(this);
@@ -35,10 +40,17 @@ define([
 
 			var boatsFetchSuccess = function(collection) {
 
-				var boatsView = new BoatsSelectView({ collection: collection });
+				self.collectionBoats = collection;
+
+				var boatsView = new BoatDayBoatsSelectView({ 
+					collection: self.collectionBoats,
+					currentBoat: self.model.get('boat') ? self.model.get('boat').id : null
+				});
+
 				self.subViews.push(boatsView);
 				self.$el.find('.boats').html(boatsView.render().el);
 				self._in('boat').change();
+
 			};
 
 			var collectionFetchError = function(error) {
@@ -50,13 +62,6 @@ define([
 			var queryBoats = Parse.User.current().get('host').relation('boats').query();
 			queryBoats.ascending('name');
 			queryBoats.collection().fetch().then(boatsFetchSuccess, collectionFetchError);
-
-			var dateYear = this.model.get('date') ? this.model.get('date').getFullYear() : new Date().getFullYear();
-			for(var i = dateYear; i < new Date().getFullYear() + 3; i++) {
-				var opt = $('<option>').val(i).text(i);
-				if( dateYear == i ) opt.attr('selected', 1);
-				this.$el.find('[name="dateYear"]').append(opt);
-			}
 
 			this.$el.find('.date').datepicker({
 				format: 'mm/dd/yyyy',
@@ -81,12 +86,10 @@ define([
 				var totalPriceUSD = pricePerSeat * totalSeats;
 				var totalBoatDayUSD = 0.15 * totalPriceUSD;
 				var totalHostUSD = totalPriceUSD - totalBoatDayUSD;
-
 				self.$el.find('.totalSeats').text(totalSeats + " seats x $" + pricePerSeat);
 				self.$el.find('.totalPriceUSD').text('$' + totalPriceUSD);
 				self.$el.find('.totalBoatDayUSD').text('$' + totalBoatDayUSD);
-				self.$el.find('.totalHostUSD').text('$' + totalHostUSD);
-				
+				self.$el.find('.totalHostUSD').text('$' + totalHostUSD);	
 			};
 
 			var availableSeatsSlideEvent = function(slideEvt) {
@@ -95,12 +98,10 @@ define([
 			};
 
 			var durationSlideEvent = function(slideEvt) {
-				var display = slideEvt.value + ' hour' + (slideEvt.value != 1 ? 's' : '')
-				self.$el.find('.preview-duration').text(display);
+				self.$el.find('.preview-duration').text(slideEvt.value + ' hour' + (slideEvt.value != 1 ? 's' : ''));
 			};
 
 			var priceSlideEvent = function(slideEvt) {
-				self.refreshPriceHint(slideEvt.value);
 				self.$el.find('.preview-price').text('$'+slideEvt.value);
 				updateTotalCalculator();
 			};
@@ -109,16 +110,14 @@ define([
 				var maxDuration = Math.min(12, 24 - slideEvt.value);
 				var duration = self._in('duration').slider('getValue');
 				self._in('duration').slider({max: maxDuration}).slider('setValue', duration > maxDuration ? maxDuration : duration, true, false);
-				var display = self.departureTimeToDisplayTime(slideEvt.value);
-				self.$el.find('.preview-departureTime').text(display);
+				self.$el.find('.preview-departureTime').text(self.departureTimeToDisplayTime(slideEvt.value));
 			};
 
 			this._in('availableSeats').slider(slidersConfig).on("slide", availableSeatsSlideEvent);
 			this._in('departureTime').slider(slidersConfig).on("slide", departureTimeSlideEvent);
 			this._in('duration').slider(slidersConfig).on("slide", durationSlideEvent);
 			this._in('price').slider(slidersConfig).on("slide", priceSlideEvent);
-
-			this._in('availableSeats').slider('setValue', this._in('availableSeats').slider('getValue'), true, false)
+			this._in('availableSeats').slider('setValue', this._in('availableSeats').slider('getValue'), true, false);
 			this._in('departureTime').slider('setValue', this._in('departureTime').slider('getValue'), true, false);
 			this._in('duration').slider('setValue', this._in('duration').slider('getValue'), true, false);
 			this._in('price').slider('setValue', this._in('price').slider('getValue'), true, false);
@@ -230,16 +229,7 @@ define([
 
 			var self = this;
 			var boatid = $(event.currentTarget).val();
-
-			var captainsFetchSuccess = function(collection) {
-				collection.each(function(captainRequest) {
-					console.log(captainRequest.get('captainProfile').get('displayName'));
-				})
-			};
-
-			var appendCaptain = function(captainRequest) {
-				console.log(captainRequest.get('captainProfile').get('displayName'));
-			};
+			var captains = [Parse.User.current().get('profile')];
 
 			new Parse.Query(BoatModel).get(boatid).then(function(boat) {
 
@@ -248,36 +238,26 @@ define([
 				self._in('availableSeats').slider({max: _max}).slider('setValue', _current > _max ? _max : _current, true, false);
 
 				var queryCaptains = boat.relation('captains').query();
-				queryCaptains.equalTo('status', 'accepted');
+				queryCaptains.equalTo('status', 'approved');
 				queryCaptains.include('captainProfile');
-				queryCaptains.each(appendCaptain);
+				queryCaptains.each(function(captainRequest) {
+					captains.push(captainRequest.get('captainProfile'));
+				}).then(function() {
+					
+					self.collectionCaptains = new Parse.Collection(captains);
+
+					var captainssView = new BoatDayCaptainsSelectView({ 
+						collection: self.collectionCaptains,
+						currentCaptain: self.model.get('captain') ? self.model.get('captain').id : null
+					});
+					self.subViews.push(captainssView);
+					self.$el.find('.captains').html(captainssView.render().el);
+				});
 
 			});
 
-		},
-
-		refreshPriceHint: function(price) {
 			
-			// var text = 'high';
 
-
-			// if( price < 40 ) {
-			// 	text = 'afordable';
-			// } else if( price < 80 ) {
-			// 	text = 'moderate';
-			// }
-
-			// this.$el.find('.priceHint').html('<span class="glyphicon glyphicon-info-sign"></span> BoatDay\s users will considerate this price as <strong>' + text + '</strong>.');
-		},
-
-		debugAutofillFields: function() {
-
-			if( this.model.get('status') == 'creation' ) {
-				this._in('name').val('Summer sound festival');
-				this._in('price').val('25');
-				this._in('availableSeats').val('5');
-				this._in('description').val('This event has many top DJs in the world.');
-			}
 		},
 
 		refreshActivity: function() {
@@ -306,17 +286,16 @@ define([
 
 			var self = this;
 			var baseStatus = this.model.get('status');
-			
 			self.cleanForm();
 
 			var data = {
-
 				status: 'complete',
+				boat: self.collectionBoats ? self.collectionBoats.get(this._in('boat').val()) : null,
+				captain: self.collectionCaptains ? self.collectionCaptains.get(this._in('captain').val()) : null,
 				name: this._in('name').val(),
 				description: this._in('description').val(),
 				date: this._in('date').datepicker('getDate'),
 				departureTime: this._in('departureTime').slider('getValue'),
-				captain: this._in('captain').val(), 
 				location: self._marker ? new Parse.GeoPoint({latitude: self._marker.getPosition().lat(), longitude: self._marker.getPosition().lng()}) : null,
 				availableSeats: self._in('availableSeats').slider('getValue'),
 				duration: self._in('duration').slider('getValue'),
@@ -424,15 +403,8 @@ define([
 				}
 
 			};
-			
-			var boatSuccess = function(boat) {
 
-				data.boat = boat;
-				self.model.save(data).then(saveSuccess, saveError);
-
-			};
-
-			new Parse.Query(BoatModel).get(this._in('boat').val()).then(boatSuccess, saveError);
+			self.model.save(data).then(saveSuccess, saveError);
 
 		}
 	});

@@ -21,7 +21,7 @@ define([
 		initialize: function(){
 
 			if( this.model.get('status') != 'creation' ) {
-				this.profilePicture = this.model.get('profilePicture');
+				this.tempBinaries.profilePicture = this.model.get('profilePicture');
 			}
 
 		},
@@ -31,7 +31,7 @@ define([
 			BaseView.prototype.render.call(this);
 
 			if( this.model.get('status') != 'creation' ) {
-				this.displayProfilePicture(this.model.get('profilePicture').url());
+				this.displayProfilePicture(this.tempBinaries.profilePicture.url());
 			}
 
 			if( this._in('displayName').val() === '' ) {

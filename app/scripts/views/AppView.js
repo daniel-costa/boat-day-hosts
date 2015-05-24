@@ -25,8 +25,20 @@ define(['parse'], function(Parse){
 
 		initialize: function(cb) {
 
-			cb();
-			
+
+			if( Parse.User.current() && Parse.User.current().get("status") != "creation" ) {
+
+				var callbackError = function(error) {
+					console.log(error);
+				};
+
+				var hostSuccess = function(host) {
+					Parse.User.current().get("profile").fetch().then(cb, callbackError);
+				};
+
+				Parse.User.current().get("host").fetch().then(hostSuccess, callbackError);
+				
+			}
 		}
 
 	});

@@ -231,16 +231,7 @@ define([
 				return ;
 			}
 
-
-			if( Parse.User.current().get('host') && !Parse.User.current().get('host').createdAt ) {
-
-				Parse.User.current().get('host').fetch().done(cb);
-
-			} else {
-				
-				cb();
-
-			}
+			cb();
 
 		},
 
@@ -249,9 +240,7 @@ define([
 			var self = this;
 			
 			var callbackError = function(error) {
-
 				console.log(error);
-
 			};
 
 			if( !Parse.User.current().get("tos") ) {

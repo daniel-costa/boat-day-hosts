@@ -46,40 +46,42 @@ define([
 
 			var self = this;
 
+			if( this.$el.find('.modal-dialog').length == 1 )
+				return;
 
 			var params = {
-				title:            typeof opts.title         !== 'undefined' ? opts.title : '',
-				body:             typeof opts.body          !== 'undefined' ? opts.body : '',
-				closeButton:      typeof opts.closeButton   !== 'undefined' ? opts.closeButton : false,
-				closeButton:      typeof opts.cancelButton  !== 'undefined' ? opts.cancelButton : true,
-				closeButtonText:  typeof opts.closeButton   !== 'undefined' ? opts.closeButton : 'Close',
-				noButton:         typeof opts.noButton      !== 'undefined' ? opts.noButton : true,
-				noButtonText:     typeof opts.noButtonText  !== 'undefined' ? opts.noButtonText : 'No',
-				yesButton:        typeof opts.yesButton     !== 'undefined' ? opts.yesButton : true,
-				yesButtonText:    typeof opts.yesButtonText !== 'undefined' ? opts.yesButtonText : 'Yes'
+				title:            typeof opts.title            !== 'undefined' ? opts.title : '',
+				body:             typeof opts.body             !== 'undefined' ? opts.body : '',
+				closeButton:      typeof opts.closeButton      !== 'undefined' ? opts.closeButton : false,
+				cancelButton:     typeof opts.cancelButton     !== 'undefined' ? opts.cancelButton : true,
+				cancelButtonText: typeof opts.cancelButtonText !== 'undefined' ? opts.cancelButtonText : 'Cancel',
+				noButton:         typeof opts.noButton         !== 'undefined' ? opts.noButton : true,
+				noButtonText:     typeof opts.noButtonText     !== 'undefined' ? opts.noButtonText : 'No',
+				yesButton:        typeof opts.yesButton        !== 'undefined' ? opts.yesButton : true,
+				yesButtonText:    typeof opts.yesButtonText    !== 'undefined' ? opts.yesButtonText : 'Yes'
 			};
 
-			console.log(opts);
-			console.log(params);
 			var _modal = $(self.modalTpl(params));
+			var _exec = null;
 
 			if(opts.noCb) {
-				var cb = function () {
-					opts.noCb();
+				_modal.find('.btn-no').click(function () {
+					_exec = opts.noCb;
 					_modal.modal('hide');
-				}
-				_modal.find('.btn-no').click(opts.cb);	
+				});	
 			}
 
 			if(opts.yesCb) {
-				var cb = function () {
-					opts.yesCb();
+				_modal.find('.btn-yes').click(function () {
+					_exec = opts.yesCb;
 					_modal.modal('hide');
-				}
-				_modal.find('.btn-yes').click(cb);
+				});
 			}
 			
 			_modal.on('hidden.bs.modal', function() {
+				if( _exec ) 
+					_exec();
+
 				_modal.remove();
 			});
 

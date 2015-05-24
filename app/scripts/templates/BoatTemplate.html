@@ -45,7 +45,10 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="capacity" class="col-sm-8 control-label">Max Capacity</label>
+						<label for="capacity" class="col-sm-8 control-label">
+							Capacity
+							<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="bottom" title="The number of people that fit on-board your boat"></span>
+						</label>
 						<div class="col-sm-2" style="padding-right:0px">
 							<input type="text" value="<%= capacity ? capacity : '' %>" class="form-control" id="capacity" name="capacity" placeholder="# of" <%= ro %>>
 						</div>

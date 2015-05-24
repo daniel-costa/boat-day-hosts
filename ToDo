@@ -44,10 +44,15 @@ o current 2.1.0
 - (done) Retrieve position from parse boatday map
 - (done) Add total seats in dashboard for boatdays list
 - (done) Retrieve position from parse boatday map
+- (done) Display Captain select in boatday
+- (done) Save captain profile in boatday
+- (done) Retrieve selected captain and selected boat in boatday view
+- (done) Add Boat, change max capacitiy to available seats (+ add info bubble with sentence from kimon (skype) )
+- (done) Add modal when trying to create a boatday from dashboard and no boats in the account
+- (done) Do not allow multiple modals at the same time
 
-- Display Captain select in boatday
-- Handle captain empty field in boat day
-- Save captain profile in boatday
+- Boatday, Check if boat not use in this time
+- Boatday, Check if captain not use in this time
 - Add boat name in dashboard for boatdays list
 - check if we can submit multiple times forms
 
@@ -56,10 +61,14 @@ o current 2.1.0
 - Check grunt JS api
 - Clean unused files
 
+
+
 o Features next release 2.2.0
 - Add notifications panel
 - Add a management système to accept and deny requests from guest (wall, report, etc...)
 - Add total approved guests in dashboard for boatdays list
+
+
 
 o Features next release v2.3.0
 - Function to force the user re-accepting the terms & conditions

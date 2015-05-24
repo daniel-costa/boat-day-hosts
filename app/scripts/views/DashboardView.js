@@ -16,6 +16,10 @@ define([
 			'click .captainRequest': 'processCaptainRequest'
 		},
 
+		collectionBoats: null,
+
+		collectionBoatDays: null,
+
 		processCaptainRequest: function(event) {
 
 			var self = this;
@@ -46,7 +50,30 @@ define([
 
 			var boatsFetchSuccess = function(collection) {
 
-				var boatsView = new BoatsTableView({ collection: collection });
+				if(collection.length == 0) {
+
+					self.$el.find('a.create-boatday').click(function(event) {
+
+						event.preventDefault();
+
+						var cb = function() {
+							Parse.history.navigate('boat/new', true);
+						}
+
+						self.modal({
+							title: 'No boats yet',
+							body: 'Before you can add a BoatDay, you have to add a boat to your blabla.',
+							noButton: false,
+							cancelButtonText: 'Later',
+							yesButtonText: 'Add Boat',
+							yesCb: cb
+						});
+
+					});
+				}
+
+				self.collectionBoats = collection;
+				var boatsView = new BoatsTableView({ collection: self.collectionBoats });
 				self.subViews.push(boatsView);
 				self.$el.find('.boats').html(boatsView.render().el);
 
@@ -54,6 +81,7 @@ define([
 
 			var boatdaysFetchSuccess = function(collection) {
 
+				self.collectionBoatDays = collection;
 				var BoatDaysView = new BoatDaysTableView({ collection: collection });
 				self.subViews.push(BoatDaysView);
 				self.$el.find('.boatdays').html(BoatDaysView.render().el);
