@@ -246,7 +246,6 @@ define([
 			
 			var cb = function() {
 
-				console.log(123);
 				if( Parse.User.current().get("host").get('status') == 'creation' ) {
 				
 					self.render(new HostView({ model: Parse.User.current().get("host") }));	

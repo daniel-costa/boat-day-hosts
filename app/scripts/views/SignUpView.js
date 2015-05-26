@@ -14,6 +14,8 @@ define([
 
 		debug: true,
 
+		theme: "account",
+		
 		events: {
 			'keyup [name="password"]' : "displayPasswordStrength",
 			"submit form" : "signUp",
@@ -33,12 +35,14 @@ define([
 
 			if( score != this.progressCurrent ) {
 				
-				$('.progress-bar').css({ width: Math.min(score, 100) +'%' })
-				.removeClass('progress-bar-danger progress-bar-success')
-				.addClass('progress-bar-' + (score < 50 ? 'danger' : 'success') );
 
 				if(score > 50) {	
-					this.$el.find('.passwordComplexity .alert').hide();
+					this.$el.find('.input-progress .bar').animate({width: 0});
+					this.$el.find('.passwordComplexity').hide();
+				} else {
+					var percent = Math.min(score, 100) +'%';
+					this.$el.find('.input-progress .bar').animate({width: percent});
+					this.$el.find('.passwordComplexity').show();
 				}
 
 				this.progressCurrent = score;

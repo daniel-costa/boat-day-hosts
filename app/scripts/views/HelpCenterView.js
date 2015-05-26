@@ -12,6 +12,8 @@ define([
 			"submit form" : "sendFeedback",
 			"change .upload": "uploadCertification"
 		}, 
+		
+		theme: "account",
 
 		uploadCertification: function(event) {
 

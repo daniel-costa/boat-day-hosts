@@ -2,15 +2,17 @@
 @grid-columns:                   24;
 @icon-font-path:                 "../../scripts/vendor/bootstrap/fonts/";
 
-@body-bg:                        #eff3f4;
-@text-color:                     #3d7f8d;
+@body-bg:                        white;
+@text-color:                     #546e7a;
 @brand-primary:                  #3ac0bc;
 @font-size-base:                 15px;
 
 @btn-font-weight:                500;
+
 @btn-default-color:              #3ac0bc;
-@btn-default-bg:                 #fff;
 @btn-default-border:             #3ac0bc;
+@btn-default-bg:                 #fff;
+
 @btn-primary-color:              #fff;
 @btn-primary-bg:                 #f5b019;
 @btn-primary-border:             #f5b019;
@@ -21,11 +23,28 @@
 @input-border-width:             2px;
 @input-color-placeholder:        @input-color;
 
-@link-color:                     #546e7a;
+@link-color:                     #3ac0bc;
 
+@headings-color:                 #23a7be;
+
+@state-warning-text:             #f86335;
+@state-warning-bg:               transparent;
+@state-warning-border:           transparent;
 
 .btn {
 	border-width: @btn-border-width;
+}
+
+.btn-default {
+  border-color: @btn-default-border;
+  color: @btn-default-color;
+  background-color: @btn-default-bg;
+}
+
+.btn-default:hover { 
+  border-color: @btn-default-border;
+  color: white;
+  background-color: @btn-default-border;
 }
 
 .btn-lg {
@@ -38,54 +57,24 @@
 
 .form-control {
 	border-width: @input-border-width;
-	font-weight: 500;
+  height: 50px;
+  padding: 19px 15px;
+  font-size: @font-size-base;
+  font-weight: 500;
 }
 
-.input-lg {
-  .input-size(@input-height-large; @padding-large-vertical; @padding-large-horizontal; @font-size-base; @line-height-large; @input-border-radius-large);
+select.form-control {
+  -webkit-appearance: none;
+  padding: 0px 15px;
 }
 
-.button-variant-default(@color; @background; @border) {
-  color: @color;
-  background-color: @background;
-  border-color: @border;
-
-  &:hover,
-  &:focus,
-  &.focus,
-  &:active,
-  &.active,
-  .open > .dropdown-toggle& {
-    color: @color;
-    background-color: @color;
-        border-color: @color;
-        color: @background;
-  }
-  &:active,
-  &.active,
-  .open > .dropdown-toggle& {
-    background-image: none;
-  }
-  &.disabled,
-  &[disabled],
-  fieldset[disabled] & {
-    &,
-    &:hover,
-    &:focus,
-    &.focus,
-    &:active,
-    &.active {
-      background-color: @background;
-          border-color: @border;
-    }
-  }
-
-  .badge {
-    color: @background;
-    background-color: @color;
-  }
+.form-horizontal .control-label {
+  text-align: left;
+  font-weight: normal;
+  font-size: 13px;
+  font-weight: 400;
 }
 
-.btn-default {
-  .button-variant-default(@btn-default-color; @btn-default-bg; @btn-default-border);
+h4 { 
+  font-size: 20px;
 }

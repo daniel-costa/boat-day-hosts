@@ -4,7 +4,7 @@ define([
 ], function(BaseView, HomeTemplate){
 	var HomeView = BaseView.extend({
 
-		className: "view-home",
+		className: "view-home container",
 
 		template: _.template(HomeTemplate),
 
@@ -13,15 +13,7 @@ define([
 			'click .create-account': 'createAccount'
 		},
 
-		render: function() {
-
-			BaseView.prototype.render.call(this);
-			
-			var self = this;
-
-			return this;
-
-		},
+		theme: "guest",
 
 		createAccount: function() {
 

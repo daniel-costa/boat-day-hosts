@@ -15,9 +15,12 @@ define([
 		events: {
 			"submit form" : "saveProfile",
 			"change [name='profilePicture']": "uploadPicture",
-			"blur [name='about']": "censorField"
+			"blur [name='about']": "censorField",
+			"click .btn-upload": "clickUpload"
 		},
 
+		theme: "account",
+		
 		initialize: function(){
 
 			if( this.model.get('status') != 'creation' ) {

@@ -11,11 +11,13 @@ define([
 
 		debug: true,
 
-
+		theme: "account",
+		
 		events: {
 			"submit form" : "registerHost", 
 			'change [name="paymentMethod"]' : "refreshPaymentMethod",
 			"change .upload": "uploadCertification",
+			"click .btn-upload": "clickUpload"
 		},
 
 		initialize: function(){
@@ -125,13 +127,9 @@ define([
 				city: this._in('city').val(),
 				zipCode: this._in('zipCode').val(),
 				state: this._in('state').val(), 
-				paymentMethod: this._in('paymentMethod').val(), 
 				accountHolder: this._in('accountHolder').val(),
 				accountNumber: this._in('accountNumber').val(),
 				accountRouting: this._in('accountRouting').val(),
-				paypalEmail: this._in('paypalEmail').val(),
-				venmoEmail: this._in('venmoEmail').val(),
-				venmoPhone: this._in('venmoPhone').val(),
 				firstname: this._in('firstname').val(),
 				lastname: this._in('lastname').val(),
 				birthdate: new Date(this._in('birthdateYear').val(), this._in('birthdateMonth').val()-1, this._in('birthdateDay').val()),

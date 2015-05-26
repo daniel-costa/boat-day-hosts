@@ -5,10 +5,36 @@
 		<meta name="viewport" content="width=device-width">
 		<title>BoatDay - Hosts Web Application</title>
 		<link rel="stylesheet" type="text/css" href="css/boatday.css" />
-		<link rel="stylesheet" type="text/css" href="css/index.css" />
 	</head>
 	<body>
 		<div id="app"></div>
+		<div class="debug-screen-size visible-lg">LG</div>
+		<div class="debug-screen-size visible-md">MD</div>
+		<div class="debug-screen-size visible-sm">SM</div>
+		<div class="debug-screen-size visible-xs">XS</div>
+
+		<div class="btn-group debug-page-access">
+			<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="#/home">#/home</a></li>
+				<li><a href="#/reset-password?token=123&amp;username=123">#/reset-password</a></li>
+				<li><a href="#/forgot-password">#/forgot-password</a></li>
+				<li><a href="#/invalid-link">#/invalid-link</a></li>
+				<li><a href="#/password-changed">#/password-changed</a></li>
+				<li class="divider"></li>
+				<li><a href="#/sign-up">#/sign-up</a></li>
+				<li><a href="#/host">#/host</a></li>
+				<li><a href="#/profile">#/profile</a></li>
+				<li><a href="#/help-center">#/help-center</a></li>
+				<li class="divider"></li>
+				<li><a href="#/dashboard">#/dashboard</a></li>
+				<li><a href="#/boat/new">#/boat/new</a></li>
+				<li><a href="#/boatday/new">#/boatday/new</a></li>
+				<li class="divider"></li>
+				<li><a href="#sign-out">#sign-out</a></li>
+			</ul>
+		</div>
+
 		<script data-main="scripts/main.js" src="scripts/vendor/requirejs/require.js"></script>
 	</body>
 </html>

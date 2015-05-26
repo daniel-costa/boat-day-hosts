@@ -2,132 +2,115 @@
 	<div class="top-nav"></div>
 <% } %>
 
-<form class="form-horizontal"> 
-	<div class="container"> 
-		<div class="col-xs-24 col-md-20 col-lg-16 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-4">
-			<div class="panel panel-primary">
-				<% 
-					if(birthdate) {
-						birthdate = new Date(birthdate.iso);
-						var birthdateDay = birthdate.getDate();
-						var birthdateMonth = birthdate.getMonth() + 1;
-					}
+<% 
+	if(birthdate) {
+		birthdate = new Date(birthdate.iso);
+		var birthdateDay = birthdate.getDate();
+		var birthdateMonth = birthdate.getMonth() + 1;
+	}
 
-					var ro = status == 'complete' ? 'readonly disabled' : '';
-				%>
+	var ro = status == 'complete' ? 'readonly disabled' : '';
+%>
 
-				<div class="panel-heading area-personal">
-					<h3 class="panel-title text-center">
-						<% if( status == 'creation' ) { %>
-							Tell us about you...
-						<% } else { %>
-							Personal Information <a href="#/help-center"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Contact us in the Help Center for updates to your Personal Information."></span></a>
-						<% } %>
-					</h3>
+<header>
+	<h1 class="text-center">BoatDay - Sign Up</h1>
+	<p class="text-center">Complete now and join BoatDay...</p>
+	<div class="text-center steps">
+		<img src="resources/signup-step-1.png" />
+	</div>
+</header>
+<form class="form-horizontal">
+	<div class="container">
+		<div class="row ">
+			<div class="col-left col-lg-6 col-lg-offset-6">
+				<h4 class="text-right">Tell us about you...</h4>
+			</div>
+			<div class="col-right col-lg-8">
+				<div class="form-group has-feedback">
+					<label for="firstname" class="col-sm-24 control-label">First Name</label>
+					<div class="col-sm-24">
+						<input value="<%= firstname ? firstname : '' %>"  type="text" class="form-control" id="firstname" name="firstname" <%= ro %>>
+					</div>
 				</div>
-				<div class="panel-body area-personal">
-					<div class="form-group">
-						<label for="firstname" class="col-sm-8 control-label">Name</label>
-						<div class="col-sm-10">
-							<input value="<%= firstname ? firstname : '' %>"  type="text" class="form-control" id="firstname" name="firstname" placeholder="first name" <%= ro %>>
-						</div>
+				<div class="form-group has-feedback">
+					<label for="lastname" class="col-sm-24 control-label">Surname</label>
+					<div class="col-sm-24">
+						<input value="<%= lastname ? lastname : '' %>" type="text" class="form-control" id="lastname" name="lastname" <%= ro %>>
 					</div>
-					<div class="form-group">
-					 	<div class="col-sm-10 col-sm-offset-8">
-							<input value="<%= lastname ? lastname : '' %>" type="text" class="form-control" id="lastname" name="lastname" placeholder="last name" <%= ro %>>
-						</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-24 control-label">
+						Date of Birth 
+						<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="bottom" title="You must be at least 22 years old to sign up as a BoatDay Host."></span>
+					</label>
+					<div class="col-sm-10">
+						<select class="form-control" id="birthdateMonth" name="birthdateMonth" <%= ro %>>
+							<option value="1" <%= birthdateMonth && birthdateMonth == 1 ? 'selected' : '' %>>January</option>
+							<option value="2" <%= birthdateMonth && birthdateMonth == 2 ? 'selected' : '' %>>February</option>
+							<option value="3" <%= birthdateMonth && birthdateMonth == 3 ? 'selected' : '' %>>March</option>
+							<option value="4" <%= birthdateMonth && birthdateMonth == 4 ? 'selected' : '' %>>April</option>
+							<option value="5" <%= birthdateMonth && birthdateMonth == 5 ? 'selected' : '' %>>May</option>
+							<option value="6" <%= birthdateMonth && birthdateMonth == 6 ? 'selected' : '' %>>June</option>
+							<option value="7" <%= birthdateMonth && birthdateMonth == 7 ? 'selected' : '' %>>July</option>
+							<option value="8" <%= birthdateMonth && birthdateMonth == 8 ? 'selected' : '' %>>August</option>
+							<option value="9" <%= birthdateMonth && birthdateMonth == 9 ? 'selected' : '' %>>September</option>
+							<option value="10" <%= birthdateMonth && birthdateMonth == 10 ? 'selected' : '' %>>October</option>
+							<option value="11" <%= birthdateMonth && birthdateMonth == 11 ? 'selected' : '' %>>November</option>				
+							<option value="12" <%= birthdateMonth && birthdateMonth == 12 ? 'selected' : '' %>>December</option>
+						</select>
 					</div>
-					<div class="form-group">
-						<label class="col-sm-8 control-label">Date of Birth <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="bottom" title="You must be at least 22 years old to sign up as a BoatDay Host."></span></label>
-						<div class="col-sm-10">
-							<div class="col-xs-10" style="padding-left:0px">
-								<select class="input-small form-control" id="birthdateMonth" name="birthdateMonth" <%= ro %>>
-									<option value="1" <%= birthdateMonth && birthdateMonth == 1 ? 'selected' : '' %>>January</option>
-									<option value="2" <%= birthdateMonth && birthdateMonth == 2 ? 'selected' : '' %>>February</option>
-									<option value="3" <%= birthdateMonth && birthdateMonth == 3 ? 'selected' : '' %>>March</option>
-									<option value="4" <%= birthdateMonth && birthdateMonth == 4 ? 'selected' : '' %>>April</option>
-									<option value="5" <%= birthdateMonth && birthdateMonth == 5 ? 'selected' : '' %>>May</option>
-									<option value="6" <%= birthdateMonth && birthdateMonth == 6 ? 'selected' : '' %>>June</option>
-									<option value="7" <%= birthdateMonth && birthdateMonth == 7 ? 'selected' : '' %>>July</option>
-									<option value="8" <%= birthdateMonth && birthdateMonth == 8 ? 'selected' : '' %>>August</option>
-									<option value="9" <%= birthdateMonth && birthdateMonth == 9 ? 'selected' : '' %>>September</option>
-									<option value="10" <%= birthdateMonth && birthdateMonth == 10 ? 'selected' : '' %>>October</option>
-									<option value="11" <%= birthdateMonth && birthdateMonth == 11 ? 'selected' : '' %>>November</option>				
-									<option value="12" <%= birthdateMonth && birthdateMonth == 12 ? 'selected' : '' %>>December</option>
-								</select>
-							</div>
-
-							<div class="col-xs-6" style="padding-left:0px;padding-right : 0px">
-								<select class="input-small form-control" id="birthdateDay" name="birthdateDay" <%= ro %>>
-									<option value="1"  <%= birthdateDay && birthdateDay == 1  ? 'selected' : '' %>>1st</option>
-									<option value="2"  <%= birthdateDay && birthdateDay == 2  ? 'selected' : '' %>>2nd</option>
-									<option value="3"  <%= birthdateDay && birthdateDay == 3  ? 'selected' : '' %>>3rd</option>
-									<option value="4"  <%= birthdateDay && birthdateDay == 4  ? 'selected' : '' %>>4th</option>
-									<option value="5"  <%= birthdateDay && birthdateDay == 5  ? 'selected' : '' %>>5th</option>
-									<option value="6"  <%= birthdateDay && birthdateDay == 6  ? 'selected' : '' %>>6th</option>
-									<option value="7"  <%= birthdateDay && birthdateDay == 7  ? 'selected' : '' %>>7th</option>
-									<option value="8"  <%= birthdateDay && birthdateDay == 8  ? 'selected' : '' %>>8th</option>
-									<option value="9"  <%= birthdateDay && birthdateDay == 9  ? 'selected' : '' %>>9th</option>
-									<option value="10" <%= birthdateDay && birthdateDay == 10 ? 'selected' : '' %>>10th</option>
-									<option value="11" <%= birthdateDay && birthdateDay == 11 ? 'selected' : '' %>>11th</option>
-									<option value="12" <%= birthdateDay && birthdateDay == 12 ? 'selected' : '' %>>12th</option>
-									<option value="13" <%= birthdateDay && birthdateDay == 13 ? 'selected' : '' %>>13th</option>
-									<option value="14" <%= birthdateDay && birthdateDay == 14 ? 'selected' : '' %>>14th</option>
-									<option value="15" <%= birthdateDay && birthdateDay == 15 ? 'selected' : '' %>>15th</option>
-									<option value="16" <%= birthdateDay && birthdateDay == 16 ? 'selected' : '' %>>16th</option>
-									<option value="17" <%= birthdateDay && birthdateDay == 17 ? 'selected' : '' %>>17th</option>
-									<option value="18" <%= birthdateDay && birthdateDay == 18 ? 'selected' : '' %>>18th</option>
-									<option value="19" <%= birthdateDay && birthdateDay == 19 ? 'selected' : '' %>>19th</option>
-									<option value="20" <%= birthdateDay && birthdateDay == 20 ? 'selected' : '' %>>20th</option>
-									<option value="21" <%= birthdateDay && birthdateDay == 21 ? 'selected' : '' %>>21st</option>
-									<option value="22" <%= birthdateDay && birthdateDay == 22 ? 'selected' : '' %>>22nd</option>
-									<option value="23" <%= birthdateDay && birthdateDay == 23 ? 'selected' : '' %>>23rd</option>
-									<option value="24" <%= birthdateDay && birthdateDay == 24 ? 'selected' : '' %>>24th</option>
-									<option value="25" <%= birthdateDay && birthdateDay == 25 ? 'selected' : '' %>>25th</option>
-									<option value="26" <%= birthdateDay && birthdateDay == 26 ? 'selected' : '' %>>26th</option>
-									<option value="27" <%= birthdateDay && birthdateDay == 27 ? 'selected' : '' %>>27th</option>
-									<option value="28" <%= birthdateDay && birthdateDay == 28 ? 'selected' : '' %>>28th</option>
-									<option value="29" <%= birthdateDay && birthdateDay == 29 ? 'selected' : '' %>>29th</option>
-									<option value="30" <%= birthdateDay && birthdateDay == 30 ? 'selected' : '' %>>30th</option>
-									<option value="31" <%= birthdateDay && birthdateDay == 31 ? 'selected' : '' %>>31st</option>
-								</select>
-							</div>
-
-							<div class="col-xs-8" style="padding-right:0px">
-								<select class="input-small form-control" id="birthdateYear" name="birthdateYear" <%= ro %>>
-								</select>
-							</div>
-						</div>
+					<div class="col-sm-6">
+						<select class="form-control" id="birthdateDay" name="birthdateDay" <%= ro %>>
+							<option value="1"  <%= birthdateDay && birthdateDay == 1  ? 'selected' : '' %>>1st</option>
+							<option value="2"  <%= birthdateDay && birthdateDay == 2  ? 'selected' : '' %>>2nd</option>
+							<option value="3"  <%= birthdateDay && birthdateDay == 3  ? 'selected' : '' %>>3rd</option>
+							<option value="4"  <%= birthdateDay && birthdateDay == 4  ? 'selected' : '' %>>4th</option>
+							<option value="5"  <%= birthdateDay && birthdateDay == 5  ? 'selected' : '' %>>5th</option>
+							<option value="6"  <%= birthdateDay && birthdateDay == 6  ? 'selected' : '' %>>6th</option>
+							<option value="7"  <%= birthdateDay && birthdateDay == 7  ? 'selected' : '' %>>7th</option>
+							<option value="8"  <%= birthdateDay && birthdateDay == 8  ? 'selected' : '' %>>8th</option>
+							<option value="9"  <%= birthdateDay && birthdateDay == 9  ? 'selected' : '' %>>9th</option>
+							<option value="10" <%= birthdateDay && birthdateDay == 10 ? 'selected' : '' %>>10th</option>
+							<option value="11" <%= birthdateDay && birthdateDay == 11 ? 'selected' : '' %>>11th</option>
+							<option value="12" <%= birthdateDay && birthdateDay == 12 ? 'selected' : '' %>>12th</option>
+							<option value="13" <%= birthdateDay && birthdateDay == 13 ? 'selected' : '' %>>13th</option>
+							<option value="14" <%= birthdateDay && birthdateDay == 14 ? 'selected' : '' %>>14th</option>
+							<option value="15" <%= birthdateDay && birthdateDay == 15 ? 'selected' : '' %>>15th</option>
+							<option value="16" <%= birthdateDay && birthdateDay == 16 ? 'selected' : '' %>>16th</option>
+							<option value="17" <%= birthdateDay && birthdateDay == 17 ? 'selected' : '' %>>17th</option>
+							<option value="18" <%= birthdateDay && birthdateDay == 18 ? 'selected' : '' %>>18th</option>
+							<option value="19" <%= birthdateDay && birthdateDay == 19 ? 'selected' : '' %>>19th</option>
+							<option value="20" <%= birthdateDay && birthdateDay == 20 ? 'selected' : '' %>>20th</option>
+							<option value="21" <%= birthdateDay && birthdateDay == 21 ? 'selected' : '' %>>21st</option>
+							<option value="22" <%= birthdateDay && birthdateDay == 22 ? 'selected' : '' %>>22nd</option>
+							<option value="23" <%= birthdateDay && birthdateDay == 23 ? 'selected' : '' %>>23rd</option>
+							<option value="24" <%= birthdateDay && birthdateDay == 24 ? 'selected' : '' %>>24th</option>
+							<option value="25" <%= birthdateDay && birthdateDay == 25 ? 'selected' : '' %>>25th</option>
+							<option value="26" <%= birthdateDay && birthdateDay == 26 ? 'selected' : '' %>>26th</option>
+							<option value="27" <%= birthdateDay && birthdateDay == 27 ? 'selected' : '' %>>27th</option>
+							<option value="28" <%= birthdateDay && birthdateDay == 28 ? 'selected' : '' %>>28th</option>
+							<option value="29" <%= birthdateDay && birthdateDay == 29 ? 'selected' : '' %>>29th</option>
+							<option value="30" <%= birthdateDay && birthdateDay == 30 ? 'selected' : '' %>>30th</option>
+							<option value="31" <%= birthdateDay && birthdateDay == 31 ? 'selected' : '' %>>31st</option>
+						</select>
 					</div>
-
-					<div class="form-group">
-						<label for="phone" class="col-sm-8 control-label">Phone Number</label>
-						<div class="col-sm-10">
-							<input value="<%= phone ? phone : '' %>" type="text" class="form-control" id="phone" name="phone" placeholder="area code and all!" <%= ro %>>
-						</div>
+					<div class="col-sm-8">
+						<select class="form-control" id="birthdateYear" name="birthdateYear" <%= ro %>></select>
 					</div>
-					<div class="form-group">
-						<label for="street" class="col-sm-8 control-label">Address</label>
-						<div class="col-sm-10">
+				</div>
+				<div class="form-group has-feedback">
+					<label for="phone" class="col-sm-24 control-label">Phone Number</label>
+					<div class="col-sm-24">
+						<input value="<%= phone ? phone : '' %>" type="text" class="form-control" id="phone" name="phone" placeholder="area code and all!" <%= ro %>>
+					</div>
+				</div>
+				<div class="form-group has-feedback">
+					<label for="street" class="col-sm-24 control-label">Address</label>
+					<div class="col-sm-24 address-group">
 							<input value="<%= street ? street : '' %>" type="text" class="form-control" id="street" name="street" placeholder="in case we have to send you paper" <%= ro %>>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="city" class="col-sm-8 control-label">City</label>
-						<div class="col-sm-10">
 							<input value="<%= city ? city : '' %>" type="text" class="form-control" id="city" name="city" placeholder="city" <%= ro %>>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="zipCode" class="col-sm-8 control-label">Zip Code</label>
-						<div class="col-sm-10">
 							<input value="<%= zipCode ? zipCode : '' %>" type="text" class="form-control" id="zipCode" name="zipCode" placeholder="zip code" <%= ro %>>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="state" class="col-sm-8 control-label">State</label>
-						<div class="col-sm-10">
-							<select class="col-sm-8 form-control" id="state" name="state" <%= ro %>>
+							<select class="col-sm-24 form-control" id="state" name="state" <%= ro %>>
 								<option value="AL" <%= state && state == "AL" ? 'selected' : '' %>>Alabama</option>
 								<option value="AK" <%= state && state == "AK" ? 'selected' : '' %>>Alaska</option>
 								<option value="AS" <%= state && state == "AS" ? 'selected' : '' %>>American Samoa</option>
@@ -188,184 +171,112 @@
 								<option value="WI" <%= state && state == "WI" ? 'selected' : '' %>>Wisconsin</option>
 								<option value="WY" <%= state && state == "WY" ? 'selected' : '' %>>Wyoming</option>
 							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="SSN" class="col-sm-8 control-label">Social Security Number<br/><em style="font-weight:normal;">(last 4 digits only)</em></label>
-						<div class="col-sm-10">
-							<input value="<%= SSN ? SSN : '' %>" type="text" class="form-control" id="SSN" name="SSN" placeholder="for our Host background screeining" <%= ro %>>
-						</div>
 					</div>
 				</div>
-				<div class="panel-heading">
-					<h3 class="panel-title text-center">My Licenses &amp; Certifications (if applicable)</h3>
-				</div>
-				<div class="panel-body">
-					<div class="form-group">
-						<label for="certBSC" class="col-sm-8 control-label">Boater Safety Course</label>
-						<div class="col-sm-10">
-							<input value="" type="file" class="upload form-control" id="certBSC" name="certBSC">
-							<% if( certBSC ) { %>
-								<a href="<%= certBSC.url %>" class="preview" target="_blank">Licence preview</a>
-							<% } %>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="certCCL" class="col-sm-8 control-label">Charterboat Captain<br/><em style="font-weight:normal;">("6 Pack")</em></label>
-						<div class="col-sm-10">
-							<input value="" type="file" class="upload form-control" id="certCCL" name="certCCL">
-							<% if( certCCL ) { %>
-								<a href="<%= certCCL.url %>" class="preview" target="_blank">Licence preview</a>
-							<% } %>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="certMCL" class="col-sm-8 control-label">Master Captain's License</label>
-						<div class="col-sm-10">
-							<input value="" type="file" class="upload form-control" id="certMCL" name="certMCL">
-							<% if( certMCL  ) { %>
-								<a href="<%= certMCL.url %>" class="preview" target="_blank">Licence preview</a>
-							<% } %>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="certFL" class="col-sm-8 control-label">Fishing License</label>
-						<div class="col-sm-10">
-							<input value="" type="file" class="upload form-control" id="certFL" name="certFL">
-							<% if( certFL ) { %>
-								<a href="<%= certFL.url %>" class="preview" target="_blank">Licence preview</a>
-							<% } %>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="certSL" class="col-sm-8 control-label">Sailing Certification</label>
-						<div class="col-sm-10">
-							<input value="" type="file" class="upload form-control" id="certSL" name="certSL">
-							<% if( certSL ) { %>
-								<a href="<%= certSL.url %>" class="preview" target="_blank">Licence preview</a>
-							<% } %>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="certFAC" class="col-sm-8 control-label">First Aid Certification</label>
-						<div class="col-sm-10">
-							<input value="" type="file" class="upload form-control" id="certFAC" name="certFAC">
-							<% if( certFAC ) { %>
-								<a href="<%= certFAC.url %>" class="preview" target="_blank">Licence preview</a>
-							<% } %>
-						</div>
+				<div class="form-group has-feedback">
+					<label for="SSN" class="col-sm-24 control-label">Social Security Number <em>(last 4 digits only)</em></label>
+					<div class="col-sm-24">
+						<input value="<%= SSN ? SSN : '' %>" type="text" class="form-control" id="SSN" name="SSN" placeholder="for our Host background screeining" <%= ro %>>
 					</div>
 				</div>
-
-				<% if( type == "business" ) { %>
-					<div class="panel-heading">
-						<h3 class="panel-title text-center">Are you a company?</h3>
-					</div>
-					<div class="panel-body">
-						<div class="form-group has-feedback">
-							<label for="businessName" class="col-sm-8 control-label" >Business Name</label>
-							<div class="col-sm-10">
-								<input value="<%= businessName ? businessName : '' %>" type="text" class="form-control" id="businessName" name="businessName" placeholder="company name (optional)" <%= ro %>>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="businessEin" class="col-sm-8 control-label">Employer Identification Number</label>
-							<div class="col-sm-10">
-								<div class="input-group">
-									<div class="input-group-addon"><strong>EIN</strong></div>
-									<input value="<%= businessEin ? businessEin : '' %>" type="text" class="form-control" id="businessEin" name="businessEin" placeholder="(optional)" <%= ro %>>
-								</div>
-							</div>
-						</div>
-					</div>
-				<% } %>
-
-				<div class="panel-heading">
-					<h3 class="panel-title text-center">
-						<% if( status == 'creation' ) { %>
-							How do we pay you?
-						<% } else { %>
-							Edit payment information
-						<% } %>
-					</h3>
-				</div>
-				<div class="panel-body">
-					<div class="col-sm-24"> 
-						<div class="form-group">
-							<label for="paymentMethod" class="col-sm-8 control-label">Payment Method</label>
-							<div class="col-sm-10">
-								<select class="form-control" id="paymentMethod" name="paymentMethod">
-									<option value="deposit" selected>Direct Deposit</option>
-									<option value="paypal">PayPal</option>
-									<option value="venmo">Venmo</option>
-								</select>
-							</div>
-					 	</div>
-
-					 	<div class="paymentMethodContainer deposit">
-							<div class="form-group">
-								<label for="accountHolder" class="col-sm-8 control-label">Account Holder</label>
-								<div class="col-sm-10">
-								  <input value="<%= accountHolder ? accountHolder : '' %>" type="text" class="form-control" id="accountHolder" name="accountHolder" placeholder="name on account">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="accountNumber" class="col-sm-8 control-label">Account Number</label>
-								<div class="col-sm-10">
-									<input value="<%= accountNumber ? accountNumber : '' %>" type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="account number">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="accountRouting" class="col-sm-8 control-label">Routing Number</label>
-								<div class="col-sm-10">
-									 <input value="<%= accountRouting ? accountRouting : '' %>" type="text" class="form-control" id="accountRouting" name="accountRouting" placeholder="routing number">
-						 		 </div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-10 col-sm-offset-8">
-									<img src="resources/check.jpg" style="max-width:100%;"/>
-								</div>
-							</div>
-						</div>
-
-						<% if( type == "personal" ) { %>
-							<div class="paymentMethodContainer paypal">
-								<div class="form-group">
-									<label for="paypalEmail" class="col-sm-8 control-label">Paypal Email</label>
-									<div class="col-sm-10">
-										<input value="<%= paypalEmail ? paypalEmail : '' %>" type="email" class="form-control" id="paypalEmail" name="paypalEmail" placeholder="paypal email">
-									</div>
-								</div>
-							</div>
-							<div class="paymentMethodContainer venmo">
-								<div class="form-group">
-									<div class="col-sm-10 col-sm-offset-8">
-										<div class="alert-info alert">
-											<span class="glyphicon glyphicon-info-sign"></span> Please provide <strong>either</strong> the Email Address or Phone Number associated with your Venmo account. 
-										</div>
-									</div>
-									<label for="venmoEmail" class="col-sm-8 control-label">Venmo Email</label>
-									<div class="col-sm-10">
-										<input value="<%= venmoEmail ? venmoEmail : '' %>" type="email" class="form-control" id="venmoEmail" name="venmoEmail" placeholder="venmo email">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="venmoPhone" class="col-sm-8 control-label">Venmo Phone Number</label>
-									<div class="col-sm-10">
-										<input value="<%= venmoPhone ? venmoPhone : '' %>" type="text" class="form-control" id="venmoPhone" name="venmoPhone" placeholder="area code and all!">
-									</div>
-								</div>
-							</div>
-						<% } %>
+			</div>
+		</div>
+		<div class="split col-lg-14 col-lg-offset-6"></div>
+		<div class="row">
+			<div class="col-left col-lg-12">
+				<h4 class="text-right">Are you a company?</h4>
+			</div>
+			<div class="col-right col-lg-8">
+				<div class="form-group">
+					<label for="businessName" class="col-sm-24 control-label" >Business Name</label>
+					<div class="col-sm-24">
+						<input value="<%= businessName ? businessName : '' %>" type="text" class="form-control" id="businessName" name="businessName" placeholder="company name (optional)" <%= ro %>>
 					</div>
 				</div>
-				<div class="panel-footer text-center">
-					<% if( status == 'creation' ) { %>
-						Almost there! <button type="submit" class="btn btn-primary">Create a profile</button> to finish registration.
-					<% } else { %>
-						<button type="submit" class="btn btn-primary">Save</button>
-					<% } %>
+				<div class="form-group">
+					<label for="businessEin" class="col-sm-24 control-label">Employer Identification Number</label>
+					<div class="col-sm-24">
+						<input value="<%= businessEin ? businessEin : '' %>" type="text" class="form-control" id="businessEin" name="businessEin" placeholder="(optional)" <%= ro %>>
+					</div>
 				</div>
+			</div>
+		</div>
+		<div class="split col-lg-14 col-lg-offset-6"></div>
+		<div class="row">
+			<div class="col-left col-lg-12">
+				<h4 class="text-right">My Licenses &amp; Certifications</h4>
+				<h6 class="text-right">(if applicable)</h6>
+			</div>
+			<div class="col-right col-lg-8">
+				<div class="form-group">
+					<label for="certBSC" class="col-sm-24 control-label">Boater Safety Course</label>
+					<div class="col-sm-24">
+						<button type="button" class="btn btn-block btn-default btn-upload" for="certBSC">Upload file</button>
+						<input value="" type="file" class="upload" id="certBSC" name="certBSC">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="certCCL" class="col-sm-24 control-label">Charterboat Captain <em>("6 Pack")</em></label>
+					<div class="col-sm-24">
+						<button type="button" class="btn btn-block btn-default btn-upload" for="certCCL">Upload file</button>
+						<input value="" type="file" class="upload" id="certCCL" name="certCCL">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="certMCL" class="col-sm-24 control-label">Master Captain's License</label>
+					<div class="col-sm-24">
+						<button type="button" class="btn btn-block btn-default btn-upload" for="certMCL">Upload file</button>
+						<input value="" type="file" class="upload" id="certMCL" name="certMCL">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="certFL" class="col-sm-24 control-label">Fishing License</label>
+					<div class="col-sm-24">
+						<button type="button" class="btn btn-block btn-default btn-upload" for="certFL">Upload file</button>
+						<input value="" type="file" class="upload" id="certFL" name="certFL">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="certSL" class="col-sm-24 control-label">Sailing Certification</label>
+					<div class="col-sm-24">
+						<button type="button" class="btn btn-block btn-default btn-upload" for="certSL">Upload file</button>
+						<input value="" type="file" class="upload" id="certSL" name="certSL">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="certFAC" class="col-sm-24 control-label">First Aid Certification</label>
+					<div class="col-sm-24">
+						<button type="button" class="btn btn-block btn-default btn-upload" for="certFAC">Upload file</button>
+						<input value="" type="file" class="upload" id="certFAC" name="certFAC">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="split col-lg-14 col-lg-offset-6"></div>
+		<div class="row">
+			<div class="col-left col-lg-12">
+				<h4 class="text-right">How do we pay you?</h4>
+			</div>
+			<div class="col-right col-lg-8">
+				<div class="form-group">
+					<label for="accountHolder" class="col-sm-24 control-label">Account Holder</label>
+					<div class="col-sm-24">
+						<input value="<%= accountHolder ? accountHolder : '' %>" type="text" class="form-control" id="accountHolder" name="accountHolder">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="accountNumber" class="col-sm-24 control-label">Account Number</label>
+					<div class="col-sm-24">
+						<input value="<%= accountNumber ? accountNumber : '' %>" type="text" class="form-control" id="accountNumber" name="accountNumber">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="accountRouting" class="col-sm-24 control-label">Routing Number</label>
+					<div class="col-sm-24">
+						<input value="<%= accountRouting ? accountRouting : '' %>" type="text" class="form-control" id="accountRouting" name="accountRouting">
+					</div>
+				</div>
+				<button type="submit" class="btn btn-block btn-lg btn-primary">Next &amp; last: BoatDay Profile</button>
 			</div>
 		</div>
 	</div>

@@ -12,6 +12,8 @@ define([
 			"submit form" : "acceptTerms"
 		},
 
+		theme: "account",
+
 		acceptTerms: function(event){
 
 			event.preventDefault();

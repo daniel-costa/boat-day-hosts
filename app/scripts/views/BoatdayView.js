@@ -31,6 +31,8 @@ define([
 		collectionBoats: null,
 
 		collectionCaptains: null,
+		
+		theme: "dashboard",
 
 		render: function() {
 

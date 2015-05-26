@@ -19,6 +19,8 @@ define([
 		collectionBoats: null,
 
 		collectionBoatDays: null,
+		
+		theme: "dashboard",
 
 		processCaptainRequest: function(event) {
 
@@ -39,8 +41,6 @@ define([
 			}
 			
 		},
-
-		captainRequests: {},
 
 		render: function() {
 

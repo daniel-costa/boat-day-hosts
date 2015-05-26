@@ -19,6 +19,8 @@ define([
 
 		tempBinaries: { },
 
+		theme: null,
+
 		__ANIMATION_ENDS__: 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
 
 		render: function() {
@@ -41,9 +43,22 @@ define([
 
 			this.$el.find('[data-toggle="tooltip"]').tooltip();
 
+			if( this.theme ) {
+				$("body").removeClass(function(index, css) {
+					return (css.match(/(^|\s)theme-\S+/g) || []).join(' ');
+				}).addClass('theme-' + this.theme);
+			}
+
 			return this;
 		},
 
+
+		clickUpload: function(event) {
+
+			this.$el.find('input[name="'+$(event.currentTarget).attr('for')+'"]').click();
+			
+		},
+		
 		modal: function(opts) {
 
 			var self = this;

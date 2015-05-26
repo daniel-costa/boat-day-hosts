@@ -27,6 +27,8 @@ define([
 			"click .add-captain": "addCaptain"
 		},
 
+		theme: "dashboard",
+		
 		initialize: function(data) {
 
 			if( this.model.get('status') != 'creation' ) {

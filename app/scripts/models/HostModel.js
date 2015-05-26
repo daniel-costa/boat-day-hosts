@@ -8,13 +8,9 @@ define([
 			status: 'creation',
 			type: null,
 			phone: null,
-			paymentMethod: null,
 			accountHolder: null,
 			accountNumber: null,
 			accountRouting: null,
-			paypalEmail: null,
-			venmoEmail: null,
-			venmoPhone: null,
 
 			street: null,
 			city: null,
@@ -86,10 +82,6 @@ define([
 				type: 'model-validation'
 			};
 
-			var isDeposit = attributes.paymentMethod == "deposit";
-			var isVenmo = attributes.paymentMethod == "venmo";
-			var isPaypal = attributes.paymentMethod == "paypal";
-
 			// Global fields
 
 			if( !attributes.phone ) {
@@ -133,33 +125,16 @@ define([
 			}	
 
 			// Payment
-			if( isDeposit && !attributes.accountHolder ) {
+			if( !attributes.accountHolder ) {
 				_return.fields.accountHolder = 'Oops, you missed one!';
 			}
 
-			if( isDeposit && !attributes.accountNumber ) {
+			if( !attributes.accountNumber ) {
 				_return.fields.accountNumber = 'Oops, you missed one!';
 			}
 
-			if( isDeposit && !this.isRoutingNumberValid(attributes.accountRouting) ) {
+			if( !this.isRoutingNumberValid(attributes.accountRouting) ) {
 				_return.fields.accountRouting = 'Oops, you missed one! Please enter a valid 9 digit routing number.';
-			}
-
-			if( isPaypal && !this.isEmailValid(attributes.paypalEmail) ) {
-				_return.fields.paypalEmail = "The email you entered was not recognized by Paypal, please try again.";
-			}
-
-			if( isVenmo && !attributes.venmoEmail  && !attributes.venmoPhone ) {
-				_return.fields.venmoEmail = "A venmo email or phone number is required.";
-				_return.fields.venmoPhone = "A venmo email or phone number is required.";
-			}
-			
-			if( isVenmo && attributes.venmoEmail && !this.isEmailValid(attributes.venmoEmail) ) {
-				_return.fields.venmoEmail = "The email you entered was not recongized by Venmo, please try again.";
-			} 
-
-			if( isVenmo && attributes.venmoPhone && !this.isPhoneValid(attributes.venmoPhone) ) {
-				_return.fields.venmoPhone = "The phone number you entered was not recognized by Venmo, please try again.";
 			}
 
 			if( _.size(_return.fields) > 0 ) {

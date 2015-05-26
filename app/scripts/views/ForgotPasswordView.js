@@ -4,13 +4,15 @@ define([
 ], function(BaseView, ForgotPasswordTemplate){
 	var ForgotPasswordView = BaseView.extend({
 
-		className: "view-home",
+		className: "view-forgot-password container",
 
 		template: _.template(ForgotPasswordTemplate),
 
 		events: {
 			"submit form" : "forgotPassword"
 		},
+
+		theme: "guest",
 
 		forgotPassword: function(event){
 

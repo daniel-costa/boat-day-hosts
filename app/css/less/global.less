@@ -1,0 +1,112 @@
+
+.slider-selection {
+	background: rgba(21, 167, 192, 0.30);
+}
+
+.slider-track {
+	background: rgba(21, 167, 192, 0.15);
+}
+
+.slider-handle {
+	background: #15a7c0;
+	border: 1px solid white;
+}
+
+.picturePreview {
+	width: 120px;
+	height: 120px;
+	border-radius: 60px;
+	overflow: hidden;
+	margin: 20px auto;
+}
+
+.picturePreview .picture {
+	width: 100%;
+	height: 100%;
+	border-radius: 60px;
+	background : center center no-repeat;
+	background-size : cover;
+}
+
+.profilePicture {
+	width: 80px;
+	height: 80px;
+	border-radius: 10000px;
+	background : center center no-repeat;
+	background-size : cover;
+
+}
+
+.checkboxes label,
+.policy-cancellation label,
+.policy-booking label {
+	font-weight: normal;
+	display: block;
+}
+
+#app {
+	position:relative;
+	z-index: 1;
+}
+
+
+[type="radio"]:not(:checked),
+[type="radio"]:checked,
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+	position: absolute;
+	left: -9999px;
+}
+
+[type="radio"]:not(:checked) + label,
+[type="radio"]:checked + label,
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+  position: relative;
+  padding-left: 57px;
+  cursor: pointer;
+}
+
+[type="radio"]:not(:checked) + label:before,
+[type="radio"]:checked + label:before,
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0px;
+  width: 38px;
+  height: 38px;
+  border: 2px solid @headings-color;
+  border-radius: 38px;
+}
+ 
+/* Aspect général de la coche */
+[type="radio"]:not(:checked) + label:after,
+[type="radio"]:checked + label:after,
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 28px;
+  height: 28px;
+  background: @headings-color;
+  border-radius: 38px;
+  transition: all .2s; /* on prévoit une animation */
+}
+
+/* Aspect si "pas cochée" */
+[type="radio"]:not(:checked) + label:after,
+[type="checkbox"]:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+
+/* Aspect si "cochée" */
+[type="radio"]:checked + label:after,
+[type="checkbox"]:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+}

@@ -4,9 +4,11 @@ define([
 ], function(BaseView, InvalidLinkTemplate){
 	var InvalidLinkView = BaseView.extend({
 
-		className: "view-home",
+		className: "view-invalid-link container",
 
 		template: _.template(InvalidLinkTemplate),
+
+		theme: "guest",
 
 	});
 	return InvalidLinkView;

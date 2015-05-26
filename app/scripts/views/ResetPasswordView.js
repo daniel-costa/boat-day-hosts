@@ -4,12 +4,11 @@ define([
 ], function(BaseView, ResetPasswordTemplate){
 	var ResetPasswordView = BaseView.extend({
 
-		className: "view-home",
+		className: "view-reset-password container",
 
 		template: _.template(ResetPasswordTemplate),
 
-		events: {
-		},
+		theme: "guest",
 
 		queryString: null,
 
