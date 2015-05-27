@@ -10,7 +10,8 @@ define([
 
 		events: {
 			"submit form" : "sendFeedback",
-			"change .upload": "uploadCertification"
+			"change .upload": "uploadCertification",
+			"click .btn-upload": "clickUpload"
 		}, 
 		
 		theme: "account",

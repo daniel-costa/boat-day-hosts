@@ -15,11 +15,13 @@ define([
 
 		debug: false,
 
-		globalDebug: false,
+		globalDebug: true,
 
 		tempBinaries: { },
 
 		theme: null,
+
+		templateData: null,
 
 		__ANIMATION_ENDS__: 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
 
@@ -30,10 +32,16 @@ define([
 				self: this
 			};
 
-			if(this.model) {
+			if( this.templateData ) {
+				_.extend(data, this.templateData);
+			}
+
+
+			if( this.model ) {
 				_.extend(data, this.model._toFullJSON());
 			}
 
+			console.log(data);
 			if(this.collection) {
 				_.extend(data, { collection: this.collection.toJSON() });
 			} 
@@ -58,7 +66,7 @@ define([
 			this.$el.find('input[name="'+$(event.currentTarget).attr('for')+'"]').click();
 			
 		},
-		
+
 		modal: function(opts) {
 
 			var self = this;

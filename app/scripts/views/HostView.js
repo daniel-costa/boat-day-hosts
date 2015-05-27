@@ -56,15 +56,8 @@ define([
 			
 			var birthdateYear = this.model.get('birthdate') ? this.model.get('birthdate').getFullYear() : 1993;
 
-			for(var i = 1940; i < new Date().getFullYear() - 21; i++) {
-				
-				var opt = $('<option>').val(i).text(i);
-				
-				if( birthdateYear == i ) {
-					opt.attr('selected', 1);
-				}
-
-				this.$el.find('[name="birthdateYear"]').append(opt);
+			for(var i = 1940; i < new Date().getFullYear() - 22; i++) {
+				this.$el.find('[name="birthdateYear"]').append($('<option>').val(i).text(i));
 			}
 
 			this.refreshPaymentMethod();

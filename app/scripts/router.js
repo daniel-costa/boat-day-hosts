@@ -13,12 +13,13 @@ define([
 	'views/SignUpView',
 	'views/HostView',
 	'views/ProfileView',
+	'views/AccountView',
 	'views/BoatView', 
 	'views/BoatDayView', 
 	'views/HelpCenterView'
 ], function(
 	BoatModel, BoatDayModel, HelpCenterModel,
-	HomeView, ForgotPasswordView, ResetPasswordView, InvalidLinkView, PasswordChangedView, DashboardView, TermsView, SignUpView, HostView, ProfileView, BoatView, BoatDayView, HelpCenterView) {
+	HomeView, ForgotPasswordView, ResetPasswordView, InvalidLinkView, PasswordChangedView, DashboardView, TermsView, SignUpView, HostView, ProfileView, AccountView, BoatView, BoatDayView, HelpCenterView) {
 	
 	var AppRouter = Parse.Router.extend({
 
@@ -34,8 +35,9 @@ define([
 			'boat/:boatid': 'showBoatView',
 			'boatday/new': 'showBoatDayView',
 			'boatday/:boatdayid': 'showBoatDayView',
-			'host': 'showHostView',
-			'profile': 'showProfileView',
+			// 'host': 'showHostView',
+			'my-account': 'showAccountView',
+			'my-profile': 'showProfileView',
 			'help-center': 'showHelpCenterView',
 			'*actions': 'showDashboardView'
 		},
@@ -170,13 +172,27 @@ define([
 			this.handleGuestAndSignUp(cb);
 		},
 
-		showHostView: function() {
+		// showHostView: function() {
+
+		// 	var self = this;
+
+		// 	var cb = function( ) {
+
+		// 		self.render(new HostView({ model: Parse.User.current().get('host') }));	
+
+		// 	};
+
+		// 	this.handleGuestAndSignUp(cb);
+
+		// },
+
+		showAccountView: function() {
 
 			var self = this;
 
 			var cb = function( ) {
 
-				self.render(new HostView({ model: Parse.User.current().get('host') }));	
+				self.render(new AccountView({ model: Parse.User.current() }));
 
 			};
 

@@ -1,0 +1,122 @@
+<header>
+	<h1 class="text-center">My Account</h1>
+	<p class="text-center">Manage from here your personal informations...</p>
+	<div class="text-center steps">
+		<a href="#/dashboard">&lt; back</a>
+	</div>
+</header>
+
+<form class="form-horizontal">
+	<div class="container">
+		<div class="row ">
+			<div class="col-left col-lg-8 col-lg-offset-4">
+				<h4 class="text-right">
+					My BoatDay Profile
+				</h4>
+			</div>
+			<div class="col-right col-lg-8 text-center">
+				<div class="picturePreview">
+					<div class="picture" style="background-image:url(<%= _profile.profilePicture.url%>)"></div>
+				</div>
+				<p class="username text-center"><%= _profile.displayName %></p>
+				<p class="about text-center"><%= _profile.about %></p>
+				<a href="#/my-profile" class="btn btn-default">Edit Profile</a>
+			</div>
+
+			<div class="split col-lg-14 col-lg-offset-6"></div>
+
+			<div class="col-left col-lg-8 col-lg-offset-4">
+				<h4 class="text-right">
+					My Account
+				</h4>
+			</div>
+			<div class="col-right col-lg-8">
+				<div class="form-group">
+					<label for="password" class="col-sm-24 control-label">Name</label>
+					<div class="col-sm-24">
+						<%= _host.firstname + ' ' + _host.lastname %>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password" class="col-sm-24 control-label">Social Security Number</label>
+					<div class="col-sm-24">
+						***-**-<%= _host.SSN %>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password" class="col-sm-24 control-label">Birthdate</label>
+					<div class="col-sm-24">
+						<%= _host.birthdate.iso %>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password" class="col-sm-24 control-label">Phone number</label>
+					<div class="col-sm-24">
+						<%= _host.phone %>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password" class="col-sm-24 control-label">Email</label>
+					<div class="col-sm-24">
+						<%= email %>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password" class="col-sm-24 control-label">Address</label>
+					<div class="col-sm-24">
+						<%= _host.street %><br/>
+						<%= _host.state %>-<%= _host.zipCode %> <%= _host.city %>
+					</div>
+				</div>
+				<% if( _host.businessName ) { %>
+					<div class="form-group">
+						<label for="password" class="col-sm-24 control-label">Business Name</label>
+						<div class="col-sm-24">
+							<%= _host.businessName %>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="password" class="col-sm-24 control-label">Business EIN</label>
+						<div class="col-sm-24">
+							<%= _host.businessEin %>
+						</div>
+					</div>
+				<% } %>
+				<div class="text-center">
+					<a href="#/help-center" class="btn btn-default">Edit Account</a>
+				</div>
+			</div>
+
+			<div class="split col-lg-14 col-lg-offset-6"></div>
+
+			<div class="col-left col-lg-8 col-lg-offset-4">
+				<h4 class="text-right">
+					My Payment Informations
+				</h4>
+			</div>
+			<div class="col-right col-lg-8">
+				<div class="form-group">
+					<label for="password" class="col-sm-24 control-label">Name on Account</label>
+					<div class="col-sm-24">
+						<%= _host.accountHolder %>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password" class="col-sm-24 control-label">Account Number</label>
+					<div class="col-sm-24">
+						<%= _host.accountNumber %>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password" class="col-sm-24 control-label">Routing Number</label>
+					<div class="col-sm-24">
+						<%= _host.accountRouting %>
+					</div>
+				</div>
+				<div class="text-center">
+					<a href="#/help-center" class="btn btn-default">Edit Payment Information</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

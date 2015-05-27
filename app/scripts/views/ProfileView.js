@@ -1,12 +1,11 @@
 define([
 'models/CaptainRequestModel',
 'views/BaseView',
-'text!templates/ThumbPictureTemplate.html',
 'text!templates/ProfileTemplate.html'
-], function(CaptainRequestModel, BaseView, ThumbPictureTemplate, ProfileTemplate){
+], function(CaptainRequestModel, BaseView, ProfileTemplate){
 	var ProfileView = BaseView.extend({
 
-		className: "view-profile",
+		className: "view-profile-add",
 
 		template: _.template(ProfileTemplate),
 
@@ -33,40 +32,28 @@ define([
 
 			BaseView.prototype.render.call(this);
 
-			if( this.model.get('status') != 'creation' ) {
+			if( this.model.get('status') == 'creation' ) {
+				this.$el.find('button.btn-upload[for="profilePicture"], .picturePreview').hide();
+			} else {
+				this.$el.find('div.btn-upload[for="profilePicture"]').hide();
 				this.displayProfilePicture(this.tempBinaries.profilePicture.url());
 			}
 
-			if( this._in('displayName').val() === '' ) {
+			if( !this.model.get('displayName') ) {
 				var host = Parse.User.current().get('host');
 				var displayName = host.get('firstname') + ' ' + host.get('lastname').charAt(0) + '.';
-				this._in('displayName').val(displayName);	
+				this.$el.find('.username').text(displayName);
+				this.model.set('displayName', displayName);
 			}
 			
 			return this;
 		},
 
-		debugAutofillFields: function() {
-			
-			if( this.model.get('status') == 'creation' ) {
-
-				this._in('about').val('something about me');
-
-			}
-
-		},
-
 		displayProfilePicture: function(url) {
 
-			var tpl = _.template(ThumbPictureTemplate);
-			var tplData = { 
-				id: null, 
-				url: url,
-				canDelete: false,
-				fullWidth: true
-			};
-
-			this.$el.find('.profilePicturePreview').html(tpl(tplData));
+			this.$el.find('button.btn-upload[for="profilePicture"], .picturePreview').show();
+			this.$el.find('div.btn-upload[for="profilePicture"]').hide();
+			this.$el.find('.picturePreview .picture').css({ backgroundImage: 'url('+url+')' });
 
 		},
 
@@ -79,7 +66,7 @@ define([
 
 			}
 
-			this.uploadFile(event, cb, { pdf: false});
+			this.uploadFile(event, cb, { pdf: false });
 
 		},
 
@@ -96,7 +83,6 @@ define([
 
 			var data = {
 				status: "complete",
-				displayName: this._in('displayName').val(),
 				about: this._in('about').val(),
 				profilePicture: this.tempBinaries.profilePicture
 			};
@@ -116,13 +102,14 @@ define([
 						});
 					}
 
+					// ToDo add afterSave in parse cloud to do this
 					var query = new Parse.Query(CaptainRequestModel);
 					query.equalTo('email', Parse.User.current().getEmail());
 					query.each(updateRequest).then(navigate, saveError);
 
 				} else {
 					
-					Parse.history.navigate('dashboard', true);
+					Parse.history.navigate('my-profile', true);
 
 				}
 
