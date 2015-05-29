@@ -1,13 +1,16 @@
 define([
 'parse',
-'text!templates/TopNavigationTemplate.html',
+'text!templates/NavigationTopTemplate.html',
+'text!templates/NavigationLeftTemplate.html',
 'text!templates/ModalTemplate.html',
-], function(Parse, TopNavigationTemplate, ModalTemplate){
+], function(Parse, NavigationTopTemplate, NavigationLeftTemplate, ModalTemplate){
 	var BaseView = Parse.View.extend({
 
 		className: "view-base",
 
-		topNav: _.template(TopNavigationTemplate),
+		navTopTpl: _.template(NavigationTopTemplate),
+		
+		navLeftTpl: _.template(NavigationLeftTemplate),
 
 		modalTpl:  _.template(ModalTemplate),
 
@@ -36,18 +39,25 @@ define([
 				_.extend(data, this.templateData);
 			}
 
-
 			if( this.model ) {
 				_.extend(data, this.model._toFullJSON());
 			}
 
-			console.log(data);
 			if(this.collection) {
 				_.extend(data, { collection: this.collection.toJSON() });
 			} 
 
 			this.$el.html(this.template(data));
-			this.displayTopNav();
+
+			var navTop = this.$el.find('.top-navigation');
+			if( navTop.length == 1 ) {
+				navTop.html(this.navTopTpl());
+			}
+
+			var navLeft = this.$el.find('.left-navigation');
+			if( navLeft.length == 1 ) {
+				navLeft.html(this.navLeftTpl());
+			}
 
 			this.$el.find('[data-toggle="tooltip"]').tooltip();
 
@@ -71,7 +81,7 @@ define([
 
 			var self = this;
 
-			if( this.$el.find('.modal-dialog').length == 1 )
+			if( $('.modal-dialog').length == 1 )
 				return;
 
 			var params = {
@@ -110,7 +120,7 @@ define([
 				_modal.remove();
 			});
 
-			this.$el.append(_modal);
+			$('body').append(_modal);
 
 			_modal.modal();
 
@@ -122,7 +132,7 @@ define([
 				opts = {};
 			}
 
-			var opts = {
+			var _opts = {
 				png: typeof opts.png === "undefined" || opts.png,
 				jpg: typeof opts.jpg === "undefined" || opts.jpg,
 				pdf: typeof opts.pdf === "undefined" || opts.pdf
@@ -133,28 +143,37 @@ define([
 			var parseFile = null;
 			var fieldName = $(event.currentTarget).attr('name');
 
+			self.cleanForm();
 			self.buttonLoader('Uploading...');
+
+			console.log(_opts);
+			
+			if(opts.triggerBtn) {
+				console.log('hey')
+				console.log(opts.triggerBtn);
+				self.buttonLoader('Uploading...', opts.triggerBtn);
+			}
 
 			if( files.length == 1) {
 
-				if( opts.png && files[0].type == 'image/png' ) {
+				if( _opts.png && files[0].type == 'image/png' ) {
 					
 					parseFile = new Parse.File(fieldName+'.png', files[0]);
 
-				} else if( opts.jpg && files[0].type == 'image/jpeg' ) {
+				} else if( _opts.jpg && files[0].type == 'image/jpeg' ) {
 
 					parseFile = new Parse.File(fieldName+'.jpg', files[0]);
 
-				} else if( opts.pdf && files[0].type == 'application/pdf') {
+				} else if( _opts.pdf && files[0].type == 'application/pdf') {
 
 					parseFile = new Parse.File(fieldName+'.pdf', files[0]);
 
 				} else {
 
 					var formats = "";
-					formats += opts.png ? ' PNG' : '';
-					formats += opts.jpg ? ' JPEG' : '';
-					formats += opts.pdf ? ' PDF' : '';
+					formats += _opts.png ? ' PNG' : '';
+					formats += _opts.jpg ? ' JPEG' : '';
+					formats += _opts.pdf ? ' PDF' : '';
 					self.fieldError(fieldName, 'Bad format. Supported formats:'+formats);
 					self.buttonLoader();
 					$(event.target).val('');
@@ -247,16 +266,6 @@ define([
 
 		},
 
-		displayTopNav: function() {
-
-			var tn = this.$el.find('.top-nav');
-
-			if( tn.length == 1 ) {
-				tn.html(this.topNav());
-			}
-
-		},
-
 		getRandomNumber: function(min, max) {
 		
 			return Math.round(Math.random() * (max - min) + min);
@@ -345,19 +354,16 @@ define([
 
 		buttonLoader: function( text, button ) {
 
-			if( !button ) {
-			
-				var button = this.$el.find('[type="submit"]');
-
-			}
 
 			if( text ) {
+
+				if( !button ) var button = this.$el.find('[type="submit"]');
 
 				button.attr('data-loading-text', text).button('loading');
 
 			} else {
 
-				button.button('reset');
+				this.$el.find('[data-loading-text]').button('reset');
 
 			}
 		},

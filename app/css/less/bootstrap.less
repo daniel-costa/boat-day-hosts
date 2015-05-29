@@ -4,13 +4,14 @@
 
 @body-bg:                        white;
 @text-color:                     #546e7a;
-@brand-primary:                  #3ac0bc;
+@brand-primary:                  #00a8bf;
+@brand-primary-bg:               #f4f9fa;
 @font-size-base:                 15px;
 
 @btn-font-weight:                500;
 
-@btn-default-color:              #3ac0bc;
-@btn-default-border:             #3ac0bc;
+@btn-default-color:              @brand-primary;
+@btn-default-border:             @brand-primary;
 @btn-default-bg:                 #fff;
 
 @btn-primary-color:              #fff;
@@ -23,58 +24,33 @@
 @input-border-width:             2px;
 @input-color-placeholder:        @input-color;
 
-@link-color:                     #3ac0bc;
+@link-color:                     @brand-primary;
 
-@headings-color:                 #23a7be;
+@headings-color:                 @brand-primary;
 
 @state-warning-text:             #f86335;
 @state-warning-bg:               transparent;
 @state-warning-border:           transparent;
 
-.btn {
-	border-width: @btn-border-width;
-}
+@tooltip-bg:                     @brand-primary;
 
-.btn-default {
-  border-color: @btn-default-border;
-  color: @btn-default-color;
-  background-color: @btn-default-bg;
-}
+@dashboard-border-color:         #e0ebed;
 
-.btn-default:hover { 
-  border-color: @btn-default-border;
-  color: white;
-  background-color: @btn-default-border;
-}
+// Basics of a navbar
+@navbar-height:                    65px;
+@navbar-border-radius:             0px;
 
-.btn-lg {
-    height: @input-height-large;
-    padding: @padding-large-vertical @padding-large-horizontal;
-    font-size: @font-size-base;
-    line-height: @line-height-large;
-    border-radius: @border-radius-large;
-}
+@navbar-default-color:             red;
+@navbar-default-bg:                transparent;
+@navbar-default-border:            @dashboard-border-color;
 
-.form-control {
-	border-width: @input-border-width;
-  height: 50px;
-  padding: 19px 15px;
-  font-size: @font-size-base;
-  font-weight: 500;
-}
+// Navbar links
+@navbar-default-link-color:                #69878c;
+@navbar-default-link-hover-color:          darken(@navbar-default-link-color, 6.5%);
+@navbar-default-link-hover-bg:             transparent;
 
-select.form-control {
-  -webkit-appearance: none;
-  padding: 0px 15px;
-}
+// Navbar brand label
+@navbar-default-brand-color:               #cbd5d7;
+@navbar-default-brand-hover-color:         #cbd5d7;
 
-.form-horizontal .control-label {
-  text-align: left;
-  font-weight: normal;
-  font-size: 13px;
-  font-weight: 400;
-}
 
-h4 { 
-  font-size: 20px;
-}

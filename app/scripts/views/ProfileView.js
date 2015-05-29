@@ -19,12 +19,19 @@ define([
 		},
 
 		theme: "account",
+
+		displayName: null,
 		
 		initialize: function(){
 
 			if( this.model.get('status') != 'creation' ) {
 				this.tempBinaries.profilePicture = this.model.get('profilePicture');
+			} else {
+				var host = Parse.User.current().get('host');
+				this.displayName = host.get('firstname') + ' ' + host.get('lastname').charAt(0) + '.';				
 			}
+
+
 
 		},
 
@@ -39,12 +46,7 @@ define([
 				this.displayProfilePicture(this.tempBinaries.profilePicture.url());
 			}
 
-			if( !this.model.get('displayName') ) {
-				var host = Parse.User.current().get('host');
-				var displayName = host.get('firstname') + ' ' + host.get('lastname').charAt(0) + '.';
-				this.$el.find('.username').text(displayName);
-				this.model.set('displayName', displayName);
-			}
+			this.$el.find('.username').text(this.displayName);
 			
 			return this;
 		},
@@ -84,8 +86,12 @@ define([
 			var data = {
 				status: "complete",
 				about: this._in('about').val(),
-				profilePicture: this.tempBinaries.profilePicture
+				profilePicture: this.tempBinaries.profilePicture,
 			};
+
+			if( baseStatus == 'creation' ) {
+				data.displayName = self.displayName;
+			}
 
 			var userStatusUpdateSuccess = function() {
 

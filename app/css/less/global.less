@@ -110,3 +110,86 @@
   opacity: 1;
   transform: scale(1);
 }
+
+textarea.form-control { 
+	padding: 10px;
+}
+
+.btn {
+	border-width: @btn-border-width;
+}
+
+.btn-default {
+  border-color: @btn-default-border;
+  color: @btn-default-color;
+  background-color: @btn-default-bg;
+}
+
+.btn-default:hover { 
+  border-color: @btn-default-border;
+  color: white;
+  background-color: @btn-default-border;
+}
+
+.btn-lg {
+    height: @input-height-large;
+    padding: @padding-large-vertical @padding-large-horizontal;
+    font-size: @font-size-base;
+    line-height: 21px;
+    border-radius: @border-radius-large;
+}
+
+.form-control {
+	border-width: @input-border-width;
+  height: 50px;
+  padding: 19px 15px;
+  font-size: @font-size-base;
+  font-weight: 500;
+}
+
+select.form-control {
+  -webkit-appearance: none;
+  padding: 0px 15px;
+}
+
+.form-horizontal .control-label {
+  text-align: left;
+  font-weight: normal;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+h4 { 
+  font-size: 20px;
+}
+
+
+.navbar {
+	border-width: 0px;
+	border-bottom-width: 1px;
+}
+
+
+.navbar-nav > li > a {
+	border-left : 1px solid @navbar-default-border;
+	padding: 25px 30px;
+	font-size: 14px;
+	font-weight: 400;
+}
+
+.navbar a.navbar-brand {
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 14px;
+	padding: 27px 0px;
+}
+
+.navbar-default .navbar-nav > li > a.my-account {
+	color: @brand-primary;
+	font-size: 15px;
+}
+
+.navbar-default .navbar-nav > li > a.sign-out {
+	font-weight: 700;
+	color: #546e7a;
+}

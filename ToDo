@@ -49,27 +49,49 @@ o current 2.1.0
 - (done) Retrieve selected captain and selected boat in boatday view
 - (done) Add Boat, change max capacitiy to available seats (+ add info bubble with sentence from kimon (skype) )
 - (done) Add modal when trying to create a boatday from dashboard and no boats in the account
+- (done) Steps bar in terms and conditions: Put the one with the step 2
+- (done) Steps bar in host sign up: Put the one with the step 3
+- (done) Steps bar in profile creation: Put the one with the step 4
 - (done) Do not allow multiple modals at the same time
+- (done) My Account format the birthdate
+- (done) Add boat name in dashboard for boatdays list
+- (done) Back button on My Account
+- (done) Back button on Help Center
+- (done) Profile does not save the displayName
+- (done) Button dashboard grey button
 
+- Messages page to implement
+- Handle messages (error, infos) in Account theme
+- Handle messages (error, infos) in Guest theme
+- Handle messages (error, infos) in Dashboard theme
+- How to change certifications 	
+- Add Font for titles
+- Auto select Category in Help Center when it comes from the My Account section
 - Boatday, Check if boat not use in this time
 - Boatday, Check if captain not use in this time
-- Add boat name in dashboard for boatdays list
-- check if we can submit multiple times forms
-
 - host app on parse.com
-- Check stripe services
 - Check grunt JS api
-- Clean unused files
+- Change text in help center when feedback sent (ask kimon)
+- Bug sometimes the My Account page doesn't display the displayName
 
+
+o Ask Michelle
 
 
 o Features next release 2.2.0
 - Add notifications panel
 - Add a management système to accept and deny requests from guest (wall, report, etc...)
 - Add total approved guests in dashboard for boatdays list
+- Clean unused files
+- Check stripe services
+- Check if we can submit multiple times forms
+- my-profile add loading text on the change picture button
+- Rating page to implement
 
 
 
 o Features next release v2.3.0
 - Function to force the user re-accepting the terms & conditions
-- Slider price in BoatDayView: the last option after 250$ must be "manual price" and we display a field to add a price manually.
+- Slider price in BoatDayView: the last option after 250$ must be "manual price" and we display a field to add a price manually
+
+

@@ -1,11 +1,14 @@
 define([
 'models/CaptainRequestModel',
+'models/BoatModel',
+'models/BoatDayModel',
 'views/BaseView',
 'views/BoatsTableView',
 'views/BoatDaysTableView',
 'text!templates/DashboardTemplate.html',
 'text!templates/DashboardCaptainRequestRowTemplate.html',
-], function(CaptainRequestModel, BaseView, BoatsTableView, BoatDaysTableView, DashboardTemplate, DashboardCaptainRequestRowTemplate){
+'text!templates/DashboardBoatRowTemplate.html',
+], function(CaptainRequestModel, BoatModel, BoatDayModel, BaseView, BoatsTableView, BoatDaysTableView, DashboardTemplate, DashboardCaptainRequestRowTemplate, DashboardBoatRowTemplate){
 	var DashboardView = BaseView.extend({
 
 		className: "view-dashboard",
@@ -15,30 +18,20 @@ define([
 		events: {
 			'click .captainRequest': 'processCaptainRequest'
 		},
-
-		collectionBoats: null,
-
-		collectionBoatDays: null,
 		
+		captainRequests: {},
+
 		theme: "dashboard",
 
 		processCaptainRequest: function(event) {
 
 			var self = this;
 			var e = $(event.currentTarget);
-			var request = this.captainRequests[e.attr('data-id')];
-			
-			var saveDone = function() {
-
-				self.displayCaptainRequests();
-
-			};
-
-			if(e.is('.accept')) {
-				request.save({ status: 'approved' }).then(saveDone);
-			} else {
-				request.save({ status: 'denied' }).then(saveDone);
-			}
+			this.captainRequests[e.attr('data-id')].save({ 
+				status: e.is('.accept') ? 'approved' : 'denied' 
+			}).then(function() {
+				self.render();
+			});
 			
 		},
 
@@ -48,61 +41,98 @@ define([
 			
 			var self = this;
 
-			var boatsFetchSuccess = function(collection) {
+			self.$el.find('.navbar-brand').text('Home');
 
-				if(collection.length == 0) {
+			self.$el.find('.add-boat, .add-boatday, .my-boats, .my-requests').hide();
 
-					self.$el.find('a.create-boatday').click(function(event) {
+			var boatsFetchSuccess = function(boats) {
 
-						event.preventDefault();
-
-						var cb = function() {
-							Parse.history.navigate('boat/new', true);
-						}
-
-						self.modal({
-							title: 'No boats yet',
-							body: 'Before you can add a BoatDay, you have to add a boat to your blabla.',
-							noButton: false,
-							cancelButtonText: 'Later',
-							yesButtonText: 'Add Boat',
-							yesCb: cb
-						});
-
-					});
+				if(boats.length == 0) {
+					self.$el.find('.add-boat').fadeIn();
+					return;
 				}
 
-				self.collectionBoats = collection;
-				var boatsView = new BoatsTableView({ collection: self.collectionBoats });
-				self.subViews.push(boatsView);
-				self.$el.find('.boats').html(boatsView.render().el);
+				var tpl = _.template(DashboardBoatRowTemplate);
+				var target = self.$el.find('.my-boats .content');
+				target.html('');
+
+				_.each(boats, function(boat) {
+					boat.relation('boatPictures').query().first().then(function(fileholder) {
+						target.append(tpl({
+							id: boat.id,
+							name: boat.get('name'),
+							buildYear: boat.get('buildYear'),
+							type: boat.get('type'),
+							status: boat.get('status'),
+							picture: typeof fileholder !== "undefined" ? fileholder.get('file').url() : 'resources/boat-placeholder.png'
+						}));
+
+						if(_.last(boats) == boat) {
+							self.$el.find('.my-boats').fadeIn();
+						}
+					}, queryFindError);
+				});
+
+				var queryBoats = new Parse.Query(BoatDayModel);
+				queryBoats.equalTo("host", Parse.User.current().get("host"));
+				queryBoats.descending("name");
+				queryBoats.find().then(boatdaysFetchSuccess, queryFindError);
 
 			};
 
-			var boatdaysFetchSuccess = function(collection) {
+			var boatdaysFetchSuccess = function(boatdays) {
 
-				self.collectionBoatDays = collection;
-				var BoatDaysView = new BoatDaysTableView({ collection: collection });
-				self.subViews.push(BoatDaysView);
-				self.$el.find('.boatdays').html(BoatDaysView.render().el);
+				if(boatdays.length == 0) {
+					self.$el.find('.add-boatday').fadeIn();
+					return;
+				}
 
 			};	
 
-			var collectionFetchError = function(error) {
+			var captainRequestsFetchSuccess = function(requests) {
 
-				console.log(error);
+				if(requests.length == 0) {
+					return;
+				}
+				
+ 				var tpl = _.template(DashboardCaptainRequestRowTemplate);
+				var target = self.$el.find('.my-requests .content');
+				target.html('');
+
+				_.each(requests, function(request) {
+					target.append(tpl({
+						id: request.id,
+						displayName: request.get('fromProfile').get('displayName'),
+						profilePicture: request.get('fromProfile').get('profilePicture').url(),
+						boatName: request.get('boat').get('name'),
+						boatType: request.get('boat').get('type')
+					}));
+
+					self.captainRequests[request.id] = request;
+
+					if(_.last(requests) == request) {
+						self.$el.find('.my-requests').fadeIn();
+					}
+ 				});
 
 			};
 
-			var queryBoats = Parse.User.current().get('host').relation('boats').query();
-			queryBoats.descending('name');
-			queryBoats.collection().fetch().then(boatsFetchSuccess, collectionFetchError);
+			var queryFindError = function(error) {
+				console.log(error);
+			};
 
-			var queryBoatDays = Parse.User.current().get('host').relation('boatdays').query();
-			queryBoatDays.ascending('date,departureTime');
-			queryBoatDays.collection().fetch().then(boatdaysFetchSuccess, collectionFetchError);
+			var queryBoats = new Parse.Query(BoatModel);
+			queryBoats.equalTo("host", Parse.User.current().get("host"));
+			queryBoats.descending("name");
+			queryBoats.select("name", "buildYear", "type", "status"); 
+			queryBoats.find().then(boatsFetchSuccess, queryFindError);
 
-			this.displayCaptainRequests();
+			var queryCaptainRequests = new Parse.Query(CaptainRequestModel);
+			queryCaptainRequests.ascending('createdAt');
+			queryCaptainRequests.equalTo('email', Parse.User.current().getEmail());
+			queryCaptainRequests.include('boat');
+			queryCaptainRequests.include('fromProfile');
+			queryCaptainRequests.find().then(captainRequestsFetchSuccess);
 
 			return this;
 
@@ -112,41 +142,7 @@ define([
 			
 			var self = this;
 
-			var captainRequestsFetchSuccess = function(requests) {
-
-				self.$el.find('.captainRequestsHolder').html('');
-				
-				if(requests.length == 0)
-					return;
-
-				var data = { data: [] };
-
-				_.each(requests, function(request) {
-
-					self.captainRequests[request.id] = request;
-
- 					data.data.push({
- 						id: request.id,
-						displayName: request.get('fromProfile').get('displayName'),
-						profilePicture: request.get('fromProfile').get('profilePicture').url(),
-						boatName: request.get('boat').get('name'),
-						boatType: request.get('boat').get('type')
- 					});
- 				});
-
- 				var tpl = _.template(DashboardCaptainRequestRowTemplate);
-
-				self.$el.find('.captainRequestsHolder').html(tpl(data));
-
-			};
-
-			var queryCaptainRequests = new Parse.Query(CaptainRequestModel);
-			queryCaptainRequests.ascending('createdAt');
-			queryCaptainRequests.equalTo('email', Parse.User.current().getEmail());
-			queryCaptainRequests.equalTo('status', 'pending');
-			queryCaptainRequests.include('boat');
-			queryCaptainRequests.include('fromProfile');
-			queryCaptainRequests.find().then(captainRequestsFetchSuccess);
+			
 		}
 
 	});

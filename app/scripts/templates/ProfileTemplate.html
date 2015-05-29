@@ -1,31 +1,36 @@
-<header>
-	<h1 class="text-center">BoatDay - Sign Up</h1>
-	<p class="text-center">Complete now and join BoatDay...</p>
-	<div class="text-center steps">
-		<img src="resources/signup-step-1.png" />
-	</div>
-</header>
+<% if(Parse.User.current().get("status") == 'creation') { %>
+	<header>
+		<h1 class="text-center">BoatDay Sign Up</h1>
+		<p class="text-center">Join the community...</p>
+		<div class="text-center steps">
+			<img src="resources/signup-step-4.png" />
+		</div>
+	</header>
+<% } else { %>
+	<header>
+		<h1 class="text-center">BoatDay Profile</h1>
+		<p class="text-center">Did you know most guests look at the host's profile before requesting a BoatDay?</p>
+	</header>
+<% } %>
 
 <form class="form-horizontal">
 	<div class="container">
-		<div class="row ">
-			<div class="col-left col-lg-8 col-lg-offset-4">
-				<h4 class="text-right">My BoatDay Profile</h4>
+		<div class="row">
+			<div class="col-sm-10">
+				<h4>My BoatDay Profile</h4>
 			</div>
-			<div class="col-right col-lg-8">
+			<div class="col-sm-offset-1 col-sm-10 col-md-8 col-lg-7">
 				<div class="form-group has-feedback">
 
 					<input type="file" class="upload" name="profilePicture"/>
 
-					<label for="profilePicture" class="col-sm-24 control-label">
-						Add Profile Picture
-					</label>
+					<% if(Parse.User.current().get("status") == 'creation') { %>
+						<label for="profilePicture" class="col-sm-24 control-label">
+							Add Profile Picture
+							<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Guests can view this information when picking a BoatDay, be sure to put your best face forward!"></span>
+						</label>
+					<% } %>
 					<div class="col-sm-24 text-center">
-						<!-- <p>
-							It’s not much fun to boat with a landscape! Please upload a photo that clearly shows your face.
-							<a href="resources/profile-good.jpg" target="_blank">Good Example</a>,
-							<a href="resources/profile-bad.jpg" target="_blank">Bad Example</a>
-						</p> -->
 						<div class="picturePreview">
 							<div class="picture"></div>
 						</div>

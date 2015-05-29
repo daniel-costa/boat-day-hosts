@@ -39,6 +39,18 @@ define([
 
 		},
 
+		render: function() {
+
+			BaseView.prototype.render.call(this);
+
+			var self = this;
+			
+			self.$el.find('.navbar-brand').text('BOAT MANAGEMENT');
+
+			return this;
+
+		},
+
 		checkEnter: function(event) {
 
 			if( event.keyCode == 13 ) {

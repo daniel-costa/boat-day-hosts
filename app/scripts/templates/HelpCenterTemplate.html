@@ -1,16 +1,20 @@
 <header>
 	<h1 class="text-center">Help Center</h1>
 	<p class="text-center">
-		Visit our <a href="https://www.boatdayapp.com/faq" target="_blank">FAQ's</a> for answers to common BoatDay questions 
+		Visit our <a href="https://www.boatdayapp.com/faq" target="_blank">FAQ's</a> for answers to common BoatDay questions
 	</p>
+	<div class="text-center"><br/>
+		<a href="#/dashboard" class="btn btn-default btm-xs">Back to Host Center</a>
+	</div>
 </header>
 <form class="form-horizontal">
 	<div class="container">
-		<div class="row ">
-			<div class="col-left col-lg-6 col-lg-offset-6">
-				<h4 class="text-right">Lets create an account</h4>
+
+		<div class="row">
+			<div class="col-sm-10">
+				<h4>What is on your mind?</h4>
 			</div>
-			<div class="col-right col-lg-8">
+			<div class="col-sm-offset-1 col-sm-10 col-md-8 col-lg-7">
 				<div class="form-group has-feedback">
 					<label for="category" class="col-sm-24 control-label">I have a question/comment about..</label>
 					<div class="col-sm-24">
@@ -27,34 +31,59 @@
 						</select>
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-offset-11 col-sm-10 col-md-8 col-lg-7">
 				<div class="form-group has-feedback">
 					<label for="feedback" class="col-sm-24 control-label">Feedback</label>
 					<div class="col-sm-24">
-						<textarea rows="15" name="feedback" id="feedback" class="form-control" placeholder="Tell us whats on your mind..."></textarea>
+						<textarea rows="15" name="feedback" id="feedback" class="form-control"></textarea>
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-offset-11 col-sm-10 col-md-8 col-lg-7">
 				<div class="form-group">
-					<label for="file1" class="col-sm-24 control-label">Attach a file #1 <em>(optional)</em></label>
+					<label for="file1" class="col-sm-24 control-label">File #1 <em>(optional)</em></label>
 					<div class="col-sm-24">
 						<input type="file" class="upload" id="file1" name="file1"/>
-						<button type="button" class="btn btn-default btn-upload" for="file1">Upload File</button>
+						<button type="button" class="btn btn-default btn-upload btn-sm" for="file1">Upload</button>
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-offset-11 col-sm-10 col-md-8 col-lg-7">
 				<div class="form-group">
-					<label for="file2" class="col-sm-24 control-label">Attach a file #2 <em>(optional)</em></label>
+					<label for="file2" class="col-sm-24 control-label">File #2 <em>(optional)</em></label>
 					<div class="col-sm-24">
 						<input type="file" class="upload" id="file2" name="file2"/>
-						<button type="button" class="btn btn-default btn-upload" for="file2">Upload File</button>
+						<button type="button" class="btn btn-default btn-upload btn-sm" for="file2">Upload</button>
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-offset-11 col-sm-10 col-md-8 col-lg-7">
 				<div class="form-group">
-					<label for="feedback" class="col-sm-24 control-label">Attach a file #3 <em>(optional)</em></label>
+					<label for="file3" class="col-sm-24 control-label">File #3 <em>(optional)</em></label>
 					<div class="col-sm-24">
 						<input type="file" class="upload" id="file3" name="file3"/>
-						<button type="button" class="btn btn-default btn-upload" for="file3">Upload File</button>
+						<button type="button" class="btn btn-default btn-upload btn-sm" for="file3">Upload</button>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-block btn-lg btn-primary">Send</button>
+			</div>		
+		</div>
+
+		<div class="row">
+			<div class="col-sm-offset-11 col-sm-10 col-md-8 col-lg-7">
+				<button type="submit" class="btn btn-lg btn-block btn-primary">Send</button>
 			</div>
 		</div>
 	</div>

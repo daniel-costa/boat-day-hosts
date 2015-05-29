@@ -1,4 +1,267 @@
 
 body.theme-dashboard {
-	background-color: red;
+	background-color: @brand-primary-bg;
+}
+
+body.theme-dashboard:before {
+	content: "";
+	position: fixed;
+	top:0px;
+	left: 0px;
+	width: 50%;
+	bottom: 0px;
+	background: white;
+}
+
+body.theme-dashboard:after {
+	content: "";
+	position: fixed;
+	top:0px;
+	left: 50%;
+	bottom: 0px;
+	background: @brand-primary-bg;
+	border-left: 1px solid @dashboard-border-color;
+
+	@media (min-width: @screen-sm-min) {
+		margin-left: -@container-sm / 3;
+		width: @container-sm / 3;
+	}
+
+	@media (min-width: @screen-md-min) {
+		margin-left: -@container-md / 3;
+		width: @container-md / 3;
+	}
+
+	@media (min-width: @screen-lg-min) {
+		margin-left: -@container-lg / 3;
+		width: @container-lg / 3;
+	}
+}
+
+
+body.theme-dashboard .part-right {
+	padding-left: 65px;
+	padding-right: 0px;
+}
+
+body.theme-dashboard .left-navigation { 
+	height: 100%;
+	position:fixed;
+	top: 0px;
+	left:50%;
+	background: white;
+	/*border-left: 1px solid @dashboard-border-color;*/
+	z-index:100;
+
+	@media (min-width: @screen-sm-min) {
+		width: (@container-sm / 24) * 4;
+		margin-left: -@container-sm / 2;
+	}
+
+	@media (min-width: @screen-md-min) {
+		width: (@container-md / 24) * 4;
+		margin-left: -@container-md / 2;
+	}
+
+	@media (min-width: @screen-lg-min) {
+		width: (@container-lg / 24) * 4;
+		margin-left: -@container-lg / 2;
+	}
+}
+
+body.theme-dashboard .left-navigation .nav {
+	width : 100%;
+}
+
+
+body.theme-dashboard .left-navigation a {
+	display:block;
+
+	/*border-bottom: 1px solid @dashboard-border-color;*/
+	line-height: 135px;
+
+	text-align: center;
+	text-transform: uppercase;
+	color : #69878c;
+	font-size: 14px;
+	font-weight: 500;
+	padding: 0px 10px;
+}
+
+body.theme-dashboard .left-navigation a.active {
+	font-weight: 700;
+	border-right: 4px solid @brand-primary;
+	border-top: 1px solid @dashboard-border-color;
+	border-bottom: 1px solid @dashboard-border-color;
+	box-shadow: 0px 2px 2px rgba(224, 235, 237, 0.5);
+}
+
+body.theme-dashboard .left-navigation a.brand {
+	height: auto;
+
+}
+
+body.theme-dashboard .left-navigation a.brand img {
+	max-width: 90px;
+	margin: 50px auto;
+}
+
+body.theme-dashboard .content-highlight { 
+	margin-top: 120px;
+	margin-bottom:30px;
+}
+
+body.theme-dashboard .content-highlight h1 { 
+	font-weight: 200;
+	font-size: 37px;
+	text-align: center;
+	margin: 0px;
+}
+
+body.theme-dashboard .content-highlight h2 { 
+	font-weight: 400;
+	font-size: 20px;
+	text-align: center;
+	color : #69878c;
+	margin: 0px;
+	margin-top: 11px;
+	margin-bottom: 50px;
+}
+
+
+body.theme-dashboard .content-highlight .box { 
+	background: white;
+	box-shadow: 0px 2px 2px #ebebeb;
+	padding: 0px;
+}
+
+body.theme-dashboard .content-highlight .box .left,
+body.theme-dashboard .content-highlight .box .right {
+	height: 146px;
+	line-height: 146px;
+	padding: 0px;
+}
+
+body.theme-dashboard .content-highlight .box .left { 
+	background : url(../resources/placeholder-add-boat.jpg) center center no-repeat;
+	background-size : cover;
+}
+
+body.theme-dashboard .content-highlight .box .right { 
+	text-align: center;
+}
+
+body.theme-dashboard .content-highlight .box .right .btn { 
+	width : 60%;
+}
+
+body.theme-dashboard .dashboard-table {
+	width: 100%;
+	box-shadow: 0px 1px 1px #ebebeb, 1px 0px 1px #ebebeb, -1px 0px 1px #ebebeb, 0px -1px 1px #ebebeb;
+	background: white;
+	margin-bottom: 10px;
+}
+
+body.theme-dashboard h4 {
+	margin-top: 30px;
+}
+
+body.theme-dashboard .dashboard-table td {
+	height: 100px;
+	padding: 0px 30px;
+	border: 1px solid @dashboard-border-color;
+	vertical-align: middle;
+}
+
+body.theme-dashboard .dashboard-table td:first-child {
+	width: 130px;
+	padding: 0px;
+	text-align: center;
+}
+
+body.theme-dashboard .dashboard-table td:first-child.profile {
+	width: 100px;
+}
+
+body.theme-dashboard .dashboard-table td:first-child .obj-thumb {
+	width: 90px;
+	height: 60px;
+	background : center center no-repeat;
+	background-size : cover;
+	display: block;
+	margin: auto;
+}
+
+body.theme-dashboard .dashboard-table td:first-child.profile .obj-thumb {
+	width: 60px;
+	border-radius: 60px;
+}
+
+body.theme-dashboard .dashboard-table td:last-child {
+	text-align: center;
+}
+
+body.theme-dashboard .dashboard-table td label {
+	font-size: 13px;
+	color: #b1bfcc;
+	font-weight: 500px;
+	margin: 0px;
+}
+
+body.theme-dashboard .dashboard-table td p {
+	font-weight: 700;
+	margin: 0px;
+}
+
+body.theme-dashboard .dashboard-table .btn.btn-default { 
+	border-color: @input-border;
+	color: @text-color;
+}
+
+body.theme-dashboard .dashboard-table .btn.btn-default:hover { 
+	background: @input-border;
+	color: white;
+}
+
+body.theme-dashboard [type="radio"]:not(:checked) + label,
+body.theme-dashboard [type="radio"]:checked + label,
+body.theme-dashboard [type="checkbox"]:not(:checked) + label,
+body.theme-dashboard [type="checkbox"]:checked + label {
+  padding-left: 35px;
+  line-height: 22px;
+  padding-top: 0px;
+  margin-bottom: 5px;
+}
+
+body.theme-dashboard [type="radio"]:not(:checked) + label:before,
+body.theme-dashboard [type="radio"]:checked + label:before,
+body.theme-dashboard [type="checkbox"]:not(:checked) + label:before,
+body.theme-dashboard [type="checkbox"]:checked + label:before{
+  width: 22px;
+  height: 22px;
+  border-color: @input-border;
+  border-radius: 22px;
+}
+ 
+/* Aspect général de la coche */
+body.theme-dashboard [type="radio"]:not(:checked) + label:after,
+body.theme-dashboard [type="radio"]:checked + label:after,
+body.theme-dashboard [type="checkbox"]:not(:checked) + label:after,
+body.theme-dashboard [type="checkbox"]:checked + label:after {
+  width: 12px;
+  height: 12px;
+  border-radius: 12px;
+}
+
+body.theme-dashboard .btn-row {
+	border-top: 1px solid @dashboard-border-color;
+	padding: 20px 0px;
+	margin-top: 50px;
+}
+
+body.theme-dashboard .add-block {
+	background: white;
+	box-shadow: 0px 2px 2px #ebebeb;
+	border: 1px solid @dashboard-border-color;
+	padding-top: 50px;
 }

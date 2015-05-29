@@ -9,10 +9,24 @@ define([
 		template: _.template(TermsTemplate),
 
 		events: {
-			"submit form" : "acceptTerms"
+			"submit form" : "acceptTerms",
+			"click .tos-list a": "showTos"
 		},
 
 		theme: "account",
+
+		showTos: function(event) {
+			
+			event.preventDefault();
+
+			this.$el.find('.tos-list .active').removeClass('active');
+			var e = $(event.currentTarget);
+
+			e.parent().addClass('active');
+
+			this.$el.find('.text-item').hide();
+			this.$el.find('.text-item.'+e.attr('for')).show();
+		},
 
 		acceptTerms: function(event){
 

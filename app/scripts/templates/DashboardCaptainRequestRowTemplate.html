@@ -1,34 +1,21 @@
-<div class="panel panel-primary">
-	<div class="panel-heading">
-		<h3 class="panel-title text-center">My Captain Requests</h3>
-	</div>
-	<div class="captainRequests text-center">
-		<!-- <img class="loader" src="resources/loader.gif" /> -->
-		<table class="table" style="margin-bottom:0px">
-			<% if(data.length > 0) { %>
-				<tr>
-					<th colspan="2">Host</th>
-					<th>Boat Name</th>
-					<th>Boat Type</th>
-					<th> </th>
-				</tr>
-				<% _.each(data, function(request) { %>
-					<tr class="text-left">
-						<td style="vertical-align:middle;width:45px;">
-							<div class="profilePicture" style="display:;height:40px;width:40px;background-image:url(<%= request.profilePicture %>)"></div>
-						</td>
-						<td style="vertical-align:middle;"><strong><%= request.displayName %></strong></td>
-						<td style="vertical-align:middle;"><%= request.boatName %></td>
-						<td style="vertical-align:middle;"><%= request.boatType %></td>
-						<td style="vertical-align:middle;cursor:pointer"><a class="captainRequest accept" data-id="<%= request.id %>"><span class="glyphicon glyphicon-ok-circle"></span></a></td>
-						<td style="vertical-align:middle;cursor:pointer"><a class="captainRequest deny" data-id="<%= request.id %>"><span class="glyphicon glyphicon-remove-circle"></span></a></td>
-					</tr>
-				<% }) %>
-			<% } else { %> 
-				<tr>
-					<td>No pending requests</td>
-				</tr>
-			<% } %>
-		</table>
-	</div>
-</div>
+<table class="dashboard-table">
+	<tr>
+		<td class="profile">
+			<div class="obj-thumb" style="background-image:url(<%= profilePicture %>)"></div>
+		</td>
+		<td>
+			<label>From</label>
+			<p><%= displayName %></p>
+		</td>
+		<td>
+			<label>Boat</label>
+			<p>
+				<%= boatName %>, <%= boatType %>, 
+			</p>
+		</td>
+		<td>
+			<a href="#/boat/<%=id%>" class="btn btn-primary">Accept</a>
+			<a href="#/boat/<%=id%>" class="btn btn-danger">Reject</a>
+		</td>
+	</tr>
+</table>
