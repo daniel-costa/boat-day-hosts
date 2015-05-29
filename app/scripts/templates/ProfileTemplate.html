@@ -22,7 +22,7 @@
 			<div class="col-sm-offset-1 col-sm-10 col-md-8 col-lg-7">
 				<div class="form-group">
 
-					<input type="file" class="upload" name="profilePicture"/>
+					<input type="file" class="upload" name="profilePicture" delegate-error-to-button>
 
 					<% if(Parse.User.current().get("status") == 'creation') { %>
 						<label for="profilePicture" class="col-sm-24 control-label">
@@ -34,7 +34,7 @@
 						<div class="picturePreview">
 							<div class="picture"></div>
 						</div>
-						<button type="button" class="btn btn-default btn-upload" for="profilePicture">Change picture</button>
+						<button type="button" class="btn btn-default btn-upload btn-lg btn-block" for="profilePicture">Change picture</button>
 
 						<div class="add-picture btn-upload" for="profilePicture"></div>
 					</div>

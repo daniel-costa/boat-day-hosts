@@ -142,16 +142,17 @@ define([
 			var files = event.target.files;
 			var parseFile = null;
 			var fieldName = $(event.currentTarget).attr('name');
-
+			var btn = self.$el.find('.btn[for="'+fieldName+'"]');
+			
 			self.cleanForm();
 			self.buttonLoader('Uploading...');
 
-			console.log(_opts);
-			
-			if(opts.triggerBtn) {
-				console.log('hey')
-				console.log(opts.triggerBtn);
-				self.buttonLoader('Uploading...', opts.triggerBtn);
+			if( btn.length === 1 ) {
+
+				self.buttonLoader('Uploading...', btn);
+
+				if( btn.hasClass('field-error-flag') )
+					btn.removeClass('field-error-flag');
 			}
 
 			if( files.length == 1) {
@@ -313,6 +314,11 @@ define([
 		fieldError: function(name, message) {
 
 			var field = this._in(name);
+			var attr = field.attr('delegate-error-to-button');
+
+			if( typeof attr !== typeof undefined && attr !== false ) {
+				field = this.$el.find('button[for="'+field.attr('name')+'"]')
+			}
 
 			field.closest('.form-group').addClass("has-error");
 

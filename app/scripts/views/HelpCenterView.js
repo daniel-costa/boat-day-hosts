@@ -32,9 +32,7 @@ define([
 
 			}
 
-			this.uploadFile(event, cb, {
-				triggerBtn: this.$el.find('button[for="'+$(event.currentTarget).attr("name")+'"]')
-			});
+			this.uploadFile(event, cb);
 		},
 
 		sendFeedback: function(event) {
@@ -56,8 +54,8 @@ define([
 
 			var reportSubmitSuccess = function() {
 
-				self._info('Thank you for contacting the BoatDay team, we will get back to you soon.');
 				Parse.history.navigate("dashboard", true);
+				self._info('Thank you for contacting the BoatDay team, we will get back to you soon.');
 
 			};
 

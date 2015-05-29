@@ -31,8 +31,6 @@ define([
 				this.displayName = host.get('firstname') + ' ' + host.get('lastname').charAt(0) + '.';				
 			}
 
-
-
 		},
 
 		render: function() {
@@ -115,7 +113,7 @@ define([
 
 				} else {
 					
-					Parse.history.navigate('my-profile', true);
+					Parse.history.navigate('my-account', true);
 
 				}
 

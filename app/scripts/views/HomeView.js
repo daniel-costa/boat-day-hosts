@@ -55,8 +55,18 @@ define([
 			};
 
 			var logInError = function(error) {
-				self._error(error.message);
+
 				self.buttonLoader();
+				
+				switch(error.code) {
+					case 101:
+						self._error("Invalid email / password");
+						break;
+					default:
+						self._error("An error occured, please try later.");	
+						break;
+				}
+				
 			};
 
 			Parse.User.logIn(this._in('email').val(), this._in('password').val()).then(logInSuccess, logInError);

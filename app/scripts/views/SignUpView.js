@@ -112,7 +112,18 @@ define([
 			var userSignUpError = function( error ) {
 
 				self.buttonLoader();
-				self._error(error.message);
+				console.log(error);
+				switch(error.code) {
+					case 125:
+						self._error("The email address is not valid.");
+						break;
+					case 202:
+						self._error("This email is already taken.");
+						break;
+					default:
+						self._error("An error occured, please try later.");	
+						break;
+				}
 
 			};
 

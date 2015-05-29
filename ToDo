@@ -63,24 +63,29 @@ o current 2.1.0
 - (done) How to change certifications
 - (done) Change color of error fields to orange
 - (done) Take away the X from messages 	
+- (done) delete has-feedback
+- (done) Implement parse messages for SignUp
+- (done) Implement parse messages for SignIn
+- (done) Handle messages (error, infos) in Account theme
+- (done) Handle messages (error, infos) in Guest theme
+- (done) Change text in help center when feedback sent (ask kimon)
 
-- Implement parse messages for SignUp
-- Implement parse messages for SignIn
-- delete has-feedback
-- Messages page to implement
-- Handle messages (error, infos) in Account theme
-- Handle messages (error, infos) in Guest theme
-- Handle messages (error, infos) in Dashboard theme
+- Profile, when adding the picture, if the format is bad, we do not see the error in the UX
 - Add Font for titles
+
+- Messages page to implement
+- Handle messages (error, infos) in Dashboard theme
 - Auto select Category in Help Center when it comes from the My Account section
 - Boatday, Check if boat not use in this time
 - Boatday, Check if captain not use in this time
+- Links in left menu does change to the active one
+- Change boat row in dashboard from tables to cols
+
 - host app on parse.com
 - Check grunt JS api
-- Change text in help center when feedback sent (ask kimon)
 - Add notifications panel
 - about me censored w.e.
-- Help Centger not feedback on button when it's a bad format!
+- Help Center not feedback on button when it's a bad format for file
 
 
 o Ask Michelle
