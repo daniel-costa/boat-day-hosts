@@ -14,8 +14,8 @@ define([
 		events: {
 			"submit form" : "saveProfile",
 			"change [name='profilePicture']": "uploadPicture",
-			"blur [name='about']": "censorField",
-			"click .btn-upload": "clickUpload"
+			"click .btn-upload": "clickUpload",
+			"blur [name='about']": "censorField"
 		},
 
 		theme: "account",

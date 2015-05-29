@@ -3,12 +3,10 @@ define([
 'models/BoatModel',
 'models/BoatDayModel',
 'views/BaseView',
-'views/BoatsTableView',
-'views/BoatDaysTableView',
 'text!templates/DashboardTemplate.html',
 'text!templates/DashboardCaptainRequestRowTemplate.html',
 'text!templates/DashboardBoatRowTemplate.html',
-], function(CaptainRequestModel, BoatModel, BoatDayModel, BaseView, BoatsTableView, BoatDaysTableView, DashboardTemplate, DashboardCaptainRequestRowTemplate, DashboardBoatRowTemplate){
+], function(CaptainRequestModel, BoatModel, BoatDayModel, BaseView, DashboardTemplate, DashboardCaptainRequestRowTemplate, DashboardBoatRowTemplate){
 	var DashboardView = BaseView.extend({
 
 		className: "view-dashboard",
@@ -42,6 +40,7 @@ define([
 			var self = this;
 
 			self.$el.find('.navbar-brand').text('Host Center');
+			self.$el.find('.left-navigation .host-center').addClass('active');
 
 			self.$el.find('.add-boat, .add-boatday, .my-boats, .my-requests').hide();
 

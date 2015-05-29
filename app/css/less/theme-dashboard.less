@@ -1,6 +1,7 @@
 
 body.theme-dashboard {
 	background-color: @brand-primary-bg;
+	padding-bottom: 50px;
 }
 
 body.theme-dashboard:before {
@@ -156,70 +157,71 @@ body.theme-dashboard .content-highlight .box .right .btn {
 	width : 60%;
 }
 
-body.theme-dashboard .dashboard-table {
-	width: 100%;
-	box-shadow: 0px 1px 1px #ebebeb, 1px 0px 1px #ebebeb, -1px 0px 1px #ebebeb, 0px -1px 1px #ebebeb;
-	background: white;
-	margin-bottom: 10px;
-}
 
 body.theme-dashboard h4 {
 	margin-top: 30px;
 }
 
-body.theme-dashboard .dashboard-table td {
-	height: 100px;
-	padding: 0px 30px;
+body.theme-dashboard .dashboard-row {
+	box-shadow: 0px 1px 1px #ebebeb, 1px 0px 1px #ebebeb, -1px 0px 1px #ebebeb, 0px -1px 1px #ebebeb;
+	margin-bottom: 10px;
+}
+
+body.theme-dashboard .dashboard-row .cell {
+	height: 90px;
+	line-height: 90px;
+	padding: 0px 20px;
 	border: 1px solid @dashboard-border-color;
-	vertical-align: middle;
+	vertical-align:middle;
+	background: white;
 }
 
-body.theme-dashboard .dashboard-table td:first-child {
-	width: 130px;
-	padding: 0px;
-	text-align: center;
+body.theme-dashboard .dashboard-row .cell:first-child {
+	padding: 0px 15px;
 }
 
-body.theme-dashboard .dashboard-table td:first-child.profile {
-	width: 100px;
+body.theme-dashboard .dashboard-row .cell:not(:first-child) {
+	border-left:none;
 }
 
-body.theme-dashboard .dashboard-table td:first-child .obj-thumb {
-	width: 90px;
+body.theme-dashboard .dashboard-row .inner {
+	vertical-align:middle;
+	display:inline-block;
+	line-height:normal;
+	width: 100%;
+}
+
+body.theme-dashboard .obj-thumb {
+	width: 100%;
 	height: 60px;
 	background : center center no-repeat;
 	background-size : cover;
-	display: block;
+}
+
+body.theme-dashboard .profile .obj-thumb {
+	width: 60px;
+	border-radius: 60px;
 	margin: auto;
 }
 
-body.theme-dashboard .dashboard-table td:first-child.profile .obj-thumb {
-	width: 60px;
-	border-radius: 60px;
-}
-
-body.theme-dashboard .dashboard-table td:last-child {
-	text-align: center;
-}
-
-body.theme-dashboard .dashboard-table td label {
+body.theme-dashboard .dashboard-row  label {
 	font-size: 13px;
 	color: #b1bfcc;
 	font-weight: 500px;
 	margin: 0px;
 }
 
-body.theme-dashboard .dashboard-table td p {
+body.theme-dashboard .dashboard-row p {
 	font-weight: 700;
 	margin: 0px;
 }
 
-body.theme-dashboard .dashboard-table .btn.btn-default { 
+body.theme-dashboard .dashboard-row .btn.btn-default { 
 	border-color: @input-border;
 	color: @text-color;
 }
 
-body.theme-dashboard .dashboard-table .btn.btn-default:hover { 
+body.theme-dashboard .dashboard-row .btn.btn-default:hover { 
 	background: @input-border;
 	color: white;
 }
@@ -263,8 +265,73 @@ body.theme-dashboard .btn-row {
 body.theme-dashboard .add-block {
 	background: white;
 	box-shadow: 0px 2px 2px #ebebeb;
-	border: 1px solid @dashboard-border-color;
-	padding-top: 50px;
+	border: 1px solid @dashboard-border-color;	
+}
+
+body.theme-dashboard .add-block > .row:not(.heading) {
+	margin-top: 50px;
+}
+
+body.theme-dashboard .add-block .row.file {
+	margin-top: 10px;
+}
+
+body.theme-dashboard .add-block .row.file a {
+	font-weight: 500;
+}
+
+body.theme-dashboard .add-block .row.file .cell {
+	padding: 0px;
+}
+
+body.theme-dashboard .add-block .row.split-top {
+	border-top: 1px solid @dashboard-border-color;
+	padding-top: 65px;
+}
+
+body.theme-dashboard .add-block .row.heading {
+	background : @btn-default-bg;
+	line-height: 86px;
+	color: #b1bfcc;
+	font-size: 15px;
+	font-weight: 500;
+	border-bottom: 1px solid @dashboard-border-color;	
+}
+
+body.theme-dashboard .add-block .row.heading .form-group {
+	margin-bottom : 0px;
+}
+
+body.theme-dashboard .add-block .boat-picture {
+	padding: 0px;
+}
+
+body.theme-dashboard .add-block .inner {
+	margin: 2px 2px;
+}
+
+body.theme-dashboard .add-block .boat-picture .obj-thumb:hover {
+	cursor: pointer;
+}
+
+body.theme-dashboard .add-block .boat-picture .obj-thumb:hover:after {
+	content: 'Delete';
+	color: white;
+	top:0px;
+	left:0px;
+	right: 0px;
+	bottom:0px;
+	line-height:60px;
+	font-size:10px;
+	text-transform: uppercase;
+	text-align: center;
+	position: absolute;
+	background: rgba(0, 168, 191, 0.60);
+}
+
+body.theme-dashboard .add-block p {
+	color: #b1bfcc;
+	font-weight: 500;
 }
 
 body.theme-dashboard label.control-label {

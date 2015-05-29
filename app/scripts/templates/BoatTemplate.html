@@ -12,165 +12,270 @@
 	<div class="row">
 		<div class="part-right col-lg-20 col-lg-offset-4">
 
+			<!--
 			<h4>
 				<%= status == 'creation' ? 'Add a new boat' : '' %>
 				<%= status == 'editing' ? 'Boat waiting for submition' : '' %>
 				<%= status == 'complete' ? 'Boat in review' : '' %>
 			</h4>
+		-->
 
 			<form class="form-horizontal">
 				<div class="container-fluid add-block">
-					<div class="row">
-						<div class="col-sm-9 col-sm-offset-2">
-							<div class="form-group">
-								<label for="name" class="control-label">Boat Name</label>
-								<div>
-									<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="what she`s called" <%= ro %>>
+
+					<% if( status == 'creation') { %>
+						<div class="row">
+							<div class="col-sm-9 col-sm-offset-2">
+								<div class="form-group">
+									<label for="name" class="control-label">Boat Name</label>
+									<div>
+										<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="what she`s called" <%= ro %>>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-9 col-sm-offset-2">
+								<div class="form-group">
+									<label for="type" class="control-label">Type of Boat </label>
+									<div>
+										<input type="text" value="<%= type ? type : '' %>" class="form-control" id="type" name="type" placeholder="maker of your boat" <%= ro %>>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-9 col-sm-offset-2">
-							<div class="form-group">
-								<label for="type" class="control-label">Type of Boat </label>
-								<div>
-									<input type="text" value="<%= type ? type : '' %>" class="form-control" id="type" name="type" placeholder="maker of your boat" <%= ro %>>
+						<div class="row">
+							<div class="col-sm-5 col-sm-offset-2">
+								<div class="form-group">
+									<label for="hullID" class="control-label">Hull ID (HIN)</label>
+									<div>
+										<input type="text" value="<%= hullID ? hullID : '' %>" class="form-control" id="hullID" name="hullID" placeholder="### ##### ####" <%= ro %>>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-sm-3 col-sm-offset-1">
+								<div class="form-group">
+									<label for="buildYear" class="control-label">Build Year</label>
+									<div>
+										<input type="text" value="<%= buildYear ? buildYear : '' %>" class="form-control" id="buildYear" name="buildYear" <%= ro %>>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-sm-2  col-sm-offset-2">
+								<div class="form-group">
+									<label for="length" class="control-label">Length (ft)</label>		
+									<div>
+										<input type="text" value="<%= length ? length : '' %>" class="form-control" id="length" name="length" placeholder="" <%= ro %>>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-sm-2  col-sm-offset-1">
+								<div class="form-group">
+									<label for="capacity" class="control-label">
+										Capacity
+										<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-container="body" data-placement="top" title="The number of people that fit on-board your boat"></span>
+									</label>
+									<div>
+										<input type="text" value="<%= capacity ? capacity : '' %>" class="form-control" id="capacity" name="capacity" placeholder="" <%= ro %>>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-5 col-sm-offset-2">
-							<div class="form-group">
-								<label for="hullID" class="control-label">Hull ID (HIN)</label>
-								<div>
-									<input type="text" value="<%= hullID ? hullID : '' %>" class="form-control" id="hullID" name="hullID" placeholder="### ##### ####" <%= ro %>>
+						<div class="row">
+							<div class="col-sm-20 col-sm-offset-2">
+								<div class="form-group">
+									<label class="control-label">Boat Features</label>
+								</div>
+							</div>
+							<div class="col-sm-20 col-sm-offset-2">
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureAirConditioning" name="featureAirConditioning" class="boatfeatures" <%= features.airConditioning ? 'checked' : '' %> <%= ro %>>
+									<label for="featureAirConditioning" class="control-label">Air Conditioning </label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureAutopilot" name="featureAutopilot" class="boatfeatures" <%= features.autopilot ? 'checked' : '' %> <%= ro %>>
+									<label for="featureAutopilot" class="control-label">Autopilot </label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureCooler" name="featureCooler" class="boatfeatures" <%= features.cooler ? 'checked' : '' %> <%= ro %>>
+									<label for="featureCooler" class="control-label">Cooler</label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureDepthFinder" name="featureDepthFinder" class="boatfeatures" <%= features.depthFinder ? 'checked' : '' %> <%= ro %>>
+									<label for="featureDepthFinder" class="control-label">Depth Finder </label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureFishFinder" name="featureFishFinder" class="boatfeatures" <%= features.fishFinder ? 'checked' : '' %> <%= ro %>>
+									<label for="featureFishFinder" class="control-label">Fish Finder  </label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureGps" name="featureGps" class="boatfeatures" <%= features.gps ? 'checked' : '' %> <%= ro %>>
+									<label for="featureGps" class="control-label">GPS</label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureGrill" name="featureGrill" class="boatfeatures" <%= features.grill ? 'checked' : '' %> <%= ro %>>
+									<label for="featureGrill" class="control-label">Grill</label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureInternet" name="featureInternet" class="boatfeatures" <%= features.internet ? 'checked' : '' %> <%= ro %>>
+									<label for="featureInternet" class="control-label">Internet </label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureLiveBaitWell" name="featureLiveBaitWell" class="boatfeatures" <%= features.liveBaitWell ? 'checked' : '' %> <%= ro %>>
+									<label for="featureLiveBaitWell" class="control-label">Live Bait Well </label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureMicrowave" name="featureMicrowave" class="boatfeatures" <%= features.microwave ? 'checked' : '' %> <%= ro %>>
+									<label for="featureMicrowave" class="control-label">Microwave</label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureRefrigeration" name="featureRefrigeration" class="boatfeatures" <%= features.refrigeration ? 'checked' : '' %> <%= ro %>>
+									<label for="featureRefrigeration" class="control-label">Refrigeration</label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureRodHolder" name="featureRodHolder" class="boatfeatures" <%= features.rodHolder ? 'checked' : '' %> <%= ro %>>
+									<label for="featureRodHolder" class="control-label">Rod Holder </label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureShower" name="featureShower" class="boatfeatures" <%= features.shower ? 'checked' : '' %> <%= ro %>>
+									<label for="featureShower" class="control-label">Shower</label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureSink" name="featureSink" class="boatfeatures" <%= features.sink ? 'checked' : '' %> <%= ro %>>
+									<label for="featureSink" class="control-label">Sink</label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureStereo" name="featureStereo" class="boatfeatures" <%= features.stereo ? 'checked' : '' %> <%= ro %>>
+									<label for="featureStereo" class="control-label">Stereo </label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureStereoAuxInput" name="featureStereoAuxInput" class="boatfeatures" <%= features.stereoAuxInput ? 'checked' : '' %> <%= ro %>>
+									<label for="featureStereoAuxInput" class="control-label">Stereo Aux Input</label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureSonar" name="featureSonar" class="boatfeatures" <%= features.sonar ? 'checked' : '' %> <%= ro %>>
+									<label for="featureSonar" class="control-label">Sonar</label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureSwimLadder" name="featureSwimLadder" class="boatfeatures" <%= features.swimLadder ? 'checked' : '' %> <%= ro %>>
+									<label for="featureSwimLadder" class="control-label">Swim Ladder</label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureTvDvd" name="featureTvDvd" class="boatfeatures" <%= features.tvDvd ? 'checked' : '' %> <%= ro %>>
+									<label for="featureTvDvd" class="control-label">TV/DVD </label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureTrollingMotor" name="featureTrollingMotor" class="boatfeatures" <%= features.trollingMotor ? 'checked' : '' %> <%= ro %>>
+									<label for="featureTrollingMotor" class="control-label">Trolling Motor</label>
+								</div>
+								<div class="col-sm-6">
+									<input type="checkbox" id="featureWakeboardTower" name="featureWakeboardTower" class="boatfeatures" <%= features.wakeboardTower ? 'checked' : '' %> <%= ro %>>
+									<label for="featureWakeboardTower" class="control-label">Wakeboard Tower </label>
+								</div>
+							</div>
+						</div>
+					<% } else { %>
+						<div class="row heading">
+							<div class="col-sm-16 col-sm-offset-2">
+								<div class="form-group">	
+									Name &amp; Amenities
+								</div>
+							</div>
+							<div class="col-sm-5 text-right">
+								<div class="form-group">
+									<img src="resources/check.png" />
+								</div>
+							</div>
+						</div>
+					<% } %>
+
+
+					<% if( status == 'editing') { %>
+						<div class="row">
+							<div class="col-sm-9 col-sm-offset-2">
+								<div class="form-group">
+									<label class="control-label">Add photos</label>
+									<p>Guests browse photos to get a feel for your boat, be sure to put your best photo first. <a href="resources/boat-good.jpg" target="_blank">Good Example</a>, <a href="resources/boat-bad.jpg" target="_blank">Bad Example</a>.</p>
+								</div>
+							</div>
+							<div class="col-sm-9 col-sm-offset-2">
+								<div class="form-group">
+									<input type="file" class="upload" id="boat-picture" name="boat-picture" delegate-error-to-button>
+									<button type="button" class="btn btn-default btn-block btn-lg btn-upload boat-picture" for="boat-picture">Add a photo</button>
+									<div class="container-fluid">
+										<div class="row file picture-files"></div>
+									</div>
 								</div>
 							</div>
 						</div>
 
-						<div class="col-sm-3 col-sm-offset-1">
-							<div class="form-group">
-								<label for="buildYear" class="control-label">Build Year</label>
-								<div>
-									<input type="text" value="<%= buildYear ? buildYear : '' %>" class="form-control" id="buildYear" name="buildYear" <%= ro %>>
+						<div class="row split-top">
+							<div class="col-sm-9 col-sm-offset-2">
+								<div class="form-group">
+									<label class="control-label">Proofs of insurance</label>
+									<p>Proof of insurance must clearly display: Name(s) of Insured, Insurance Carrier, Coverage Type and Amounts, Expiration Date and Hull ID.   (acceptable formats = .pdf, .jpeg, .png). Learn more <a href="https://www.boatdayapp.com/faq" target="_blank">here</a>.</p>
+								</div>
+							</div>
+							<div class="col-sm-9 col-sm-offset-2">
+								<div class="form-group">
+									<input type="file" class="upload" id="insurance-file" name="insurance-file" delegate-error-to-button>
+									<button type="button" class="btn btn-default btn-block btn-lg btn-upload insurance-file" for="insurance-file">Add file</button>
+									<div class="container-fluid insurance-files"></div>
+								</div>
+							</div>
+						</div>
+					<% } %>
+
+					<% if( status == 'complete') { %>
+						<div class="row heading">
+							<div class="col-sm-16 col-sm-offset-2">
+								<div class="form-group">	
+									Boat Pictures &amp; Insurance
+								</div>
+							</div>
+							<div class="col-sm-5 text-right">
+								<div class="form-group">
+									<img src="resources/check.png" />
+								</div>
+							</div>
+						</div>
+						<div class="row heading">
+							<div class="col-sm-16 col-sm-offset-2">
+								<div class="form-group">	
+									Review from BoatDay Team
+								</div>
+							</div>
+							<div class="col-sm-5 text-right">
+								<div class="form-group">
+									Pending
 								</div>
 							</div>
 						</div>
 
-						<div class="col-sm-2  col-sm-offset-2">
-							<div class="form-group">
-								<label for="length" class="control-label">Length (ft)</label>		
-								<div>
-									<input type="text" value="<%= length ? length : '' %>" class="form-control" id="length" name="length" placeholder="" <%= ro %>>
+						<div class="row">
+							<div class="col-sm-9 col-sm-offset-2">
+								<div class="form-group">
+									<label class="control-label">Captains of your boat</label>
+									<p>Have a captain you trust to drive your Boat? Add his or her email below and invite them to captain your BoatDays. Learn more <a href="https://www.boatdayapp.com/faq" target="_blank">here</a>.</p>
 								</div>
 							</div>
-						</div>
 
-						<div class="col-sm-2  col-sm-offset-1">
-							<div class="form-group">
-								<label for="capacity" class="control-label">
-									Capacity
-									<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-container="body" data-placement="top" title="The number of people that fit on-board your boat"></span>
-								</label>
-								<div>
-									<input type="text" value="<%= capacity ? capacity : '' %>" class="form-control" id="capacity" name="capacity" placeholder="" <%= ro %>>
+							<div class="col-sm-9 col-sm-offset-2">
+								<div class="form-group">
+									<div class="input-group">
+										<input type="text" class="form-control" name="captain-email" />
+										<span class="input-group-btn">
+											<button class="btn btn-default btn-lg add-captain" type="button">Invite</button>
+										</span>
+									</div>
+									<div class="captains-list container-fluid"></div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-20 col-sm-offset-2">
-							<div class="form-group">
-								<label class="control-label">Boat Features</label>
-							</div>
-						</div>
-						<div class="col-sm-20 col-sm-offset-2">
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureAirConditioning" name="featureAirConditioning" class="boatfeatures" <%= features.airConditioning ? 'checked' : '' %> <%= ro %>>
-								<label for="featureAirConditioning" class="control-label">Air Conditioning </label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureAutopilot" name="featureAutopilot" class="boatfeatures" <%= features.autopilot ? 'checked' : '' %> <%= ro %>>
-								<label for="featureAutopilot" class="control-label">Autopilot </label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureCooler" name="featureCooler" class="boatfeatures" <%= features.cooler ? 'checked' : '' %> <%= ro %>>
-								<label for="featureCooler" class="control-label">Cooler</label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureDepthFinder" name="featureDepthFinder" class="boatfeatures" <%= features.depthFinder ? 'checked' : '' %> <%= ro %>>
-								<label for="featureDepthFinder" class="control-label">Depth Finder </label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureFishFinder" name="featureFishFinder" class="boatfeatures" <%= features.fishFinder ? 'checked' : '' %> <%= ro %>>
-								<label for="featureFishFinder" class="control-label">Fish Finder  </label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureGps" name="featureGps" class="boatfeatures" <%= features.gps ? 'checked' : '' %> <%= ro %>>
-								<label for="featureGps" class="control-label">GPS</label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureGrill" name="featureGrill" class="boatfeatures" <%= features.grill ? 'checked' : '' %> <%= ro %>>
-								<label for="featureGrill" class="control-label">Grill</label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureInternet" name="featureInternet" class="boatfeatures" <%= features.internet ? 'checked' : '' %> <%= ro %>>
-								<label for="featureInternet" class="control-label">Internet </label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureLiveBaitWell" name="featureLiveBaitWell" class="boatfeatures" <%= features.liveBaitWell ? 'checked' : '' %> <%= ro %>>
-								<label for="featureLiveBaitWell" class="control-label">Live Bait Well </label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureMicrowave" name="featureMicrowave" class="boatfeatures" <%= features.microwave ? 'checked' : '' %> <%= ro %>>
-								<label for="featureMicrowave" class="control-label">Microwave</label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureRefrigeration" name="featureRefrigeration" class="boatfeatures" <%= features.refrigeration ? 'checked' : '' %> <%= ro %>>
-								<label for="featureRefrigeration" class="control-label">Refrigeration</label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureRodHolder" name="featureRodHolder" class="boatfeatures" <%= features.rodHolder ? 'checked' : '' %> <%= ro %>>
-								<label for="featureRodHolder" class="control-label">Rod Holder </label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureShower" name="featureShower" class="boatfeatures" <%= features.shower ? 'checked' : '' %> <%= ro %>>
-								<label for="featureShower" class="control-label">Shower</label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureSink" name="featureSink" class="boatfeatures" <%= features.sink ? 'checked' : '' %> <%= ro %>>
-								<label for="featureSink" class="control-label">Sink</label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureStereo" name="featureStereo" class="boatfeatures" <%= features.stereo ? 'checked' : '' %> <%= ro %>>
-								<label for="featureStereo" class="control-label">Stereo </label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureStereoAuxInput" name="featureStereoAuxInput" class="boatfeatures" <%= features.stereoAuxInput ? 'checked' : '' %> <%= ro %>>
-								<label for="featureStereoAuxInput" class="control-label">Stereo Aux Input</label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureSonar" name="featureSonar" class="boatfeatures" <%= features.sonar ? 'checked' : '' %> <%= ro %>>
-								<label for="featureSonar" class="control-label">Sonar</label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureSwimLadder" name="featureSwimLadder" class="boatfeatures" <%= features.swimLadder ? 'checked' : '' %> <%= ro %>>
-								<label for="featureSwimLadder" class="control-label">Swim Ladder</label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureTvDvd" name="featureTvDvd" class="boatfeatures" <%= features.tvDvd ? 'checked' : '' %> <%= ro %>>
-								<label for="featureTvDvd" class="control-label">TV/DVD </label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureTrollingMotor" name="featureTrollingMotor" class="boatfeatures" <%= features.trollingMotor ? 'checked' : '' %> <%= ro %>>
-								<label for="featureTrollingMotor" class="control-label">Trolling Motor</label>
-							</div>
-							<div class="col-sm-6">
-								<input type="checkbox" id="featureWakeboardTower" name="featureWakeboardTower" class="boatfeatures" <%= features.wakeboardTower ? 'checked' : '' %> <%= ro %>>
-								<label for="featureWakeboardTower" class="control-label">Wakeboard Tower </label>
-							</div>
-						</div>
-					</div>
+					<% } %>
+
+
 					<div class="row btn-row">
 						<div class="col-xs-24 text-center">
 							<% if( status == 'creation') { %>
@@ -182,8 +287,9 @@
 							<% } %>
 
 							<% if( status == 'complete') { %>
-								<strong>The BoatDay Team is reviewing your boat</strong>
+								<a class="btn btn-default btn-lg" href="#/dashboard">Back to the Host Center</a>
 							<% } %>
+
 							<div class="display-messages text-center"></div>
 						</div>
 					</div>
@@ -193,108 +299,3 @@
 		</div>
 	</div>
 </div>
-
-
-
-				<% if( status != 'creation' ) { %>
-
-					<div class="panel-heading">
-						<h3 class="panel-title text-center">Boat Photo(s)</h3>
-					</div>
-
-
-					<div class="panel-body">
-						<% if( status == 'editing' ) { %>
-							<div class="form-group">
-								<div class="col-sm-24" style="margin-bottom:0px">
-									<div class="alert-info alert" style="margin:0px auto;">
-										<span class="glyphicon glyphicon-info-sign"></span> 
-										Guests browse photos to get a feel for your boat, be sure to put your best photo first. <a href="resources/boat-good.jpg" target="_blank">Good Example</a>, <a href="resources/boat-bad.jpg" target="_blank">Bad Example</a>.
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="boatPictures" class="col-sm-6 control-label">Upload photos</label>
-								<div class="col-sm-8" >
-									<input type="file" class="form-control" name="boatPictures" style="color:transparent"/>
-								</div>
-							</div>
-						<% } %>
-						<div class="row boatPictures" style="line-height:auto; height:auto">
-
-						</div>
-					</div>
-
-					<div class="panel-heading">
-						<h3 class="panel-title text-center">Proof of Insurance</h3>
-					</div>
-					
-
-					<% if( status == 'editing' ) { %>
-						<div class="panel-body">
-							<div class="form-group" style="margin-bottom:0px">
-								<div class="col-sm-24">
-									<div colspan="3" class="alert alert-info">
-										<span class="glyphicon glyphicon-info-sign"></span> 
-										Proof of insurance must clearly display: Name(s) of Insured, Insurance Carrier, Coverage Type and Amounts, Expiration Date and Hull ID.   (acceptable formats = .pdf, .jpeg, .png). Learn more <a href="https://www.boatdayapp.com/faq" target="_blank">here</a>.
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="insurance" class="col-sm-6 control-label">Upload a file</label>
-								<div class="col-sm-8">
-									<input type="file" class="form-control" name="insurance" style="color:transparent"/>
-								</div>
-							</div>
-						</div>
-					<% } %>
-
-					<table class="table">
-						<thead>
-							<tr>
-								<td>File</td>
-								<td>Upload date</td>
-								<td>ID</td>
-							</tr>
-						</thead>
-						<tbody class="proofOfInsurance">
-						</tbody>
-					</table>
-
-					<div class="panel-heading" style="margin-top:30px;">
-						<h3 class="panel-title text-center">Captains of your boat</h3>
-					</div>
-					<div class="panel-body">
-						<div class="form-group" style="margin-bottom:0px">
-							<div class="col-sm-24">
-								<div class="alert-info alert">
-									<span class="glyphicon glyphicon-info-sign"></span> 
-									Have a captain you trust to drive your Boat? Add his or her email below and invite them to captain your BoatDays. Learn more <a href="https://www.boatdayapp.com/faq" target="_blank">here</a>.
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="insurance" class="col-sm-6 control-label">Email</label>
-							<div class="col-sm-8">
-								<input type="text" class="form-control" name="captain-email" />
-							</div>
-							<div class="col-sm-5">
-								<button type="button" class="btn btn-default btn-block add-captain">Add captain</button>
-							</div>
-						</div>
-					</div>
-
-					<table class="table">
-						<thead>
-							<tr>
-								<td>Email</td>
-								<td>Status</td>
-							</tr>
-						</thead>
-						<tbody class="captainsList">
-
-						</tbody>
-					</table>
-
-				<% } %>
-

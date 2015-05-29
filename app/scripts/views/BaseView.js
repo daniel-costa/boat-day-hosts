@@ -151,8 +151,6 @@ define([
 
 				self.buttonLoader('Uploading...', btn);
 
-				if( btn.hasClass('field-error-flag') )
-					btn.removeClass('field-error-flag');
 			}
 
 			if( files.length == 1) {
@@ -219,7 +217,8 @@ define([
 
 		censorLinksFronString: function(str) {
 
-			var pattern = /[a-zA-Z]*[:\/\/]*[A-Za-z0-9\-_]+\.+[A-Za-z0-9\.\/%&=\?\-_]+/ig;
+			// var pattern = /[a-zA-Z]*[:\/\/]*[A-Za-z0-9\-_]+\.+[A-Za-z0-9\.\/%&=\?\-_]+/ig;
+			var pattern = /\b(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/ig;
 			var replacement = "[censored]";
 			return str.replace(pattern, replacement);
 
@@ -332,7 +331,8 @@ define([
 				var params = { 
 					container: 'body',
 					content: message,
-					trigger: 'manual'
+					trigger: 'manual',
+					placement: 'top'
 				};
 
 				if( field.hasClass('field-error-flag') ) {
@@ -351,7 +351,7 @@ define([
 		},
 
 		cleanForm: function() {
-
+			this.$el.find('.btn.field-error-flag').removeClass('field-error-flag');
 			this.$el.find('.display-messages').html('');
 			this.$el.find('.field-error-auto').remove();
 			this.$el.find('.has-error').removeClass('has-error has-feedback');

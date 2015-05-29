@@ -70,36 +70,46 @@ o current 2.1.0
 - (done) Handle messages (error, infos) in Guest theme
 - (done) Change text in help center when feedback sent (ask kimon)
 - (done) Add Font for titles
+- (done) Profile, when adding the picture, if the format is bad, we do not see the error in the UX
+- (done) Handle messages (error, infos) in Dashboard theme
+- (done) Auto select Category in Help Center when it comes from the My Account section
+- (done) Links in left menu does change to the active one
+- (done) Change boat row in dashboard from tables to cols
+- (done) Help Center not feedback on button when it's a bad format for file
+- (done) delete insurance in boat page
+- (done) Message after adding a boat ?
+- (done) about me censored w.e.
+- (done) Clean unused files
+- (done) my-profile add loading text on the change picture button - no need
+- (done) render boat after saving
 
-- Profile, when adding the picture, if the format is bad, we do not see the error in the UX
-
+- Optimize Boat: when deleting a captain, do not featch everything.
+- Optimize Boat: when adding a captain, do not featch everything.
+- Optimize Boat: when deleting a picture, do not featch everything.
+- Optimize Boat: when adding a picture, do not featch everything.
+- Optimize Boat: when deleting a insurance, do not featch everything.
+- Optimize Boat: when adding a insurance, do not featch everything.
 - Messages page to implement
-- Handle messages (error, infos) in Dashboard theme
-- Auto select Category in Help Center when it comes from the My Account section
 - Boatday, Check if boat not use in this time
 - Boatday, Check if captain not use in this time
-- Links in left menu does change to the active one
-- Change boat row in dashboard from tables to cols
-
+- My Profile, back button
+- Open file in boat _blank target
 - host app on parse.com
 - Check grunt JS api
 - Add notifications panel
-- about me censored w.e.
-- Help Center not feedback on button when it's a bad format for file
+- Boat Row in dashboard, make cells disapear and resize columns
 
 
 o Ask Michelle
-
+- 
 
 
 
 o Features next release 2.2.0
 - Add a management système to accept and deny requests from guest (wall, report, etc...)
 - Add total approved guests in dashboard for boatdays list
-- Clean unused files
 - Check stripe services
 - Check if we can submit multiple times forms
-- my-profile add loading text on the change picture button
 - Rating page to implement
 
 

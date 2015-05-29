@@ -3,10 +3,10 @@ define([
 'models/CaptainRequestModel',
 'views/BaseView',
 'text!templates/BoatTemplate.html',
-'text!templates/ThumbPictureTemplate.html',
-'text!templates/ProofOFInsuranceTemplate.html',
-'text!templates/CaptainsTableTemplate.html'
-], function(FileHolderModel, CaptainRequestModel, BaseView, BoatTemplate, ThumbPictureTemplate, ProofOFInsuranceTemplate, CaptainsTableTemplate){
+'text!templates/BoatPictureTemplate.html',
+'text!templates/BoatInsuranceTemplate.html',
+'text!templates/BoatCaptainTemplate.html'
+], function(FileHolderModel, CaptainRequestModel, BaseView, BoatTemplate, BoatPictureTemplate, BoatInsuranceTemplate, BoatCaptainTemplate){
 	var BoatView = BaseView.extend({
 
 		className: "view-boat",
@@ -17,10 +17,11 @@ define([
 
 		events: {
 			"submit form" : "save",
-			"change [name='boatPictures']": "uploadBoatPicture",
-			"change [name='insurance']": "uploadInsurance",
+			"change .upload": "uploadNewFile",
+			"click .btn-upload": "clickUpload",
 			"keypress [name='captain-email']": 'checkEnter',
 			"click .delete-picture": 'deleteBoatPicture',
+			"click .delete-insurance": 'deleteInsurance',
 			"click .add-captain": "addCaptain"
 		},
 
@@ -47,6 +48,7 @@ define([
 			var self = this;
 			
 			self.$el.find('.navbar-brand').text('BOAT MANAGEMENT');
+			self.$el.find('.left-navigation .new-boat').addClass('active');
 
 			return this;
 
@@ -64,12 +66,12 @@ define([
 			
 			var self = this;
 			
-			self.$el.find('.captainsList').html('');
+			self.$el.find('.captains-list').html('');
 			
-			var tpl = _.template(CaptainsTableTemplate);
+			var tpl = _.template(BoatCaptainTemplate);
 
 			var displayObject = function( captain ) {
-				self.$el.find('.captainsList').append(tpl({ 
+				self.$el.find('.captains-list').append(tpl({ 
 					id: captain.id, 
 					email: captain.get('email'),
 					status: captain.get('status')
@@ -90,18 +92,16 @@ define([
 			
 			var self = this;
 
-			self.$el.find('.boatPictures').html('');
+			self.$el.find('.picture-files').html('');
 			self.boatPictures = {};
 
-			var tpl = _.template(ThumbPictureTemplate);
+			var tpl = _.template(BoatPictureTemplate);
 
 			var displayAll = function(matches) {
 				_.each(matches, function( fh ) {	
-					self.$el.find('.boatPictures').append(tpl({ 
-						id: fh.id, 
-						url: fh.get('file').url(),
-						canDelete: self.model.get('status') == 'editing',
-						fullWidth: false
+					self.$el.find('.picture-files').append(tpl({ 
+						id: fh.id,
+						file: fh.get('file')
 					}));
 					self.boatPictures[fh.id] = fh;
 				});
@@ -116,21 +116,19 @@ define([
 			
 			var self = this;
 
-			self.$el.find('.proofOfInsurance').html('');
+			self.$el.find('.insurance-files').html('');
+			self.proofOfInsurance = {};
 
-			var tpl = _.template(ProofOFInsuranceTemplate);
-
-			var displayObject = function( fh ) {		
-				self.$el.find('.proofOfInsurance').append(tpl({ 
-					id: fh.id, 
-					url: fh.get('file').url(),
-					createdAt: fh.createdAt
-				}));
-				self.proofOfInsurance[fh.id] = fh;
-			};
+			var tpl = _.template(BoatInsuranceTemplate);
 
 			var displayAll = function(matches) {
-				_.each(matches, displayObject);
+				_.each(matches, function( fh ) {		
+					self.$el.find('.insurance-files').append(tpl({ 
+						id: fh.id,
+						file: fh.get('file')
+					}));
+					self.proofOfInsurance[fh.id] = fh;
+				});
 			};
 
 			var query = self.model.relation('proofOfInsurance').query();
@@ -141,10 +139,18 @@ define([
 		deleteBoatPicture: function(event) {
 			event.preventDefault();
 			var self = this;
-			var fid = $(event.currentTarget).attr('file-id');
-			self.model.relation('boatPictures').remove(self.boatPictures[fid]);
+			self.model.relation('boatPictures').remove(self.boatPictures[$(event.currentTarget).attr('file-id')]);
 			self.model.save().then(function() {
 				self.displayBoatPictures();
+			});
+		},
+
+		deleteInsurance: function(event) {
+			event.preventDefault();
+			var self = this;
+			self.model.relation('proofOfInsurance').remove(self.proofOfInsurance[$(event.currentTarget).attr('file-id')]);
+			self.model.save().then(function() {
+				self.displayProofOfInsurance();
 			});
 		},
 
@@ -154,15 +160,15 @@ define([
 
 			var self = this;
 			var addCaptainButton = self.$el.find('button.add-captain');
+
 			self.buttonLoader('Adding Captain...', addCaptainButton);
 			self.buttonLoader('Adding Captain...');
 			self.cleanForm();
 
 			if( !self.isEmailValid(self._in('captain-email').val()) ) {
 				self.fieldError('captain-email', 'Oops.. The email doesn\'t seem valid.');
-					self.buttonLoader(false, addCaptainButton);
 				self.buttonLoader();
-				return;
+				return ;
 			}
 
 			var createCaptainRequest = function(email, captain, profile) {
@@ -170,7 +176,6 @@ define([
 				var saveBoatSuccess = function() {
 					self._in('captain-email').val('');
 					self.displayCaptains();
-					self.buttonLoader(false, addCaptainButton);
 					self.buttonLoader();
 				};
 
@@ -197,9 +202,8 @@ define([
 			query.equalTo('email', self._in('captain-email').val());
 			query.count().then(function(total) {
 
-				if( total > 0 && false) {
+				if( total > 0 ) {
 					self.fieldError('captain-email', 'Oops.. Seems your already have this user as a captain of this boat.');
-					self.buttonLoader(false, addCaptainButton);
 					self.buttonLoader();
 					return;
 				}
@@ -226,112 +230,45 @@ define([
 
 		},
 
-		uploadBoatPicture: function(event) {
+
+		uploadNewFile: function (event) {
 
 			var self = this;
-			var files = event.target.files;
-			var parseFile = null;
-			
-			self.buttonLoader('Uploading...');
-			self.cleanForm();
+			var e = $(event.currentTarget);
+			var opts = {};
+			var cb = null;
 
-			if( files.length == 1) {
+			if( e.attr('name') == 'boat-picture' ) {
 
-				if( files[0].type == 'image/png' ) {
+				cb = function(file) {
 					
-					parseFile = new Parse.File('boatPicture.png', files[0]);
-
-				} else if( files[0].type == 'image/jpeg' ) {
-
-					parseFile = new Parse.File('boatPicture.jpg', files[0]);
-
-				} else {
-
-					self.fieldError('boatPictures', 'Bad format, try with a PNG or JPEG picture.');
-					self.buttonLoader();
-					$(event.target).val('');
-					return null;
-
-				}
-
-				var uploadSuccess = function(file) {
 					new FileHolderModel({ file: file }).save().then(function(fh) {
 						self.model.relation('boatPictures').add(fh);
 						self.model.save().then(function() {
 							self.displayBoatPictures();
 						});
-						self.buttonLoader();
-						$(event.target).val('');
 					});
-				};
-
-				var uploadError = function(error) {
-
-					self.fieldError('boatPictures', 'An error occured when we tried to upload your boat picture, try again please.');
-					self.buttonLoader();
-					$(event.target).val('');
 
 				};
-				
-				parseFile.save().then(uploadSuccess, uploadError);
 
-			}
+				opts.pdf = false;
 
-		},
+			} else {
 
-		uploadInsurance: function(event) {
-
-			var self = this;
-			var files = event.target.files;
-			var parseFile = null;
-			
-			self.buttonLoader('Uploading...');
-			self.cleanForm();
-
-			if( files.length == 1) {
-
-				if( files[0].type == 'image/png' ) {
+				cb = function(file) {
 					
-					parseFile = new Parse.File('insurance.png', files[0]);
-
-				} else if( files[0].type == 'image/jpeg' ) {
-
-					parseFile = new Parse.File('insurance.jpg', files[0]);
-
-				} else if( files[0].type == 'application/pdf') {
-
-					parseFile = new Parse.File('insurance.pdf', files[0]);
-
-				} else {
-
-					self.fieldError('insurance', 'Bad format, try with a PNG, JPEG or PDF picture.');
-					self.buttonLoader();
-					$(event.target).val('');
-					return null;
-
-				}
-
-				var uploadSuccess = function(file) {
 					new FileHolderModel({ file: file }).save().then(function(fh) {
 						self.model.relation('proofOfInsurance').add(fh);
 						self.model.save().then(function() {
 							self.displayProofOfInsurance();
 						});
-						self.buttonLoader();
-						$(event.target).val('');
 					});
-				};
-
-				var uploadError = function(error) {
-
-					self.fieldError('insurance', 'An error occured when we tried to upload your insurance, try again please.');
-					self.buttonLoader();
 
 				};
-				
-				parseFile.save().then(uploadSuccess, uploadError);
 
 			}
+
+			this.uploadFile(event, cb, opts);
 
 		},
 
@@ -340,6 +277,7 @@ define([
 			if( this.model.get('status') == 'creation' ) {
 				this._in('name').val('Fury');
 				this._in('hullID').val('691 93231 8431');
+				this._in('type').val('Bla bli blu blo');
 				this._in('length').val('10');
 				this._in('capacity').val('20');
 				this._in('buildYear').val('1996');
@@ -392,13 +330,13 @@ define([
 
 				if (_.size(self.boatPictures) == 0) {
 
-					this.fieldError('boatPictures', 'Oops, you missed one. Don’t forget to upload at least one great photo of your boat.');
+					this.fieldError('boat-picture', 'Oops, you missed one. Don’t forget to upload at least one great photo of your boat.');
 					err = true;
 				}
 
 				if (_.size(self.proofOfInsurance) == 0) {
 
-					this.fieldError('insurance', 'Oops, you missed one! Please upload proof of insurance for your boat.');
+					this.fieldError('insurance-file', 'Oops, you missed one! Please upload proof of insurance for your boat.');
 					err = true;
 				}
 
@@ -409,58 +347,64 @@ define([
 				
 			}
 
-			var data = {
-				status: baseStatus == 'editing' ? 'complete' : 'editing',
-				name: this._in('name').val(),
-				hullID: this._in('hullID').val(),
-				buildYear: parseInt(this._in('buildYear').val()),
-				length: parseInt(this._in('length').val()),
-				capacity: parseInt(this._in('capacity').val()),
-				type: this._in('type').val(),
-				features: {
-					airConditioning: Boolean(this._in('featureAirConditioning').is(':checked')),
-					autopilot: Boolean(this._in('featureAutopilot').is(':checked')),
-					cooler: Boolean(this._in('featureCooler').is(':checked')),
-					depthFinder: Boolean(this._in('featureDepthFinder').is(':checked')),
-					fishFinder: Boolean(this._in('featureFishFinder').is(':checked')),
-					gps: Boolean(this._in('featureGps').is(':checked')),
-					grill: Boolean(this._in('featureGrill').is(':checked')),
-					internet: Boolean(this._in('featureInternet').is(':checked')),
-					liveBaitWell: Boolean(this._in('featureLiveBaitWell').is(':checked')),
-					microwave: Boolean(this._in('featureMicrowave').is(':checked')),
-					refrigeration: Boolean(this._in('featureRefrigeration').is(':checked')),
-					rodHolder: Boolean(this._in('featureRodHolder').is(':checked')),
-					shower: Boolean(this._in('featureShower').is(':checked')),
-					sink: Boolean(this._in('featureSink').is(':checked')),
-					stereo: Boolean(this._in('featureStereo').is(':checked')),
-					stereoAuxInput: Boolean(this._in('featureStereoAuxInput').is(':checked')),
-					sonar: Boolean(this._in('featureSonar').is(':checked')),
-					swimLadder: Boolean(this._in('featureSwimLadder').is(':checked')),
-					tvDvd: Boolean(this._in('featureTvDvd').is(':checked')),
-					trollingMotor: Boolean(this._in('featureTrollingMotor').is(':checked')),
-					wakeboardTower: Boolean(this._in('featureWakeboardTower').is(':checked'))
-				}
-			};
+			var data = {};
+
+			if( baseStatus == 'creation' ) {
+
+				_.extend(data, {
+					status: 'editing',
+					name: this._in('name').val(),
+					hullID: this._in('hullID').val(),
+					buildYear: parseInt(this._in('buildYear').val()),
+					length: parseInt(this._in('length').val()),
+					capacity: parseInt(this._in('capacity').val()),
+					type: this._in('type').val(),
+					features: {
+						airConditioning: Boolean(this._in('featureAirConditioning').is(':checked')),
+						autopilot: Boolean(this._in('featureAutopilot').is(':checked')),
+						cooler: Boolean(this._in('featureCooler').is(':checked')),
+						depthFinder: Boolean(this._in('featureDepthFinder').is(':checked')),
+						fishFinder: Boolean(this._in('featureFishFinder').is(':checked')),
+						gps: Boolean(this._in('featureGps').is(':checked')),
+						grill: Boolean(this._in('featureGrill').is(':checked')),
+						internet: Boolean(this._in('featureInternet').is(':checked')),
+						liveBaitWell: Boolean(this._in('featureLiveBaitWell').is(':checked')),
+						microwave: Boolean(this._in('featureMicrowave').is(':checked')),
+						refrigeration: Boolean(this._in('featureRefrigeration').is(':checked')),
+						rodHolder: Boolean(this._in('featureRodHolder').is(':checked')),
+						shower: Boolean(this._in('featureShower').is(':checked')),
+						sink: Boolean(this._in('featureSink').is(':checked')),
+						stereo: Boolean(this._in('featureStereo').is(':checked')),
+						stereoAuxInput: Boolean(this._in('featureStereoAuxInput').is(':checked')),
+						sonar: Boolean(this._in('featureSonar').is(':checked')),
+						swimLadder: Boolean(this._in('featureSwimLadder').is(':checked')),
+						tvDvd: Boolean(this._in('featureTvDvd').is(':checked')),
+						trollingMotor: Boolean(this._in('featureTrollingMotor').is(':checked')),
+						wakeboardTower: Boolean(this._in('featureWakeboardTower').is(':checked'))
+					}
+				})
+
+			} else {
+
+				data.status = 'complete';
+
+			}
+
 
 			var saveSuccess = function( boat ) {
 
 				if( baseStatus == 'creation' ) {
 
-					var hostSaveSuccess = function() {
-						Parse.history.navigate('boat/'+boat.id, true);
-					};
-
-					var hostSaveError = function(error) {
-						console.log(error);
-					}
-
 					var host = Parse.User.current().get("host");
 					host.relation('boats').add(boat);
-					host.save().then(hostSaveSuccess, hostSaveError);
+					host.save().then(function() {
+						Parse.history.navigate('boat/'+boat.id, true);
+					}, saveError);
 
 				} else {
 					
-					Parse.history.navigate('dashboard', true);	
+					self.render();
+					self._info('Your boat is added');
 
 				}
 
@@ -468,7 +412,6 @@ define([
 
 			var saveError = function(error) {
 				
-				console.log(error);
 				self.buttonLoader();
 
 				if( error.type && error.type == 'model-validation' ) {

@@ -1,21 +1,29 @@
-<table class="dashboard-table">
-	<tr>
-		<td>
+<div class="row dashboard-row">
+	<div class="cell col-sm-4">
+		<div class="inner">
 			<div class="obj-thumb" style="background-image:url(<%= picture %>)"></div>
-		</td>
-		<td>
+		</div>
+	</div>
+	<div class="cell col-sm-4">
+		<div class="inner">
 			<label>Name</label>
 			<p><%= name %></p>
-		</td>
-		<td>
+		</div>
+	</div>
+	<div class="cell col-sm-3 hidden-sm hidden-md">
+		<div class="inner">
 			<label>Year</label>
 			<p><%= buildYear %></p>
-		</td>
-		<td>
+		</div>
+	</div>
+	<div class="cell col-sm-6 hidden-sm">
+		<div class="inner">
 			<label>Type</label>
 			<p><%= type %></p>
-		</td>
-		<td>
+		</div>
+	</div>
+	<div class="cell col-sm-4">
+		<div class="inner">
 			<label>Status</label>
 			<p>
 				<%= status == 'editing' ? 'Not-Submitted' : '' %>
@@ -23,9 +31,11 @@
 				<%= status == 'approved' ? 'Approved' : '' %>
 				<%= status == 'denied' ? 'Denied' : '' %>
 			</p>
-		</td>
-		<td>
-			<a href="#/boat/<%=id%>" class="btn btn-default btn-lg">Edit</a>
-		</td>
-	</tr>
-</table>
+		</div>
+	</div>
+	<div class="cell col-sm-3">
+		<div class="inner">
+			<a href="#/boat/<%=id%>" class="btn btn-default btn-lg btn-block">Edit</a>
+		</div>
+	</div>
+</div>
