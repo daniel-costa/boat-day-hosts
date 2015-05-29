@@ -27,7 +27,7 @@
 					<% if(Parse.User.current().get("status") == 'creation') { %>
 						<label for="profilePicture" class="col-sm-24 control-label">
 							Add Profile Picture
-							<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Guests can view this information when picking a BoatDay, be sure to put your best face forward!"></span>
+							<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-container="body" data-placement="top" title="Guests can view this information when picking a BoatDay, be sure to put your best face forward!"></span>
 						</label>
 					<% } %>
 					<div class="col-sm-24 text-center">
@@ -42,7 +42,7 @@
 				
 				<% if( status == 'creation' ) { %>
 					<div class="form-group has-feedback">
-						<label for="displayName" class="col-sm-24 control-label">Display Name</label>
+						<label for="displayName" class="col-sm-24 control-label">Username</label>
 						<div class="col-sm-24">
 							<p class="username"></p>
 						</div>

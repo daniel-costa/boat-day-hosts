@@ -20,8 +20,11 @@ define(['parse'], function(Parse){
 
 		displayMessage: function(event, params) {
 
-			alert(params.type + ": "+ params.message);
-			// ToDo Check if already exist and dont add new
+			if( $('.display-messages').length == 1) {
+				$('.display-messages').append($('<p>').text(params.message).addClass(params.type == 'error' ? 'alert-danger' : 'alert-info'));
+			} else {
+				alert(params.type + ": "+ params.message);
+			}
 		},
 
 		initialize: function(cb) {

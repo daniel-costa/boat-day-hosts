@@ -20,6 +20,16 @@ define([
 			};
 		},
 
+		getCertStatus: function(status) {
+
+			console.log(status);
+			switch(status) {
+				case null       : return "Not-Submitted"; break;
+				case "pending"  : return "In Review";     break;
+				case "approved" : return "Approved";      break;
+				case "denied"   : return "Denied";        break;
+			}
+		}
 	});
 	return AccountView;
 });

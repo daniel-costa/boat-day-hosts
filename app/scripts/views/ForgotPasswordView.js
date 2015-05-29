@@ -19,16 +19,34 @@ define([
 			event.preventDefault();
 
 			var self = this;
+			self.buttonLoader('...');
+			self.cleanForm();
+
+			if(self._in('email').val() == '') {
+				self.buttonLoader();
+				self.fieldError('email', 'Oops, you missed one!');
+				return;
+			}
 
 			var requestPasswordResetSuccess = function() {
-
-				self.$el.find('.form').html('<h5 class="text-center">A password reset link has been sent to your email.</h5>');
+				self.buttonLoader();
+				self._info("A password reset link has been sent to your email.");
 
 			};
 
 			var requestPasswordResetError = function(error) {
-				console.log(error.message);
-				self._error(error.message);
+				
+				self.buttonLoader();
+				
+				switch(error.code) {
+					case 205:
+						self._error("No user found for this email.");
+						break;
+					default:
+						self._error("An error occured, please try later.");	
+						break;
+				}
+				
 			};
 
 			Parse.User.requestPasswordReset(this._in('email').val()).then(requestPasswordResetSuccess, requestPasswordResetError);

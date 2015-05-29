@@ -46,7 +46,7 @@
 						<div class="col-sm-10">
 							<div>
 								<span class="preview-duration"></span>
-								<a href="https://www.boatdayapp.com/faq" target="_blank"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="All BoatDays must depart and return on the same day, and are limited to a maximum of 12 hours duration. Learn more by clicking on this help icon."></span></a>
+								<a href="https://www.boatdayapp.com/faq" target="_blank"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="All BoatDays must depart and return on the same day, and are limited to a maximum of 12 hours duration. Learn more by clicking on this help icon."></span></a>
 							</div>
 							<input type="text" class="form-control" id="duration" name="duration" data-slider-min="0.5" data-slider-max="12" data-slider-step="0.5" data-slider-value="<%= duration ? duration : 6 %>">
 						</div>
@@ -80,14 +80,14 @@
 								<tr>
 									<td class="totalBD">
 										Service Fee
-										<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="This is the fee charged by BoatDay"></span>
+										<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the fee charged by BoatDay"></span>
 									</td>
 									<td class="text-right totalBoatDayUSD"></td>
 								</tr>
 								<tr>
 									<td style="border-top: double 3px black;" class="totalHost">
 										Total 
-										<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Estimated contribution you will receive if your boat is fully booked."></span>
+										<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="Estimated contribution you will receive if your boat is fully booked."></span>
 									</td>
 									<td style="border-top: double 3px black;" class="text-right totalHostUSD"></td>
 								</tr>
@@ -127,10 +127,10 @@
 
 						<div class="col-sm-6 activityContainer fishing">
 							<label><strong>Category</strong></label>
-							<label data-toggle="tooltip" data-placement="bottom" title="limit 12 miles out"><input type="checkbox" name="featuresFishingOffshore" <%= features.fishing.offshore ? 'checked': '' %>> Offshore Fishing</label>
+							<label data-toggle="tooltip" data-placement="top" data-container="body" title="limit 12 miles out"><input type="checkbox" name="featuresFishingOffshore" <%= features.fishing.offshore ? 'checked': '' %>> Offshore Fishing</label>
 							<label><input type="checkbox" name="featuresFishingFlats" <%= features.fishing.flats ? 'checked': '' %>> Flats Fishing</label>
 							<label><input type="checkbox" name="featuresFishingLake" <%= features.fishing.lake ? 'checked': '' %>> Lake Fishing</label>
-							<label data-toggle="tooltip" data-placement="bottom" title="just for fun"><input type="checkbox" name="featuresFishingRecreational" <%= features.fishing.recreational ? 'checked': '' %>> Recreational Fishing</label>
+							<label data-toggle="tooltip" data-placement="top" data-container="body" data-container="body"  title="just for fun"><input type="checkbox" name="featuresFishingRecreational" <%= features.fishing.recreational ? 'checked': '' %>> Recreational Fishing</label>
 							<label><input type="checkbox" name="featuresFishingOther" <%= features.fishing.other ? 'checked': '' %>> Other</label>
 						</div>
 						<div class="col-sm-6 activityContainer fishing">
@@ -208,7 +208,7 @@
 					<div class="form-group">
 						<label for="location" class="col-sm-8 control-label">
 							Departure Location
-							<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Click on the map to set the location."></span>
+							<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-container="body" data-placement="top" title="Click on the map to set the location."></span>
 						</label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="location" name="location" readonly>

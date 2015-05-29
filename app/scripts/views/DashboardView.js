@@ -41,7 +41,7 @@ define([
 			
 			var self = this;
 
-			self.$el.find('.navbar-brand').text('Home');
+			self.$el.find('.navbar-brand').text('Host Center');
 
 			self.$el.find('.add-boat, .add-boatday, .my-boats, .my-requests').hide();
 

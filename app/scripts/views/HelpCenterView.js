@@ -27,7 +27,7 @@ define([
 					preview.attr('href', file.url());
 				} else {
 					var link = $('<a>').attr({ 'href': file.url(), target: '_blank' }).text('File preview').addClass('preview');
-					parent.append(link);	
+					parent.append($('<p>').append(link));	
 				}
 
 			}

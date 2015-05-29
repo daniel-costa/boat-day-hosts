@@ -27,11 +27,17 @@ define([
 			SSN: null,
 
 			certBSC: null,
+			certStatusBSC: null,
 			certCCL: null,
+			certStatusCCL: null,
 			certMCL: null,
+			certStatusMCL: null,
 			certFL: null,
+			cerStatustFL: null,
 			certSL: null,
-			certFAC: null
+			cerStatustSL: null,
+			certFAC: null,
+			certStatusFAC: null
 
 		},
 

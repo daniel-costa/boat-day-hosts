@@ -1,0 +1,76 @@
+<header>
+	<h1 class="text-center">My Certifications</h1>
+	<p class="text-center">Your certifications are not visible by your Guests</p>
+	<div class="text-center steps">
+		<a href="#/my-account" class="btn btn-default btm-xs">Back to My Account</a>
+	</div>
+</header>
+
+<form class="form-horizontal">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-10">
+				<h4>My Licenses &amp; Certifications</h4>
+			</div>
+			<div class="col-sm-offset-1 col-sm-10 col-md-8 col-lg-7">
+				<div class="form-group">
+					<div class="col-sm-24">
+						<input value="" type="file" class="upload" id="certBSC" name="certBSC">
+						<button type="button" class="btn btn-default btn-block btn-lg btn-upload" for="certBSC">Boater Safety Course</button>
+						<% if( certBSC ) { %>
+							<a href="<%= certBSC.url %>" target="_blank">Licence preview</a>
+						<% } %>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-24">
+						<input value="" type="file" class="upload" id="certCCL" name="certCCL">
+						<button type="button" class="btn btn-default btn-block btn-lg btn-upload" for="certCCL">Charterboat Captain <em>("6 Pack")</em></button>
+						<% if( certCCL ) { %>
+							<a href="<%= certCCL.url %>" target="_blank">Licence preview</a>
+						<% } %>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-24">
+						<input value="" type="file" class="upload" id="certMCL" name="certMCL">
+						<button type="button" class="btn btn-default btn-block btn-lg btn-upload" for="certMCL">Master Captain's License</button>
+						<% if( certMCL ) { %>
+							<a href="<%= certMCL.url %>" target="_blank">Licence preview</a>
+						<% } %>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-24">
+						<input value="" type="file" class="upload" id="certFL" name="certFL">
+						<button type="button" class="btn btn-default btn-block btn-lg btn-upload" for="certFL">Fishing License</button>
+						<% if( certFL ) { %>
+							<a href="<%= certFL.url %>" target="_blank">Licence preview</a>
+						<% } %>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-24">
+						<input value="" type="file" class="upload" id="certSL" name="certSL">
+						<button type="button" class="btn btn-default btn-block btn-lg btn-upload" for="certSL">Sailing Certificatione</button>
+						<% if( certSL ) { %>
+							<a href="<%= certSL.url %>" target="_blank">Licence preview</a>
+						<% } %>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-24">
+						<input value="" type="file" class="upload" id="certFAC" name="certFAC">
+						<button type="button" class="btn btn-default btn-block btn-lg btn-upload" for="certFAC">First Aid Certification</button>
+						<% if( certFAC ) { %>
+							<a href="<%= certFAC.url %>" target="_blank">Licence preview</a>
+						<% } %>
+					</div>
+				</div>
+
+				<button type="submit" class="btn btn-block btn-lg btn-primary">Save Certifications</button>
+				<div class="display-messages text-center"></div>
+			</div>
+		</div>
+	</div>
+</form>

@@ -1,6 +1,6 @@
 <header>
 	<h1 class="text-center">My Account</h1>
-	<p class="text-center">Manage from here your personal informations...</p>
+	<p class="text-center">Manage BoatDay Profile and account information...</p>
 	<div class="text-center steps">
 		<a href="#/dashboard" class="btn btn-default btm-xs">Back to Host Center</a>
 	</div>
@@ -26,6 +26,71 @@
 		</div>
 		
 		<div class="split col-lg-16 col-lg-offset-4"></div>
+
+		<div class="row">
+			<div class="col-sm-10">
+				<h4>My Account</h4>
+			</div>
+			<div class="col-sm-offset-1 col-sm-10 col-md-8 col-lg-7">
+				<div class="form-group">
+					<label class="col-sm-24 control-label">Boater Safety Course</label>
+					<div class="col-sm-24">
+						<strong><%= this.getCertStatus(_host.certStatusBSC) %></strong>
+						<% if( _host.certBSC ) { %>
+							- <a href="<%= _host.certBSC.url %>" target="_blank">Licence preview</a>
+						<% } %>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-24 control-label">Charterboat Captain <em>("6 Pack")</em></label>
+					<div class="col-sm-24">
+						<strong><%= this.getCertStatus(_host.certStatusCCL) %></strong>
+						<% if( _host.certCCL ) { %>
+							- <a href="<%= _host.certCCL.url %>" target="_blank">Licence preview</a>
+						<% } %>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-24 control-label">Master Captain's License</label>
+					<div class="col-sm-24">
+						<strong><%= this.getCertStatus(_host.certStatusMCL) %></strong>
+						<% if( _host.certMCL ) { %>
+							- <a href="<%= _host.certMCL.url %>" target="_blank">Licence preview</a>
+						<% } %>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-24 control-label">Fishing License</label>
+					<div class="col-sm-24">
+						<strong><%= this.getCertStatus(_host.certStatusFL) %></strong>
+						<% if( _host.certFL ) { %>
+							- <a href="<%= _host.certFL.url %>" target="_blank">Licence preview</a>
+						<% } %>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-24 control-label">Sailing Certificatione</label>
+					<div class="col-sm-24">
+						<strong><%= this.getCertStatus(_host.certStatusSL) %></strong>
+						<% if( _host.certSL ) { %>
+							- <a href="<%= _host.certSL.url %>" target="_blank">Licence preview</a>
+						<% } %>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-24 control-label">First Aid Certification</label>
+					<div class="col-sm-24">
+						<strong><%= this.getCertStatus(_host.certStatusFAC) %></strong>
+						<% if( _host.certStatusFAC ) { %>
+							- <a href="<%= _host.certStatusFAC.url %>" target="_blank">Licence preview</a>
+						<% } %>
+					</div>
+				</div>
+				<a href="#/my-certifications" class="btn btn-default">Edit Certifications</a>
+			</div>
+		</div>
+
+		<div class="split col-lg-16 col-lg-offset-4"></div>
 		
 		<div class="row">
 			<div class="col-sm-10">
@@ -33,31 +98,31 @@
 			</div>
 			<div class="col-sm-offset-1 col-sm-10 col-md-8 col-lg-7">
 				<div class="form-group">
-					<label for="password" class="col-sm-24 control-label">Name</label>
+					<label class="col-sm-24 control-label">Name</label>
 					<div class="col-sm-24">
 						<%= _host.firstname + ' ' + _host.lastname %>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="password" class="col-sm-24 control-label">Birthdate</label>
+					<label class="col-sm-24 control-label">Birthdate</label>
 					<div class="col-sm-24">
 						<%= new Date(_host.birthdate.iso).toLocaleDateString() %>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="password" class="col-sm-24 control-label">Phone number</label>
+					<label class="col-sm-24 control-label">Phone number</label>
 					<div class="col-sm-24">
 						<%= _host.phone %>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="password" class="col-sm-24 control-label">Email</label>
+					<label class="col-sm-24 control-label">Email</label>
 					<div class="col-sm-24">
 						<%= email %>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="password" class="col-sm-24 control-label">Address</label>
+					<label class="col-sm-24 control-label">Address</label>
 					<div class="col-sm-24">
 						<%= _host.street %><br/>
 						<%= _host.state %>-<%= _host.zipCode %> <%= _host.city %>
@@ -65,21 +130,19 @@
 				</div>
 				<% if( _host.businessName ) { %>
 					<div class="form-group">
-						<label for="password" class="col-sm-24 control-label">Business Name</label>
+						<label class="col-sm-24 control-label">Business Name</label>
 						<div class="col-sm-24">
 							<%= _host.businessName %>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="password" class="col-sm-24 control-label">Business EIN</label>
+						<label class="col-sm-24 control-label">Business EIN</label>
 						<div class="col-sm-24">
 							<%= _host.businessEin %>
 						</div>
 					</div>
 				<% } %>
-				<div class="text-left">
-					<a href="#/help-center" class="btn btn-default">Edit Account</a>
-				</div>
+				<a href="#/help-center" class="btn btn-default">Edit Account</a>
 			</div>
 		</div>
 		
@@ -91,13 +154,13 @@
 			</div>
 			<div class="col-sm-offset-1 col-sm-10 col-md-8 col-lg-7">
 				<div class="form-group">
-					<label for="password" class="col-sm-24 control-label">Name on Account</label>
+					<label class="col-sm-24 control-label">Name on Account</label>
 					<div class="col-sm-24">
 						<%= _host.accountHolder %>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="password" class="col-sm-24 control-label">Account Number</label>
+					<label class="col-sm-24 control-label">Account Number</label>
 					<div class="col-sm-24">
 						<%= _host.accountNumber %>
 					</div>

@@ -37,7 +37,7 @@
 				<div class="form-group">
 					<label class="col-sm-24 control-label">
 						Date of Birth 
-						<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="You must be at least 23 years old to sign up as a BoatDay Host."></span>
+						<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-container="body" data-placement="top" title="You must be at least 23 years old to sign up as a BoatDay Host."></span>
 					</label>
 					<div class="col-sm-10">
 						<select class="form-control" id="birthdateMonth" name="birthdateMonth">
@@ -170,7 +170,10 @@
 					</div>
 				</div>
 				<div class="form-group has-feedback">
-					<label for="SSN" class="col-sm-24 control-label">Social Security Number <em>(last 4 digits only)</em></label>
+					<label for="SSN" class="col-sm-24 control-label">Social Security Number <em>(last 4 digits only)</em>
+
+						<a href="https://www.boatdayapp.com"><span class="glyphicon glyphicon-info-sign"></span></a>
+					</label>
 					<div class="col-sm-24">
 						<input type="text" class="form-control" id="SSN" name="SSN" placeholder="for our Host background screeining">
 					</div>
@@ -185,7 +188,7 @@
 				<h4>Are you a registered business?</h4>
 				<h6>
 					if applicable 
-					<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="This information helps us provide you with the best support for your BoatDays."></span>
+					<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-container="body" data-placement="top" title="This information helps us provide you with the best support for your BoatDays."></span>
 				</h6>
 			</div>
 			<div class="col-sm-offset-1 col-sm-10 col-md-8 col-lg-7">
@@ -211,50 +214,44 @@
 				<h4>My Licenses &amp; Certifications</h4>
 				<h6>
 					if applicable 
-					<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Licenses and Certifications help attract Guests to your BoatDays, be sure to upload all your boating qualifications!"></span>
+					<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-container="body" data-placement="top" title="Licenses and Certifications help attract Guests to your BoatDays, be sure to upload all your boating qualifications!"></span>
 				</h6>
 			</div>
 			<div class="col-sm-offset-1 col-sm-10 col-md-8 col-lg-7">
 				<div class="form-group">
-					<label for="certBSC" class="col-sm-24 control-label">Boater Safety Course</label>
 					<div class="col-sm-24">
 						<input value="" type="file" class="upload" id="certBSC" name="certBSC">
-						<button type="button" class="btn btn-default btn-upload" for="certBSC">Upload file</button>
+						<button type="button" class="btn btn-default btn-block btn-lg btn-upload" for="certBSC">Boater Safety Course</button>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="certCCL" class="col-sm-24 control-label">Charterboat Captain <em>("6 Pack")</em></label>
 					<div class="col-sm-24">
 						<input value="" type="file" class="upload" id="certCCL" name="certCCL">
-						<button type="button" class="btn btn-default btn-upload" for="certCCL">Upload file</button>
+						<button type="button" class="btn btn-default btn-block btn-lg btn-upload" for="certCCL">Charterboat Captain <em>("6 Pack")</em></button>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="certMCL" class="col-sm-24 control-label">Master Captain's License</label>
 					<div class="col-sm-24">
 						<input value="" type="file" class="upload" id="certMCL" name="certMCL">
-						<button type="button" class="btn btn-default btn-upload" for="certMCL">Upload file</button>
+						<button type="button" class="btn btn-default btn-block btn-lg btn-upload" for="certMCL">Master Captain's License</button>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="certFL" class="col-sm-24 control-label">Fishing License</label>
 					<div class="col-sm-24">
 						<input value="" type="file" class="upload" id="certFL" name="certFL">
-						<button type="button" class="btn btn-default btn-upload" for="certFL">Upload file</button>
+						<button type="button" class="btn btn-default btn-block btn-lg btn-upload" for="certFL">Fishing License</button>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="certSL" class="col-sm-24 control-label">Sailing Certification</label>
 					<div class="col-sm-24">
 						<input value="" type="file" class="upload" id="certSL" name="certSL">
-						<button type="button" class="btn btn-default btn-upload" for="certSL">Upload file</button>
+						<button type="button" class="btn btn-default btn-block btn-lg btn-upload" for="certSL">Sailing Certificatione</button>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="certFAC" class="col-sm-24 control-label">First Aid Certification</label>
 					<div class="col-sm-24">
 						<input value="" type="file" class="upload" id="certFAC" name="certFAC">
-						<button type="button" class="btn btn-default btn-upload" for="certFAC">Upload file</button>
+						<button type="button" class="btn btn-default btn-block btn-lg btn-upload" for="certFAC">First Aid Certification</button>
 					</div>
 				</div>
 			</div>
@@ -267,7 +264,7 @@
 				<h4>How do we pay you?</h4>
 				<h6>
 					more info 
-					<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="This account is where you will receive payments for your BoatDays."></span>
+					<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-container="body"  data-placement="top" title="This account is where you will receive payments for your BoatDays."></span>
 				</h6>
 			</div>
 			<div class="col-sm-offset-1 col-sm-10 col-md-8 col-lg-7">

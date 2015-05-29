@@ -314,9 +314,9 @@ define([
 
 			var field = this._in(name);
 
-			field.closest('.form-group').addClass("has-error has-feedback");
+			field.closest('.form-group').addClass("has-error");
 
-			$('<span>').addClass('glyphicon glyphicon-remove form-control-feedback field-error-auto').insertAfter(field);
+			// $('<span>').addClass('glyphicon glyphicon-remove form-control-feedback field-error-auto').insertAfter(field);
 			
 			if(message) {
 
@@ -346,6 +346,7 @@ define([
 
 		cleanForm: function() {
 
+			this.$el.find('.display-messages').html('');
 			this.$el.find('.field-error-auto').remove();
 			this.$el.find('.has-error').removeClass('has-error has-feedback');
 			this.$el.find('.field-error-flag').popover('hide').unbind('focus mouseenter mouseleave hover blur');

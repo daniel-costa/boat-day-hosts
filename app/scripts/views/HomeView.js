@@ -27,8 +27,25 @@ define([
 
 			event.preventDefault();
 
-			var self = this;
-		
+			var self = this, err = false;
+			self.buttonLoader('...');
+			self.cleanForm();
+
+			if(self._in('email').val() == '') {
+				self.fieldError('email', 'Oops, you missed one!');
+				err = true;
+			}
+
+			if(self._in('password').val() == '') {
+				self.fieldError('password', 'Oops, you missed one!');
+				err = true;
+			}
+
+			if(err) {
+				self.buttonLoader();
+				return;
+			}
+
 			var logInSuccess = function(user) {
 
 				$(document).trigger('fetchUserInfo', function() {
@@ -38,8 +55,8 @@ define([
 			};
 
 			var logInError = function(error) {
-				console.log(error.message);
 				self._error(error.message);
+				self.buttonLoader();
 			};
 
 			Parse.User.logIn(this._in('email').val(), this._in('password').val()).then(logInSuccess, logInError);

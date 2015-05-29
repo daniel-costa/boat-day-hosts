@@ -14,9 +14,6 @@ define([
 		template: _.template(BoatTemplate),
 
 		debug: true,
-		
-		boatPictures: null,
-		proofOfInsurance: {},
 
 		events: {
 			"submit form" : "save",
@@ -28,6 +25,10 @@ define([
 		},
 
 		theme: "dashboard",
+		
+		boatPictures: {},
+		
+		proofOfInsurance: {},
 		
 		initialize: function(data) {
 
