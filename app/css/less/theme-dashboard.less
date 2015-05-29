@@ -5,25 +5,29 @@ body.theme-dashboard {
 }
 
 body.theme-dashboard:before {
-	content: "";
-	position: fixed;
-	top:0px;
-	left: 0px;
-	width: 50%;
-	bottom: 0px;
-	background: white;
+	
+	@media (min-width: @screen-sm-min) {
+		content: "";
+		position: fixed;
+		top:0px;
+		left: 0px;
+		width: 50%;
+		bottom: 0px;
+		background: white;
+	}
+	
 }
 
 body.theme-dashboard:after {
-	content: "";
-	position: fixed;
-	top:0px;
-	left: 50%;
-	bottom: 0px;
-	background: @brand-primary-bg;
-	border-left: 1px solid @dashboard-border-color;
 
 	@media (min-width: @screen-sm-min) {
+		content: "";
+		position: fixed;
+		top:0px;
+		left: 50%;
+		bottom: 0px;
+		background: @brand-primary-bg;
+		border-left: 1px solid @dashboard-border-color;
 		margin-left: -@container-sm / 3;
 		width: @container-sm / 3;
 	}
@@ -41,8 +45,12 @@ body.theme-dashboard:after {
 
 
 body.theme-dashboard .part-right {
-	padding-left: 65px;
-	padding-right: 0px;
+
+	@media (min-width: @screen-sm-min) {
+		padding-left: 65px;
+		padding-right: 0px;
+	}
+
 }
 
 body.theme-dashboard .left-navigation { 
@@ -141,7 +149,8 @@ body.theme-dashboard .content-highlight .box .left,
 body.theme-dashboard .content-highlight .box .right {
 	height: 146px;
 	line-height: 146px;
-	padding: 0px;
+		padding: 0px;
+
 }
 
 body.theme-dashboard .content-highlight .box .left { 
@@ -165,6 +174,10 @@ body.theme-dashboard h4 {
 body.theme-dashboard .dashboard-row {
 	box-shadow: 0px 1px 1px #ebebeb, 1px 0px 1px #ebebeb, -1px 0px 1px #ebebeb, 0px -1px 1px #ebebeb;
 	margin-bottom: 10px;
+
+	@media (max-width: @screen-xs-max) {
+		margin-bottom: 20px;
+	}
 }
 
 body.theme-dashboard .dashboard-row .cell {
@@ -178,6 +191,11 @@ body.theme-dashboard .dashboard-row .cell {
 
 body.theme-dashboard .dashboard-row .cell:first-child {
 	padding: 0px 15px;
+
+	@media (max-width: @screen-xs-max) {
+		height: 250px;
+		padding: 0px ;
+	}
 }
 
 body.theme-dashboard .dashboard-row .cell:not(:first-child) {
@@ -196,6 +214,10 @@ body.theme-dashboard .obj-thumb {
 	height: 60px;
 	background : center center no-repeat;
 	background-size : cover;
+
+	@media (max-width: @screen-xs-max) {
+		height: 250px;
+	}
 }
 
 body.theme-dashboard .profile .obj-thumb {

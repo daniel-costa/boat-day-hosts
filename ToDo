@@ -82,6 +82,8 @@ o current 2.1.0
 - (done) Clean unused files
 - (done) my-profile add loading text on the change picture button - no need
 - (done) render boat after saving
+- (done) Open file in boat _blank target
+- (done) My Profile, back button
 
 - Optimize Boat: when deleting a captain, do not featch everything.
 - Optimize Boat: when adding a captain, do not featch everything.
@@ -92,16 +94,15 @@ o current 2.1.0
 - Messages page to implement
 - Boatday, Check if boat not use in this time
 - Boatday, Check if captain not use in this time
-- My Profile, back button
-- Open file in boat _blank target
 - host app on parse.com
 - Check grunt JS api
 - Add notifications panel
 - Boat Row in dashboard, make cells disapear and resize columns
+- Add SM styles for Boat part
 
 
 o Ask Michelle
-- 
+- Business cards
 
 
 

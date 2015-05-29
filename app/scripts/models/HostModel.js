@@ -28,6 +28,7 @@ define([
 
 			certBSC: null,
 			certStatusBSC: null,
+			certResponseBSC: null,
 			certCCL: null,
 			certStatusCCL: null,
 			certMCL: null,

@@ -1,24 +1,16 @@
 
 <% var ro = status != "creation" ? 'readonly disabled' : '' %>
 
-<div class="left-navigation"></div>
+<div class="hidden-xs left-navigation"></div>
 
 <div class="container">
 	<div class="row">
-		<div class="part-right col-lg-20 col-lg-offset-4">
+		<div class="part-right col-sm-20 col-sm-offset-3 col-lg-offset-4">
 			<div class="top-navigation"></div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="part-right col-lg-20 col-lg-offset-4">
-
-			<!--
-			<h4>
-				<%= status == 'creation' ? 'Add a new boat' : '' %>
-				<%= status == 'editing' ? 'Boat waiting for submition' : '' %>
-				<%= status == 'complete' ? 'Boat in review' : '' %>
-			</h4>
-		-->
+		<div class="part-right col-sm-20 col-sm-offset-3 col-lg-offset-4">
 
 			<form class="form-horizontal">
 				<div class="container-fluid add-block">
