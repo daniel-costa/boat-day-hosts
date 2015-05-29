@@ -64,6 +64,8 @@ o current 2.1.0
 - (done) Change color of error fields to orange
 - (done) Take away the X from messages 	
 
+- Implement parse messages for SignUp
+- Implement parse messages for SignIn
 - delete has-feedback
 - Messages page to implement
 - Handle messages (error, infos) in Account theme
@@ -79,6 +81,8 @@ o current 2.1.0
 - Add notifications panel
 - about me censored w.e.
 - Help Centger not feedback on button when it's a bad format!
+
+
 o Ask Michelle
 
 
