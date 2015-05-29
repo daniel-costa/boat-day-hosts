@@ -37,6 +37,11 @@ define(['parse'], function(Parse){
 
 			if( Parse.User.current() ) {
 
+				if( Parse.User.current().get("host").createdAt && Parse.User.current().get("profile").createdAt ) {
+					cb();
+					return;
+				}
+
 				console.log('** fetch user infos **');
 
 				var callbackError = function(error) {

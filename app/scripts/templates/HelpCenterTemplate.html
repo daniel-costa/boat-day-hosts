@@ -9,7 +9,7 @@
 </header>
 <form class="form-horizontal">
 	<div class="container">
-
+		
 		<div class="row">
 			<div class="col-sm-10">
 				<h4>What's on your mind?</h4>
@@ -19,15 +19,16 @@
 					<label for="category" class="col-sm-24 control-label">I have a question/comment about..</label>
 					<div class="col-sm-24">
 						<select class="input-small form-control" id="category" name="category">
-							<option value="general" selected>General Feedback</option>
-							<option value="host-status">Host Registration Status</option>
-							<option value="update-account">Update Account Information</option>
-							<option value="update-boat">Update Boat Information</option>
-							<option value="insurance">Insurance</option>
-							<option value="lost-found">Lost &amp; Found</option>
-							<option value="captains">Captains</option>
-							<option value="payment">Payment</option>
-							<option value="guest-incident">Guest Incident or Concern </option>
+							<option value="general" <%= category == 'general' ? 'selected' : '' %>>General Feedback</option>
+							<option value="host-status" <%= category == 'host-status' ? 'selected' : '' %>>Host Registration Status</option>
+							<option value="update-account" <%= category == 'update-account' ? 'selected' : '' %>>Update Account Information</option>
+							<option value="update-payment-info" <%= category == 'update-payment-info' ? 'selected' : '' %>>Update Payment Information</option>
+							<option value="update-boat" <%= category == '' ? 'selected' : '' %>>Update Boat Information</option>
+							<option value="insurance" <%= category == '' ? 'selected' : '' %>>Insurance</option>
+							<option value="lost-found" <%= category == '' ? 'selected' : '' %>>Lost &amp; Found</option>
+							<option value="captains" <%= category == '' ? 'selected' : '' %>>Captains</option>
+							<option value="payment" <%= category == '' ? 'selected' : '' %>>Payment</option>
+							<option value="guest-incident" <%= category == '' ? 'selected' : '' %>>Guest Incident or Concern </option>
 						</select>
 					</div>
 				</div>

@@ -317,7 +317,7 @@ define([
 			var attr = field.attr('delegate-error-to-button');
 
 			if( typeof attr !== typeof undefined && attr !== false ) {
-				field = this.$el.find('button[for="'+field.attr('name')+'"]')
+				field = this.$el.find('[for="'+field.attr('name')+'"]')
 			}
 
 			field.closest('.form-group').addClass("has-error");

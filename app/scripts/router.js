@@ -43,6 +43,7 @@ define([
 			'my-profile': 'showProfileView',
 			'my-certifications': 'showCertificationsView',
 			'help-center': 'showHelpCenterView',
+			'help-center/:category': 'showHelpCenterView',
 			'*actions': 'showDashboardView'
 		},
 
@@ -218,12 +219,12 @@ define([
 
 		},
 
-		showHelpCenterView: function() {
+		showHelpCenterView: function(category) {
 			
 			var self = this;
 			var cb = function() {
 
-				self.render(new HelpCenterView({ model: new HelpCenterModel() }));
+				self.render(new HelpCenterView({ model: new HelpCenterModel({ category: category }) }));
 
 			};
 
