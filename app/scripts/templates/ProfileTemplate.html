@@ -20,7 +20,7 @@
 				<h4>My BoatDay Profile</h4>
 			</div>
 			<div class="col-sm-offset-1 col-sm-10 col-md-8 col-lg-7">
-				<div class="form-group has-feedback">
+				<div class="form-group">
 
 					<input type="file" class="upload" name="profilePicture"/>
 
@@ -41,7 +41,7 @@
 				</div>
 				
 				<% if( status == 'creation' ) { %>
-					<div class="form-group has-feedback">
+					<div class="form-group">
 						<label for="displayName" class="col-sm-24 control-label">Username</label>
 						<div class="col-sm-24">
 							<p class="username"></p>
@@ -49,7 +49,7 @@
 					</div>
 				<% } %>
 
-				<div class="form-group has-feedback">
+				<div class="form-group">
 					<label for="businessEin" class="col-sm-24 control-label">About Me</label>
 					<div class="col-sm-24">
 						<textarea rows="5" name="about" class="form-control" placeholder="BoatDay is built on relationships, help BoatDay users get to know you and your boating favorites!"><%= about %></textarea>

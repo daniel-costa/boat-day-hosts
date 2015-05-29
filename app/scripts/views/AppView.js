@@ -40,7 +40,9 @@ define(['parse'], function(Parse){
 				console.log('** fetch user infos **');
 
 				var callbackError = function(error) {
-					console.log(error);
+					if(error.code == 101) {
+						cb();
+					}
 				};
 
 				var hostSuccess = function(host) {
