@@ -84,21 +84,25 @@ o current 2.1.0
 - (done) render boat after saving
 - (done) Open file in boat _blank target
 - (done) My Profile, back button
+- (dome) Optimize Boat: when deleting a captain, do not featch everything. -> Cannot delete captains
+- (dome) Optimize Boat: when adding a captain, do not featch everything.
+- (dome) Optimize Boat: when deleting a picture, do not featch everything.
+- (dome) Optimize Boat: when adding a picture, do not featch everything.
+- (dome) Optimize Boat: when deleting a insurance, do not featch everything.
+- (dome) Optimize Boat: when adding a insurance, do not featch everything.
+- (done) Captain Requests Row in dashboard, make cells disapear and resize columns
+- (done) Boat Row in dashboard, make cells disapear and resize columns
 
-- Optimize Boat: when deleting a captain, do not featch everything.
-- Optimize Boat: when adding a captain, do not featch everything.
-- Optimize Boat: when deleting a picture, do not featch everything.
-- Optimize Boat: when adding a picture, do not featch everything.
-- Optimize Boat: when deleting a insurance, do not featch everything.
-- Optimize Boat: when adding a insurance, do not featch everything.
+- Add SM styles for Boat part
+- Right white area to add to dashboard
 - Messages page to implement
 - Boatday, Check if boat not use in this time
 - Boatday, Check if captain not use in this time
+
 - host app on parse.com
 - Check grunt JS api
 - Add notifications panel
-- Boat Row in dashboard, make cells disapear and resize columns
-- Add SM styles for Boat part
+
 
 
 o Ask Michelle

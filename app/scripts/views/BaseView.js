@@ -145,11 +145,11 @@ define([
 			var btn = self.$el.find('.btn[for="'+fieldName+'"]');
 			
 			self.cleanForm();
-			self.buttonLoader('Uploading...');
+			self.buttonLoader('Uploading');
 
 			if( btn.length === 1 ) {
 
-				self.buttonLoader('Uploading...', btn);
+				self.buttonLoader('Uploading', btn);
 
 			}
 

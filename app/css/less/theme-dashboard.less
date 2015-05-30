@@ -180,6 +180,11 @@ body.theme-dashboard .dashboard-row {
 	}
 }
 
+
+body.theme-dashboard .dashboard-row.add-new {
+	box-shadow: none;
+}
+
 body.theme-dashboard .dashboard-row .cell {
 	height: 90px;
 	line-height: 90px;
@@ -187,6 +192,15 @@ body.theme-dashboard .dashboard-row .cell {
 	border: 1px solid @dashboard-border-color;
 	vertical-align:middle;
 	background: white;
+}
+
+body.theme-dashboard .dashboard-row.add-new .cell {
+	background-color: #f9fbfb;
+	border: 2px solid #e5e8ec;
+	color: #b1bfcc;
+	font-size: 20px;
+	text-align: center;
+	font-weight: 400;
 }
 
 body.theme-dashboard .dashboard-row .cell:first-child {
@@ -200,6 +214,15 @@ body.theme-dashboard .dashboard-row .cell:first-child {
 
 body.theme-dashboard .dashboard-row .cell:not(:first-child) {
 	border-left:none;
+}
+
+body.theme-dashboard .my-requests .dashboard-row .cell.sm-half-height {
+	height: 45px;
+	line-height: 45px;
+}
+
+body.theme-dashboard .my-requests .dashboard-row .cell.sm-half-height.second-line {
+	margin-top: 45px;
 }
 
 body.theme-dashboard .dashboard-row .inner {

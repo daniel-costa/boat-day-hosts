@@ -40,6 +40,8 @@ define([
 
 			var self = this;
 
+			self.$el.find('.navbar-brand').text('Add a new boatday');
+
 			var boatsFetchSuccess = function(collection) {
 
 				self.collectionBoats = collection;

@@ -35,7 +35,7 @@ define([
 
 			if( this.model.get('status') != 'creation' ) {
 				this.displayBoatPictures();
-				this.displayProofOfInsurance();
+				this.displayInsuranceFiles();
 				this.displayCaptains();
 			}
 
@@ -47,8 +47,14 @@ define([
 
 			var self = this;
 			
-			self.$el.find('.navbar-brand').text('BOAT MANAGEMENT');
-			self.$el.find('.left-navigation .new-boat').addClass('active');
+			if( this.model.get('status') != 'creation' ) {
+				var label = this.model.get('name') + ', ' + this.model.get('type') + ' from ' + this.model.get('buildYear');
+				self.$el.find('.navbar-brand').text(label);
+			} else {
+				self.$el.find('.navbar-brand').text('Add a new boat');
+			}
+
+			// self.$el.find('.left-navigation .new-boat').addClass('active');
 
 			return this;
 
@@ -62,32 +68,6 @@ define([
 
 		},
 
-		displayCaptains: function() {
-			
-			var self = this;
-			
-			self.$el.find('.captains-list').html('');
-			
-			var tpl = _.template(BoatCaptainTemplate);
-
-			var displayObject = function( captain ) {
-				self.$el.find('.captains-list').append(tpl({ 
-					id: captain.id, 
-					email: captain.get('email'),
-					status: captain.get('status')
-				}));
-			};
-
-			var displayAll = function(matches) {
-				_.each(matches, displayObject);
-			};
-
-			var query = self.model.relation('captains').query();
-			query.descending("createdAt");
-			query.find().then(displayAll);
-
-		},
-
 		displayBoatPictures: function() {
 			
 			var self = this;
@@ -95,63 +75,94 @@ define([
 			self.$el.find('.picture-files').html('');
 			self.boatPictures = {};
 
-			var tpl = _.template(BoatPictureTemplate);
-
-			var displayAll = function(matches) {
-				_.each(matches, function( fh ) {	
-					self.$el.find('.picture-files').append(tpl({ 
-						id: fh.id,
-						file: fh.get('file')
-					}));
-					self.boatPictures[fh.id] = fh;
-				});
-			};
-
 			var query = self.model.relation('boatPictures').query();
-			query.descending("createdAt");
-			query.find().then(displayAll);
+			query.ascending("createdAt");
+			query.find().then(function(matches) {
+				_.each(matches, self.appendBoatPicture, self);
+			});
 		},
 
-		displayProofOfInsurance: function() {
+		appendBoatPicture: function(FileHolder) {
+
+			this.$el.find('.picture-files').append(_.template(BoatPictureTemplate)({ 
+				id: FileHolder.id,
+				file: FileHolder.get('file')
+			}));
+			
+			this.boatPictures[FileHolder.id] = FileHolder;
+		},
+
+		deleteBoatPicture: function(event) {
+
+			event.preventDefault();
+			var id = $(event.currentTarget).attr('file-id');
+			this.model.relation('boatPictures').remove(this.boatPictures[id]);
+			this.model.save();
+			delete this.boatPictures[id];
+			$(event.currentTarget).closest('.boat-picture').remove();
+
+		},
+
+		displayInsuranceFiles: function() {
 			
 			var self = this;
 
 			self.$el.find('.insurance-files').html('');
+			
 			self.proofOfInsurance = {};
 
-			var tpl = _.template(BoatInsuranceTemplate);
-
-			var displayAll = function(matches) {
-				_.each(matches, function( fh ) {		
-					self.$el.find('.insurance-files').append(tpl({ 
-						id: fh.id,
-						file: fh.get('file')
-					}));
-					self.proofOfInsurance[fh.id] = fh;
-				});
-			};
-
 			var query = self.model.relation('proofOfInsurance').query();
-			query.descending("createdAt");
-			query.find().then(displayAll);
+			query.ascending("createdAt");
+			query.find().then(function(matches) {
+				_.each(matches, self.appendInsurance, self);
+			});
 		},
 
-		deleteBoatPicture: function(event) {
-			event.preventDefault();
-			var self = this;
-			self.model.relation('boatPictures').remove(self.boatPictures[$(event.currentTarget).attr('file-id')]);
-			self.model.save().then(function() {
-				self.displayBoatPictures();
-			});
+		appendInsurance: function(FileHolder) {
+
+			this.$el.find('.insurance-files').append(_.template(BoatInsuranceTemplate)({ 
+				id: FileHolder.id,
+				file: FileHolder.get('file')
+			}));
+
+			this.proofOfInsurance[FileHolder.id] = FileHolder;
+
 		},
 
 		deleteInsurance: function(event) {
 			event.preventDefault();
+			var id = $(event.currentTarget).attr('file-id');
+			this.model.relation('proofOfInsurance').remove(this.proofOfInsurance[id]);
+			this.model.save();
+			delete this.proofOfInsurance[id];
+			$(event.currentTarget).closest('.file').remove();
+		},
+
+
+		displayCaptains: function() {
+			
 			var self = this;
-			self.model.relation('proofOfInsurance').remove(self.proofOfInsurance[$(event.currentTarget).attr('file-id')]);
-			self.model.save().then(function() {
-				self.displayProofOfInsurance();
-			});
+			
+			self.$el.find('.captains-list').html('');
+
+			var displayAll = function(matches) {
+				_.each(matches, self.appendCaptain, self);
+			};
+
+			var query = self.model.relation('captains').query();
+			query.ascending("createdAt");
+			query.find().then(displayAll);
+
+		},
+
+		appendCaptain: function(CaptainRequest) {
+
+			this.$el.find('.captains-list').append(_.template(BoatCaptainTemplate)({ 
+				id: CaptainRequest.id, 
+				email: CaptainRequest.get('email'),
+				status: CaptainRequest.get('status')
+			}));
+
 		},
 
 		addCaptain: function(event) {
@@ -161,8 +172,8 @@ define([
 			var self = this;
 			var addCaptainButton = self.$el.find('button.add-captain');
 
-			self.buttonLoader('Adding Captain...', addCaptainButton);
-			self.buttonLoader('Adding Captain...');
+			self.buttonLoader('Adding', addCaptainButton);
+			self.buttonLoader('Adding Captain');
 			self.cleanForm();
 
 			if( !self.isEmailValid(self._in('captain-email').val()) ) {
@@ -175,7 +186,7 @@ define([
 
 				var saveBoatSuccess = function() {
 					self._in('captain-email').val('');
-					self.displayCaptains();
+					self.appendCaptain(captain);
 					self.buttonLoader();
 				};
 
@@ -230,7 +241,6 @@ define([
 
 		},
 
-
 		uploadNewFile: function (event) {
 
 			var self = this;
@@ -239,33 +249,22 @@ define([
 			var cb = null;
 
 			if( e.attr('name') == 'boat-picture' ) {
-
 				cb = function(file) {
-					
 					new FileHolderModel({ file: file }).save().then(function(fh) {
+						self.appendBoatPicture(fh);
 						self.model.relation('boatPictures').add(fh);
-						self.model.save().then(function() {
-							self.displayBoatPictures();
-						});
+						self.model.save();
 					});
-
 				};
-
 				opts.pdf = false;
-
 			} else {
-
 				cb = function(file) {
-					
 					new FileHolderModel({ file: file }).save().then(function(fh) {
+						self.appendInsurance(fh);
 						self.model.relation('proofOfInsurance').add(fh);
-						self.model.save().then(function() {
-							self.displayProofOfInsurance();
-						});
+						self.model.save();
 					});
-
 				};
-
 			}
 
 			this.uploadFile(event, cb, opts);

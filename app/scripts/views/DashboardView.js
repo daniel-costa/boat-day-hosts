@@ -52,7 +52,7 @@ define([
 				}
 
 				var tpl = _.template(DashboardBoatRowTemplate);
-				var target = self.$el.find('.my-boats .content');
+				var target = self.$el.find('.my-boats .content .rows');
 				target.html('');
 
 				_.each(boats, function(boat) {
@@ -104,7 +104,8 @@ define([
 						displayName: request.get('fromProfile').get('displayName'),
 						profilePicture: request.get('fromProfile').get('profilePicture').url(),
 						boatName: request.get('boat').get('name'),
-						boatType: request.get('boat').get('type')
+						boatType: request.get('boat').get('type'),
+						buildYear: request.get('boat').get('buildYear')
 					}));
 
 					self.captainRequests[request.id] = request;
