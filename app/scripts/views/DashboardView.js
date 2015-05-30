@@ -39,7 +39,7 @@ define([
 			
 			var self = this;
 
-			self.$el.find('.navbar-brand').text('Host Center');
+			//self.$el.find('.navbar-brand').text('Host Center');
 			self.$el.find('.left-navigation .host-center').addClass('active');
 
 			self.$el.find('.add-boat, .add-boatday, .my-boats, .my-requests').hide();

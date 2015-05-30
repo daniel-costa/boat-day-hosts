@@ -57,7 +57,7 @@ define([
 			BaseView.prototype.render.call(this);
 			var self = this;
 
-			self.$el.find('.navbar-brand').text('My messages');
+			//self.$el.find('.navbar-brand').text('My messages');
 			self.$el.find('.left-navigation .my-notifications').addClass('active');
 			self.$el.find('.add-boat, .add-boatday, .my-boats, .my-requests').hide();
 

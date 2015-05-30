@@ -38,7 +38,7 @@ define([
 
 			var self = this;
 
-			self.$el.find('.navbar-brand').text('Add a new boatday');
+			//self.$el.find('.navbar-brand').text('Add a new boatday');
 
 			var boatsFetchSuccess = function(matches) {
 

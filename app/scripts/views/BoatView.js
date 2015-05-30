@@ -51,7 +51,7 @@ define([
 				var label = this.model.get('name') + ', ' + this.model.get('type') + ' from ' + this.model.get('buildYear');
 				self.$el.find('.navbar-brand').text(label);
 			} else {
-				self.$el.find('.navbar-brand').text('Add a new boat');
+				//self.$el.find('.navbar-brand').text('Add a new boat');
 			}
 
 			// self.$el.find('.left-navigation .new-boat').addClass('active');
