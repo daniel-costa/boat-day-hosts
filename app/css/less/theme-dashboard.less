@@ -149,7 +149,7 @@ body.theme-dashboard .content-highlight .box .left,
 body.theme-dashboard .content-highlight .box .right {
 	height: 146px;
 	line-height: 146px;
-		padding: 0px;
+	padding: 0px;
 
 }
 
@@ -194,13 +194,18 @@ body.theme-dashboard .dashboard-row .cell {
 	background: white;
 }
 
-body.theme-dashboard .dashboard-row.add-new .cell {
+body.theme-dashboard .dashboard-row.add-new a {
 	background-color: #f9fbfb;
 	border: 2px solid #e5e8ec;
 	color: #b1bfcc;
 	font-size: 20px;
 	text-align: center;
 	font-weight: 400;
+	height: 90px;
+	line-height: 90px;
+	padding: 0px 20px;
+	border: 1px solid @dashboard-border-color;
+	
 }
 
 body.theme-dashboard .dashboard-row .cell:first-child {
@@ -214,15 +219,6 @@ body.theme-dashboard .dashboard-row .cell:first-child {
 
 body.theme-dashboard .dashboard-row .cell:not(:first-child) {
 	border-left:none;
-}
-
-body.theme-dashboard .my-requests .dashboard-row .cell.sm-half-height {
-	height: 45px;
-	line-height: 45px;
-}
-
-body.theme-dashboard .my-requests .dashboard-row .cell.sm-half-height.second-line {
-	margin-top: 45px;
 }
 
 body.theme-dashboard .dashboard-row .inner {
@@ -308,6 +304,10 @@ body.theme-dashboard .add-block {
 }
 
 
+body.theme-dashboard .add-block:not(:first-child) {
+	margin-top : 50px;
+}
+
 
 body.theme-dashboard .add-block .row.split-top {
 	border-top: 1px solid @dashboard-border-color;
@@ -361,6 +361,10 @@ body.theme-dashboard .add-block .boat-picture {
 
 body.theme-dashboard .add-block .inner {
 	margin: 2px 2px;
+}
+
+body.theme-dashboard .add-block .checkboxes .form-group {
+	margin-bottom: 0px;
 }
 
 body.theme-dashboard .add-block .boat-picture .obj-thumb:hover {
