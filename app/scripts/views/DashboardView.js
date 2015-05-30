@@ -101,6 +101,7 @@ define([
 				_.each(requests, function(request) {
 					target.append(tpl({
 						id: request.id,
+						status: request.get('status'),
 						displayName: request.get('fromProfile').get('displayName'),
 						profilePicture: request.get('fromProfile').get('profilePicture').url(),
 						boatName: request.get('boat').get('name'),

@@ -1,18 +1,16 @@
 define([
 'async!http://maps.google.com/maps/api/js?sensor=false',
 'views/BaseView',
-'views/BoatDayBoatsSelectView',
-'views/BoatDayCaptainsSelectView',
 'text!templates/BoatDayTemplate.html',
 'models/BoatModel'
-], function(gmaps, BaseView, BoatDayBoatsSelectView, BoatDayCaptainsSelectView, BoatDayTemplate, BoatModel){
+], function(gmaps, BaseView, BoatDayTemplate, BoatModel){
 	var BoatDayView = BaseView.extend({
 
 		className:"view-event",
 
 		template: _.template(BoatDayTemplate),
 
-		debug: false,
+		debug: true,
 
 		events: {
 			
@@ -28,9 +26,9 @@ define([
 
 		_marker: null,
 
-		collectionBoats: null,
+		collectionBoats: {},
 
-		collectionCaptains: null,
+		collectionCaptains: {},
 		
 		theme: "dashboard",
 
@@ -42,33 +40,26 @@ define([
 
 			self.$el.find('.navbar-brand').text('Add a new boatday');
 
-			var boatsFetchSuccess = function(collection) {
+			var boatsFetchSuccess = function(matches) {
 
-				self.collectionBoats = collection;
+				var select = $('<select>').attr({ id: 'boat', name: 'boat', class: 'form-control' });
 
-				var boatsView = new BoatDayBoatsSelectView({ 
-					collection: self.collectionBoats,
-					currentBoat: self.model.get('boat') ? self.model.get('boat').id : null
+				_.each(matches, function(boat) {
+					var opt = $('<option>').attr('value', boat.id).text(boat.get('name') + ', ' + boat.get('type'));
+					select.append(opt);
+					self.collectionBoats[boat.id] = boat;
 				});
-
-				self.subViews.push(boatsView);
-				self.$el.find('.boats').html(boatsView.render().el);
-				self._in('boat').change();
-
-			};
-
-			var collectionFetchError = function(error) {
-
-				console.log(error);
+				
+				self.$el.find('.boats').html(select);
+				select.change()
 
 			};
 
 			var queryBoats = Parse.User.current().get('host').relation('boats').query();
 			queryBoats.ascending('name');
-			queryBoats.collection().fetch().then(boatsFetchSuccess, collectionFetchError);
+			queryBoats.find().then(boatsFetchSuccess);
 
 			this.$el.find('.date').datepicker({
-				format: 'mm/dd/yyyy',
 				startDate: '0d',
 				autoclose: true
 			});
@@ -232,35 +223,37 @@ define([
 		boatSelected: function(event) {
 
 			var self = this;
-			var boatid = $(event.currentTarget).val();
-			var captains = [Parse.User.current().get('profile')];
+			var boat = self.collectionBoats[$(event.currentTarget).val()];
 
-			new Parse.Query(BoatModel).get(boatid).then(function(boat) {
+			// Update max capacity
+			var _max = Math.min(15, boat.get('capacity'));
+			var _current = self._in('availableSeats').slider('getValue');
+			self._in('availableSeats').slider({max: _max}).slider('setValue', _current > _max ? _max : _current, true, false);
 
-				var _max = Math.min(15, boat.get('capacity'));
-				var _current = self._in('availableSeats').slider('getValue');
-				self._in('availableSeats').slider({max: _max}).slider('setValue', _current > _max ? _max : _current, true, false);
+			// Get captains
+			self.collectionCaptains = {};
+			self.collectionCaptains[Parse.User.current().get('profile').id] = Parse.User.current().get('profile');
 
-				var queryCaptains = boat.relation('captains').query();
-				queryCaptains.equalTo('status', 'approved');
-				queryCaptains.include('captainProfile');
-				queryCaptains.each(function(captainRequest) {
-					captains.push(captainRequest.get('captainProfile'));
-				}).then(function() {
-					
-					self.collectionCaptains = new Parse.Collection(captains);
+			var queryCaptains = boat.relation('captains').query();
+			queryCaptains.equalTo('status', 'approved');
+			queryCaptains.include('captainProfile');
+			queryCaptains.each(function(captainRequest) {
 
-					var captainssView = new BoatDayCaptainsSelectView({ 
-						collection: self.collectionCaptains,
-						currentCaptain: self.model.get('captain') ? self.model.get('captain').id : null
-					});
-					self.subViews.push(captainssView);
-					self.$el.find('.captains').html(captainssView.render().el);
+				self.collectionCaptains[captainRequest.get('captainProfile').id] = captainRequest.get('captainProfile')
+
+			}).then(function() {
+
+				var select = $('<select>').attr({ id: 'captain', name: 'captain', class: 'form-control' });
+
+				_.each(self.collectionCaptains, function(captain) {
+					var opt = $('<option>').attr('value', captain.id).text(captain.get('displayName'));
+					select.append(opt);
+					self.collectionCaptains[captain.id] = captain;
 				});
-
+				
+				self.$el.find('.captains').html(select);
+				select.change();
 			});
-
-			
 
 		},
 
@@ -291,18 +284,20 @@ define([
 			var self = this;
 			var baseStatus = this.model.get('status');
 			self.cleanForm();
+			self.buttonLoader('Creating');
 
 			var data = {
 				status: 'complete',
-				boat: self.collectionBoats ? self.collectionBoats.get(this._in('boat').val()) : null,
-				captain: self.collectionCaptains ? self.collectionCaptains.get(this._in('captain').val()) : null,
+				boat: self.collectionBoats ? self.collectionBoats[this._in('boat').val()] : null,
+				captain: self.collectionCaptains ? self.collectionCaptains[this._in('captain').val()] : null,
 				name: this._in('name').val(),
 				description: this._in('description').val(),
 				date: this._in('date').datepicker('getDate'),
 				departureTime: this._in('departureTime').slider('getValue'),
+				arrivalTime: this._in('departureTime').slider('getValue') + self._in('duration').slider('getValue'),
+				duration: self._in('duration').slider('getValue'),
 				location: self._marker ? new Parse.GeoPoint({latitude: self._marker.getPosition().lat(), longitude: self._marker.getPosition().lng()}) : null,
 				availableSeats: self._in('availableSeats').slider('getValue'),
-				duration: self._in('duration').slider('getValue'),
 				price: self._in('price').slider('getValue'), 
 				bookingPolicy: this.$el.find('[name="bookingPolicy"]:checked').val(),
 				cancellationPolicy: this.$el.find('[name="cancellationPolicy"]:checked').val(), 

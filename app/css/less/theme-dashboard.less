@@ -301,19 +301,41 @@ body.theme-dashboard [type="checkbox"]:checked + label:after {
   border-radius: 12px;
 }
 
-body.theme-dashboard .btn-row {
-	border-top: 1px solid @dashboard-border-color;
-	padding: 20px 0px;
-	margin-top: 50px;
-}
-
 body.theme-dashboard .add-block {
 	background: white;
 	box-shadow: 0px 2px 2px #ebebeb;
 	border: 1px solid @dashboard-border-color;	
 }
 
-body.theme-dashboard .add-block > .row:not(.heading) {
+
+
+body.theme-dashboard .add-block .row.split-top {
+	border-top: 1px solid @dashboard-border-color;
+	padding-top: 65px;
+	margin-top: 50px;
+}
+
+
+body.theme-dashboard .add-block > .row:first-child:not(.heading) {
+	margin-top: 50px;
+}
+
+body.theme-dashboard .add-block > .row.heading {
+	background : @btn-default-bg;
+	line-height: 86px;
+	color: #b1bfcc;
+	font-size: 15px;
+	font-weight: 500;
+	border-bottom: 1px solid @dashboard-border-color;
+}
+
+body.theme-dashboard .add-block .heading ~ .row:not(.heading) {
+    margin-top: 50px;
+}
+
+body.theme-dashboard .add-block .btn-row {
+	border-top: 1px solid @dashboard-border-color;
+	padding: 20px 0px;
 	margin-top: 50px;
 }
 
@@ -327,20 +349,6 @@ body.theme-dashboard .add-block .row.file a {
 
 body.theme-dashboard .add-block .row.file .cell {
 	padding: 0px;
-}
-
-body.theme-dashboard .add-block .row.split-top {
-	border-top: 1px solid @dashboard-border-color;
-	padding-top: 65px;
-}
-
-body.theme-dashboard .add-block .row.heading {
-	background : @btn-default-bg;
-	line-height: 86px;
-	color: #b1bfcc;
-	font-size: 15px;
-	font-weight: 500;
-	border-bottom: 1px solid @dashboard-border-color;	
 }
 
 body.theme-dashboard .add-block .row.heading .form-group {

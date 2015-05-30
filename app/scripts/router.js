@@ -3,6 +3,7 @@ define([
 	'models/BoatModel',
 	'models/BoatDayModel',
 	'models/HelpCenterModel',
+	'models/NotificationModel',
 	'views/HomeView',
 	'views/ForgotPasswordView',
 	'views/ResetPasswordView',
@@ -17,12 +18,13 @@ define([
 	'views/BoatView', 
 	'views/BoatDayView', 
 	'views/HelpCenterView',
-	'views/CertificationsView'
+	'views/CertificationsView',
+	'views/NotificationsView'
 ], function(
-	BoatModel, BoatDayModel, HelpCenterModel,
+	BoatModel, BoatDayModel, HelpCenterModel, NotificationModel,
 	HomeView, ForgotPasswordView, ResetPasswordView, InvalidLinkView, PasswordChangedView, 
 	DashboardView, TermsView, SignUpView, HostView, ProfileView, AccountView, BoatView, 
-	BoatDayView, HelpCenterView, CertificationsView) {
+	BoatDayView, HelpCenterView, CertificationsView, NotificationsView) {
 	
 	var AppRouter = Parse.Router.extend({
 
@@ -42,6 +44,7 @@ define([
 			'my-account': 'showAccountView',
 			'my-profile': 'showProfileView',
 			'my-certifications': 'showCertificationsView',
+			'my-notifications': 'showNotificationsView',
 			'help-center': 'showHelpCenterView',
 			'help-center/:category': 'showHelpCenterView',
 			'*actions': 'showDashboardView'
@@ -184,6 +187,20 @@ define([
 			var cb = function( ) {
 
 				self.render(new CertificationsView({ model: Parse.User.current().get('host') }));	
+
+			};
+
+			this.handleGuestAndSignUp(cb);
+
+		},
+
+		showNotificationsView: function() {
+
+			var self = this;
+
+			var cb = function( ) {
+				
+				self.render(new NotificationsView());
 
 			};
 
