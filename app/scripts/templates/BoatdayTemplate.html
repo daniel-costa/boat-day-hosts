@@ -56,16 +56,20 @@
 						<div class="col-sm-9 col-sm-offset-2">
 							<div class="form-group">
 								<label for="departureTime" class="control-label">Departure Time</label>
+								<div class="preview-departureTime"></div>
 								<div>
-
+									<input type="text" class="form-control" id="departureTime" name="departureTime" data-slider-min="0" data-slider-max="23.5" data-slider-step="0.5" data-slider-value="<%= departureTime ? departureTime : 9 %>">
 								</div>
 							</div>
 						</div>
+						
 						<div class="col-sm-9 col-sm-offset-2">
 							<div class="form-group">
 								<label for="duration" class="control-label">Duration</label>
+									<span class="preview-duration"></span>
+									<a href="https://www.boatdayapp.com/faq" target="_blank"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="All BoatDays must depart and return on the same day, and are limited to a maximum of 12 hours duration. Learn more by clicking on this help icon."></span></a>
 								<div>
-
+									<input type="text" class="form-control" id="duration" name="duration" data-slider-min="0.5" data-slider-max="12" data-slider-step="0.5" data-slider-value="<%= duration ? duration : 6 %>">
 								</div>
 							</div>
 						</div>
@@ -74,9 +78,64 @@
 					<div class="row">
 						<div class="col-sm-9 col-sm-offset-2">
 							<div class="form-group">
-								<label for="boat" class="control-label">Select Boat</label>
+								<label for="availableSeats" class="control-label">Available Seats</label>
 								<div>
+									<div class="preview-availableSeats"></div>
+									<input type="text" class="form-control" id="availableSeats" name="availableSeats" data-slider-min="2" data-slider-max="15" data-slider-step="1" data-slider-value="<%= availableSeats ? availableSeats : 8 %>">
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-9 col-sm-offset-2">
+							<div class="form-group">
+								<label for="price" class="control-label">Price Calculator</label>
+								<table class="table table-bordered">
+									<tr>
+										<td class="totalSeats"></td>
+										<td class="text-right totalPriceUSD"></td>
+									</tr>
+									<tr>
+										<td class="totalBD">
+											Service Fee
+											<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the fee charged by BoatDay"></span>
+										</td>
+										<td class="text-right totalBoatDayUSD"></td>
+									</tr>
+									<tr>
+										<td style="border-top: double 3px black;" class="totalHost">
+											Total 
+											<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="Estimated contribution you will receive if your boat is fully booked."></span>
+										</td>
+										<td style="border-top: double 3px black;" class="text-right totalHostUSD"></td>
+									</tr>
+								</table>
+							</div>
+						</div>
 
+						<div class="col-sm-9 col-sm-offset-2">
+							<div class="form-group">
+								<label for="price" class="control-label">Price Per Seat</label>
+								<div>
+									<div class="preview-price"></div>
+									<input type="text" class="form-control" id="price" name="price" data-slider-min="5" data-slider-max="250" data-slider-step="5" data-slider-value="<%= price ? price : 50 %>">
+								</div>
+								<div class="col-sm-8 col-sm-offset-8">
+									<div class="priceHint"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-9 col-sm-offset-2">
+							<div class="form-group">
+								<label for="activity" class="control-label">Activity</label>
+								<div>
+									<select class="input-small form-control" id="activity" name="activity">
+										<option value="leisure" <%= category && category == 'leisure' ? 'selected' : '' %> selected>Leisure</option> 
+										<option value="fishing" <%= category && category == 'fishing' ? 'selected' : '' %>>Fishing</option>
+										<option value="sailing" <%= category && category == 'sailing' ? 'selected' : '' %>>Sailing</option>
+										<option value="sports" <%= category && category == 'sports' ? 'selected' : '' %>>Water Sports</option>
+									</select>
 								</div>
 							</div>
 						</div>
@@ -89,29 +148,8 @@
 							</div>
 						</div>
 					</div>
-
-					<div class="row">
-						<div class="col-sm-9 col-sm-offset-2">
-							<div class="form-group">
-								<label for="boat" class="control-label">Select Boat</label>
-								<div>
-
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-9 col-sm-offset-2">
-							<div class="form-group">
-								<label for="captains" class="control-label">Select Captain</label>
-								<div>
-
-								</div>
-							</div>
-						</div>
-					</div>
-
 				</div>
 			</form>
-
 		</div>
 	</div>
 </div>
