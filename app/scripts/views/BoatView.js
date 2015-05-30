@@ -403,7 +403,7 @@ define([
 				} else {
 					
 					self.render();
-					self._info('Your boat is added');
+					//self._info('Your boat is added');
 
 				}
 

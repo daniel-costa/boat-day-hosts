@@ -6,7 +6,13 @@ define([
 		defaults: {
 			to: null,
 			from: null,
-			message: null
+			message: null,
+			read: false,
+			open: null,
+			payload: {
+				id: null,
+				action: null
+			}
 		}
  
 	});

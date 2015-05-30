@@ -1,1 +1,7 @@
-this is a notification
+<div>
+	<%= notification.get("createdAt") %> -
+	<%= notification.get("read") %> -
+	<%= notification.get("open") %> -
+	<%= notification.get("from").get("displayName") %>: <%= notification.get("message") %>
+	<button class="btn btn-default btn-lg open-notification" data-id="<%= notification.id %>">Something</button>
+</div>
