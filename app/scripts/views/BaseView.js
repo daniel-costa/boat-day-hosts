@@ -202,8 +202,8 @@ define([
 		},
 
 		dateParseToDisplayDate: function (date) {
-
-			return new Date(date.iso).toLocaleDateString();
+			
+			return new Date(date.iso ? date.iso : date).toLocaleDateString();
 
 		},
 

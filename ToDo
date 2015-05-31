@@ -92,17 +92,17 @@ o current 2.1.0
 - (dome) Optimize Boat: when adding a insurance, do not featch everything.
 - (done) Captain Requests Row in dashboard, make cells disapear and resize columns
 - (done) Boat Row in dashboard, make cells disapear and resize columns
+- (done) Add SM styles for Boat part
+- (done) Right white area to add to dashboard
+- (done) Messages page to implement
+- (done) Messages page to design
+- (done) Add notifications panel
+- (done) Boatday, Check if boat not use in this time
+- (done) Boatday, Check if captain not use in this time
 
-- Add SM styles for Boat part
-- Right white area to add to dashboard
-- Messages page to implement
-- Boatday, Check if boat not use in this time
-- Boatday, Check if captain not use in this time
-
+- Placeholder on fields, change color
 - host app on parse.com
 - Check grunt JS api
-- Add notifications panel
-
 
 
 o Ask Michelle

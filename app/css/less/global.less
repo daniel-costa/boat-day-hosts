@@ -1,15 +1,23 @@
 
+.slider.slider-horizontal {
+  height: 50px;
+}
+
 .slider-selection {
-	background: rgba(21, 167, 192, 0.30);
+  background: white !important;
 }
 
 .slider-track {
-	background: rgba(21, 167, 192, 0.15);
+  background: white !important;
+  border:1px solid #cfd8dc !important;
+  height: 4px !important;
+  background-image: none !important;
 }
 
 .slider-handle {
-	background: #15a7c0;
-	border: 1px solid white;
+	background: #f9fbfb !important;
+	border: 1px solid #cfd8dc !important;
+  margin-top: -9.25px !important;
 }
 
 .picturePreview {
@@ -135,7 +143,7 @@ textarea.form-control {
     height: @input-height-large;
     padding: @padding-large-vertical @padding-large-horizontal;
     font-size: @font-size-base;
-    line-height: 21px;
+    line-height: 26px;
     border-radius: @border-radius-large;
 }
 
@@ -162,6 +170,8 @@ textarea.form-control {
 select.form-control {
   -webkit-appearance: none;
   padding: 0px 15px;
+  background: ;
+  background: url(../resources/select-arrows.png) no-repeat center right 10px #f9fbfb;
 }
 
 .form-horizontal .control-label {
@@ -180,7 +190,6 @@ h4 {
 	border-width: 0px;
 	border-bottom-width: 1px;
 }
-
 
 .navbar-nav > li > a {
 	border-left : 1px solid @navbar-default-border;

@@ -17,6 +17,7 @@ define([
 	'views/AccountView',
 	'views/BoatView', 
 	'views/BoatDayView', 
+	'views/BoatDaysView', 
 	'views/HelpCenterView',
 	'views/CertificationsView',
 	'views/NotificationsView'
@@ -24,7 +25,7 @@ define([
 	BoatModel, BoatDayModel, HelpCenterModel, NotificationModel,
 	HomeView, ForgotPasswordView, ResetPasswordView, InvalidLinkView, PasswordChangedView, 
 	DashboardView, TermsView, SignUpView, HostView, ProfileView, AccountView, BoatView, 
-	BoatDayView, HelpCenterView, CertificationsView, NotificationsView) {
+	BoatDayView, BoatDaysView, HelpCenterView, CertificationsView, NotificationsView) {
 	
 	var AppRouter = Parse.Router.extend({
 
@@ -45,6 +46,7 @@ define([
 			'my-profile': 'showProfileView',
 			'my-certifications': 'showCertificationsView',
 			'my-notifications': 'showNotificationsView',
+			'my-boatdays': 'showBoatDaysView',
 			'help-center': 'showHelpCenterView',
 			'help-center/:category': 'showHelpCenterView',
 			'*actions': 'showDashboardView'
@@ -201,6 +203,20 @@ define([
 			var cb = function( ) {
 				
 				self.render(new NotificationsView());
+
+			};
+
+			this.handleGuestAndSignUp(cb);
+
+		},
+
+		showBoatDaysView: function() {
+
+			var self = this;
+
+			var cb = function( ) {
+				
+				self.render(new BoatDaysView());
 
 			};
 

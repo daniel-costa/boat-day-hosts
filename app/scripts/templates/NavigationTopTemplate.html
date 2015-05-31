@@ -1,17 +1,18 @@
-<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand"></a>
+
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand"></a>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#/help-center">Help Center</a></li>
+				<li>
+					<a href="#/my-account" class="my-account">
+						<%= Parse.User.current().get('profile').get('displayName') %>
+						<span class="glyphicon glyphicon-cog"></span>
+					</a>
+				</li>
+				<li><a href="#/sign-out" class="sign-out">Sign out</a></li>
+			</ul>
 		</div>
-		<ul class="nav navbar-nav navbar-right">
-			<li><a href="#/help-center">Help Center</a></li>
-			<li>
-				<a href="#/my-account" class="my-account">
-					<%= Parse.User.current().get('profile').get('displayName') %>
-					<span class="glyphicon glyphicon-cog"></span>
-				</a>
-			</li>
-			<li><a href="#/sign-out" class="sign-out">Sign out</a></li>
-		</ul>
-	</div>
-</nav>
+	</nav>

@@ -89,12 +89,12 @@ define([
 				_return.fields.name = "Oops, you missed one! Please provide a name for your BoatDay.";
 			}
 
-			if( attributes.boat == "" ) {
+			if( !attributes.boat ) {
 				_return.fields.boat = "Oops, you missed one! Please select the boat for your BoatDay.";
 			}
 
-			if( attributes.captain == "#" ) {
-				_return.fields.captain = "A captain name is required";
+			if( !attributes.captain ) {
+				_return.fields.captain = "Oops, you missed one! Please select the captain for your BoatDay.";
 			}
 
 			if( !attributes.availableSeats ) {

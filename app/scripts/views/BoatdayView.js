@@ -2,8 +2,9 @@ define([
 'async!http://maps.google.com/maps/api/js?sensor=false',
 'views/BaseView',
 'text!templates/BoatDayTemplate.html',
-'models/BoatModel'
-], function(gmaps, BaseView, BoatDayTemplate, BoatModel){
+'models/BoatModel',
+'models/BoatDayModel'
+], function(gmaps, BaseView, BoatDayTemplate, BoatModel, BoatDayModel){
 	var BoatDayView = BaseView.extend({
 
 		className:"view-event",
@@ -14,7 +15,7 @@ define([
 
 		events: {
 			
-			"submit form" : "save",
+			"submit form" : "checkOverlaping",
 			'change [name="boat"]' : "boatSelected", 
 			'change [name="activity"]' : "refreshActivity", 
 			'change [name="featuresFishingEquipment"]': "showFishingEquipment", 
@@ -65,7 +66,7 @@ define([
 			});
 
 			if( this.model.get('date') ) {
-
+				console.log(this.model.get('date'));
 				this.$el.find('.date').datepicker('setDate', this.model.get('date'));
 
 			}
@@ -277,14 +278,87 @@ define([
 
 		},
 
-		save: function(event) {
+		checkOverlaping: function(event) {
 
 			event.preventDefault();
 
 			var self = this;
-			var baseStatus = this.model.get('status');
 			self.cleanForm();
 			self.buttonLoader('Creating');
+
+			if( !this._in('date').datepicker('getDate') ) {
+				self.fieldError("date", "Oops, you missed one! Please choose a date for your BoatDay.");
+				self.buttonLoader();
+				return;
+			}
+
+			var date = this._in('date').datepicker('getDate');
+			var departureTime = this._in('departureTime').slider('getValue');
+			var arrivalTime = this._in('departureTime').slider('getValue') + self._in('duration').slider('getValue');
+
+			var boatAlreadyBooked = function() {
+				var msg = 'Boat already taken';
+				self._error(msg);
+				self.fieldError("boat", msg);
+			};
+
+			var captainAlreadyBooked = function() {
+				var msg = 'Captain already taken';
+				self._error(msg);
+				self.fieldError("captain", msg);
+			};
+
+			var qBoatDay = new Parse.Query(BoatDayModel);
+			qBoatDay.equalTo("boat", self.collectionBoats[this._in('boat').val()]);
+			qBoatDay.equalTo("date", date);
+			qBoatDay.greaterThan("arrivalTime", departureTime);
+			qBoatDay.lessThan("departureTime", arrivalTime);
+
+			var qCaptain = new Parse.Query(BoatDayModel);
+			qCaptain.equalTo("captain", self.collectionCaptains[this._in('captain').val()]);
+			qCaptain.equalTo("date", date);
+			qCaptain.greaterThan("arrivalTime", departureTime);
+			qCaptain.lessThan("departureTime", arrivalTime);
+			
+			var a = qBoatDay.count();
+			var b = qCaptain.count();
+
+			Parse.Promise.when(a, b).then(function(qBoatDayTotal, qCaptainTotal) {
+				
+				var err = false;
+
+				console.log(qBoatDayTotal);
+				console.log(qCaptainTotal);
+
+				if( qBoatDayTotal > 0 ) {
+					console.log("b in");
+					boatAlreadyBooked();
+					err = true;
+				}
+
+				if( qCaptainTotal > 0 ) {
+					console.log("c in");
+					captainAlreadyBooked();
+					err = true;
+				}
+
+				if ( err ) {
+					console.log("retuirn");
+					self.buttonLoader();
+					return;
+				}
+
+				self.save();
+			});
+
+
+		},
+
+		save: function(event) {
+
+
+			var self = this;
+			var baseStatus = this.model.get('status');
 
 			var data = {
 				status: 'complete',
@@ -365,7 +439,7 @@ define([
 				if( baseStatus == 'creation' ) {
 
 					var hostSaveSuccess = function() {
-						Parse.history.navigate('boatday/'+boatday.id, true);
+						Parse.history.navigate('dashboard', true);
 					};
 
 					var hostSaveError = function(error) {
@@ -385,7 +459,7 @@ define([
 			};
 
 			var saveError = function(error) {
-				
+
 				self.buttonLoader();
 
 				if( error.type && error.type == 'model-validation' ) {

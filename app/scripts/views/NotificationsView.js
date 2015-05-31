@@ -6,7 +6,7 @@ define([
 ], function(BaseView, NotificationModel, NotificationTemplate, NotificationsTemplate){
 	var NotificationsView = BaseView.extend({
 
-		className: "view-my-certifications",
+		className: "view-my-notifications",
 
 		template: _.template(NotificationsTemplate),
 
@@ -58,30 +58,44 @@ define([
 			var self = this;
 
 			//self.$el.find('.navbar-brand').text('My messages');
-			self.$el.find('.left-navigation .my-notifications').addClass('active');
+			self.$el.find('.left-navigation .menu-my-notifications').addClass('active');
 			self.$el.find('.add-boat, .add-boatday, .my-boats, .my-requests').hide();
-
-			var ctn = $('<div>');
 
 			var gotNotification = function(notification) {
 
 				self.notifications[notification.id] = notification;
 
+				var data = {
+					bd: notification.get("fromTeam"),
+					action: notification.get("action"),
+					boatId: notification.get("boat") ? notification.get("boat").id : null,
+					boatName: notification.get("boat") ? notification.get("boat").get('name') : null,
+					boatdayId: notification.get("boatday") ? notification.get("boatday").id : null,
+					boatdayName: notification.get("boatday") ? notification.get("boatday").get('name') : null,
+					action: notification.get("action"),
+					message: notification.get("message"),
+					sender: notification.get("from"),
+					read:  notification.get("read"),
+					requestId: 1,
+					amount: 10
+				};
+
+				self.$el.find('.notification-list').append(_.template(NotificationTemplate)(data));
+
+
 				if(!notification.get("read")) {
 					notification.save({ read: new Date()});
 				}
-
-
-				ctn.append(_.template(NotificationTemplate)({ notification: notification }));
-
 			}
 
 			var query = new Parse.Query(NotificationModel);
+			query.descending('createdAt');
 			query.equalTo("to", Parse.User.current().get("profile"));
 			query.include('from');
+			query.include('boat');
+			query.include('boatday');
 			query.find().then(function(matches){
 				_.each(matches, gotNotification);
-				self.$el.find('.notification-list').html(ctn);
 			});
 
 			return this;

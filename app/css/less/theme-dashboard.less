@@ -1,113 +1,91 @@
 
 body.theme-dashboard {
-	background-color: @brand-primary-bg;
-	padding-bottom: 50px;
-}
-
-body.theme-dashboard:before {
-	
-	@media (min-width: @screen-sm-min) {
-		content: "";
-		position: fixed;
-		top:0px;
-		left: 0px;
-		width: 50%;
-		bottom: 0px;
-		background: white;
-	}
-	
-}
-
-body.theme-dashboard:after {
-
-	@media (min-width: @screen-sm-min) {
-		content: "";
-		position: fixed;
-		top:0px;
-		left: 50%;
-		bottom: 0px;
-		background: @brand-primary-bg;
-		border-left: 1px solid @dashboard-border-color;
-		margin-left: -@container-sm / 3;
-		width: @container-sm / 3;
-	}
-
-	@media (min-width: @screen-md-min) {
-		margin-left: -@container-md / 3;
-		width: @container-md / 3;
-	}
-
-	@media (min-width: @screen-lg-min) {
-		margin-left: -@container-lg / 3;
-		width: @container-lg / 3;
-	}
+	background: url(../resources/dashboard.png) center center no-repeat fixed;
+	background-size: cover;
 }
 
 
-body.theme-dashboard .part-right {
-
-	@media (min-width: @screen-sm-min) {
-		padding-left: 65px;
-		padding-right: 0px;
-	}
-
+body.theme-dashboard .wrapper {
+	position:fixed;
+	width: 1170px;
+	left: 50%;
+	margin-left: -575px;
+	top: 70px;
+	bottom: 0px;
 }
 
+
+body.theme-dashboard .left-part {
+	position: absolute;
+	height: 100%;
+	background: white;
+	padding: 0px;
+}
+
+body.theme-dashboard .right-part {
+	position: absolute;
+	height: 100%;
+	background: rgba(243, 248, 249, 0.9);
+	right: 0px;
+    border-left: 1px solid @dashboard-border-color;
+	padding: 0px;
+}
+
+body.theme-dashboard .right-part .inner-content {
+	position: absolute;
+	overflow: auto;
+	top: 72px;
+	bottom: 0px;
+    padding: 0px 30px 50px 30px;
+    width: 100%;
+}
+/*
 body.theme-dashboard .left-navigation { 
 	height: 100%;
-	position:fixed;
+	position:absolute;
 	top: 0px;
-	left:50%;
-	background: white;
-	/*border-left: 1px solid @dashboard-border-color;*/
+	left: 0px;
 	z-index:100;
-
-	@media (min-width: @screen-sm-min) {
-		width: (@container-sm / 24) * 4;
-		margin-left: -@container-sm / 2;
-	}
-
-	@media (min-width: @screen-md-min) {
-		width: (@container-md / 24) * 4;
-		margin-left: -@container-md / 2;
-	}
-
-	@media (min-width: @screen-lg-min) {
-		width: (@container-lg / 24) * 4;
-		margin-left: -@container-lg / 2;
-	}
 }
-
+*/
 body.theme-dashboard .left-navigation .nav {
 	width : 100%;
 }
 
-
 body.theme-dashboard .left-navigation a {
 	display:block;
-
-	/*border-bottom: 1px solid @dashboard-border-color;*/
-	line-height: 135px;
-
+	line-height: 120px;
 	text-align: center;
 	text-transform: uppercase;
 	color : #69878c;
 	font-size: 14px;
-	font-weight: 500;
+	font-weight: 700;
 	padding: 0px 10px;
+	position:relative;
+}
+
+body.theme-dashboard .left-navigation a:hover {
+	font-style: normal;
 }
 
 body.theme-dashboard .left-navigation a.active {
 	font-weight: 700;
-	border-right: 4px solid @brand-primary;
-	border-top: 1px solid @dashboard-border-color;
-	border-bottom: 1px solid @dashboard-border-color;
-	box-shadow: 0px 2px 2px rgba(224, 235, 237, 0.5);
+}
+
+body.theme-dashboard .left-navigation a.active:after {
+	content: "";
+	position: absolute;
+	width: 80px;
+	height: 2px;
+	background: #00a8bf;
+	left: 50%;
+	margin-left:-20%;
+	top: 80px;
 }
 
 body.theme-dashboard .left-navigation a.brand {
 	height: auto;
-
+	border-bottom: 1px solid @dashboard-border-color;
 }
 
 body.theme-dashboard .left-navigation a.brand img {
@@ -119,9 +97,12 @@ body.theme-dashboard .content-highlight {
 	margin-top: 120px;
 	margin-bottom:30px;
 }
+body.theme-dashboard .view-my-notifications .content-highlight { 
+	margin-top:60px;
+}
 
 body.theme-dashboard .content-highlight h1 { 
-	font-weight: 100;
+	font-weight: 200;
 	letter-spacing: 1px;
 	font-size: 37px;
 	text-align: center;
@@ -169,6 +150,10 @@ body.theme-dashboard .content-highlight .box .right .btn {
 
 body.theme-dashboard h4 {
 	margin-top: 30px;
+	font-size: 14px;
+	font-weight: 500;
+	color: #b1bfcc;
+	text-transform: uppercase
 }
 
 body.theme-dashboard .dashboard-row {
@@ -181,35 +166,35 @@ body.theme-dashboard .dashboard-row {
 }
 
 
-body.theme-dashboard .dashboard-row.add-new {
-	box-shadow: none;
-}
 
 body.theme-dashboard .dashboard-row .cell {
-	height: 90px;
-	line-height: 90px;
+	height: 80px;
+	line-height: 80px;
 	padding: 0px 20px;
 	border: 1px solid @dashboard-border-color;
 	vertical-align:middle;
 	background: white;
 }
 
+body.theme-dashboard .dashboard-row.add-new {
+	box-shadow: none;
+	border: 2px solid @dashboard-border-color;
+	height: 80px;
+	line-height: 80px;
+	padding: 0px 20px;
+	vertical-align:middle;
+	background: white;
+}
+
 body.theme-dashboard .dashboard-row.add-new a {
-	background-color: #f9fbfb;
-	border: 2px solid #e5e8ec;
 	color: #b1bfcc;
 	font-size: 20px;
 	text-align: center;
-	font-weight: 400;
-	height: 90px;
-	line-height: 90px;
-	padding: 0px 20px;
-	border: 1px solid @dashboard-border-color;
-	
+	font-weight: 500;
 }
 
 body.theme-dashboard .dashboard-row .cell:first-child {
-	padding: 0px 15px;
+	padding: 0px 10px;
 
 	@media (max-width: @screen-xs-max) {
 		height: 250px;
@@ -257,14 +242,21 @@ body.theme-dashboard .dashboard-row p {
 	margin: 0px;
 }
 
-body.theme-dashboard .dashboard-row .btn.btn-default { 
+body.theme-dashboard .dashboard-row .btn.btn-default,
+body.theme-dashboard .my-boatdays .my-boatday .info .btn { 
 	border-color: @input-border;
 	color: @text-color;
 }
 
-body.theme-dashboard .dashboard-row .btn.btn-default:hover { 
+body.theme-dashboard .dashboard-row .btn.btn-default:hover,
+body.theme-dashboard .my-boatdays .my-boatday .info .btn:hover { 
 	background: @input-border;
 	color: white;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .info .btn.accept,
+body.theme-dashboard .dashboard-row .btn.btn-default.accept {
+	color: @brand-primary;
 }
 
 body.theme-dashboard [type="radio"]:not(:checked) + label,
@@ -303,12 +295,6 @@ body.theme-dashboard .add-block {
 	border: 1px solid @dashboard-border-color;	
 }
 
-
-body.theme-dashboard .add-block:not(:first-child) {
-	margin-top : 50px;
-}
-
-
 body.theme-dashboard .add-block .row.split-top {
 	border-top: 1px solid @dashboard-border-color;
 	padding-top: 65px;
@@ -337,6 +323,7 @@ body.theme-dashboard .add-block .btn-row {
 	border-top: 1px solid @dashboard-border-color;
 	padding: 20px 0px;
 	margin-top: 50px;
+	background: #f9fbfb;
 }
 
 body.theme-dashboard .add-block .row.file {
@@ -394,3 +381,197 @@ body.theme-dashboard .add-block p {
 body.theme-dashboard label.control-label {
 	font-weight: normal
 }
+
+body.theme-dashboard .notification-list {
+	border: 1px solid @dashboard-border-color;
+	box-shadow: 0px 1px 1px #ebebeb, 1px 0px 1px #ebebeb, -1px 0px 1px #ebebeb, 0px -1px 1px #ebebeb;
+}
+
+body.theme-dashboard .notification-list > .row {
+	height: 90px;
+	line-height: 90px;
+	background: #f9fbfb;
+	border-bottom: 1px solid @dashboard-border-color;
+}
+
+body.theme-dashboard .notification-list > .row.not-open {
+	background: white;
+	border-bottom: 1px solid @dashboard-border-color;
+
+}
+
+body.theme-dashboard .notification-list .obj-thumb {
+	width: 52px;
+	height: 52px;
+}
+
+body.theme-dashboard .notification-list strong,
+body.theme-dashboard .notification-list a {
+	font-weight: 500;
+	color: @brand-primary;
+}
+
+body.theme-dashboard .notification-list > .row .inner {
+	vertical-align:middle;
+	display:inline-block;
+	line-height:normal;
+	width: 100%;
+}
+
+body.theme-dashboard .notification-list > .row .cell.profile {
+	padding:0px;
+}
+
+body.theme-dashboard .notification-list .btn.btn-default { 
+	border-color: @input-border;
+	color: @text-color;
+}
+
+body.theme-dashboard .notification-list .btn.btn-default:hover { 
+	background: @input-border;
+	color: white;
+}
+
+body.theme-dashboard .notification-list .btn.btn-default.accept {
+	color: @brand-primary;
+}
+
+body.theme-dashboard .my-boatdays .items {
+
+}
+
+body.theme-dashboard .my-boatdays .my-boatday {
+	padding: 0px;
+	margin-bottom: 20px;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday-inner.left {
+	margin-right: 10px;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday-inner.right {
+	margin-left: 10px;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday-inner {
+	border : 1px solid @dashboard-border-color;
+	background: white;
+	box-shadow: 0px 1px 1px #ebebeb, 1px 0px 1px #ebebeb, -1px 0px 1px #ebebeb, 0px -1px 1px #ebebeb;
+	padding: 0px;
+}
+
+
+body.theme-dashboard .my-boatdays .container-fluid {
+	padding: 0px;
+}
+
+
+body.theme-dashboard .my-boatdays .my-boatday .header {
+	height: 250px;
+	line-height: 250px;
+	position:relative;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .header .picture{
+	position:absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background: center center no-repeat;
+	background-size: cover;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .header .picture:before {
+	content: "";
+	position:absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background: rgba(174, 205, 209, 0.8);
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .header .picture.active:before {
+	background: rgba(0, 168, 191, 0.8);
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .info .inner,
+body.theme-dashboard .my-boatdays .my-boatday .header .inner {
+	line-height: normal;
+	display:inline-block;
+	width: 100%;
+	text-align:center;
+	vertical-align: middle;
+	position:relative;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .header .date {
+	font-size: 13px;
+	font-weight: 500;
+	color: white;
+	margin : 0px;
+	margin-bottom : 10px;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .header h1 {
+	font-size: 27px;
+	font-weight: 400;
+	color: white;
+	margin : 0px;
+	margin-bottom : 10px;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .header .sub {
+	font-size: 13px;
+	font-weight: 500;
+	color: white;
+	margin : 0px;
+	margin-bottom : 0px;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .info {
+	height: 150px;
+	line-height: 150px;
+	text-align:center;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .info > div:first-child {
+	border-right : 1px solid @dashboard-border-color;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .info .highlight {
+	font-size: 20px;
+	font-weight: 500;
+	color: #546e7a;
+	margin : 0px;
+	margin-bottom : 0px;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .info .description {
+	font-size: 13px;
+	font-weight: 500;
+	color: #b1bfcc;
+	margin : 0px;
+	margin-bottom : 0px;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .info .inner .description.first {
+	margin-bottom : 19px;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .info .btn {
+	height: auto;
+	padding: 15px;
+}
+
+body.theme-dashboard .my-boatdays .my-boatday .info .btn img {
+	display: block;
+	margin: auto;
+	margin-bottom: 10px;
+}
+
+
+
+
+

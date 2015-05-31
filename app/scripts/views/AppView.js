@@ -20,7 +20,7 @@ define(['parse'], function(Parse){
 
 		displayMessage: function(event, params) {
 
-			if( $('.display-messages').length == 1) {
+			if( $('.display-messages').length > 0) {
 				$('.display-messages').append($('<p>').text(params.message).addClass(params.type == 'error' ? 'alert-danger' : 'alert-info'));
 			} else {
 				alert(params.type + ": "+ params.message);
