@@ -2,8 +2,9 @@ define([
 'parse',
 'text!templates/NavigationTopTemplate.html',
 'text!templates/NavigationLeftTemplate.html',
+'text!templates/ThemeDashboardTemplate.html',
 'text!templates/ModalTemplate.html',
-], function(Parse, NavigationTopTemplate, NavigationLeftTemplate, ModalTemplate){
+], function(Parse, NavigationTopTemplate, NavigationLeftTemplate, ThemeDashboardTemplate, ModalTemplate){
 	var BaseView = Parse.View.extend({
 
 		className: "view-base",
@@ -11,6 +12,8 @@ define([
 		navTopTpl: _.template(NavigationTopTemplate),
 		
 		navLeftTpl: _.template(NavigationLeftTemplate),
+
+		dashboardCanvasTpl: _.template(ThemeDashboardTemplate),
 
 		modalTpl:  _.template(ModalTemplate),
 
@@ -48,6 +51,15 @@ define([
 			} 
 
 			this.$el.html(this.template(data));
+
+			var canvas = this.$el.find('.dashboard-canvas');
+			if( canvas.length == 1 ) {
+				var base = this.$el.html();
+				var _next = $(this.dashboardCanvasTpl())
+				var next = _next.find('.inner-content').html(base);
+
+				this.$el.html(_next);
+			}
 
 			var navTop = this.$el.find('.top-navigation');
 			if( navTop.length == 1 ) {

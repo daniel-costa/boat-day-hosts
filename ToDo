@@ -99,15 +99,32 @@ o current 2.1.0
 - (done) Add notifications panel
 - (done) Boatday, Check if boat not use in this time
 - (done) Boatday, Check if captain not use in this time
+- (done) Bug with price display in boatday's snippets in dashboard
+
+- (done) Put line on create a boatday in the left menu when being creating a boatday
+- (done) My Account title wrong for certifications
+- (done) notification boat refused put like in end of sentence
+- (done) more space on the right and left of content in dashboard
 
 - Placeholder on fields, change color
+- My boatdays not displaying items
 - host app on parse.com
 - Check grunt JS api
+
+- radio and checkboxes 1 px border
+
+
 
 
 o Ask Michelle
 - Business cards
-
+- Where to add a new boat day after adding the first one.
+- Icon for host account
+- Icon for certifications
+- Share button on boatday snippet in the dashboard
+- Design the Booking requests button: open a list of the requests (flip horizontal?)
+- Design the all information for boatday display in dashboard
+- Design the Event messages button: open a list of messages (flip horizontal?)
 
 
 o Features next release 2.2.0
@@ -116,6 +133,7 @@ o Features next release 2.2.0
 - Check stripe services
 - Check if we can submit multiple times forms
 - Rating page to implement
+- Filter notifications in notifications page (about boatdays, from boatdayteam, only reviews, only requests)
 
 
 

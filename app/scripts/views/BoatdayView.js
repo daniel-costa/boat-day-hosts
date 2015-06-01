@@ -39,7 +39,7 @@ define([
 
 			var self = this;
 
-			//self.$el.find('.navbar-brand').text('Add a new boatday');
+			self.$el.find('.left-navigation .menu-new-boatday').addClass('active');
 
 			var boatsFetchSuccess = function(matches) {
 

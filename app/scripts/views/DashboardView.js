@@ -76,7 +76,7 @@ define([
 				var queryBoatDays = new Parse.Query(BoatDayModel);
 				queryBoatDays.equalTo("host", Parse.User.current().get("host"));
 				queryBoatDays.greaterThanOrEqualTo("date", new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
-				queryBoatDays.ascending('createdAt');
+				queryBoatDays.ascending('date,departureTime');
 				queryBoatDays.include('boat');
 				queryBoatDays.find().then(boatdaysFetchSuccess, queryFindError);
 
@@ -107,7 +107,7 @@ define([
 							name: boatday.get('name'),
 							availableSeats: boatday.get('availableSeats'),
 							bookedSeats: 0,
-							potEarings: boatday.get('price') * 0.75 * boatday.get('availableSeats'),
+							potEarings: boatday.get('price') * 0.85 * boatday.get('availableSeats'),
 							boatName: boatday.get('boat').get('name'),
 							boatType: boatday.get('boat').get('type'),
 							picture: typeof fileholder !== "undefined" ? fileholder.get('file').url() : 'resources/boat-placeholder.png'

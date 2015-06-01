@@ -7,11 +7,30 @@ body.theme-dashboard {
 
 body.theme-dashboard .wrapper {
 	position:fixed;
-	width: 1170px;
 	left: 50%;
-	margin-left: -575px;
 	top: 70px;
 	bottom: 0px;
+	
+	@media (max-width: @screen-xs-max) {
+		left: auto;
+		top: 40px;
+		margin: 0px 15px;
+	}
+
+	@media (min-width: @screen-sm-min) {
+		width: @screen-sm-min;
+		margin-left: -1 *@screen-sm-min / 2;
+	}
+
+	@media (min-width: @screen-md-min) {
+		width: @screen-md-min;
+		margin-left: -1 *@screen-md-min / 2;
+	}
+
+	@media (min-width: @screen-lg-min) {
+		width: @screen-lg-min;
+		margin-left: -1 * @screen-lg-min / 2;
+	}
 }
 
 
@@ -20,6 +39,12 @@ body.theme-dashboard .left-part {
 	height: 100%;
 	background: white;
 	padding: 0px;
+
+
+	@media (max-width: @screen-xs-max) {
+		position: relative;
+		height: auto;
+	}
 }
 
 body.theme-dashboard .right-part {
@@ -36,25 +61,47 @@ body.theme-dashboard .right-part .inner-content {
 	overflow: auto;
 	top: 72px;
 	bottom: 0px;
-    padding: 0px 30px 50px 30px;
+	padding: 15px;
     width: 100%;
+
+	@media (min-width: @screen-sm-min) {
+		padding: 20px;
+	}
+
+	@media (min-width: @screen-md-min) {
+		padding: 35px;
+	}
+
+	@media (min-width: @screen-lg-min) {
+		padding: 50px;
+	}
+	
+	padding-top: 0px;
 }
-/*
-body.theme-dashboard .left-navigation { 
-	height: 100%;
-	position:absolute;
-	top: 0px;
-	left: 0px;
-	z-index:100;
+
+body.theme-dashboard .top-navigation .nav.navbar-nav.navbar-right {
+	float: right;
 }
-*/
+
+body.theme-dashboard .top-navigation .nav.navbar-nav {
+	margin: 0px;
+}
+
+body.theme-dashboard .top-navigation li a,
+body.theme-dashboard .top-navigation li {
+	
+	@media (max-width: @screen-xs-max) {
+		float: left;
+	}
+}
+
 body.theme-dashboard .left-navigation .nav {
 	width : 100%;
 }
 
 body.theme-dashboard .left-navigation a {
 	display:block;
-	line-height: 120px;
+	line-height: 100px;
 	text-align: center;
 	text-transform: uppercase;
 	color : #69878c;
@@ -62,6 +109,14 @@ body.theme-dashboard .left-navigation a {
 	font-weight: 700;
 	padding: 0px 10px;
 	position:relative;
+
+	@media (max-width: @screen-xs-max) {
+		width: 50%;
+		float: right;
+		line-height: 40px;
+		border-left: 1px solid @dashboard-border-color;
+		border-bottom: 1px solid @dashboard-border-color;
+	}
 }
 
 body.theme-dashboard .left-navigation a:hover {
@@ -70,6 +125,10 @@ body.theme-dashboard .left-navigation a:hover {
 
 body.theme-dashboard .left-navigation a.active {
 	font-weight: 700;
+
+	@media (max-width: @screen-xs-max) {
+		background: @btn-default-bg;
+	}
 }
 
 body.theme-dashboard .left-navigation a.active:after {
@@ -79,18 +138,47 @@ body.theme-dashboard .left-navigation a.active:after {
 	height: 2px;
 	background: #00a8bf;
 	left: 50%;
-	margin-left:-20%;
-	top: 80px;
+	margin-left:-40px;
+	top: 65px;
+
+
+	@media (max-width: @screen-xs-max) {
+		display: none;
+	}
 }
 
 body.theme-dashboard .left-navigation a.brand {
 	height: auto;
 	border-bottom: 1px solid @dashboard-border-color;
+	margin-bottom: 50px;
+	
+	@media (max-width: @screen-xs-max) {
+		float: left;
+		margin-bottom: 0px;
+	}
 }
 
 body.theme-dashboard .left-navigation a.brand img {
-	max-width: 90px;
-	margin: 50px auto;
+
+	@media (max-width: @screen-xs-max) {
+		height: 89px;
+		margin: 37px auto;
+	}
+
+	@media (min-width: @screen-sm-min) {
+		max-width: 70px;
+		margin: 30px auto;	
+	}
+
+	@media (min-width: @screen-md-min) {
+		max-width: 80px;
+		margin: 40px auto;
+	}
+
+	@media (min-width: @screen-lg-min) {
+		max-width: 90px;
+		margin: 50px auto;
+	}
 }
 
 body.theme-dashboard .content-highlight { 
@@ -442,15 +530,50 @@ body.theme-dashboard .my-boatdays .items {
 
 body.theme-dashboard .my-boatdays .my-boatday {
 	padding: 0px;
-	margin-bottom: 20px;
+	margin-bottom: 15px;
+
+	@media (min-width: @screen-sm-min) {
+		margin-bottom: 8px;
+	}
+
+	@media (min-width: @screen-md-min) {
+		margin-bottom: 12px;
+	}
+
+	@media (min-width: @screen-lg-min) {
+		margin-bottom: 20px;
+	}
 }
 
 body.theme-dashboard .my-boatdays .my-boatday-inner.left {
-	margin-right: 10px;
+	
+
+	@media (min-width: @screen-sm-min) {
+		margin-right: 4px;
+	}
+
+	@media (min-width: @screen-md-min) {
+		margin-right: 6px;
+	}
+
+	@media (min-width: @screen-lg-min) {
+		margin-right: 10px;
+	}
 }
 
 body.theme-dashboard .my-boatdays .my-boatday-inner.right {
-	margin-left: 10px;
+
+	@media (min-width: @screen-sm-min) {
+		margin-left: 4px;
+	}
+
+	@media (min-width: @screen-md-min) {
+		margin-left: 6px;
+	}
+
+	@media (min-width: @screen-lg-min) {
+		margin-left: 10px;
+	}
 }
 
 body.theme-dashboard .my-boatdays .my-boatday-inner {
@@ -470,6 +593,21 @@ body.theme-dashboard .my-boatdays .my-boatday .header {
 	height: 250px;
 	line-height: 250px;
 	position:relative;
+
+	@media (min-width: @screen-sm-min) {
+		height: 200px;
+		line-height: 200px;
+	}
+
+	@media (min-width: @screen-md-min) {
+		height: 225px;
+		line-height: 225px;
+	}
+
+	@media (min-width: @screen-lg-min) {
+		height: 250px;
+		line-height: 250px;
+	}
 }
 
 body.theme-dashboard .my-boatdays .my-boatday .header .picture{
@@ -531,14 +669,48 @@ body.theme-dashboard .my-boatdays .my-boatday .header .sub {
 }
 
 body.theme-dashboard .my-boatdays .my-boatday .info {
-	height: 150px;
-	line-height: 150px;
+	height: 120px;
+	line-height: 120px;
 	text-align:center;
+
+	@media (min-width: @screen-sm-min) {
+		height: 126px;
+		line-height: 126px;
+	}
+
+	@media (min-width: @screen-md-min) {
+		height: 136px;
+		line-height: 136px;
+	}
+
+	@media (min-width: @screen-lg-min) {
+		height: 150px;
+		line-height: 150px;
+	}
 }
 
 body.theme-dashboard .my-boatdays .my-boatday .info > div:first-child {
 	border-right : 1px solid @dashboard-border-color;
 }
+
+body.theme-dashboard .my-boatdays .my-boatday .info > div {
+
+	padding: 0px 15px;
+
+	@media (min-width: @screen-sm-min) {
+		padding: 0px 8px;
+	}
+
+	@media (min-width: @screen-md-min) {
+		padding: 0px 12px;
+	}
+
+	@media (min-width: @screen-lg-min) {
+		padding: 0px 15px;
+	}
+
+}
+
 
 body.theme-dashboard .my-boatdays .my-boatday .info .highlight {
 	font-size: 20px;
@@ -554,15 +726,48 @@ body.theme-dashboard .my-boatdays .my-boatday .info .description {
 	color: #b1bfcc;
 	margin : 0px;
 	margin-bottom : 0px;
+
+	@media (min-width: @screen-sm-min) {
+		font-size: 12px;
+	}
+
+	@media (min-width: @screen-md-min) {
+		font-size: 14px;
+	}
+
+	@media (min-width: @screen-lg-min) {
+		font-size: 15px;
+	}
 }
 
 body.theme-dashboard .my-boatdays .my-boatday .info .inner .description.first {
-	margin-bottom : 19px;
+	margin-bottom : 10px;
+
+	@media (min-width: @screen-md-min) {
+		margin-bottom : 15px;
+	}
+
+	@media (min-width: @screen-lg-min) {
+		margin-bottom : 20px;
+	}
 }
 
 body.theme-dashboard .my-boatdays .my-boatday .info .btn {
 	height: auto;
 	padding: 15px;
+	font-size: 15px;
+
+	@media (min-width: @screen-sm-min) {
+		font-size: 12px;
+	}
+
+	@media (min-width: @screen-md-min) {
+		font-size: 14px;
+	}
+
+	@media (min-width: @screen-lg-min) {
+		font-size: 15px;
+	}
 }
 
 body.theme-dashboard .my-boatdays .my-boatday .info .btn img {
