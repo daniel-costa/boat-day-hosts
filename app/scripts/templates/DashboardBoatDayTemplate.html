@@ -1,7 +1,7 @@
-<div class="col-sm-12 my-boatday">
+<div class="col-sm-12 my-boatday my-boatday-<%= id %>">
 	<div class="my-boatday-inner <%= _class %>">
 		<div class="header">
-			<div class="picture active" style="background-image:url(<%= picture %>)"></div>
+			<div class="picture <%= active ? 'active' : '' %>" style="background-image:url(<%= picture %>)"></div>
 			<div class="inner">
 				<p class="date"><%= date %> at <%= time %></p>
 				<h1><%= name %></h1>

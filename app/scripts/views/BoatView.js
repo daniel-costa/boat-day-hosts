@@ -47,15 +47,6 @@ define([
 
 			var self = this;
 			
-			if( this.model.get('status') != 'creation' ) {
-				var label = this.model.get('name') + ', ' + this.model.get('type') + ' from ' + this.model.get('buildYear');
-				self.$el.find('.navbar-brand').text(label);
-			} else {
-				//self.$el.find('.navbar-brand').text('Add a new boat');
-			}
-
-			// self.$el.find('.left-navigation .new-boat').addClass('active');
-
 			return this;
 
 		},
@@ -410,20 +401,7 @@ define([
 			};
 
 			var saveError = function(error) {
-				
-				self.buttonLoader();
-
-				if( error.type && error.type == 'model-validation' ) {
-
-					_.map(error.fields, function(message, field) { 
-						self.fieldError(field, message);
-					});
-
-				} else {
-
-					self._error(error);
-				}
-
+				self.handleSaveErrors(error);
 			};
 			
 			this.model.save(data).then(saveSuccess, saveError);

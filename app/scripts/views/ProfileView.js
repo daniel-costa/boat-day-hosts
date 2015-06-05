@@ -126,22 +126,7 @@ define([
 			};
 
 			var saveError = function(error) {
-				
-				self.buttonLoader();
-
-				if( error.type && error.type == 'model-validation' ) {
-
-					_.map(error.fields, function(message, field) { 
-						self.fieldError(field, message);
-					});
-
-				} else {
-
-					console.log(error);
-					self._error(error);
-
-				}
-
+				self.handleSaveErrors(error);
 			};
 
 			this.model.save(data).then(profileSuccess, saveError);

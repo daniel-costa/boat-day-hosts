@@ -288,6 +288,7 @@ define([
 
 			if( !this._in('date').datepicker('getDate') ) {
 				self.fieldError("date", "Oops, you missed one! Please choose a date for your BoatDay.");
+				self._error("Oops, you missed one! Please choose a date for your BoatDay.");
 				self.buttonLoader();
 				return;
 			}
@@ -319,31 +320,22 @@ define([
 			qCaptain.equalTo("date", date);
 			qCaptain.greaterThan("arrivalTime", departureTime);
 			qCaptain.lessThan("departureTime", arrivalTime);
-			
-			var a = qBoatDay.count();
-			var b = qCaptain.count();
 
-			Parse.Promise.when(a, b).then(function(qBoatDayTotal, qCaptainTotal) {
+			Parse.Promise.when(qBoatDay.count(), qCaptain.count()).then(function(qBoatDayTotal, qCaptainTotal) {
 				
 				var err = false;
 
-				console.log(qBoatDayTotal);
-				console.log(qCaptainTotal);
-
 				if( qBoatDayTotal > 0 ) {
-					console.log("b in");
 					boatAlreadyBooked();
 					err = true;
 				}
 
 				if( qCaptainTotal > 0 ) {
-					console.log("c in");
 					captainAlreadyBooked();
 					err = true;
 				}
 
 				if ( err ) {
-					console.log("retuirn");
 					self.buttonLoader();
 					return;
 				}
@@ -442,13 +434,9 @@ define([
 						Parse.history.navigate('dashboard', true);
 					};
 
-					var hostSaveError = function(error) {
-						console.log(error);
-					}
-
 					var host = Parse.User.current().get("host");
 					host.relation('boatdays').add(boatday);
-					host.save().then(hostSaveSuccess, hostSaveError);
+					host.save().then(hostSaveSuccess);
 
 				} else {
 					
@@ -459,22 +447,7 @@ define([
 			};
 
 			var saveError = function(error) {
-
-				self.buttonLoader();
-
-				if( error.type && error.type == 'model-validation' ) {
-					console.log(error);
-					_.map(error.fields, function(message, field) { 
-						self.fieldError(field, message);
-					});
-
-				} else {
-
-					console.log(error);
-					self._error(error);
-
-				}
-
+				self.handleSaveErrors(error);
 			};
 
 			self.model.save(data).then(saveSuccess, saveError);

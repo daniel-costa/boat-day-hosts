@@ -99,19 +99,20 @@ o current 2.1.0
 - (done) Add notifications panel
 - (done) Boatday, Check if boat not use in this time
 - (done) Boatday, Check if captain not use in this time
-- (done) Bug with price display in boatday's snippets in dashboard
-
+- (done) Bug with price display in boatday's snippets in dashboard d
 - (done) Put line on create a boatday in the left menu when being creating a boatday
 - (done) My Account title wrong for certifications
 - (done) notification boat refused put like in end of sentence
 - (done) more space on the right and left of content in dashboard
+- (done) radio and checkboxes 1 px border
+- (done) Placeholder on fields, change color
+- (done) My boatdays not displaying items
+- (done) Add global message when field wrong
 
-- Placeholder on fields, change color
-- My boatdays not displaying items
+- Desactivate links in notification for boatdays
 - host app on parse.com
 - Check grunt JS api
 
-- radio and checkboxes 1 px border
 
 
 

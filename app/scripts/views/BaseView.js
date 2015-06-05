@@ -322,6 +322,22 @@ define([
 			return parseInt(score);
 		},
 
+		handleSaveErrors: function(error) {
+
+			var self = this;
+			self.buttonLoader();
+
+			if( error.type && error.type == 'model-validation' ) {
+				_.map(error.fields, function(message, field) { 
+					self.fieldError(field, message);
+				});
+				self._error('One or more fields containes errors.');
+			} else {
+				self._error(error);
+			}
+
+		},
+
 		fieldError: function(name, message) {
 
 			var field = this._in(name);
