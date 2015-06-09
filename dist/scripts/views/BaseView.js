@@ -19,9 +19,9 @@ define([
 
 		subViews: [],
 
-		debug: false,
+		debug: true,
 
-		globalDebug: true,
+		globalDebug: false,
 
 		tempBinaries: { },
 
