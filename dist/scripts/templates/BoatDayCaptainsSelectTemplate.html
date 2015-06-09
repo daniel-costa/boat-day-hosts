@@ -1,0 +1,5 @@
+<% _.each( collection, function( captain ) { %>
+	<option value="<%= captain.objectId %>" <%= self.currentCaptain && self.currentCaptain == captain.objectId ? 'selected' : ''  %>>
+		<%= captain.displayName %>
+	</option>
+<% }); %>

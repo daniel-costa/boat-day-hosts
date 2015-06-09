@@ -1,0 +1,38 @@
+<div class="col-sm-12 my-boatday my-boatday-<%= id %>">
+	<div class="my-boatday-inner <%= _class %>">
+		<div class="header">
+			<div class="picture <%= active ? 'active' : '' %>" style="background-image:url(<%= picture %>)"></div>
+			<div class="inner">
+				<p class="date"><%= date %> at <%= time %></p>
+				<h1><%= name %></h1>
+				<p class="sub"><%= boatName %> / <%= boatType %> / <%= duration %> hour<%= duration != 1 ? 's' : '' %></p>
+			</div>
+		</div>
+		<div class="info">
+			<div class="col-xs-12 col-sm-8">
+				<div class="inner">
+					<p class="highlight"><%= bookedSeats %>/<%= availableSeats %></p>
+					<p class="description first">Seats Booked</p>
+					<p class="highlight">$<%= potEarings %></p>
+					<p class="description">Pot. Earnings</p>
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-8">
+				<div class="inner">
+					<button class="btn btn-default btn-lg btn-block">
+						<img src="resources/ico-host.png" />
+						<div class="inner hidden-xs">Booking<br/>requests</div>
+					</button>
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-8">
+				<div class="inner">
+					<button class="btn btn-default btn-lg btn-block">
+						<img src="resources/ico-message.png" />
+						<div class="inner hidden-xs">Event<br/>messages</div>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

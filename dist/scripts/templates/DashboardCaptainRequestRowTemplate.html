@@ -1,0 +1,35 @@
+<div class="row dashboard-row">
+	<div class="cell profile hidden-xs col-sm-4 col-md-3 col-lg-3">
+		<div class="inner">
+			<div class="obj-thumb" style="background-image:url(<%= profilePicture %>)"></div>
+		</div>
+	</div>
+	<div class="cell col-sm-5 hidden-sm col-md-4 col-lg-4">
+		<div class="inner">
+			<label>From</label>
+			<p><%= displayName %></p>
+		</div>
+	</div>
+	<div class="cell col-sm-11 col-md-10 col-lg-11">
+		<div class="inner">
+			<label>Boat</label>
+			<p><%= boatName %><span class="hidden-sm">, <%= boatType %></span><span class="hidden-sm hidden-md"> from <%= buildYear %></span></p>
+		</div>
+	</div>
+	<div class="cell col-sm-9 col-md-7 col-lg-6">
+		<div class="inner text-center">
+			<% if ( status == 'pending' ) { %>
+				<button class="captainRequest accept btn btn-default btn-lg pull-left" data-id="<%=id%>">Accept</a>
+				<button class="captainRequest deny btn btn-default btn-lg pull-right" data-id="<%=id%>">Reject</a>
+			<% } %>
+
+			<% if ( status == 'approved' ) { %>
+				<p class="alert-info">Approved</p>
+			<% } %>
+
+			<% if ( status == 'denied' ) { %>
+				<p class="alert-danger">Denied</p>
+			<% } %>			
+		</div>
+	</div>
+</div>
