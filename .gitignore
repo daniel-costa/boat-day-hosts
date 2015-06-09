@@ -1,8 +1,9 @@
 # dependencies
-/app/scripts/vendor/*
+app/scripts/vendor/*
+app/css/boatday.css
+dist/*
 
 # misc
 .DS_Store
 *.log
 
-app/css/boatday.css
