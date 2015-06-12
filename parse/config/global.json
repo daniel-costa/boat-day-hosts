@@ -1,0 +1,18 @@
+{
+  "global": {
+    "parseVersion": "1.4.2"
+  },
+  "applications": {
+    "BoatDay-v2-HP": {
+      "applicationId": "8YpQsh2LwXpCgkmTIIncFSFALHmeaotGVDTBqyUv",
+      "masterKey": "G32GlUu97evll0wt27WwmqaFuGsTbdwCmebvIGZx"
+    },
+    "BoatDay-v2-QA": {
+      "applicationId": "LCn0EYL8lHOZOtAksGSdXMiHI08jHqgNOC5J0tmU",
+      "masterKey": "aA7tEGR51o5yxPdTfA8RKo5IbaN9eLPba4a0bIIy"
+    },
+    "_default": {
+      "link": "BoatDay-v2-QA"
+    }
+  }
+}

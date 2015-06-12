@@ -1,7 +1,7 @@
 cd ~/GitHub/boat-day-hosts
 
 DVPT="app"
-DIST="dist"
+DIST="parse/public"
 CLOUD="../boat-day-cloud"
 
 if [ -d $DIST ]
@@ -62,15 +62,8 @@ cp -R $DVPT/scripts/vendor/requirejs-plugins/src/async.js $DIST/scripts/vendor/r
 
 sed -i "" "s/globalDebug: true/globalDebug: false/g" $DIST/scripts/views/BaseView.js
 sed -i "" "s|urlArgs|//urlArgs|g" $DIST/scripts/main.js
+sed -i "" "s|LCn0EYL8lHOZOtAksGSdXMiHI08jHqgNOC5J0tmU|8YpQsh2LwXpCgkmTIIncFSFALHmeaotGVDTBqyUv|g" $DIST/scripts/main.js
+sed -i "" "s|kXeZHxlhpWhnRdtg7F0Cdc6kvuGHVtDlnSZjfxpU|FaULY8BIForvAYZwVwqX4IAmfsyxckikiZ2NFuEp|g" $DIST/scripts/main.js
 
-
-if [ -d $CLOUD ]
-then
-    rm -rf $CLOUD/public
-    mkdir $CLOUD/public
-    cp -R $DIST/* $CLOUD/public
-    cd $CLOUD
-    parse deploy
-else
-	echo "Cannot find '$CLOUD' to deploy"
-fi
+cd parse
+parse deploy "BoatDay-v2-HP"

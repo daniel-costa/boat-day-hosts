@@ -1,9 +1,12 @@
 # dependencies
 app/scripts/vendor/*
 app/css/boatday.css
+parse/public/*
 dist/*
 
 # misc
 .DS_Store
 *.log
+
+
 

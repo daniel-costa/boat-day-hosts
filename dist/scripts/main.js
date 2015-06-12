@@ -48,7 +48,7 @@ require.config({
 
 require(['parse', 'router', 'views/AppView', 'bootstrap', 'datepicker', 'slider'], function(Parse, AppRouter, AppView) {
 	
-	Parse.initialize("8YpQsh2LwXpCgkmTIIncFSFALHmeaotGVDTBqyUv", "FaULY8BIForvAYZwVwqX4IAmfsyxckikiZ2NFuEp");
+	Parse.initialize("vYCX3L0PFB6i2w5cZng8FimKg3prXV0rsb7EXHAt", "FaULY8BIForvAYZwVwqX4IAmfsyxckikiZ2NFuEp");
 	
 	var cb = function() {
 		new AppRouter();
