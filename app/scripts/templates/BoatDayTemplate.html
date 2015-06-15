@@ -16,9 +16,9 @@
 						<div class="row">
 							<div class="col-sm-20 col-sm-offset-2">
 								<div class="form-group">
-									<label for="name" class="control-label">BoatDay Title</label>
+									<label for="name" class="control-label">BoatDay Name</label>
 									<div>
-										<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="Create a descriptive title">
+										<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="Give a fun name to your BoatDay">
 									</div>
 								</div>
 							</div>
@@ -105,114 +105,20 @@
 										</tr>
 										<tr>
 											<td class="totalBD">
-												Service Fee
-												<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the fee charged by BoatDay"></span>
+												Host Fee
+												<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the fee charged to Hosts by BoatDay"></span>
 											</td>
 											<td class="text-right totalBoatDayUSD"></td>
 										</tr>
 										<tr>
 											<td style="border-top: double 3px black;" class="totalHost">
-												Total 
+												Estimated Payout 
 												<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="Estimated contribution you will receive if your boat is fully booked."></span>
 											</td>
 											<td style="border-top: double 3px black;" class="text-right totalHostUSD"></td>
 										</tr>
 									</table>
 								</div>
-							</div>
-						</div>
-
-						<div class="row split-top"></div>
-
-						<div class="row">
-							<div class="col-sm-9 col-sm-offset-2">
-								<div class="form-group">
-									<label for="description" class="control-label">Description</label>
-									<div>
-										<textarea class="form-control" name="description" id="description" rows="7"  placeholder="describe your day on the water"><%= description ?  description : '' %></textarea>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-9 col-sm-offset-2">
-								<div class="form-group checkboxes">
-									<div class="container-fluid">
-										<div class="row">
-											<div class="col-sm-12">
-												<div class="form-group">
-													<label class="col-sm-24 control-label">
-														<div class="form-group">Extras</div>
-													</label>
-													<div class="col-sm-24">
-														<div class="form-group">
-															<input type="checkbox" name="featuresExtrasFood" id="featuresExtrasFood" <%= features.extras.food ? 'checked': '' %>> 
-															<label class="control-label" for="featuresExtrasFood">Food</label>
-														</div>
-													</div>
-													<div class="col-sm-24">
-														<div class="form-group">
-															<input type="checkbox" name="featuresExtrasDrink" id="featuresExtrasDrink" <%= features.extras.drink ? 'checked': '' %>> 
-															<label class="control-label" for="featuresExtrasDrink">Drink</label>
-														</div>
-													</div>
-													<div class="col-sm-24">
-														<div class="form-group">
-															<input type="checkbox" name="featuresExtrasMusic" id="featuresExtrasMusic" <%= features.extras.music ? 'checked': '' %>> 
-															<label class="control-label" for="featuresExtrasMusic">Music</label>
-														</div>
-													</div>
-													<div class="col-sm-24">
-														<div class="form-group">
-															<input type="checkbox" name="featuresExtrasTowels" id="featuresExtrasTowels" <%= features.extras.towels ? 'checked': '' %>> 
-															<label class="control-label" for="featuresExtrasTowels">Towels</label>
-														</div>
-													</div>
-													<div class="col-sm-24">
-														<div class="form-group">
-															<input type="checkbox" name="featuresExtrasSunscreen" id="featuresExtrasSunscreen" <%= features.extras.sunscreen ? 'checked': '' %>> 
-															<label class="control-label" for="featuresExtrasSunscreen">Sunscreen</label>
-														</div>
-													</div>
-													<div class="col-sm-24">
-														<div class="form-group">
-															<input type="checkbox" name="featuresExtrasInflatables" id="featuresExtrasInflatables" <%= features.extras.inflatables ? 'checked': '' %>> 
-															<label class="control-label" for="featuresExtrasInflatables">Inflatables </label>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="col-sm-12">
-												<div class="form-group">
-													<label class="control-label">Family Settings</label>
-													<div class="col-sm-24">
-														<div class="form-group">
-															<input type="checkbox" name="featuresGlobalChildren" id="featuresGlobalChildren" <%= features.global.children ? 'checked': '' %>> 
-															<label class="control-label" for="featuresGlobalChildren">Children allowed </label>
-														</div>
-													</div>
-													<div class="col-sm-24">
-														<div class="form-group">
-															<input type="checkbox" name="featuresGlobalSmoking" id="featuresGlobalSmoking" <%= features.global.smoking ? 'checked': '' %>> 
-															<label class="control-label" for="featuresGlobalSmoking">Smoking Permitted</label>
-														</div>
-													</div>
-													<div class="col-sm-24">
-														<div class="form-group">
-															<input type="checkbox" name="featuresGlobalDrinking" id="featuresGlobalDrinking" <%= features.global.drinking ? 'checked': '' %>> 
-															<label class="control-label" for="featuresGlobalDrinking">Drinking Permitted </label>
-														</div>
-													</div>
-													<div class="col-sm-24">
-														<div class="form-group">
-															<input type="checkbox" name="featuresGlobalPets" id="featuresGlobalPets" <%= features.global.pets ? 'checked': '' %>> 
-															<label class="control-label" for="featuresGlobalPets">Pets Permitted </label>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-									
 							</div>
 						</div>
 
@@ -472,6 +378,100 @@
 										</div>
 									</div>
 								</div>
+							</div>
+						</div>
+
+						<div class="row split-top"></div>
+
+						<div class="row">
+							<div class="col-sm-9 col-sm-offset-2">
+								<div class="form-group">
+									<label for="description" class="control-label">Description</label>
+									<div>
+										<textarea class="form-control" name="description" id="description" rows="7"  placeholder="describe your day on the water"><%= description ?  description : '' %></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-9 col-sm-offset-2">
+								<div class="form-group checkboxes">
+									<div class="container-fluid">
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label class="col-sm-24 control-label">
+														<div class="form-group">Extras</div>
+													</label>
+													<div class="col-sm-24">
+														<div class="form-group">
+															<input type="checkbox" name="featuresExtrasFood" id="featuresExtrasFood" <%= features.extras.food ? 'checked': '' %>> 
+															<label class="control-label" for="featuresExtrasFood">Food</label>
+														</div>
+													</div>
+													<div class="col-sm-24">
+														<div class="form-group">
+															<input type="checkbox" name="featuresExtrasDrink" id="featuresExtrasDrink" <%= features.extras.drink ? 'checked': '' %>> 
+															<label class="control-label" for="featuresExtrasDrink">Drink</label>
+														</div>
+													</div>
+													<div class="col-sm-24">
+														<div class="form-group">
+															<input type="checkbox" name="featuresExtrasMusic" id="featuresExtrasMusic" <%= features.extras.music ? 'checked': '' %>> 
+															<label class="control-label" for="featuresExtrasMusic">Music</label>
+														</div>
+													</div>
+													<div class="col-sm-24">
+														<div class="form-group">
+															<input type="checkbox" name="featuresExtrasTowels" id="featuresExtrasTowels" <%= features.extras.towels ? 'checked': '' %>> 
+															<label class="control-label" for="featuresExtrasTowels">Towels</label>
+														</div>
+													</div>
+													<div class="col-sm-24">
+														<div class="form-group">
+															<input type="checkbox" name="featuresExtrasSunscreen" id="featuresExtrasSunscreen" <%= features.extras.sunscreen ? 'checked': '' %>> 
+															<label class="control-label" for="featuresExtrasSunscreen">Sunscreen</label>
+														</div>
+													</div>
+													<div class="col-sm-24">
+														<div class="form-group">
+															<input type="checkbox" name="featuresExtrasInflatables" id="featuresExtrasInflatables" <%= features.extras.inflatables ? 'checked': '' %>> 
+															<label class="control-label" for="featuresExtrasInflatables">Inflatables </label>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label class="control-label">Family Settings</label>
+													<div class="col-sm-24">
+														<div class="form-group">
+															<input type="checkbox" name="featuresGlobalChildren" id="featuresGlobalChildren" <%= features.global.children ? 'checked': '' %>> 
+															<label class="control-label" for="featuresGlobalChildren">Children allowed </label>
+														</div>
+													</div>
+													<div class="col-sm-24">
+														<div class="form-group">
+															<input type="checkbox" name="featuresGlobalSmoking" id="featuresGlobalSmoking" <%= features.global.smoking ? 'checked': '' %>> 
+															<label class="control-label" for="featuresGlobalSmoking">Smoking Permitted</label>
+														</div>
+													</div>
+													<div class="col-sm-24">
+														<div class="form-group">
+															<input type="checkbox" name="featuresGlobalDrinking" id="featuresGlobalDrinking" <%= features.global.drinking ? 'checked': '' %>> 
+															<label class="control-label" for="featuresGlobalDrinking">Drinking Permitted </label>
+														</div>
+													</div>
+													<div class="col-sm-24">
+														<div class="form-group">
+															<input type="checkbox" name="featuresGlobalPets" id="featuresGlobalPets" <%= features.global.pets ? 'checked': '' %>> 
+															<label class="control-label" for="featuresGlobalPets">Pets Permitted </label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+									
 							</div>
 						</div>
 

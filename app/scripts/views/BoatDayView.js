@@ -297,13 +297,13 @@ define([
 			var arrivalTime = this._in('departureTime').slider('getValue') + self._in('duration').slider('getValue');
 
 			var boatAlreadyBooked = function() {
-				var msg = 'Boat already taken';
+				var msg = 'Scheduling Conflict: The boat you selected is already scheduled for a BoatDay at your proposed time.';
 				self._error(msg);
 				self.fieldError("boat", msg);
 			};
 
 			var captainAlreadyBooked = function() {
-				var msg = 'Captain already taken';
+				var msg = 'Scheduling Conflict: The Captain you selected is already scheduled for a BoatDay at your proposed time.';
 				self._error(msg);
 				self.fieldError("captain", msg);
 			};
