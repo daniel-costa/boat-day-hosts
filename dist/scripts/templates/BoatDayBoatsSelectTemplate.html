@@ -1,5 +1,0 @@
-<% _.each( collection, function( boat ) { %>
-	<option value="<%= boat.objectId %>" <%= self.currentBoat && self.currentBoat == boat.objectId ? 'selected' : ''  %>>
-		<%= boat.name %>
-	</option>
-<% }); %>

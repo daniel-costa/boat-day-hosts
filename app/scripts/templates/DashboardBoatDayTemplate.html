@@ -14,7 +14,7 @@
 					<p class="highlight"><%= bookedSeats %>/<%= availableSeats %></p>
 					<p class="description first">Seats Booked</p>
 					<p class="highlight">$<%= potEarings %></p>
-					<p class="description">Expected Earnings</p>
+					<p class="description"><%= active ? 'Expected Earnings' : 'Earnings' %></p>
 				</div>
 			</div>
 			<div class="col-xs-6 col-sm-8">

@@ -203,7 +203,7 @@ define([
 
 				var uploadError = function(error) {
 
-					self.fieldError(fieldName, 'An error occured when we tried to upload your picture, try again please.');
+					self.fieldError(fieldName, 'An error occurred when we tried to upload your file.');
 					self.buttonLoader();
 
 				};
@@ -331,7 +331,7 @@ define([
 				_.map(error.fields, function(message, field) { 
 					self.fieldError(field, message);
 				});
-				self._error('One or more fields containes errors.');
+				self._error('One or more fields contains errors.');
 			} else {
 				self._error(error);
 			}

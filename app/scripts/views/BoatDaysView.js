@@ -26,7 +26,7 @@ define([
 			self.$el.find('.add-boatday, .my-boatdays').hide();
 
 			var queryBoatDays = new Parse.Query(BoatDayModel);
-			// queryBoatDays.equalTo("host", Parse.User.current().get("host"));
+			queryBoatDays.equalTo("host", Parse.User.current().get("host"));
 			queryBoatDays.descending('date,departureTime');
 			queryBoatDays.include('boat');
 
