@@ -115,7 +115,7 @@ define([
 				console.log(error);
 				switch(error.code) {
 					case 125:
-						self._error("The email address is not valid.");
+						self._error("Please provide a valid email address.");
 						break;
 					case 202:
 						self._error("This email is already taken.");
