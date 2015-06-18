@@ -25,6 +25,10 @@ define([
 			lastname: null, 
 			birthdate: null,
 			SSN: null,
+			//for boatDay cms
+			bgCheck:null, 
+			validationText: null, 
+			validationTextInternal: null, 
 
 			certBSC: null,
 			certStatusBSC: null,
