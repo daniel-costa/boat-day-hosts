@@ -64,6 +64,7 @@ sed -i "" "s/globalDebug: true/globalDebug: false/g" $DIST/scripts/views/BaseVie
 sed -i "" "s|urlArgs|//urlArgs|g" $DIST/scripts/main.js
 sed -i "" "s|LCn0EYL8lHOZOtAksGSdXMiHI08jHqgNOC5J0tmU|8YpQsh2LwXpCgkmTIIncFSFALHmeaotGVDTBqyUv|g" $DIST/scripts/main.js
 sed -i "" "s|kXeZHxlhpWhnRdtg7F0Cdc6kvuGHVtDlnSZjfxpU|FaULY8BIForvAYZwVwqX4IAmfsyxckikiZ2NFuEp|g" $DIST/scripts/main.js
+sed -i "" "s|1446014202368406|xxx|g" $DIST/scripts/fb.js
 
 cd parse
 parse deploy "BoatDay-v2-HP"

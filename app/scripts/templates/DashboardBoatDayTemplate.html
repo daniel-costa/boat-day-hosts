@@ -1,38 +1,175 @@
-<div class="col-sm-12 my-boatday my-boatday-<%= id %>">
+<div class="col-sm-12 my-boatday my-boatday-<%= id %>" data-id="<%= id %>">
+	
 	<div class="my-boatday-inner <%= _class %>">
 		<div class="header">
 			<div class="picture <%= active ? 'active' : '' %>" style="background-image:url(<%= picture %>)"></div>
 			<div class="inner">
 				<p class="date"><%= date %> at <%= time %></p>
 				<h1><%= name %></h1>
-				<p class="sub"><%= boatName %> / <%= boatType %> / <%= duration %> hour<%= duration != 1 ? 's' : '' %></p>
+				<!-- <p class="sub"><%= boatName %> / <%= boatType %> / <%= duration %> hour<%= duration != 1 ? 's' : '' %></p> -->
 			</div>
+
+			<!-- <a class="boatday-share share boatday-box-open" data-target=".box-share"><span class="glyphicon glyphicon-share-alt"></span></a> -->
+
+			<p class="seats">
+				<strong><%= bookedSeats %>/<%= availableSeats %></strong> 
+				Seats Booked
+			</p>
+
+			<p class="earnings">
+				<strong>$<%= potEarings %></strong> 
+				<%= active ? 'Expected Earnings' : 'Earnings' %>
+			</p>
 		</div>
 		<div class="info">
-			<div class="col-xs-12 col-sm-8">
+			<div class="col-xs-8 <%= active ? '' : 'col-xs-offset-8' %> boatday-box-open" data-target=".box-details">
 				<div class="inner">
-					<p class="highlight"><%= bookedSeats %>/<%= availableSeats %></p>
-					<p class="description first">Seats Booked</p>
-					<p class="highlight">$<%= potEarings %></p>
-					<p class="description"><%= active ? 'Expected Earnings' : 'Earnings' %></p>
+					<img src="resources/ico-info.png" />
+					<div class="inner hidden-xs">BoatDay<br/>details</div>
 				</div>
 			</div>
-			<div class="col-xs-6 col-sm-8">
+			<% if( active ) { %>
+			<div class="col-xs-6 col-sm-8 boatday-box-open" data-target=".box-requests">
 				<div class="inner">
-					<button class="btn btn-default btn-lg btn-block">
-						<img src="resources/ico-host.png" />
-						<div class="inner hidden-xs">Booking<br/>requests</div>
-					</button>
+					<img src="resources/ico-host.png" />
+					<div class="inner hidden-xs">Booking<br/>requests</div>
 				</div>
 			</div>
-			<div class="col-xs-6 col-sm-8">
+			<div class="col-xs-6 col-sm-8 boatday-box-open" data-target=".box-messages">
 				<div class="inner">
-					<button class="btn btn-default btn-lg btn-block">
-						<img src="resources/ico-message.png" />
-						<div class="inner hidden-xs">Guest<br/>messages</div>
-					</button>
+					<img src="resources/ico-message.png" />
+					<div class="inner hidden-xs">Guest<br/>messages</div>
+				</div>
+			</div>
+			<% } %>
+		</div>
+		<div class="box box-details">
+			<div class="header">
+				<h1>Details</h1>
+				<img src="resources/dashboard-box-close.png" class="boatday-box-close" />
+			</div>
+			<div class="info">
+				<% if( active ) { %>
+				<div class="content-fluid cancel">
+					<div class="row">
+						<div class="col-md-24">
+							<div class="form-group">
+								<label class="control-label">Reason</label>
+								<textarea name="cancelReason" class="form-control" rows="5" placeholder="Explain us why you would like to cancel your BoatDay"></textarea>
+							</div>
+							<div class="form-group">
+								<button class="btn btn-lg btn-block btn-primary btn-cancel-confirm">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<% } %>
+				<div class="content-fluid details">
+					<div class="row">
+						<div class="col-md-24">
+							<h3 class="text-center"><%= name %></h3>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-15">
+							<strong>Boat</strong>
+							<p>
+								<%= boatName %>, <%= boatYear %> <%= boatType %>
+							</p>
+						</div>
+						<div class="col-md-9">
+							<strong>Captain</strong>
+							<p><%= captainName %></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-15">
+							<strong>Date</strong>
+							<p><%= date %> at <%= time %></p>
+						</div>
+						<div class="col-md-9">
+							<strong>Duration</strong>
+							<p><%= duration %> hour<%= duration != 1 ? 's' : '' %></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-15">
+							<strong>Departure</strong>
+							<p><%= location %></p>
+						</div>
+						<div class="col-md-9">
+							<strong>Price</strong>
+							<p>$<%= price %></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-15">
+							<strong>Available Seats</strong>
+							<p><%= availableSeats %></p>
+						</div>
+						<div class="col-md-9">
+							<strong>Activity</strong>
+							<p><%= activity %></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-15">
+							<strong>Cancellation Policy</strong>
+							<p><%= cancellation %></p>
+						</div>
+						<div class="col-md-9">
+							<strong>Booking Policy</strong>
+							<p><%= booking %></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-24">
+							<strong>Description</strong>
+							<p><%= description %></p>
+						</div>
+					</div>
+					<% if( active ) { %>
+					<div class="row">
+						<div class="col-xs-24 text-center">
+							<button class="btn btn-lg btn-danger btn-cancel">Cancel BoatDay</button>
+						</div>
+					</div>
+					<% } %>
 				</div>
 			</div>
 		</div>
+		<div class="box box-requests">
+			<div class="header">
+				<h1>Requests</h1>
+				<img src="resources/dashboard-box-close.png" class="boatday-box-close" />
+			</div>
+			<div class="info">
+				<p class="empty">
+					<em>No requests yet</em>
+				</p>
+			</div>
+		</div>
+		<div class="box box-messages">
+			<div class="header">
+				<h1>Message Board</h1>
+				<img src="resources/dashboard-box-close.png" class="boatday-box-close" />
+			</div>
+			<div class="info">
+				<p class="empty">
+					<em>No messages yet</em>
+				</p>
+			</div>
+		</div>
+		<!-- <div class="box box-share">
+			<div class="header">
+				<h1>Share BoatDay</h1>
+				<img src="resources/dashboard-box-close.png" class="boatday-box-close" />
+			</div>
+			<div class="info">
+				<p class="empty">
+					<div class="fb-send" data-href="https://developers.facebook.com/docs/plugins/"></div>
+				</p>
+			</div>
+		</div> -->
 	</div>
 </div>

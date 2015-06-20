@@ -15,12 +15,49 @@ define([
 		template: _.template(DashboardTemplate),
 		
 		events: {
-			'click .captainRequest': 'processCaptainRequest'
+			'click .captainRequest': 'processCaptainRequest',
+			'click .boatday-box-close': 'closeBox',
+			'click .boatday-box-open': 'openBox',
+			'click .btn-cancel': 'cancelBoatDay',
+			'click .btn-cancel-confirm': 'confirmCancellation'
 		},
 		
 		captainRequests: {},
 
+		boatdays: {},
+
 		theme: "dashboard",
+
+		cancelBoatDay: function(event) {
+			$(event.currentTarget).closest('.info').find('.details').hide();
+			$(event.currentTarget).closest('.info').find('.cancel').show();
+		},
+
+		confirmCancellation: function(event) {
+			var self = this;
+			var id = $(event.currentTarget).closest('.my-boatday').attr('data-id');
+			var boatday = self.boatdays[id];
+
+			if(self._in('cancelReason').val() == '') {
+				self.fieldError('cancelReason', 'Please indicate a reason');
+				return;
+			}
+
+			boatday.save({status: 'cancel', cancelReason: self._in('cancelReason').val() }).then(function() {
+				self.render();
+				self._info('Your BoatDay ' + boatday.get('name') + ' is now cancelled.');
+			});
+		},
+
+		openBox: function(event) {
+			$(event.currentTarget).closest('.my-boatday').find('.boatday-share').hide();
+			$(event.currentTarget).closest('.my-boatday').find($(event.currentTarget).attr('data-target')).fadeIn();
+		},
+
+		closeBox: function(event) {
+			$(event.currentTarget).closest('.my-boatday').find('.boatday-share').show();
+			$(event.currentTarget).closest('.box').fadeOut();
+		},
 
 		processCaptainRequest: function(event) {
 
@@ -82,9 +119,11 @@ define([
 
 				var queryBoatDays = new Parse.Query(BoatDayModel);
 				queryBoatDays.equalTo("host", Parse.User.current().get("host"));
+				queryBoatDays.equalTo("status", "complete");
 				queryBoatDays.greaterThanOrEqualTo("date", new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
 				queryBoatDays.ascending('date,departureTime');
 				queryBoatDays.include('boat');
+				queryBoatDays.include('captain');
 				queryBoatDays.find().then(boatdaysFetchSuccess);
 
 			};
@@ -119,10 +158,19 @@ define([
 						potEarings: boatday.get('price') * 0.75 * boatday.get('availableSeats'),
 						boatName: boatday.get('boat').get('name'),
 						boatType: boatday.get('boat').get('type'),
+						boatYear: boatday.get('boat').get('buildYear'),
+						captainName: boatday.get('captain').get('displayName'),
 						picture: 'resources/boat-placeholder.png',
+						description: boatday.get('description'),
+						price: boatday.get('price'),
+						activity: self.boatdayActivityToDisplay(boatday.get('category')),
+						booking: self.boatdayBookingToDisplay(boatday.get('bookingPolicy')),
+						cancellation: self.boatdayCancellationToDisplay(boatday.get('cancellationPolicy')),
+						location: "Miami Beach",
 						active: true
 					});
-
+					
+					self.boatdays[boatday.id] = boatday;
 					target.append(_tpl);
 
 					boatday.get('boat').relation('boatPictures').query().first().then(function(fileholder) {
@@ -134,6 +182,11 @@ define([
 					});
 
 				});
+	
+				FB.XFBML.parse($(this.$el).find('.social')[0]);
+				twttr.widgets.load($(this.$el).find('.social')[0]);
+				gapi.plusone.render($(this.$el).find('.social')[0]);
+				gapi.plus.go();
 
 				self.$el.find('.my-boatdays').fadeIn();
 			};	

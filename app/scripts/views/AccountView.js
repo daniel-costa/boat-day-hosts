@@ -22,7 +22,6 @@ define([
 
 		getCertStatus: function(status) {
 
-			console.log(status);
 			switch(status) {
 				case null       : return "Not-Submitted"; break;
 				case "pending"  : return "In Review";     break;

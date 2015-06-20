@@ -107,7 +107,8 @@ define([
 				certStatusMCL: self.tempBinaries.certMCL ? 'pending' : null,
 				certStatusFL:  self.tempBinaries.certFL  ? 'pending' : null,
 				certStatusSL:  self.tempBinaries.certSL  ? 'pending' : null,
-				certStatusFAC: self.tempBinaries.certFAC ? 'pending' : null
+				certStatusFAC: self.tempBinaries.certFAC ? 'pending' : null,
+				coupon: this._in('coupon').val()
 			};
 			
 			var hostRegistrationSuccess = function() {

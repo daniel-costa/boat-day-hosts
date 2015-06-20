@@ -213,6 +213,37 @@ define([
 			}
 		},
 
+		boatdayActivityToDisplay: function(item) {
+
+			switch(item) {
+				case 'leisure': return 'Leisure'; break;
+				case 'sports': return 'Water Sports'; break;
+				case 'sailing': return 'Sailing'; break;
+				case 'fishing': return 'Fishing'; break;
+			}
+			
+		},
+
+		boatdayCancellationToDisplay: function(item) {
+
+			switch(item) {
+				case 'flexible': return 'Flexible'; break;
+				case 'moderate': return 'Moderate'; break;
+				case 'strict': return 'Strict'; break;
+			}
+			
+		},
+
+		boatdayBookingToDisplay: function(item) {
+
+			switch(item) {
+				case 'manually': return 'Manual Book'; break;
+				case 'automatically': return 'Instant Book'; break;
+				case 'halfway': return 'Trusted Book'; break;
+			}
+			
+		},
+
 		dateParseToDisplayDate: function (date) {
 			
 			return new Date(date.iso ? date.iso : date).toLocaleDateString();

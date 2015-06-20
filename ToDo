@@ -108,20 +108,30 @@ o current 2.1.0
 - (done) Placeholder on fields, change color
 - (done) My boatdays not displaying items
 - (done) Add global message when field wrong
+- (done) Desactivate links in notification for boatdays
+- (done) host app on parse.com
+- (cancel) Check grunt JS api
+- (done) Implement notifications
+- (done) Display validation text for host
+- (done) Calendar start date July 11th for now
+- (done) Refactory boatday snippet by michelle
+- (done) Implement wall placeholder for boatday snippet
+- (done) Implement requests placeholder for boatday snippet
+- (done) Cancel a boatday
+- (done) Implement sharing snippet (Facebook, Twitter, Instagram, Email)
+- (done) Replace FB AppId between test & prod in the deploy file hp
+- (done) Personalize rate for each host
+- (done) Display validation text for certifications too
 
-- Desactivate links in notification for boatdays
-- host app on parse.com
-- Check grunt JS api
 
-
-
+- Update calendar start date with final date
 
 
 o Ask Michelle
-- Business cards
-- Where to add a new boat day after adding the first one.
-- Icon for host account
-- Icon for certifications
+- (done) Business cards
+- (done) Where to add a new boat day after adding the first one.
+- (done) Icon for host account
+- (done) Icon for certifications
 - Share button on boatday snippet in the dashboard
 - Design the Booking requests button: open a list of the requests (flip horizontal?)
 - Design the all information for boatday display in dashboard
@@ -129,6 +139,7 @@ o Ask Michelle
 
 
 o Features next release 2.2.0
+- Edit boatday fields
 - Add a management système to accept and deny requests from guest (wall, report, etc...)
 - Add total approved guests in dashboard for boatdays list
 - Check stripe services

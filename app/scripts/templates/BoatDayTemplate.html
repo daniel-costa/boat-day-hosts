@@ -97,7 +97,10 @@
 							</div>
 							<div class="col-sm-9 col-sm-offset-2">
 								<div class="form-group">
-									<label for="price" class="control-label">Price Calculator</label>
+									<label for="price" class="control-label">
+										Price Calculator
+										<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="Estimated contribution you will receive if your boat is fully booked."></span>
+									</label>
 									<table class="table table-bordered">
 										<tr>
 											<td class="totalSeats"></td>
@@ -106,14 +109,19 @@
 										<tr>
 											<td class="totalBD">
 												Host Fee
-												<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the fee charged to Hosts by BoatDay"></span>
+												<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the fee charged to Hosts by BoatDay. 15% of guests contributions."></span>
 											</td>
 											<td class="text-right totalBoatDayUSD"></td>
 										</tr>
+										<tr class="partnerDiscount" style="display:none;">
+											<td>
+												Premium Discount
+											</td>
+											<td class="text-right totalPartnerDiscount"></td>
+										</tr>
 										<tr>
 											<td style="border-top: double 3px black;" class="totalHost">
-												Estimated Payout 
-												<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="Estimated contribution you will receive if your boat is fully booked."></span>
+												Host Payout 
 											</td>
 											<td style="border-top: double 3px black;" class="text-right totalHostUSD"></td>
 										</tr>

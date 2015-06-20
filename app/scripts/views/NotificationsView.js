@@ -72,12 +72,12 @@ define([
 					boatName: notification.get("boat") ? notification.get("boat").get('name') : null,
 					boatdayId: notification.get("boatday") ? notification.get("boatday").id : null,
 					boatdayName: notification.get("boatday") ? notification.get("boatday").get('name') : null,
-					action: notification.get("action"),
 					message: notification.get("message"),
 					sender: notification.get("from"),
 					read:  notification.get("read"),
 					requestId: 1,
-					amount: 10
+					amount: 10,
+					seats: 3
 				};
 
 				self.$el.find('.notification-list').append(_.template(NotificationTemplate)(data));

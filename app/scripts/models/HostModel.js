@@ -12,6 +12,9 @@ define([
 			accountNumber: null,
 			accountRouting: null,
 
+			rate: 0.15,
+			coupon: null,
+
 			street: null,
 			city: null,
 			zipCode: null,
@@ -33,17 +36,26 @@ define([
 			certBSC: null,
 			certStatusBSC: null,
 			certResponseBSC: null,
+			
 			certCCL: null,
 			certStatusCCL: null,
+			certResponseCCL: null,
+			
 			certMCL: null,
 			certStatusMCL: null,
+			certResponseMCL: null,
+			
 			certFL: null,
 			cerStatustFL: null,
+			certResponseFL: null,
+
 			certSL: null,
 			cerStatustSL: null,
-			certFAC: null,
-			certStatusFAC: null
+			certResponseSL: null,
 
+			certFAC: null,
+			certStatusFAC: null,
+			certResponseFAC: null,
 		},
 
 		isPhoneValid: function(phone) {

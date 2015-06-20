@@ -60,8 +60,9 @@ define([
 			queryBoats.ascending('name');
 			queryBoats.find().then(boatsFetchSuccess);
 
+			// Todo change startDate by 0d after 11 Jul. 2015
 			this.$el.find('.date').datepicker({
-				startDate: '0d',
+				startDate: '07/11/2015',
 				autoclose: true
 			});
 
@@ -80,11 +81,19 @@ define([
 				var totalSeats = self._in('availableSeats').slider('getValue');
 				var totalPriceUSD = pricePerSeat * totalSeats;
 				var totalBoatDayUSD = 0.15 * totalPriceUSD;
-				var totalHostUSD = totalPriceUSD - totalBoatDayUSD;
+				var totalPartnerDiscountPercent = 0.15 - Parse.User.current().get('host').get('rate');
+				var totalPartnerDiscount = totalPartnerDiscountPercent * totalPriceUSD;
+				var totalHostUSD = totalPriceUSD - (totalBoatDayUSD - totalPartnerDiscount);
+
 				self.$el.find('.totalSeats').text(totalSeats + " seats x $" + pricePerSeat);
 				self.$el.find('.totalPriceUSD').text('$' + totalPriceUSD);
-				self.$el.find('.totalBoatDayUSD').text('$' + totalBoatDayUSD);
-				self.$el.find('.totalHostUSD').text('$' + totalHostUSD);	
+				self.$el.find('.totalBoatDayUSD').text('-$' + totalBoatDayUSD);
+				self.$el.find('.totalHostUSD').text('$' + totalHostUSD);
+
+				if( totalPartnerDiscountPercent > 0 ) {
+					self.$el.find('.partnerDiscount').show();
+					self.$el.find('.totalPartnerDiscount').text('$' + Math.round(totalPartnerDiscount));
+				}
 			};
 
 			var availableSeatsSlideEvent = function(slideEvt) {
@@ -171,7 +180,11 @@ define([
 
 			if (navigator.geolocation) {
 
-				navigator.geolocation.getCurrentPosition(handlePosition, handleNoPosition);
+				// Edit DC: 
+				// The navigator takes too much time and blocks everything. We prefere to desactivate it.
+
+				// navigator.geolocation.getCurrentPosition(handlePosition, handleNoPosition);
+				handleNoPosition();
 
 			} else {
 

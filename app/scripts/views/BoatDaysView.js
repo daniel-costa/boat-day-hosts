@@ -10,10 +10,24 @@ define([
 		
 		template: _.template(BoatDaysTemplate),
 		
-		
+		events: {
+			'click .boatday-box-close': 'closeBox',
+			'click .boatday-box-open': 'openBox'
+		},
+
 		captainRequests: {},
 
 		theme: "dashboard",
+
+		openBox: function(event) {
+			$(event.currentTarget).closest('.my-boatday').find('.boatday-share').hide();
+			$(event.currentTarget).closest('.my-boatday').find($(event.currentTarget).attr('data-target')).fadeIn();
+		},
+
+		closeBox: function(event) {
+			$(event.currentTarget).closest('.my-boatday').find('.boatday-share').show();
+			$(event.currentTarget).closest('.box').fadeOut();
+		},
 
 		render: function() {
 
@@ -25,12 +39,20 @@ define([
 
 			self.$el.find('.add-boatday, .my-boatdays').hide();
 
-			var queryBoatDays = new Parse.Query(BoatDayModel);
-			queryBoatDays.equalTo("host", Parse.User.current().get("host"));
-			queryBoatDays.descending('date,departureTime');
-			queryBoatDays.include('boat');
+			var queryBoatDaysComplete = new Parse.Query(BoatDayModel);
+			queryBoatDaysComplete.equalTo("status", 'complete');
+			queryBoatDaysComplete.lessThan("date", new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
 
-			queryBoatDays.find().then(function(boatdays) {
+			var queryBoatDaysOthers = new Parse.Query(BoatDayModel);
+			queryBoatDaysComplete.notEqualTo("status", 'complete');
+			
+
+			var mainQuery = Parse.Query.or(queryBoatDaysComplete, queryBoatDaysOthers);
+			mainQuery.equalTo("host", Parse.User.current().get("host"));
+			mainQuery.descending('date,departureTime');
+			mainQuery.include('boat');
+			mainQuery.include('captain');
+			mainQuery.find().then(function(boatdays) {
 				
 				if(boatdays.length == 0) {
 					self.$el.find('.add-boatday').fadeIn();
@@ -62,8 +84,16 @@ define([
 						potEarings: boatday.get('price') * 0.75 * boatday.get('availableSeats'),
 						boatName: boatday.get('boat').get('name'),
 						boatType: boatday.get('boat').get('type'),
+						boatYear: boatday.get('boat').get('buildYear'),
+						captainName: boatday.get('captain').get('displayName'),
 						picture: 'resources/boat-placeholder.png',
-						active: new Date(_bDa.getFullYear(), _bDa.getMonth(), _bDa.getDate(), Math.floor(_bDt), (_bDt-Math.floor(_bDt))*60) >= new Date()
+						description: boatday.get('description'),
+						price: boatday.get('price'),
+						activity: self.boatdayActivityToDisplay(boatday.get('category')),
+						booking: self.boatdayBookingToDisplay(boatday.get('bookingPolicy')),
+						cancellation: self.boatdayCancellationToDisplay(boatday.get('cancellationPolicy')),
+						location: "Miami Beach",
+						active: false
 					});
 
 					target.append(_tpl);

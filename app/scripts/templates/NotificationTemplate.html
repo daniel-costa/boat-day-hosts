@@ -17,43 +17,43 @@
 			<% }  %>
 
 			<% if( action == "certification-accepted" ) { %>
-				Your certification <a href="#/my-account"><%= message %></a> has been reviewed and accepted
+				Your <a href="#/my-account"><%= message %></a> has been approved! You will now have a <a href="#/my-account"><%= message %></a> badge displayed on your BoatDay Profile. 
 			 <% } %>
 
 			<% if( action == "certification-denied" ) { %>
-				Your certification <a href="#/my-account"><%= message %></a> has been rejected. Check your account to see the reason
+				We are unable to approve your <a href="#/my-account"><%= message %></a> at this time. Click on <a href="#/my-account"><%= message %></a> to learn more. 
 			<% } %>
 
 			<% if( action == "host-accepted" ) { %>
-				Your host registration has been reviewed and accepted
+				You have been approved as a BoatDay Host! 
 			<% } %>
 			
 			<% if( action == "host-denied" ) { %>
-				Your host registration has been rejected. Check <a href="#/my-account">your account</a> to see the reason
+				We are unable to approve you as a BoatDay Host. Click on <a href="#/my-account">My Account</a> to see the reason.
 			<% } %>
 
 			<% if( action == "boat-accepted" ) { %>
-				Your boat <a href="#/boat/<%= boatId %>"><%= boatName %></a> has been reviewed and accepted
+				Your boat <a href="#/boat/<%= boatId %>"><%= boatName %></a> has been approved! Your BoatDays are now visible to Guests. 
 			<% } %>
 			
 			<% if( action == "boat-denied" ) { %>
-				Your boat <a href="#/boat/<%= boatId %>"><%= boatName %></a> registration has been rejected. Check your <a href="#/boatday/<%= boatdayId %>">boat profile</a> to see the reason
+				We are unable approve your boat, <a href="#/boat/<%= boatId %>"><%= boatName %></a>, at this time.  Click on <a href="#/boat/<%= boatId %>"><%= boatName %></a> to learn more.
 			<% } %>
 
 			<% if( action == "boatday-review" ) { %>
-				just sent you a review on <a href="#/boatday/<%= boatdayId %>"><%= boatdayName %></a>
+				<%= sender.displayName %> just left you a review.
 			<% } %>
 			
 			<% if( action == "boatday-message" ) { %>
-				just sent you a message regarding <a href="#/boatday/<%= boatdayId %>"><%= boatdayName %></a>
+				<%= sender.displayName %> just sent you a message regarding <%= boatdayName %>.
 			<% } %>
 
 			<% if( action == "boatday-payment" ) { %>
-				just paid you <strong>$<%= amount %></strong> as a contribution for your <a href="#/boatday/<%= boatdayId %>"><%= boatdayName %></a>
+				You just received $<%= amount %> contributions for your BoatDay <%= boatdayName %>.
 			<% } %>
 			
 			<% if( action == "boatday-request" ) { %>
-				would like to request a seat on <a href="#/boatday/<%= boatdayId %>"><%= boatdayName %></a>
+				<%= sender.displayName %> has requested <%= seats %> seat(s) on your BoatDay <%= boatdayName %>.
 			<% } %>
 
 			<% if( action == "bd-message" ) { %>
@@ -64,11 +64,11 @@
 	<div class="cell col-xs-12 col-sm-6 col-md-7 col-lg-6">
 		<div class="inner text-center">
 			<% if( action == "certification-accepted" ) { %>
-				[ico-certification]
+				<img src="resources/ico-certification.png" />
 			 <% } %>
 
 			<% if( action == "certification-denied" ) { %>
-				[ico-certification]
+				<img src="resources/ico-certification.png" />
 				<!-- <a href="#/my-account" class="btn btn-default btn-lg">My Account</a> -->
 			<% } %>
 

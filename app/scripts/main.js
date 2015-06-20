@@ -14,7 +14,10 @@ require.config({
 		bootstrap: 	'vendor/bootstrap/dist/js/bootstrap.min',
 		datepicker: 'vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min',
 		slider: 	'vendor/seiyria-bootstrap-slider/dist/bootstrap-slider.min',
-		async:		'vendor/requirejs-plugins/src/async'
+		async:		'vendor/requirejs-plugins/src/async',
+		facebook: 	'//connect.facebook.net/en_US/all',
+		twitter: 	'//platform.twitter.com/widgets',
+		gapi: 		'//apis.google.com/js/platform',
 	},
 	shim: {
 		jquery: {
@@ -37,6 +40,15 @@ require.config({
 		slider: {
 			deps: ["jquery", "bootstrap"],
 			exports: 'slider'
+		},
+		facebook : {
+			exports: 'FB'
+		},
+		twitter: {
+			exports: 'twttr'
+		},
+		gapi: {
+			exports: 'gapi'
 		}
 	},
 	googlemaps: {
@@ -46,10 +58,10 @@ require.config({
 	}
 });
 
-require(['parse', 'router', 'views/AppView', 'bootstrap', 'datepicker', 'slider'], function(Parse, AppRouter, AppView) {
+require(['parse', 'router', 'views/AppView', 'bootstrap', 'datepicker', 'slider', 'fb', 'twitter', 'gapi'], function(Parse, AppRouter, AppView) {
 	
 	Parse.initialize("LCn0EYL8lHOZOtAksGSdXMiHI08jHqgNOC5J0tmU", "kXeZHxlhpWhnRdtg7F0Cdc6kvuGHVtDlnSZjfxpU"); // QA LCn0E...
-	
+
 	var cb = function() {
 		new AppRouter();
 		Parse.history.start();
