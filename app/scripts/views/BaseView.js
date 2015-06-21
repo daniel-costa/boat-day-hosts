@@ -69,6 +69,7 @@ define([
 			var navLeft = this.$el.find('.left-navigation');
 			if( navLeft.length == 1 ) {
 				navLeft.html(this.navLeftTpl());
+				$('#app').trigger('updateNotificationsAmount', this.$el.find('.total-notifications'));
 			}
 
 			this.$el.find('[data-toggle="tooltip"]').tooltip();

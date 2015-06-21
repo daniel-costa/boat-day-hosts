@@ -166,10 +166,10 @@ define([
 						activity: self.boatdayActivityToDisplay(boatday.get('category')),
 						booking: self.boatdayBookingToDisplay(boatday.get('bookingPolicy')),
 						cancellation: self.boatdayCancellationToDisplay(boatday.get('cancellationPolicy')),
-						location: "Miami Beach",
+						location: boatday.get('locationText'),
 						active: true
 					});
-					
+
 					self.boatdays[boatday.id] = boatday;
 					target.append(_tpl);
 

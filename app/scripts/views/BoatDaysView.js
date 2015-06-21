@@ -44,7 +44,7 @@ define([
 			queryBoatDaysComplete.lessThan("date", new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
 
 			var queryBoatDaysOthers = new Parse.Query(BoatDayModel);
-			queryBoatDaysComplete.notEqualTo("status", 'complete');
+			queryBoatDaysOthers.notEqualTo("status", 'complete');
 			
 
 			var mainQuery = Parse.Query.or(queryBoatDaysComplete, queryBoatDaysOthers);

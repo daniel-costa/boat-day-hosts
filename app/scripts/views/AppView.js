@@ -7,8 +7,13 @@ define(['parse'], function(Parse){
 			'globalError': 'displayError',
 			'globalInfo': 'displayInfo',
 			'globalMessage': 'displayMessage',
-			'fetchUserInfo': 'fetchUserInfo'
+			'fetchUserInfo': 'fetchUserInfo',
+			'updateNotificationsAmount': 'updateNotificationsAmount',
 		},
+
+		notifications: 0,
+
+		notificationsHolder: null,
 
 		displayError: function(event, message) {
 			this.displayMessage(event, {type: 'error', message: message});
@@ -29,8 +34,48 @@ define(['parse'], function(Parse){
 
 		initialize: function(cb) {
 
-			this.fetchUserInfo(event, cb);
+			var self = this;
 
+			this.fetchUserInfo(event, cb);
+			setInterval(function() { self.updateNotificationsAmount() }, 60 * 1000);
+
+		},
+
+		updateNotificationsAmount: function(event, holder) {
+			
+			if( holder ) {
+				this.notificationsHolder = holder;
+			}
+
+			var self = this;
+
+			var cb = function() {
+				if ( self.notificationsHolder ) {
+					if( self.notifications == 0)  {
+						$(self.notificationsHolder).hide();
+					} else {
+						$(self.notificationsHolder).text(self.notifications).show();
+					}
+				}
+			};
+
+			this.checkNotifications(cb);
+
+		},
+
+		checkNotifications: function(cb) {
+
+			var self = this;
+
+			if( Parse.User.current().get('profile') ) {
+				var query = new Parse.Query(Parse.Object.extend("Notification"));
+				query.equalTo('to', Parse.User.current().get('profile'));
+				query.equalTo('read', undefined);
+				query.count().then(function(total) {
+					self.notifications = total;
+					cb();
+				});
+			}
 		},
 
 		fetchUserInfo: function(event, cb) {

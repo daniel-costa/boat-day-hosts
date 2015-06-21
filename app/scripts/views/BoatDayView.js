@@ -203,8 +203,8 @@ define([
 				if (status === google.maps.GeocoderStatus.OK) {
 
 					if (results[0]) {
-						
-						self._in('location').val(results[0].formatted_address);
+						var addr = results[0].formatted_address;
+						self._in('locationText').val(addr.slice(0, addr.lastIndexOf(",")));
 					
 					}
 
@@ -375,6 +375,7 @@ define([
 				arrivalTime: this._in('departureTime').slider('getValue') + self._in('duration').slider('getValue'),
 				duration: self._in('duration').slider('getValue'),
 				location: self._marker ? new Parse.GeoPoint({latitude: self._marker.getPosition().lat(), longitude: self._marker.getPosition().lng()}) : null,
+				locationText: this._in('locationText').val(),
 				availableSeats: self._in('availableSeats').slider('getValue'),
 				price: self._in('price').slider('getValue'), 
 				bookingPolicy: this.$el.find('[name="bookingPolicy"]:checked').val(),
