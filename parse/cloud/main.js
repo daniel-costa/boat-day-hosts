@@ -119,24 +119,6 @@ Parse.Cloud.define("sendNotificationEmail", function(request, response) {
 		response.error("error in 'sendNotificationEmail' check logs for more informations [notification="+notification+"].");
 	};
 
-	var gotUser = function(notification) {
-		
-		console.log("*******");
-		console.log(notification);
-
-		var name = notification.get('to').get('host').get('firstname');
-		
-		var data = {
-			to: notification.get('to').get('profile').get("email"),
-			from: config.get("CAPTAIN_EMAIL_FROM"),
-			subject: "You have a new notification",
-			text: 	"Hi "+name+",\n\nYou have a new message in your BoatDay inbox, click here to access your Host Account and read your messages.\n\nWelcome aboard,\nThe BoatDay Team"
-		};
-
-		Mailgun.sendEmail(data).then(function(httpResponse) {
-			response.success('Email sent');
-		}, cbError);
-	};
 
 	Parse.Config.get().then(function(c) {
 
@@ -148,7 +130,20 @@ Parse.Cloud.define("sendNotificationEmail", function(request, response) {
 		queryNotification.include('to');
 		queryNotification.include('to.user');
 		queryNotification.include('to.host');
-		queryNotification.get(notification).then(gotUser, cbError);
+		queryNotification.get(notification).then(function(notification) {
+
+			var name = notification.get('to').get('host').get('firstname');
+
+			var data = {
+				to: notification.get('to').get('user').get("email"),
+				from: config.get("CAPTAIN_EMAIL_FROM"),
+				subject: "You have a new notification",
+				text: 	"Hi "+name+",\n\nYou have a new message in your BoatDay inbox, click here to access your Host Account and read your messages.\n\nWelcome aboard,\nThe BoatDay Team"
+			};
+
+			Mailgun.sendEmail(data).then(function(httpResponse) { response.success('Email sent'); }, cbError);
+
+		}, cbError);
 
 	});
 	
