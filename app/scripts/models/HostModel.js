@@ -30,6 +30,7 @@ define([
 			SSN: null,
 			//for boatDay cms
 			bgCheck:null, 
+			bgUploadedDate: null, 
 			validationText: null, 
 			validationTextInternal: null, 
 
