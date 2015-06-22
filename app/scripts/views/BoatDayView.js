@@ -1,5 +1,5 @@
 define([
-'async!http://maps.google.com/maps/api/js?sensor=false',
+'async!https://maps.google.com/maps/api/js?sensor=false',
 'views/BaseView',
 'text!templates/BoatDayTemplate.html',
 'models/BoatModel',
@@ -40,6 +40,8 @@ define([
 			var self = this;
 
 			self.$el.find('.left-navigation .menu-new-boatday').addClass('active');
+			self.$el.find('.left-navigation a.link').hide();
+			self.$el.find('.left-navigation a.menu-new-boatday').show().css('display', "block");
 
 			var boatsFetchSuccess = function(matches) {
 
@@ -62,7 +64,7 @@ define([
 
 			// Todo change startDate by 0d after 11 Jul. 2015
 			this.$el.find('.date').datepicker({
-				startDate: '07/11/2015',
+				startDate: '07/18/2015',
 				autoclose: true
 			});
 

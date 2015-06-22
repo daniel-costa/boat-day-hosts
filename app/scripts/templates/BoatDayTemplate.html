@@ -397,9 +397,12 @@
 						<div class="row">
 							<div class="col-sm-9 col-sm-offset-2">
 								<div class="form-group">
-									<label for="description" class="control-label">Description</label>
+									<label for="description" class="control-label">
+										Description
+										<!-- <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title=""></span> -->
+									</label>
 									<div>
-										<textarea class="form-control" name="description" id="description" rows="7"  placeholder="describe your day on the water"><%= description ?  description : '' %></textarea>
+										<textarea class="form-control" name="description" id="description" rows="7"  placeholder="Attract more Guests with a custom description of your BoatDay! Share the extra details that make your BoatDay unique."><%= description ?  description : '' %></textarea>
 									</div>
 								</div>
 							</div>
@@ -542,7 +545,7 @@
 										<input type="radio" id="cancellationPolicy2" name="cancellationPolicy" value="moderate">
 										<label class="control-label" for="cancellationPolicy2"><strong>Moderate:</strong> No charge for Guest cancellations up to 3 days prior to departure, except Trust &amp; Safety Fee.</label>
 										<input type="radio" id="cancellationPolicy3" name="cancellationPolicy" value="strict">
-										<label class="control-label" for="cancellationPolicy3"><strong>Strict:</strong> 50% charge for Guest cancellations up to five days prior to departure time, except Trust &amp; Safety Fee.</label>
+										<label class="control-label" for="cancellationPolicy3"><strong>Strict:</strong> 50% charge for Guest cancellations up to five days prior to departure time, including Trust &amp; Safety Fee.</label>
 									</div>
 								</div>
 							</div>

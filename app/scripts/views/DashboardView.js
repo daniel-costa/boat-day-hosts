@@ -79,7 +79,7 @@ define([
 
 			//self.$el.find('.navbar-brand').text('Host Center');
 			self.$el.find('.left-navigation .menu-host-center').addClass('active');
-
+			self.$el.find('.left-navigation .menu-host-center').text('Host Center');
 			self.$el.find('.add-boat, .add-boatday, .my-boatdays, .my-boats, .my-requests').hide();
 
 			var boatsFetchSuccess = function(boats) {
@@ -88,6 +88,8 @@ define([
 					self.$el.find('.add-boat').fadeIn();
 					return;
 				}
+
+				self.$el.find('.menu-new-boatday').show();
 
 				var tpl = _.template(DashboardBoatRowTemplate);
 				var target = self.$el.find('.my-boats .content .rows');
@@ -134,6 +136,8 @@ define([
 					self.$el.find('.add-boatday').fadeIn();
 					return;
 				}
+
+				self.$el.find('.menu-my-boatdays').show();
 
 				var tpl = _.template(DashboardBoatDayTemplate);
 				var target = self.$el.find('.my-boatdays .content .items');

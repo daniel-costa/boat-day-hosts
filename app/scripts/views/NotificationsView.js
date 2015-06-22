@@ -59,6 +59,9 @@ define([
 
 			//self.$el.find('.navbar-brand').text('My messages');
 			self.$el.find('.left-navigation .menu-my-notifications').addClass('active');
+			self.$el.find('.left-navigation a.link').hide();
+			self.$el.find('.left-navigation a.menu-my-notifications').show().css('display', "block");
+
 			self.$el.find('.add-boat, .add-boatday, .my-boats, .my-requests').hide();
 
 			var gotNotification = function(notification) {
@@ -95,6 +98,11 @@ define([
 			query.include('boat');
 			query.include('boatday');
 			query.find().then(function(matches){
+
+				if(matches.length > 0) {
+					self.$el.find('.notification-list').show();
+				}
+
 				_.each(matches, gotNotification);
 			});
 

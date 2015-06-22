@@ -81,6 +81,8 @@ define([
 			var baseStatus = this.model.get('status');
 
 			var data = {
+				user: Parse.User.current(),
+				profile: Parse.User.current().get('profile'),
 				status: "complete",
 				phone: this._in('phone').val(),
 				street: this._in('street').val(),

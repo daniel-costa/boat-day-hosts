@@ -39,6 +39,8 @@ define([
 				this.displayCaptains();
 			}
 
+
+
 		},
 
 		render: function() {
@@ -46,7 +48,11 @@ define([
 			BaseView.prototype.render.call(this);
 
 			var self = this;
-			
+
+			self.$el.find('.left-navigation .menu-new-boat').addClass('active');
+			self.$el.find('.left-navigation a.link').hide();
+			self.$el.find('.left-navigation a.menu-new-boat').show().css('display', "block");
+
 			return this;
 
 		},

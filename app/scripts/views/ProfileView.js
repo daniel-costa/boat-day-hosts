@@ -85,6 +85,8 @@ define([
 				status: "complete",
 				about: this._in('about').val(),
 				profilePicture: this.tempBinaries.profilePicture,
+				user: Parse.User.current(),
+				host: Parse.User.current().get('host')
 			};
 
 			if( baseStatus == 'creation' ) {

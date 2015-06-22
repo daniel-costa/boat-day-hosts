@@ -67,7 +67,7 @@ define(['parse'], function(Parse){
 
 			var self = this;
 
-			if( Parse.User.current().get('profile') ) {
+			if( Parse.User.current() && Parse.User.current().get('profile') ) {
 				var query = new Parse.Query(Parse.Object.extend("Notification"));
 				query.equalTo('to', Parse.User.current().get('profile'));
 				query.equalTo('read', undefined);

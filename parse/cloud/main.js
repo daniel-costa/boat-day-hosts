@@ -99,4 +99,63 @@ Parse.Cloud.define("sendDriverEmail", function(request, response) {
 Parse.Cloud.afterSave("CaptainRequest", function(request) {
 
 		Parse.Cloud.run('sendDriverEmail', {captainRequest: request.object.id });
+		
+});
+
+Parse.Cloud.define("sendNotificationEmail", function(request, response) {
+
+	/**
+	  * Params :
+	  * - captainRequest
+	  **/
+
+	var Mailgun = require('mailgun');
+
+
+	var notification = request.params.notification;
+	var config = null;
+
+	var cbError = function(error) {
+		response.error("error in 'sendNotificationEmail' check logs for more informations [notification="+notification+"].");
+	};
+
+	var gotUser = function(notification) {
+		
+		console.log("*******");
+		console.log(notification);
+
+		var name = notification.get('to').get('host').get('firstname');
+		
+		var data = {
+			to: notification.get('to').get('profile').get("email"),
+			from: config.get("CAPTAIN_EMAIL_FROM"),
+			subject: "You have a new notification",
+			text: 	"Hi "+name+",\n\nYou have a new message in your BoatDay inbox, click here to access your Host Account and read your messages.\n\nWelcome aboard,\nThe BoatDay Team"
+		};
+
+		Mailgun.sendEmail(data).then(function(httpResponse) {
+			response.success('Email sent');
+		}, cbError);
+	};
+
+	Parse.Config.get().then(function(c) {
+
+		config = c;
+
+		Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
+		
+		var queryNotification = new Parse.Query("Notification");
+		queryNotification.include('to');
+		queryNotification.include('to.user');
+		queryNotification.include('to.host');
+		queryNotification.get(notification).then(gotUser, cbError);
+
+	});
+	
+});
+
+Parse.Cloud.afterSave("Notification", function(notification) {
+
+	Parse.Cloud.run('sendNotificationEmail', { notification: notification.object.id });
+		
 });
