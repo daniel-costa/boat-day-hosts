@@ -102,55 +102,69 @@ Parse.Cloud.afterSave("CaptainRequest", function(request) {
 		
 });
 
-Parse.Cloud.define("sendNotificationEmail", function(request, response) {
-
-	/**
-	  * Params :
-	  * - captainRequest
-	  **/
-
-	var Mailgun = require('mailgun');
-
-
-	var notification = request.params.notification;
-	var config = null;
-
-	var cbError = function(error) {
-		response.error("error in 'sendNotificationEmail' check logs for more informations [notification="+notification+"].");
-	};
-
-
-	Parse.Config.get().then(function(c) {
-
-		config = c;
-
-		Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
-		
-		var queryNotification = new Parse.Query("Notification");
-		queryNotification.include('to');
-		queryNotification.include('to.user');
-		queryNotification.include('to.host');
-		queryNotification.get(notification).then(function(notification) {
-
-			var name = notification.get('to').get('host').get('firstname');
-
-			var data = {
-				to: notification.get('to').get('user').get("email"),
-				from: config.get("CAPTAIN_EMAIL_FROM"),
-				subject: "You have a new notification",
-				text: 	"Hi "+name+",\n\nYou have a new message in your BoatDay inbox, click here to access your Host Account and read your messages.\n\nWelcome aboard,\nThe BoatDay Team"
-			};
-
-			Mailgun.sendEmail(data).then(function(httpResponse) { response.success('Email sent'); }, cbError);
-
-		}, cbError);
-
-	});
-	
-});
-
 Parse.Cloud.afterSave("Notification", function(notification) {
 
-	Parse.Cloud.run('sendNotificationEmail', { notification: notification.object.id });
+	var notification = notification.object;
+
+	if( notification.get('sendEmail') ) {
+
+		var Mailgun = require('mailgun');
+		var cbError = function(error) {
+			response.error("error in 'sendNotificationEmail' check logs for more informations [notification="+notification+"].");
+		};
+
+		Parse.Config.get().then(function(config) {
+
+			Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
+			
+			var queryNotification = new Parse.Query("Notification");
+			queryNotification.include('to');
+			queryNotification.include('to.user');
+			queryNotification.include('to.host');
+			queryNotification.get(notification).then(function(notification) {
+
+				var name = notification.get('to').get('host').get('firstname');
+
+				var data = {
+					to: notification.get('to').get('user').get("email"),
+					from: config.get("CAPTAIN_EMAIL_FROM"),
+					subject: "You have a new notification",
+					text: 	"Hi "+name+",\n\nYou have a new message in your BoatDay inbox, access the BoatDay Host Center - https://www.boatdayhosts.com - to read your messages.\n\nWelcome aboard,\nThe BoatDay Team"
+				};
+
+				Mailgun.sendEmail(data).then(function(httpResponse) { response.success('Email sent'); }, cbError);
+
+			}, cbError);
+
+		});
+
+		Parse.Cloud.run('sendNotificationEmail', { notification: notification.object.id });	
+
+	}
+		
+});
+
+
+Parse.Cloud.afterSave("Host", function(host) {
+
+	var host = host.object;
+
+	if( host.get('status') == 'complete' && !host.get('notificationSent') ) {
+		var Notification = Parse.Object.extend('Notification');
+		
+		var data = {
+			action: 'bd-message',
+			fromTeam: true,
+			message: 'Welcome to BoatDay! We are currently reviewing your Host application. In the meantime, you can register a boat and start creating BoatDays.',
+			to: host.get('profile'),
+			sendEmail: false
+		};
+		
+		new Notification().save(data).then(function() {
+			host.save({ notificationSent: true }).then(function() {
+				console.log('Notification sent / Host updated');
+			});
+		});
+	}
 		
 });

@@ -56,6 +56,8 @@ define([
 			certFAC: null,
 			certStatusFAC: null,
 			certResponseFAC: null,
+
+			notificationSent: false,
 		},
 
 		isPhoneValid: function(phone) {

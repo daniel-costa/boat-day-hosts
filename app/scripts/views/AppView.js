@@ -36,7 +36,7 @@ define(['parse'], function(Parse){
 
 			var self = this;
 
-			this.fetchUserInfo(event, cb);
+			this.fetchUserInfo(null, cb);
 			setInterval(function() { self.updateNotificationsAmount() }, 60 * 1000);
 
 		},
