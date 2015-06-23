@@ -7,12 +7,15 @@ define([
 
 			status: 'creation',
 			host: null,
+			profile: null,
 			name: null, 
 			hullID: null,
 			buildYear: null,
 			length: null,
 			capacity: null,
 			type: null, 
+			validationText: null, 
+			validationTextInternal: null, 
 			features: {
 				airConditioning: false,
 				autopilot: false,

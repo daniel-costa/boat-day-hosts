@@ -16,7 +16,7 @@
 				<strong><%= sender.get("displayName") %></strong>
 			<% }  %>
 
-			<% if( action == "certification-accepted" ) { %>
+			<% if( action == "certification-approved" ) { %>
 				Your <a href="#/my-account"><%= message %></a> has been approved! You will now have a <a href="#/my-account"><%= message %></a> badge displayed on your BoatDay Profile. 
 			 <% } %>
 
@@ -24,7 +24,7 @@
 				We are unable to approve your <a href="#/my-account"><%= message %></a> at this time. Click on <a href="#/my-account"><%= message %></a> to learn more. 
 			<% } %>
 
-			<% if( action == "host-accepted" ) { %>
+			<% if( action == "host-approved" ) { %>
 				You have been approved as a BoatDay Host! 
 			<% } %>
 			
@@ -32,7 +32,7 @@
 				We are unable to approve you as a BoatDay Host. Click on <a href="#/my-account">My Account</a> to see the reason.
 			<% } %>
 
-			<% if( action == "boat-accepted" ) { %>
+			<% if( action == "boat-approved" ) { %>
 				Your boat <a href="#/boat/<%= boatId %>"><%= boatName %></a> has been approved! Your BoatDays are now visible to Guests. 
 			<% } %>
 			
@@ -63,7 +63,7 @@
 	</div>
 	<div class="cell col-xs-12 col-sm-6 col-md-7 col-lg-6">
 		<div class="inner text-center">
-			<% if( action == "certification-accepted" ) { %>
+			<% if( action == "certification-approved" ) { %>
 				<img src="resources/ico-certification.png" />
 			 <% } %>
 
@@ -72,7 +72,7 @@
 				<!-- <a href="#/my-account" class="btn btn-default btn-lg">My Account</a> -->
 			<% } %>
 
-			<% if( action == "host-accepted" ) { %>
+			<% if( action == "host-approved" ) { %>
 				<img src="resources/ico-host.png" />
 			<% } %>
 			
@@ -81,7 +81,7 @@
 				<!-- <a href="#/my-account" class="btn btn-default btn-lg">My Account</a> -->
 			<% } %>
 
-			<% if( action == "boat-accepted" ) { %>
+			<% if( action == "boat-approved" ) { %>
 				<img src="resources/ico-boat.png" />
 			<% } %>
 			

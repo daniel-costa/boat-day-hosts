@@ -140,7 +140,7 @@ define([
 
 				} else {
 
-					var boat = new BoatModel({ host: Parse.User.current().get('host') });
+					var boat = new BoatModel({ host: Parse.User.current().get('host'), profile: Parse.User.current().get('profile') });
 					self.render(new BoatView({ model: boat, init: true }));
 
 				}
