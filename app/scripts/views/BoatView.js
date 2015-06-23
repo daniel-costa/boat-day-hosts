@@ -250,6 +250,8 @@ define([
 						self.appendBoatPicture(fh);
 						self.model.relation('boatPictures').add(fh);
 						self.model.save();
+					}, function(e) {
+						console.log(e);
 					});
 				};
 				opts.pdf = false;

@@ -233,10 +233,18 @@ Parse.Cloud.beforeSave("FileHolder", function(request, response) {
 		var query = new Parse.Query(Parse.Object.extend('FileHolder'));
 		query.equalTo("host", fh.get('host'));
 		query.descending('order');
-		query.first().then(function(_fh) {
-			fh.set('order', _fh.get('order') + 1);
-			response.success();
-		});
+		query.count().then(function(t) {
+			if( t > 0 ) {
+				query.first().then(function(_fh) {
+					fh.set('order', _fh.get('order') + 1);
+					response.success();
+				});
+			} else {
+				fh.set('order', 1);
+				response.success();	
+			}
+		})
+		
 	}
 
 });
