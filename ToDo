@@ -122,14 +122,15 @@ o current 2.1.0
 - (done) Replace FB AppId between test & prod in the deploy file hp
 - (done) Personalize rate for each host
 - (done) Display validation text for certifications too
-
+- (done) notifications, change \n by <br/>
+- (done) fb.js with facebookblocker
+- (done) Best instead of better
+- (done) Boat pictures reverse order
+- (done) Update calendar start date with final date
 
 - Capitalization
 - Certifications not clear that we have to add pictures
-- Best instead of better
 - Add text before certifications to tell the type of file.
-- Boat pictures reverse order
-- Update calendar start date with final date
 - Menu dashboard must stay fixed
 
 o Ask Michelle

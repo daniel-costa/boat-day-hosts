@@ -39,8 +39,6 @@ define([
 				this.displayCaptains();
 			}
 
-
-
 		},
 
 		render: function() {
@@ -154,6 +152,7 @@ define([
 
 		appendCaptain: function(CaptainRequest) {
 
+			console.log(this.$el.find('.captains-list'));
 			this.$el.find('.captains-list').append(_.template(BoatCaptainTemplate)({ 
 				id: CaptainRequest.id, 
 				email: CaptainRequest.get('email'),

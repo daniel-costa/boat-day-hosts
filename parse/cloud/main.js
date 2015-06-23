@@ -16,6 +16,25 @@ Parse.Cloud.define("createAdminCmsRole", function(request, response) {
 
 });
 
+Parse.Cloud.define("attachPictureToBoat", function(request, response) {
+	
+	var a = [];
+	var _ = require('underscore');
+
+	new Parse.Query("Boat").get(request.params.boat).then(function(boat) {
+		new Parse.Query("FileHolder").get(request.params.fileHolder).then(function(fh) {
+			boat.relation('boatPictures').add(fh);
+			boat.save().then(function() {
+				response.success("done");
+			}, function(error) {
+				console.log(error);
+				response.error("error");
+			});
+		});
+	});
+
+});
+
 Parse.Cloud.define("grantCmsAdmin", function(request, response) {  
 	
 	if( !request.params.userId ) {
@@ -60,6 +79,7 @@ Parse.Cloud.define("sendDriverEmail", function(request, response) {
 	var config = null;
 
 	var cbError = function(error) {
+		console.log(error);
 		response.error("error in 'sendDriverEmail' check logs for more informations [captainRequest="+captainRequest+"].");
 	};
 
@@ -109,8 +129,10 @@ Parse.Cloud.afterSave("Notification", function(notification) {
 	if( notification.get('sendEmail') ) {
 
 		var Mailgun = require('mailgun');
+
 		var cbError = function(error) {
-			response.error("error in 'sendNotificationEmail' check logs for more informations [notification="+notification+"].");
+			console.log(error);
+			console.error("error in 'sendNotificationEmail' check logs for more informations.");
 		};
 
 		Parse.Config.get().then(function(config) {
@@ -121,7 +143,7 @@ Parse.Cloud.afterSave("Notification", function(notification) {
 			queryNotification.include('to');
 			queryNotification.include('to.user');
 			queryNotification.include('to.host');
-			queryNotification.get(notification).then(function(notification) {
+			queryNotification.get(notification.id).then(function(notification) {
 
 				var name = notification.get('to').get('host').get('firstname');
 
@@ -132,13 +154,11 @@ Parse.Cloud.afterSave("Notification", function(notification) {
 					text: 	"Hi "+name+",\n\nYou have a new message in your BoatDay inbox, access the BoatDay Host Center - https://www.boatdayhosts.com - to read your messages.\n\nWelcome aboard,\nThe BoatDay Team"
 				};
 
-				Mailgun.sendEmail(data).then(function(httpResponse) { response.success('Email sent'); }, cbError);
+				Mailgun.sendEmail(data).then(function(httpResponse) { console.log('Email sent'); }, cbError);
 
 			}, cbError);
 
 		});
-
-		Parse.Cloud.run('sendNotificationEmail', { notification: notification.object.id });	
 
 	}
 		
@@ -165,6 +185,65 @@ Parse.Cloud.afterSave("Host", function(host) {
 				console.log('Notification sent / Host updated');
 			});
 		});
+
+		var Mailgun = require('mailgun');
+
+		var cbError = function(error) {
+			console.log(error);
+			console.error("error in 'sendNotificationEmail' check logs for more informations.");
+		};
+
+		Parse.Config.get().then(function(config) {
+
+			Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
+			
+			var data = {
+				to: "registration@boatdayapp.com",
+				from: config.get("CAPTAIN_EMAIL_FROM"),
+				subject: "New BoatDay Host",
+				text: "go to the CMS motherfucker"
+			};
+
+			Mailgun.sendEmail(data).then(function(httpResponse) { console.log('Email sent'); }, cbError);
+
+		});
 	}
+		
+});
+
+Parse.Cloud.afterSave("HelpCenter", function(feedback) {
+
+	var Mailgun = require('mailgun');
+
+	var feedback = feedback.object;
+
+	var cbError = function(error) {
+		console.log(error);
+		console.log("error in 'HelpCenter afterSave' check logs for more informations.");
+	};
+
+	Parse.Config.get().then(function(config) {
+
+		Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
+
+		var query = new Parse.Query("_User");
+		query.include('profile');
+		query.get(feedback.get('user').id).then(function(user) {
+
+			var message = feedback.get('feedback');
+
+			var data = {
+				to: "support@boatdayapp.com",
+				from: config.get("CAPTAIN_EMAIL_FROM"),
+				subject: 'HelpCenter from ' + user.get('profile').get('displayName') + ' <'+user.get('email')+'> : ' + feedback.get('category'),
+				text: message
+			};
+
+			Mailgun.sendEmail(data).then(function(httpResponse) { console.log('Email sent'); }, cbError);
+
+		}, cbError);
+
+	});
+
 		
 });

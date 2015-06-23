@@ -80,16 +80,16 @@ define([
 			//self.$el.find('.navbar-brand').text('Host Center');
 			self.$el.find('.left-navigation .menu-host-center').addClass('active');
 			self.$el.find('.left-navigation .menu-host-center').text('Host Center');
+
 			self.$el.find('.add-boat, .add-boatday, .my-boatdays, .my-boats, .my-requests').hide();
 
 			var boatsFetchSuccess = function(boats) {
 
 				if(boats.length == 0) {
 					self.$el.find('.add-boat').fadeIn();
+					self.$el.find('.menu-new-boatday').hide();
 					return;
 				}
-
-				self.$el.find('.menu-new-boatday').show();
 
 				var tpl = _.template(DashboardBoatRowTemplate);
 				var target = self.$el.find('.my-boats .content .rows');
@@ -108,7 +108,9 @@ define([
 
 					target.append(_tpl);
 					
-					boat.relation('boatPictures').query().first().then(function(fileholder) {
+					var q = boat.relation('boatPictures').query();
+					q.ascending('createdAt');
+					q.first().then(function(fileholder) {
 
 						if( fileholder ) {
 							self.$el.find('.my-boats .my-boat-'+boat.id+' .picture').css({ backgroundImage: 'url('+fileholder.get('file').url()+')' });
@@ -134,10 +136,10 @@ define([
 
 				if(boatdays.length == 0) {
 					self.$el.find('.add-boatday').fadeIn();
+					self.$el.find('.menu-my-boatdays').hide();
 					return;
 				}
 
-				self.$el.find('.menu-my-boatdays').show();
 
 				var tpl = _.template(DashboardBoatDayTemplate);
 				var target = self.$el.find('.my-boatdays .content .items');

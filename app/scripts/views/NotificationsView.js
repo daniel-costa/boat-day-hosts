@@ -75,7 +75,7 @@ define([
 					boatName: notification.get("boat") ? notification.get("boat").get('name') : null,
 					boatdayId: notification.get("boatday") ? notification.get("boatday").id : null,
 					boatdayName: notification.get("boatday") ? notification.get("boatday").get('name') : null,
-					message: notification.get("message"),
+					message: notification.get("message").replace(/\n/g, "<br>"),
 					sender: notification.get("from"),
 					read:  notification.get("read"),
 					requestId: 1,
