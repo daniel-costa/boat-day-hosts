@@ -71,7 +71,7 @@ define([
 			self.boatPictures = {};
 
 			var query = self.model.relation('boatPictures').query();
-			query.ascending("createdAt");
+			query.ascending("order");
 			query.find().then(function(matches) {
 				_.each(matches, self.appendBoatPicture, self);
 			});
@@ -246,7 +246,7 @@ define([
 
 			if( e.attr('name') == 'boat-picture' ) {
 				cb = function(file) {
-					new FileHolderModel({ file: file }).save().then(function(fh) {
+					new FileHolderModel({ file: file, host: Parse.User.current().get('host') }).save().then(function(fh) {
 						self.appendBoatPicture(fh);
 						self.model.relation('boatPictures').add(fh);
 						self.model.save();
@@ -255,7 +255,7 @@ define([
 				opts.pdf = false;
 			} else {
 				cb = function(file) {
-					new FileHolderModel({ file: file }).save().then(function(fh) {
+					new FileHolderModel({ file: file, host: Parse.User.current().get('host') }).save().then(function(fh) {
 						self.appendInsurance(fh);
 						self.model.relation('proofOfInsurance').add(fh);
 						self.model.save();

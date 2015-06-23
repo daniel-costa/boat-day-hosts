@@ -4,7 +4,9 @@ define([
 	var FileHolderModel = Parse.Object.extend("FileHolder", {
 
 		defaults: {
-			file: null
+			file: null,
+			host: null,
+			order: null
 		}
  
 	});

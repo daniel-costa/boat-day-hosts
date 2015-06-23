@@ -100,7 +100,9 @@ define([
 
 					target.append(_tpl);
 
-					boatday.get('boat').relation('boatPictures').query().first().then(function(fileholder) {
+					var q = boatday.get('boat').relation('boatPictures').query();
+					q.ascending('order');
+					q.first().then(function(fileholder) {
 						
 						if( fileholder ) {
 							console.log(self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .picture'));

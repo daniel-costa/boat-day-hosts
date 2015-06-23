@@ -109,7 +109,7 @@ define([
 					target.append(_tpl);
 					
 					var q = boat.relation('boatPictures').query();
-					q.ascending('createdAt');
+					q.ascending('order');
 					q.first().then(function(fileholder) {
 
 						if( fileholder ) {
@@ -179,7 +179,9 @@ define([
 					self.boatdays[boatday.id] = boatday;
 					target.append(_tpl);
 
-					boatday.get('boat').relation('boatPictures').query().first().then(function(fileholder) {
+					var q = boatday.get('boat').relation('boatPictures').query()
+					q.ascending('order');
+					q.first().then(function(fileholder) {
 						
 						if( fileholder ) {
 							self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .picture').css({ backgroundImage: 'url('+fileholder.get('file').url()+')' });

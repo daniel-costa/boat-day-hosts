@@ -21,8 +21,8 @@ Parse.Cloud.define("attachPictureToBoat", function(request, response) {
 	var a = [];
 	var _ = require('underscore');
 
-	new Parse.Query("Boat").get(request.params.boat).then(function(boat) {
-		new Parse.Query("FileHolder").get(request.params.fileHolder).then(function(fh) {
+	new Parse.Query(Parse.Object.extend('Boat')).get(request.params.boat).then(function(boat) {
+		new Parse.Query(Parse.Object.extend('FileHolder')).get(request.params.fileHolder).then(function(fh) {
 			boat.relation('boatPictures').add(fh);
 			boat.save().then(function() {
 				response.success("done");
@@ -107,7 +107,7 @@ Parse.Cloud.define("sendDriverEmail", function(request, response) {
 
 		Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
 		
-		var query = new Parse.Query("CaptainRequest");
+		var query = new Parse.Query(Parse.Object.extend('CaptainRequest'));
 		query.include('boat');
 		query.include('fromHost');
 		query.get(captainRequest).then(gotCaptainRequest, cbError);
@@ -118,45 +118,38 @@ Parse.Cloud.define("sendDriverEmail", function(request, response) {
 
 Parse.Cloud.afterSave("CaptainRequest", function(request) {
 
-		Parse.Cloud.run('sendDriverEmail', {captainRequest: request.object.id });
+	Parse.Cloud.run('sendDriverEmail', {captainRequest: request.object.id });
 		
 });
 
-Parse.Cloud.afterSave("Notification", function(notification) {
+Parse.Cloud.afterSave("Notification", function(request) {
 
-	var notification = notification.object;
+	var notification = request.object;
 
 	if( notification.get('sendEmail') ) {
 
 		var Mailgun = require('mailgun');
 
-		var cbError = function(error) {
-			console.log(error);
-			console.error("error in 'sendNotificationEmail' check logs for more informations.");
-		};
-
 		Parse.Config.get().then(function(config) {
-
-			Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
 			
-			var queryNotification = new Parse.Query("Notification");
+			var queryNotification = new Parse.Query(Parse.Object.extend('Notification'));
 			queryNotification.include('to');
 			queryNotification.include('to.user');
 			queryNotification.include('to.host');
 			queryNotification.get(notification.id).then(function(notification) {
 
 				var name = notification.get('to').get('host').get('firstname');
+				
+				Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
 
-				var data = {
+				Mailgun.sendEmail({
 					to: notification.get('to').get('user').get("email"),
 					from: config.get("CAPTAIN_EMAIL_FROM"),
 					subject: "You have a new notification",
 					text: 	"Hi "+name+",\n\nYou have a new message in your BoatDay inbox, access the BoatDay Host Center - https://www.boatdayhosts.com - to read your messages.\n\nWelcome aboard,\nThe BoatDay Team"
-				};
+				});
 
-				Mailgun.sendEmail(data).then(function(httpResponse) { console.log('Email sent'); }, cbError);
-
-			}, cbError);
+			});
 
 		});
 
@@ -165,11 +158,12 @@ Parse.Cloud.afterSave("Notification", function(notification) {
 });
 
 
-Parse.Cloud.afterSave("Host", function(host) {
+Parse.Cloud.afterSave("Host", function(request) {
 
-	var host = host.object;
+	var host = request.object;
 
 	if( host.get('status') == 'complete' && !host.get('notificationSent') ) {
+
 		var Notification = Parse.Object.extend('Notification');
 		
 		var data = {
@@ -188,62 +182,61 @@ Parse.Cloud.afterSave("Host", function(host) {
 
 		var Mailgun = require('mailgun');
 
-		var cbError = function(error) {
-			console.log(error);
-			console.error("error in 'sendNotificationEmail' check logs for more informations.");
-		};
-
 		Parse.Config.get().then(function(config) {
 
 			Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
-			
-			var data = {
+
+			Mailgun.sendEmail({
 				to: "registration@boatdayapp.com",
 				from: config.get("CAPTAIN_EMAIL_FROM"),
 				subject: "New BoatDay Host",
 				text: "go to the CMS motherfucker"
-			};
-
-			Mailgun.sendEmail(data).then(function(httpResponse) { console.log('Email sent'); }, cbError);
+			});
 
 		});
 	}
 		
 });
 
-Parse.Cloud.afterSave("HelpCenter", function(feedback) {
+Parse.Cloud.afterSave("HelpCenter", function(request) {
 
 	var Mailgun = require('mailgun');
 
-	var feedback = feedback.object;
-
-	var cbError = function(error) {
-		console.log(error);
-		console.log("error in 'HelpCenter afterSave' check logs for more informations.");
-	};
+	var feedback = request.object;
 
 	Parse.Config.get().then(function(config) {
 
-		Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
-
-		var query = new Parse.Query("_User");
+		var query = new Parse.Query(Parse.User);
 		query.include('profile');
 		query.get(feedback.get('user').id).then(function(user) {
 
-			var message = feedback.get('feedback');
+			Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
 
-			var data = {
+			Mailgun.sendEmail({
 				to: "support@boatdayapp.com",
 				from: config.get("CAPTAIN_EMAIL_FROM"),
 				subject: 'HelpCenter from ' + user.get('profile').get('displayName') + ' <'+user.get('email')+'> : ' + feedback.get('category'),
-				text: message
-			};
+				text: feedback.get('feedback')
+			});
 
-			Mailgun.sendEmail(data).then(function(httpResponse) { console.log('Email sent'); }, cbError);
-
-		}, cbError);
+		});
 
 	});
 
-		
+});
+
+Parse.Cloud.beforeSave("FileHolder", function(request, response) {
+	
+	var fh = request.object;
+
+	if( !fh.get('order') ) {
+		var query = new Parse.Query(Parse.Object.extend('FileHolder'));
+		query.equalTo("host", fh.get('host'));
+		query.descending('order');
+		query.first().then(function(_fh) {
+			fh.set('order', _fh.get('order') + 1);
+			response.success();
+		});
+	}
+
 });
