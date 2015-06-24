@@ -88,6 +88,7 @@ define([
 				if(boats.length == 0) {
 					self.$el.find('.add-boat').fadeIn();
 					self.$el.find('.menu-new-boatday').hide();
+					self.$el.find('.menu-my-boatdays').hide();
 					return;
 				}
 
@@ -136,7 +137,6 @@ define([
 
 				if(boatdays.length == 0) {
 					self.$el.find('.add-boatday').fadeIn();
-					self.$el.find('.menu-my-boatdays').hide();
 					return;
 				}
 

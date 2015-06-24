@@ -243,8 +243,9 @@ Parse.Cloud.beforeSave("FileHolder", function(request, response) {
 				fh.set('order', 1);
 				response.success();	
 			}
-		})
-		
+		});
+	} else {
+		response.success();	
 	}
 
 });

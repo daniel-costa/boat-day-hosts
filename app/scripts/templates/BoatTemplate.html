@@ -225,7 +225,7 @@
 						<% } %>
 
 
-						<% if( status == 'editing') { %>
+						<% if( status == 'editing' ) { %>
 							<div class="row">
 								<div class="col-sm-22 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-9 col-lg-offset-2">
 									<div class="form-group">
@@ -261,7 +261,8 @@
 							</div>
 						<% } %>
 
-						<% if( status == 'complete') { %>
+						<% if( status == 'complete' || status == 'approved' || status == 'denied') { %>
+
 							<div class="row heading">
 								<div class="col-sm-16 col-sm-offset-2">
 									<div class="form-group">	
@@ -278,20 +279,33 @@
 							<div class="row heading">
 								<div class="col-sm-16 col-sm-offset-2">
 									<div class="form-group">	
-										Your Boat has been submitted to the BoatDay Team...
+										Boat status
 									</div>
 								</div>
 								<div class="col-sm-5 text-right">
 									<div class="form-group">
-										Under Review
+										<%= status == 'complete' ? 'Under Review' : '' %>
+										<%= status == 'approved' ? 'Approved' : '' %>
+										<%= status == 'denied' ? 'Denied' : '' %>
 									</div>
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="col-sm-20 col-sm-offset-2">
-									<div class="form-group">	
-										<p>We will send you a notification once we have completed our review of your boat. If you need to make any changes to your boat information prior to approval, please contact us from the <a href="#/help-center/update-boat">Help Center</a>.</p>
+									<div class="form-group">
+										<% if( status == 'complete' ) { %> 
+											<label class="control-label">Your Boat has been submitted to the BoatDay Team...</label>
+											<p>We will send you a notification once we have completed our review of your boat. If you need to make any changes to your boat information prior to approval, please contact us from the <a href="#/help-center/update-boat">Help Center</a>.</p>
+										<% } %>
+										<% if( status == 'approved' ) { %> 
+											<label class="control-label">Your Boat has been approved</label>
+											<p>bla bla.</p>
+										<% } %>
+										<% if( status == 'denied' ) { %> 
+											<label class="control-label">Your Boat has been denied</label>
+											<p>bla bla contact us with <a href="#/help-center/update-boat">Help Center</a>.</p>
+										<% } %>
 									</div>
 								</div>
 							</div>

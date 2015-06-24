@@ -30,32 +30,32 @@ define([
 			SSN: null,
 			//for boatDay cms
 			bgCheck:null, 
-			bgUploadedDate: null, 
+			bgCheckDate: null, 
 			validationText: null, 
 			validationTextInternal: null, 
 
 			certBSC: null,
-			certStatusBSC: null,
+			certStatusBSC: "pending",
 			certResponseBSC: null,
 			
 			certCCL: null,
-			certStatusCCL: null,
+			certStatusCCL: "pending",
 			certResponseCCL: null,
 			
 			certMCL: null,
-			certStatusMCL: null,
+			certStatusMCL: "pending",
 			certResponseMCL: null,
 			
 			certFL: null,
-			cerStatustFL: null,
+			cerStatustFL: "pending",
 			certResponseFL: null,
 
 			certSL: null,
-			cerStatustSL: null,
+			cerStatustSL: "pending",
 			certResponseSL: null,
 
 			certFAC: null,
-			certStatusFAC: null,
+			certStatusFAC: "pending",
 			certResponseFAC: null,
 
 			notificationSent: false,
