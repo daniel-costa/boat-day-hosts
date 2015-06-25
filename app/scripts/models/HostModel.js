@@ -34,6 +34,16 @@ define([
 			validationText: null, 
 			validationTextInternal: null, 
 
+			bgCheckQ1: "no", 
+			bgCheckQ2: "no",
+			bgCheckQ3: "no",
+			bgCheckQ4: "no",
+			bgCheckQ5: "no",
+			bgCheckQ6: "no",
+			bgCheckQ7: "no",
+			bgCheckQ8: "no",
+			bgCheckQ9: "no",
+
 			certBSC: null,
 			certStatusBSC: "pending",
 			certResponseBSC: null,
