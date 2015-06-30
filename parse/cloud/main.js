@@ -249,3 +249,40 @@ Parse.Cloud.beforeSave("FileHolder", function(request, response) {
 	}
 
 });
+
+Parse.Cloud.afterSave("SeatRequest", function(request) {
+	
+	var seatRequest = request.object;
+
+	if( seatRequest.get('addToBoatDay') ) {
+
+		seatRequest.save({ addToBoatDay: false});
+
+		new Parse.Query(Parse.Object.extend('BoatDay')).get(seatRequest.get('boatday').id).then(function(boatday) {
+
+			// ToDo
+			// - Send Email to host
+			// - Auto Validate
+
+			boatday.relation('seatRequests').add(seatRequest);
+			boatday.save().then(function() {
+
+				var Notification = Parse.Object.extend('Notification');
+				
+				new Notification().save({
+					action: 'boatday-request',
+					fromTeam: false,
+					message: null,
+					to: boatday.get('captain'),
+					from: seatRequest.get('profile'),
+					boatday: boatday,
+					sendEmail: false
+				});
+
+			});
+
+		});
+
+	}
+
+});
