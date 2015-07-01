@@ -23,6 +23,7 @@ define([
 			message: null,
 			boat: null,
 			boatday: null,
+			request: null,
 			read: null
 		}
  

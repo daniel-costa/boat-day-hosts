@@ -161,7 +161,7 @@ define([
 						name: boatday.get('name'),
 						availableSeats: boatday.get('availableSeats'),
 						bookedSeats: 0,
-						potEarings: boatday.get('price') * 0.75 * boatday.get('availableSeats'),
+						potEarings: boatday.get('price') * (1 - Parse.User.current().get('host').get('rate') ) * boatday.get('availableSeats'),
 						boatName: boatday.get('boat').get('name'),
 						boatType: boatday.get('boat').get('type'),
 						boatYear: boatday.get('boat').get('buildYear'),
