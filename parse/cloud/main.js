@@ -261,7 +261,6 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 		new Parse.Query(Parse.Object.extend('BoatDay')).get(seatRequest.get('boatday').id).then(function(boatday) {
 
 			// ToDo
-			// - Send Email to host
 			// - Auto Validate
 
 			boatday.relation('seatRequests').add(seatRequest);
@@ -276,7 +275,41 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 					to: boatday.get('captain'),
 					from: seatRequest.get('profile'),
 					boatday: boatday,
-					sendEmail: false
+					request: seatRequest,
+					sendEmail: true
+				});
+
+			});
+
+		});
+
+	}
+
+});
+
+Parse.Cloud.afterSave("ChatMessage", function(request) {
+	
+	var message = request.object;
+
+	if( message.get('addToBoatDay') ) {
+
+		message.save({ addToBoatDay: false });
+
+		new Parse.Query(Parse.Object.extend('BoatDay')).get(message.get('boatday').id).then(function(boatday) {
+
+			boatday.relation('chatMessages').add(message);
+			boatday.save().then(function() {
+
+				var Notification = Parse.Object.extend('Notification');
+				
+				new Notification().save({
+					action: 'boatday-message',
+					fromTeam: false,
+					message: null,
+					to: boatday.get('captain'),
+					from: message.get('profile'),
+					boatday: boatday,
+					sendEmail: true
 				});
 
 			});

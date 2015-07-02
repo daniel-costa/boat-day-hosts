@@ -78,9 +78,9 @@ define([
 					message: notification.get("message") ? notification.get("message").replace(/\n/g, "<br>") : '',
 					sender: notification.get("from"),
 					read:  notification.get("read"),
-					requestId: 1,
-					amount: 10,
-					seats: 3
+					requestId: request.id,
+					amount: request.get('contribution'),
+					seats: request.get('seats')
 				};
 
 				self.$el.find('.notification-list').append(_.template(NotificationTemplate)(data));
@@ -97,6 +97,7 @@ define([
 			query.include('from');
 			query.include('boat');
 			query.include('boatday');
+			query.include('request');
 			query.find().then(function(matches){
 
 				if(matches.length > 0) {
