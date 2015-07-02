@@ -78,9 +78,12 @@ define([
 					message: notification.get("message") ? notification.get("message").replace(/\n/g, "<br>") : '',
 					sender: notification.get("from"),
 					read:  notification.get("read"),
-					requestId: request.id,
-					amount: request.get('contribution'),
-					seats: request.get('seats')
+					// requestId: request.id,
+					// amount: request.get('contribution'),
+					// seats: request.get('seats')
+					requestId: notification.id,
+					amount: notification.get('contribution'),
+					seats: notification.get('seats')
 				};
 
 				self.$el.find('.notification-list').append(_.template(NotificationTemplate)(data));

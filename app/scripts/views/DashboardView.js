@@ -240,6 +240,15 @@ define([
 			queryCaptainRequests.include('fromProfile');
 			queryCaptainRequests.find().then(captainRequestsFetchSuccess);
 
+			// var queryCaptainBoatDays = new Parse.Query(BoatDayModel);
+			// queryCaptainBoatDays.equalTo("captain", Parse.User.current().get("host"));
+			// queryCaptainBoatDays.equalTo("status", "complete");
+			// queryCaptainBoatDays.greaterThanOrEqualTo("date", new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
+			// queryCaptainBoatDays.ascending('date,departureTime');
+			// queryCaptainBoatDays.include('boat');
+			// queryCaptainBoatDays.include('captain');
+			// queryCaptainBoatDays.find().then(boatdaysFetchSuccess);
+
 			return this;
 
 		},
