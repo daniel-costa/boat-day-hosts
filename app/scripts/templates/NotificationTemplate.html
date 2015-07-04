@@ -4,7 +4,7 @@
 			<% if( bd  ) { %>
 				<img src="resources/ico-bd.png" />
 			<% } else { %>
-				<div class="obj-thumb" style="background-image:url(<%= sender.get("profilePicture").url() %>)"></div>
+				<div class="obj-thumb profile-picture" data-id="<%= sender.id %>" style="background-image:url(<%= sender.get("profilePicture").url() %>)"></div>
 			<% }  %>
 		</div>
 	</div>
@@ -103,14 +103,17 @@
 			<% } %>
 			
 			<% if( action == "boatday-request" ) { %>
-				<button class="btn btn-default btn-lg open-notification accept pull-left" data-id="<%= requestId %>">
-					<span class="hidden-sm">Accept</span>
-					<span class="visible-sm glyphicon glyphicon-ok "></span>
-				</button>
-				<button class="btn btn-default btn-lg open-notification pull-right" data-id="<%= requestId %>">
-					<span class="hidden-sm">Reject</span>
-					<span class="visible-sm glyphicon glyphicon-remove "></span>
-				</button>
+				<% if( requestStatus == 'pending' ) { %>
+					<button class="btn btn-default btn-lg open-notification accept approve-request pull-left" data-id="<%= requestId %>">
+						<span class="hidden-sm">Accept</span>
+						<span class="visible-sm glyphicon glyphicon-ok "></span>
+					</button>
+					<button class="btn btn-default btn-lg open-notification deny-request pull-right" data-id="<%= requestId %>">
+						<span class="hidden-sm">Reject</span>
+						<span class="visible-sm glyphicon glyphicon-remove "></span>
+					</button>
+				<% } %>
+
 			<% } %>
 
 			<% if( action == "bd-message" ) { %>

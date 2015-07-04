@@ -1,0 +1,28 @@
+<div class="modal-profile">
+	<div class="profile-picture" style="background-image:url(<%= profile.get('profilePicture').url() %>)"></div>
+	<p class="text-center">
+		<% if( typeof profile.get('rating') != typeof undefined && profile.get('rating') ) { %>
+			<img class="rating" src="resources/rating-<%= profile.get('rating') %>.png" />
+		<% } else { %>
+			<em>(no ratings yet)</em>
+		<% } %>
+	</p>
+
+	<p class="text-center"><%= profile.get('about') %></p>
+</div>
+
+<style>
+	.modal-profile img.rating {
+		height: 20px;
+	}
+
+	.modal-profile .profile-picture {
+		width: 120px;
+		height: 120px;
+		border-radius: 120px;
+		background: center center no-repeat;
+		background-size: cover;
+		margin: auto;
+	}
+
+</style>

@@ -326,12 +326,14 @@ define([
 			var qBoatDay = new Parse.Query(BoatDayModel);
 			qBoatDay.equalTo("boat", self.collectionBoats[this._in('boat').val()]);
 			qBoatDay.equalTo("date", date);
+			qBoatDay.notEqualTo('objectId', this.model.id);
 			qBoatDay.greaterThan("arrivalTime", departureTime);
 			qBoatDay.lessThan("departureTime", arrivalTime);
 
 			var qCaptain = new Parse.Query(BoatDayModel);
 			qCaptain.equalTo("captain", self.collectionCaptains[this._in('captain').val()]);
 			qCaptain.equalTo("date", date);
+			qCaptain.notEqualTo('objectId', this.model.id);
 			qCaptain.greaterThan("arrivalTime", departureTime);
 			qCaptain.lessThan("departureTime", arrivalTime);
 

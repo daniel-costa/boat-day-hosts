@@ -1,5 +1,7 @@
 define([
 'models/CaptainRequestModel',
+'models/NotificationModel',
+'models/ChatMessageModel',
 'models/BoatModel',
 'models/BoatDayModel',
 'views/BaseView',
@@ -7,7 +9,9 @@ define([
 'text!templates/DashboardCaptainRequestRowTemplate.html',
 'text!templates/DashboardBoatRowTemplate.html',
 'text!templates/DashboardBoatDayTemplate.html',
-], function(CaptainRequestModel, BoatModel, BoatDayModel, BaseView, DashboardTemplate, DashboardCaptainRequestRowTemplate, DashboardBoatRowTemplate, DashboardBoatDayTemplate){
+'text!templates/DashboardBoatDayRequestTemplate.html',
+'text!templates/DashboardBoatDayMessageTemplate.html',
+], function(CaptainRequestModel, NotificationModel, ChatMessageModel, BoatModel, BoatDayModel, BaseView, DashboardTemplate, DashboardCaptainRequestRowTemplate, DashboardBoatRowTemplate, DashboardBoatDayTemplate, DashboardBoatDayRequestTemplate, DashboardBoatDayMessageTemplate){
 	var DashboardView = BaseView.extend({
 
 		className: "view-dashboard",
@@ -19,14 +23,106 @@ define([
 			'click .boatday-box-close': 'closeBox',
 			'click .boatday-box-open': 'openBox',
 			'click .btn-cancel': 'cancelBoatDay',
-			'click .btn-cancel-confirm': 'confirmCancellation'
+			'click .btn-cancel-confirm': 'confirmCancellation',
+			'click .seat-approve': 'seatApprove',
+			'click .seat-deny': 'seatDeny',
+			'click .seat-cancel': 'seatCancel',
+			'keyup input': 'detectEnter',
+			'click .profile-picture': 'detectClickOnProfile'
 		},
 		
 		captainRequests: {},
 
 		boatdays: {},
 
+		requests: {},
+
 		theme: "dashboard",
+
+		detectEnter: function(event) {
+
+			if( event.keyCode == 13 ) {
+				event.preventDefault();
+				$(event.currentTarget).blur();
+				this.addMessage(event);
+			}
+
+		},
+
+		addMessage: function(event) {
+
+			event.preventDefault();
+
+			var self = this;
+			var target = $(event.currentTarget);
+			var boatday = self.boatdays[$(event.currentTarget).closest('.my-boatday').attr("data-id")];
+			var msg = target.val();
+
+			if( msg == '' ) {
+				return;
+			}
+
+			target.val('');
+
+			new ChatMessageModel({
+				message: msg,
+				boatday: boatday,
+				profile: Parse.User.current().get('profile'),
+				addToBoatDay: true
+			}).save().then(function(message) {
+				console.log(message);
+				// self.lastMessage = message;
+				self.appendMessage(boatday.id, message);
+				self._scrollDown(boatday.id);
+			}, function(error) {
+				console.log(error);
+			});
+
+		},
+		
+		_scrollDown: function(boatdayId) {
+
+			var item = this.$el.find('.my-boatday-'+boatdayId+' .box-messages .info');
+			console.log('scroll down= '+boatdayId);
+			console.log(item.prop('scrollHeight'));
+			item.scrollTop(item.prop('scrollHeight'));
+		},
+
+		watchEnter: function(event) {
+
+		},
+
+		seatApprove: function(event) { this.seatChangeStatus(event, 'approved'); } ,
+		seatDeny:    function(event) { this.seatChangeStatus(event, 'denied'); } ,
+		seatCancel:  function(event) { this.seatChangeStatus(event, 'cancelled-host'); } ,
+
+		seatChangeStatus: function(event, status) {
+			
+			event.preventDefault();
+			var self = this;
+			var boatdayId = $(event.currentTarget).closest('.my-boatday').attr("data-id");
+			var requestId = $(event.currentTarget).closest('.request').attr("data-id");
+			var request = self.requests[boatdayId][requestId];
+
+			self.buttonLoader('...', $(event.currentTarget));
+			request.save({ status: status }).then(function() {
+				
+				new NotificationModel().save({
+					action: 'request-'+status,
+					fromTeam: false,
+					message: null,
+					to: request.get('profile'),
+					from:  Parse.User.current().get('profile'),
+					boatday: request.get('boatday'),
+					sendEmail: false,
+					request: request
+				}).then(function() {
+					self.buttonLoader();
+					self.renderRequests(boatdayId);
+				});
+
+			});
+		},
 
 		cancelBoatDay: function(event) {
 			$(event.currentTarget).closest('.info').find('.details').hide();
@@ -43,15 +139,44 @@ define([
 				return;
 			}
 
-			boatday.save({status: 'cancel', cancelReason: self._in('cancelReason').val() }).then(function() {
-				self.render();
-				self._info('Your BoatDay ' + boatday.get('name') + ' is now cancelled.');
+			self.buttonLoader('...', $(event.currentTarget));
+
+			boatday.save({status: 'cancelled', cancelReason: self._in('cancelReason').val() }).then(function(boatday) {
+				
+				boatday.relation('seatRequests').query().find().then(function(requests) {
+
+					_.each(requests, function(request) {
+
+						// Cancel boatday for each participant
+						new NotificationModel().save({
+							action: 'boatday-cancelled',
+							fromTeam: false,
+							message: null,
+							to: request.get('profile'),
+							from:  Parse.User.current().get('profile'),
+							boatday: boatday,
+							sendEmail: false,
+							request: request
+						}).then(function() {
+							request.save({ status: 'cancelled-host' }).then(function() {
+								self.buttonLoader();
+								self.render();
+								self._info('Your BoatDay ' + boatday.get('name') + ' is now cancelled.');
+							});
+						});
+						
+					});
+				})
 			});
 		},
 
 		openBox: function(event) {
 			$(event.currentTarget).closest('.my-boatday').find('.boatday-share').hide();
 			$(event.currentTarget).closest('.my-boatday').find($(event.currentTarget).attr('data-target')).fadeIn();
+
+			if($(event.currentTarget).attr('data-target') == '.box-messages') {
+				this._scrollDown($(event.currentTarget).closest('.my-boatday').attr('data-id'));
+			}
 		},
 
 		closeBox: function(event) {
@@ -80,124 +205,8 @@ define([
 			//self.$el.find('.navbar-brand').text('Host Center');
 			self.$el.find('.left-navigation .menu-host-center').addClass('active');
 			self.$el.find('.left-navigation .menu-host-center').text('Host Center');
-
 			self.$el.find('.add-boat, .add-boatday, .my-boatdays, .my-boats, .my-requests').hide();
 
-			var boatsFetchSuccess = function(boats) {
-
-				if(boats.length == 0) {
-					self.$el.find('.add-boat').fadeIn();
-					self.$el.find('.menu-new-boatday').hide();
-					self.$el.find('.menu-my-boatdays').hide();
-					return;
-				}
-
-				var tpl = _.template(DashboardBoatRowTemplate);
-				var target = self.$el.find('.my-boats .content .rows');
-				target.html('');
-
-				_.each(boats, function(boat) {
-
-					var _tpl = tpl({
-						id: boat.id,
-						name: boat.get('name'),
-						buildYear: boat.get('buildYear'),
-						type: boat.get('type'),
-						status: boat.get('status'),
-						picture: 'resources/boat-placeholder.png'
-					});
-
-					target.append(_tpl);
-					
-					var q = boat.relation('boatPictures').query();
-					q.ascending('order');
-					q.first().then(function(fileholder) {
-
-						if( fileholder ) {
-							self.$el.find('.my-boats .my-boat-'+boat.id+' .picture').css({ backgroundImage: 'url('+fileholder.get('file').url()+')' });
-						}
-
-					});
-				});
-
-				self.$el.find('.my-boats').fadeIn();
-
-				var queryBoatDays = new Parse.Query(BoatDayModel);
-				queryBoatDays.equalTo("host", Parse.User.current().get("host"));
-				queryBoatDays.equalTo("status", "complete");
-				queryBoatDays.greaterThanOrEqualTo("date", new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
-				queryBoatDays.ascending('date,departureTime');
-				queryBoatDays.include('boat');
-				queryBoatDays.include('captain');
-				queryBoatDays.find().then(boatdaysFetchSuccess);
-
-			};
-
-			var boatdaysFetchSuccess = function(boatdays) {
-
-				if(boatdays.length == 0) {
-					self.$el.find('.add-boatday').fadeIn();
-					return;
-				}
-
-
-				var tpl = _.template(DashboardBoatDayTemplate);
-				var target = self.$el.find('.my-boatdays .content .items');
-				target.html('');
-
-				var left = false;
-
-				_.each(boatdays, function(boatday) {
-					
-					left = !left;
-
-					var _tpl = tpl({
-						_class: left ? 'left' : 'right',
-						id: boatday.id,
-						status: boatday.get('status'),
-						date: self.dateParseToDisplayDate(boatday.get('date')),
-						time: self.departureTimeToDisplayTime(boatday.get('departureTime')),
-						duration: boatday.get('duration'),
-						name: boatday.get('name'),
-						availableSeats: boatday.get('availableSeats'),
-						bookedSeats: 0,
-						potEarings: boatday.get('price') * (1 - Parse.User.current().get('host').get('rate') ) * boatday.get('availableSeats'),
-						boatName: boatday.get('boat').get('name'),
-						boatType: boatday.get('boat').get('type'),
-						boatYear: boatday.get('boat').get('buildYear'),
-						captainName: boatday.get('captain').get('displayName'),
-						picture: 'resources/boat-placeholder.png',
-						description: boatday.get('description'),
-						price: boatday.get('price'),
-						activity: self.boatdayActivityToDisplay(boatday.get('category')),
-						booking: self.boatdayBookingToDisplay(boatday.get('bookingPolicy')),
-						cancellation: self.boatdayCancellationToDisplay(boatday.get('cancellationPolicy')),
-						location: boatday.get('locationText'),
-						active: true
-					});
-
-					self.boatdays[boatday.id] = boatday;
-					target.append(_tpl);
-
-					var q = boatday.get('boat').relation('boatPictures').query()
-					q.ascending('order');
-					q.first().then(function(fileholder) {
-						
-						if( fileholder ) {
-							self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .picture').css({ backgroundImage: 'url('+fileholder.get('file').url()+')' });
-						}
-
-					});
-
-				});
-	
-				FB.XFBML.parse($(this.$el).find('.social')[0]);
-				twttr.widgets.load($(this.$el).find('.social')[0]);
-				gapi.plusone.render($(this.$el).find('.social')[0]);
-				gapi.plus.go();
-
-				self.$el.find('.my-boatdays').fadeIn();
-			};	
 
 			var captainRequestsFetchSuccess = function(requests) {
 
@@ -231,7 +240,25 @@ define([
 			queryBoats.equalTo("host", Parse.User.current().get("host"));
 			queryBoats.ascending('name');
 			queryBoats.select("name", "buildYear", "type", "status"); 
-			queryBoats.find().then(boatsFetchSuccess);
+			// queryBoats.find().then(boatsFetchSuccess);
+
+			var startingDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+
+			var queryBoatDaysHost = new Parse.Query(BoatDayModel);
+			queryBoatDaysHost.equalTo("host", Parse.User.current().get("host"));
+			queryBoatDaysHost.equalTo("status", "complete");
+			queryBoatDaysHost.greaterThanOrEqualTo("date", startingDate);
+
+			var queryBoatDaysCaptain = new Parse.Query(BoatDayModel);
+			queryBoatDaysCaptain.equalTo("captain", Parse.User.current().get("profile"));
+			queryBoatDaysCaptain.equalTo("status", "complete");
+			queryBoatDaysCaptain.greaterThanOrEqualTo("date", startingDate);
+			
+			var queryBoatDays = new Parse.Query.or(queryBoatDaysHost, queryBoatDaysCaptain);
+			queryBoatDays.ascending('date,departureTime');
+			queryBoatDays.include('boat');
+			queryBoatDays.include('captain');
+			// queryBoatDays.find().then(boatdaysFetchSuccess);
 
 			var queryCaptainRequests = new Parse.Query(CaptainRequestModel);
 			queryCaptainRequests.ascending('createdAt');
@@ -240,24 +267,201 @@ define([
 			queryCaptainRequests.include('fromProfile');
 			queryCaptainRequests.find().then(captainRequestsFetchSuccess);
 
-			// var queryCaptainBoatDays = new Parse.Query(BoatDayModel);
-			// queryCaptainBoatDays.equalTo("captain", Parse.User.current().get("host"));
-			// queryCaptainBoatDays.equalTo("status", "complete");
-			// queryCaptainBoatDays.greaterThanOrEqualTo("date", new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
-			// queryCaptainBoatDays.ascending('date,departureTime');
-			// queryCaptainBoatDays.include('boat');
-			// queryCaptainBoatDays.include('captain');
-			// queryCaptainBoatDays.find().then(boatdaysFetchSuccess);
+			Parse.Promise.when(queryBoats.find(), queryBoatDays.find()).then(function(boats, boatdays) {
+
+				if(boats.length == 0 && boatdays.length == 0) {
+					self.$el.find('.add-boat').fadeIn();
+					self.$el.find('.menu-new-boatday').hide();
+					self.$el.find('.menu-my-boatdays').hide();
+				}
+
+				if(boats.length > 0 && boatdays.length == 0) {
+					self.$el.find('.add-boatday').fadeIn();
+				}
+
+				if( boats.length > 0 ) {
+
+					var tpl = _.template(DashboardBoatRowTemplate);
+					var target = self.$el.find('.my-boats .content .rows');
+					target.html('');
+
+					_.each(boats, function(boat) {
+
+						var _tpl = tpl({
+							id: boat.id,
+							name: boat.get('name'),
+							buildYear: boat.get('buildYear'),
+							type: boat.get('type'),
+							status: boat.get('status'),
+							picture: 'resources/boat-placeholder.png'
+						});
+
+						target.append(_tpl);
+						
+						var q = boat.relation('boatPictures').query();
+						q.ascending('order');
+						q.first().then(function(fileholder) {
+
+							if( fileholder ) {
+								self.$el.find('.my-boats .my-boat-'+boat.id+' .picture').css({ backgroundImage: 'url('+fileholder.get('file').url()+')' });
+							}
+
+						});
+					});
+
+					self.$el.find('.my-boats').fadeIn();
+				}
+		
+				if( boatdays.length > 0 ) {
+
+					var tpl = _.template(DashboardBoatDayTemplate);
+					var target = self.$el.find('.my-boatdays .content .items');
+					target.html('');
+
+					var left = false;
+
+					_.each(boatdays, function(boatday) {
+						
+						left = !left;
+
+						var _tpl = tpl({
+							_class: left ? 'left' : 'right',
+							id: boatday.id,
+							status: boatday.get('status'),
+							date: self.dateParseToDisplayDate(boatday.get('date')),
+							time: self.departureTimeToDisplayTime(boatday.get('departureTime')),
+							duration: boatday.get('duration'),
+							name: boatday.get('name'),
+							availableSeats: boatday.get('availableSeats'),
+							bookedSeats: 0,
+							potEarings: boatday.get('price') * (1 - Parse.User.current().get('host').get('rate') ) * boatday.get('availableSeats'),
+							boatName: boatday.get('boat').get('name'),
+							boatType: boatday.get('boat').get('type'),
+							boatYear: boatday.get('boat').get('buildYear'),
+							captainName: boatday.get('captain').get('displayName'),
+							picture: 'resources/boat-placeholder.png',
+							description: boatday.get('description'),
+							price: boatday.get('price'),
+							activity: self.boatdayActivityToDisplay(boatday.get('category')),
+							booking: self.boatdayBookingToDisplay(boatday.get('bookingPolicy')),
+							cancellation: self.boatdayCancellationToDisplay(boatday.get('cancellationPolicy')),
+							location: boatday.get('locationText'),
+							active: true,
+							host: boatday.get('host')
+						});
+
+						self.boatdays[boatday.id] = boatday;
+						target.append(_tpl);
+
+						var q = boatday.get('boat').relation('boatPictures').query()
+						q.ascending('order');
+						q.first().then(function(fileholder) {
+							
+							if( fileholder ) {
+								self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .picture').css({ backgroundImage: 'url('+fileholder.get('file').url()+')' });
+							}
+
+						});
+
+						self.requests[boatday.id] = {};
+
+						var q = boatday.relation('seatRequests').query();
+						q.descending('createdAt');
+						q.include('profile');
+						q.include('boatday');
+						q.find().then(function(requests) {
+
+							if( requests.length == 0 ) {
+
+								self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .box-requests .info').html('<p class="empty"><em>All requests for this BoatDay will be listed here, including confirmed, pending and denied Guests.</em></p>');
+								
+								if( boatday.get('host').id == Parse.User.current().get('host').id ) {
+									self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .edit-button').show();
+								}
+
+								return ;
+							}
+
+							
+
+							_.each(requests, function(request) {
+
+								self.requests[boatday.id][request.id] = request;
+								
+							});
+
+							self.renderRequests(boatday.id);
+
+						});
+
+						var q = boatday.relation('chatMessages').query();
+						q.equalTo('status', 'approved');
+						q.ascending('createdAt');
+						q.include('profile');
+						q.find().then(function(messages) {
+
+							if( messages.length == 0 ) {
+
+								self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .box-messages .info').html('<p class="empty"><em>Use this message board to chat directly with your confirmed Guests, we recommend starting with a welcome message to say hello.</em></p>');
+								
+								return ;
+							}
+
+							self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .box-messages .inner').html('');
+							self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .box-messages .bottom').show();
+
+							_.each(messages, function(message) {
+								self.appendMessage(boatday.id, message);
+							});
+
+						});
+					});
+
+					FB.XFBML.parse($(this.$el).find('.social')[0]);
+					twttr.widgets.load($(this.$el).find('.social')[0]);
+					gapi.plusone.render($(this.$el).find('.social')[0]);
+					gapi.plus.go();
+
+					self.$el.find('.my-boatdays').fadeIn();
+
+				}
+			});
 
 			return this;
 
 		},
 
-		displayCaptainRequests: function() {
+		appendMessage: function(boatdayId, message) {
+
+			var self = this;
+			var tpl = _.template(DashboardBoatDayMessageTemplate);
+
+			self.$el.find('.my-boatdays .my-boatday-'+boatdayId+' .box-messages .info .empty').remove();
+
+			var _tpl = tpl({
+				profile: message.get('profile'),
+				message: message,
+			});
+
+			self.$el.find('.my-boatdays .my-boatday-'+boatdayId+' .box-messages .info > .inner').append(_tpl);
+		},
+
+		renderRequests: function(boatdayId) {
 			
 			var self = this;
+			var tpl = _.template(DashboardBoatDayRequestTemplate);
 
-			
+			self.$el.find('.my-boatdays .my-boatday-'+boatdayId+' .box-requests .info').html('');
+
+			_.each(self.requests[boatdayId], function(request) {
+
+				var _tpl = tpl({
+					profile: request.get('profile'),
+					request: request,
+				});
+
+				self.$el.find('.my-boatdays .my-boatday-'+boatdayId+' .box-requests .info').append(_tpl);
+			});
 		}
 
 	});

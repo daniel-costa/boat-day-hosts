@@ -4,7 +4,8 @@ define([
 'text!templates/NavigationLeftTemplate.html',
 'text!templates/ThemeDashboardTemplate.html',
 'text!templates/ModalTemplate.html',
-], function(Parse, NavigationTopTemplate, NavigationLeftTemplate, ThemeDashboardTemplate, ModalTemplate){
+'text!templates/GuestProfileTemplate.html',
+], function(Parse, NavigationTopTemplate, NavigationLeftTemplate, ThemeDashboardTemplate, ModalTemplate, GuestProfileTemplate){
 	var BaseView = Parse.View.extend({
 
 		className: "view-base",
@@ -30,6 +31,40 @@ define([
 		templateData: null,
 
 		__ANIMATION_ENDS__: 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+
+		afterRenderInsertedToDom: function() {},
+
+		detectClickOnProfile: function(event) {
+
+			var self = this;
+			var id = $(event.currentTarget).attr('data-id');
+
+			if( !id ) {
+				return;
+			}
+
+			var tpl = _.template(GuestProfileTemplate);
+
+			new Parse.Query(Parse.Object.extend('Profile')).get(id).then(function(profile) {
+
+				var cb = function() {
+					Parse.history.navigate('#/report/'+profile.id, true);
+				};
+			
+				self.modal({
+					title: profile.get('displayName'),
+					body: tpl({ profile: profile }),
+					noButton: true,
+					noButtonText: 'Report',
+					noCb: cb,
+					yesButton: false,
+					cancelButton: true,
+					cancelButtonText: 'Close',
+					closeButton: true
+				});
+			});
+
+		},
 
 		render: function() {
 			console.log("### Render by BaseView (" + this.className + ") ###");
@@ -321,6 +356,8 @@ define([
 			if( this.globalDebug && this.debug ) {
 				this.debugAutofillFields();
 			}
+
+			this.afterRenderInsertedToDom();
 			
 		},
 

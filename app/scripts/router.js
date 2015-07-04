@@ -1,9 +1,12 @@
 // Filename: router.js
 define([
+	'models/ReportModel',
 	'models/BoatModel',
 	'models/BoatDayModel',
 	'models/HelpCenterModel',
 	'models/NotificationModel',
+	'models/ProfileModel',
+	'views/ReportView',
 	'views/HomeView',
 	'views/ForgotPasswordView',
 	'views/ResetPasswordView',
@@ -22,8 +25,8 @@ define([
 	'views/CertificationsView',
 	'views/NotificationsView'
 ], function(
-	BoatModel, BoatDayModel, HelpCenterModel, NotificationModel,
-	HomeView, ForgotPasswordView, ResetPasswordView, InvalidLinkView, PasswordChangedView, 
+	ReportModel, BoatModel, BoatDayModel, HelpCenterModel, NotificationModel, ProfileModel,
+	ReportView, HomeView, ForgotPasswordView, ResetPasswordView, InvalidLinkView, PasswordChangedView, 
 	DashboardView, TermsView, SignUpView, HostView, ProfileView, AccountView, BoatView, 
 	BoatDayView, BoatDaysView, HelpCenterView, CertificationsView, NotificationsView) {
 	
@@ -49,6 +52,7 @@ define([
 			'my-boatdays': 'showBoatDaysView',
 			'help-center': 'showHelpCenterView',
 			'help-center/:category': 'showHelpCenterView',
+			'report/:id': 'showReportView',
 			'*actions': 'showDashboardView'
 		},
 
@@ -117,6 +121,31 @@ define([
 
 		},
 
+		showReportView: function( id ) {
+			
+			var self = this;
+
+			var cb = function() {
+				
+				var success = function(profile) {
+
+					self.render(new ReportView({ model: profile }));
+
+				};
+
+				var error = function(error) {
+
+					console.log(error);
+
+				};
+
+				new Parse.Query(ProfileModel).get(id).then(success, error);
+
+			};
+
+			this.handleGuestAndSignUp(cb);
+
+		},
 		showBoatView: function( boatid ) {
 			
 			var self = this;
@@ -169,7 +198,7 @@ define([
 
 					};
 
-					Parse.User.current().get('host').relation('boatdays').query().get(id).then(boatDayQuerySuccess, boatDayQueryError);
+					new Parse.Query(BoatDayModel).get(id).then(boatDayQuerySuccess, boatDayQueryError);
 
 				} else {
 

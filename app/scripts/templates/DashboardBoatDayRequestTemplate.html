@@ -1,0 +1,44 @@
+<div class="request row" data-id="<%= request.id %>">
+	<div class="cell col-xs-10">
+		<div class="profile-picture pull-left" data-id="<%= profile.id %>" style="background-image:url(<%= profile.get('profilePicture').url() %>)"></Div>
+
+		<strong><%= profile.get('displayName') %></strong><br/>
+		<% console.log(profile.get('rating')); %>
+		<% if( typeof profile.get('rating') != typeof undefined && profile.get('rating') ) { %>
+			<img class="rating" src="resources/rating-<%= profile.get('rating') %>.png" />
+		<% } else { %>
+			(no ratings)
+		<% } %>
+	</div>
+	<div class="cell col-xs-4 seats">
+		<p>
+			<%= request.get('seats') %> seat<% request.get('seats') == 1 ? '' : 's' %>
+		</p>
+	</div>
+	<div class="cell col-xs-10 buttons text-center">
+		<% if( request.get('status') == 'pending' ) { %>
+			<% if( request.get('boatday').get('host').id == Parse.User.current().get('host').id ) { %>
+				<button class="btn btn-default seat-approve accept pull-left">Approve</button>
+				<button class="btn btn-default seat-deny deny pull-right">Deny</button>
+			<% } else { %>
+				<strong>Pending</Strong>
+			<% } %>
+		<% } %>
+		<% if( request.get('status') == 'approved' ) { %>
+			<% if( request.get('boatday').get('host').id == Parse.User.current().get('host').id ) { %>
+				<button class="btn btn-danger seat-cancel cancel">Cancel</button>
+			<% } else { %>
+				<strong>Approved</Strong>
+			<% } %>
+		<% } %>
+		<% if( request.get('status') == 'denied' ) { %>
+			<strong>Denied</strong>
+		<% } %>
+		<% if( request.get('status') == 'cancelled-guest' ) { %>
+			<strong>Cancelled by guest</strong>
+		<% } %>
+		<% if( request.get('status') == 'cancelled-host' ) { %>
+			<strong>Cancelled by host</strong>
+		<% } %>
+	</div>
+</div>

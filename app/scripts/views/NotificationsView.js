@@ -15,39 +15,67 @@ define([
 		theme: "dashboard",
 
 		events: {
-			"click .open-notification": "notificationOpened"
+			"click .approve-request": "approveRequest",
+			"click .deny-request": "denyRequest",
+			'click .profile-picture': 'detectClickOnProfile'
 		},
 
 		notifications: {},
 
-
-		notificationOpened: function(event) {
-			var self = this;
+		approveRequest: function(event) {
+			
 			event.preventDefault();
-			var btn = $(event.currentTarget);
-			var id = btn.attr("data-id");
-			var notification = self.notifications[id];
-			var data = {};
 
-			if(!notification.get("open")) {
-				data.open = new Date();
-			}
+			var self = this;			
+			var notification = self.notifications[$(event.currentTarget).attr("data-id")];
 
-			notification.save(data).then(function() {
+			self.buttonLoader('...', $(event.currentTarget));
 
-				if( notification.get("payload").scope == "host" ) {
+			notification.get('request').save({ status: 'approved' }).then(function() {
+					
+				new NotificationModel().save({
+					action: 'request-approved',
+					fromTeam: false,
+					message: null,
+					to: notification.get('request').get('profile'),
+					from:  Parse.User.current().get('profile'),
+					boatday: notification.get('boatday'),
+					sendEmail: false,
+					request: notification.get('request')
+				}).then(function() {
+					self.buttonLoader();
+					self.render();
+				});
 
-					Parse.history.navigate("my-account", true);
+			});
 
-				} else if ( notification.get("payload").scope == "certifications" ) {
+		},	
 
-					Parse.history.navigate("my-certifications", true);
+		denyRequest: function(event) {
+			
+			event.preventDefault();
 
-				} else if ( notification.get("payload").scope == "boat" ) {
+			var self = this;
+			var notification = self.notifications[$(event.currentTarget).attr("data-id")];
 
-					Parse.history.navigate("boat/" + notification.get("payload").id, true);
-				}
+			self.buttonLoader('...', $(event.currentTarget));
+
+			notification.get('request').save({ status: 'denied' }).then(function() {
 				
+				new NotificationModel().save({
+					action: 'request-denied',
+					fromTeam: false,
+					message: null,
+					to: notification.get('request').get('profile'),
+					from:  Parse.User.current().get('profile'),
+					boatday: notification.get('boatday'),
+					sendEmail: false,
+					request: notification.get('request')
+				}).then(function() {
+					self.buttonLoader();
+					self.render();
+				});
+
 			});
 
 		},	
@@ -82,8 +110,10 @@ define([
 					// amount: request.get('contribution'),
 					// seats: request.get('seats')
 					requestId: notification.id,
-					amount: notification.get('contribution'),
-					seats: notification.get('seats')
+					amount: notification.get('request') ? notification.get('request').get('contribution') : null,
+					seats: notification.get('request') ? notification.get('request').get('seats') : null,
+					requestStatus: notification.get('request') ? notification.get('request').get('status') : null,
+					request: notification.get('request'),
 				};
 
 				self.$el.find('.notification-list').append(_.template(NotificationTemplate)(data));
@@ -101,6 +131,7 @@ define([
 			query.include('boat');
 			query.include('boatday');
 			query.include('request');
+
 			query.find().then(function(matches){
 
 				if(matches.length > 0) {

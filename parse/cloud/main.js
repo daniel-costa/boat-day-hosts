@@ -35,6 +35,23 @@ Parse.Cloud.define("attachPictureToBoat", function(request, response) {
 
 });
 
+Parse.Cloud.define("attachProfileToUser", function(request, response) {
+	
+	var a = [];
+	var _ = require('underscore');
+
+	new Parse.Query(Parse.Object.extend('_User')).find().then(function(users) {
+		_.each(users, function(user) {
+			new Parse.Query(Parse.Object.extend('Profile')).get(user.get('profile').id).then(function(profile) {
+				console.log(profile.id);
+				console.log(user.id);
+				profile.save({ user: user });
+			});
+		});
+	});
+
+});
+
 Parse.Cloud.define("grantCmsAdmin", function(request, response) {  
 	
 	if( !request.params.userId ) {
@@ -254,36 +271,59 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 	
 	var seatRequest = request.object;
 
-	if( seatRequest.get('addToBoatDay') ) {
+	new Parse.Query(Parse.Object.extend('BoatDay')).get(seatRequest.get('boatday').id).then(function(boatday) {
+		
+		var data = {};
 
-		seatRequest.save({ addToBoatDay: false});
+		if( boatday.get('bookingPolicy') == 'automatically' && seatRequest.get('status') == 'pending' ) {
+			data.status = 'approved';
 
-		new Parse.Query(Parse.Object.extend('BoatDay')).get(seatRequest.get('boatday').id).then(function(boatday) {
+			var Notification = Parse.Object.extend('Notification');
+				
+			new Notification().save({
+				action: 'request-approved',
+				fromTeam: false,
+				message: null,
+				to: seatRequest.get('profile'),
+				from:  boatday.get('captain'),
+				boatday: boatday,
+				sendEmail: false,
+				request: seatRequest
+			});
+		}
 
-			// ToDo
-			// - Auto Validate
+		if( seatRequest.get('addToBoatDay') ) {
+
+			data.addToBoatDay = false;
 
 			boatday.relation('seatRequests').add(seatRequest);
 			boatday.save().then(function() {
 
-				var Notification = Parse.Object.extend('Notification');
-				
-				new Notification().save({
-					action: 'boatday-request',
-					fromTeam: false,
-					message: null,
-					to: boatday.get('captain'),
-					from: seatRequest.get('profile'),
-					boatday: boatday,
-					request: seatRequest,
-					sendEmail: true
+				new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
+					var Notification = Parse.Object.extend('Notification');
+					
+					console.log('***');
+					console.log(host.get('profile'));
+
+					new Notification().save({
+						action: 'boatday-request',
+						fromTeam: false,
+						message: null,
+						to: host.get('profile'),
+						from: seatRequest.get('profile'),
+						boatday: boatday,
+						request: seatRequest,
+						sendEmail: true
+					});
 				});
 
 			});
 
-		});
+		} 
 
-	}
+		seatRequest.save(data);
+
+	});
 
 });
 
@@ -300,16 +340,23 @@ Parse.Cloud.afterSave("ChatMessage", function(request) {
 			boatday.relation('chatMessages').add(message);
 			boatday.save().then(function() {
 
-				var Notification = Parse.Object.extend('Notification');
-				
-				new Notification().save({
-					action: 'boatday-message',
-					fromTeam: false,
-					message: null,
-					to: boatday.get('captain'),
-					from: message.get('profile'),
-					boatday: boatday,
-					sendEmail: true
+				console.log(boatday.get('host').id);
+
+				new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
+					var Notification = Parse.Object.extend('Notification');
+
+					console.log('***');
+					console.log(host.get('profile'));
+
+					new Notification().save({
+						action: 'boatday-message',
+						fromTeam: false,
+						message: null,
+						to: host.get('profile'),
+						from: message.get('profile'),
+						boatday: boatday,
+						sendEmail: true
+					});
 				});
 
 			});

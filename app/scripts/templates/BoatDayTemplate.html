@@ -518,9 +518,9 @@
 									</label>
 									<br/><br/>
 									<div>
-										<input type="radio" id="bookingPolicy1" name="bookingPolicy" value="manually" checked>
+										<input type="radio" id="bookingPolicy1" name="bookingPolicy" value="manually" <%= bookingPolicy == 'manually' ? 'checked': '' %>>
 										<label class="control-label" for="bookingPolicy1"><strong>Manual Book: </strong>I want to review each Guest request and choose the best fit for my BoatDay.</label>
-										<input type="radio" id="bookingPolicy2" name="bookingPolicy" value="automatically">
+										<input type="radio" id="bookingPolicy2" name="bookingPolicy" value="automatically" <%= bookingPolicy == 'automatically' ? 'checked': '' %>>
 										<label class="control-label" for="bookingPolicy2"><strong>Instant Book: </strong>Automatically accept all Guest requests.</label>
 										<!--
 										<input type="radio" id="bookingPolicy3" name="bookingPolicy" value="halfway">
@@ -542,11 +542,11 @@
 									</label>
 									<br/><br/>
 									<div>
-										<input type="radio" id="cancellationPolicy1" name="cancellationPolicy" value="flexible" checked>
+										<input type="radio" id="cancellationPolicy1" name="cancellationPolicy" value="flexible"  <%= cancellationPolicy == 'flexible' ? 'checked': '' %>>
 										<label class="control-label" for="cancellationPolicy1"><strong>Flexible:</strong> No charge for Guest cancellations up to 1 day prior to departure, except Trust &amp; Safety Fee.</label>
-										<input type="radio" id="cancellationPolicy2" name="cancellationPolicy" value="moderate">
+										<input type="radio" id="cancellationPolicy2" name="cancellationPolicy" value="moderate" <%= cancellationPolicy == 'moderate' ? 'checked': '' %>>
 										<label class="control-label" for="cancellationPolicy2"><strong>Moderate:</strong> No charge for Guest cancellations up to 3 days prior to departure, except Trust &amp; Safety Fee.</label>
-										<input type="radio" id="cancellationPolicy3" name="cancellationPolicy" value="strict">
+										<input type="radio" id="cancellationPolicy3" name="cancellationPolicy" value="strict" <%= cancellationPolicy == 'strict' ? 'checked': '' %>>
 										<label class="control-label" for="cancellationPolicy3"><strong>Strict:</strong> 50% charge for Guest cancellations up to five days prior to departure time, including Trust &amp; Safety Fee.</label>
 									</div>
 								</div>

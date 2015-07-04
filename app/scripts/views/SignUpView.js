@@ -134,7 +134,8 @@ define([
 				tos: false,
 				status: 'creation',
 				host: new HostModel({ type: this.$el.find('[name="hostType"]:checked').val() }),
-				profile: new ProfileModel()
+				profile: new ProfileModel(),
+				type: 'host',
 			};
 
 			new Parse.User().signUp(data).then(userSignUpSuccess, userSignUpError);

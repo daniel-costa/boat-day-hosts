@@ -16,10 +16,12 @@
 				Seats Booked
 			</p>
 
-			<p class="earnings">
-				<strong>$<%= potEarings %></strong> 
-				<%= active ? 'Expected Earnings' : 'Earnings' %>
-			</p>
+			<% if( host.id == Parse.User.current().get('host').id ) { %>
+				<p class="earnings">
+					<strong>$<%= potEarings %></strong> 
+					<%= active ? 'Expected Earnings' : 'Earnings' %>
+				</p>
+			<% } %>
 		</div>
 		<div class="info">
 			<div class="col-xs-8 <%= active ? '' : 'col-xs-offset-8' %> boatday-box-open" data-target=".box-details">
@@ -50,24 +52,25 @@
 			</div>
 			<div class="info">
 				<% if( active ) { %>
-				<div class="content-fluid cancel">
-					<div class="row">
-						<div class="col-md-24">
-							<div class="form-group">
-								<label class="control-label">Reason</label>
-								<textarea name="cancelReason" class="form-control" rows="5" placeholder="Cancellations negatively affect user’s BoatDay experience and may lead to poor reviews from your Guests.  Be sure to tell Guests the reason for your cancellation."></textarea>
-							</div>
-							<div class="form-group">
-								<button class="btn btn-lg btn-block btn-primary btn-cancel-confirm">Cancel</button>
+					<div class="content-fluid cancel">
+						<div class="row">
+							<div class="col-md-24">
+								<div class="form-group">
+									<label class="control-label">Reason</label>
+									<textarea name="cancelReason" class="form-control" rows="5" placeholder="Cancellations negatively affect user’s BoatDay experience and may lead to poor reviews from your Guests.  Be sure to tell Guests the reason for your cancellation."></textarea>
+								</div>
+								<div class="form-group">
+									<button class="btn btn-lg btn-block btn-primary btn-cancel-confirm">Cancel</button>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 				<% } %>
 				<div class="content-fluid details">
 					<div class="row">
 						<div class="col-md-24">
 							<h3 class="text-center"><%= name %></h3>
+							<div class="text-center edit-button" style="display:none;"><a href="#/boatday/<%= id %>">edit BoatDay</a></div>
 						</div>
 					</div>
 					<div class="row">
@@ -128,13 +131,14 @@
 							<p><%= description %></p>
 						</div>
 					</div>
-					<% if( active ) { %>
-					<div class="row">
-						<div class="col-xs-24 text-center">
-							<button class="btn btn-lg btn-danger btn-cancel">Cancel BoatDay</button>
-							<a href='#/boatday/<%= id %>'class='btn btn-lg btn-primary'>Update BoatDay</a>
+					<% if( host.id == Parse.User.current().get('host').id ) { %>
+						<% if( active ) { %>
+						<div class="row">
+							<div class="col-xs-24 text-center">
+								<button class="btn btn-lg btn-danger btn-cancel">Cancel BoatDay</button>
+							</div>
 						</div>
-					</div>
+						<% } %>
 					<% } %>
 				</div>
 			</div>
@@ -144,11 +148,7 @@
 				<h1>Requests</h1>
 				<img src="resources/dashboard-box-close.png" class="boatday-box-close" />
 			</div>
-			<div class="info">
-				<p class="empty">
-					<em>All requests for this BoatDay will be listed here, including confirmed, pending and denied Guests.</em>
-				</p>
-			</div>
+			<div class="info"></div>
 		</div>
 		<div class="box box-messages">
 			<div class="header">
@@ -156,9 +156,10 @@
 				<img src="resources/dashboard-box-close.png" class="boatday-box-close" />
 			</div>
 			<div class="info">
-				<p class="empty">
-					<em>Use this message board to chat directly with your confirmed Guests, we recommend starting with a welcome message to say hello.</em>
-				</p>
+				<div class="inner"></div>
+			</div>
+			<div class="bottom">
+				<input type="text" class="form-control" name="message" placeholder="(press enter to send message)" />
 			</div>
 		</div>
 		<!-- <div class="box box-share">

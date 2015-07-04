@@ -2,8 +2,9 @@ define([
 'models/BoatDayModel',
 'views/BaseView',
 'text!templates/BoatDaysTemplate.html',
-'text!templates/DashboardBoatDayTemplate.html'
-], function(BoatDayModel, BaseView, BoatDaysTemplate, DashboardBoatDayTemplate){
+'text!templates/DashboardBoatDayTemplate.html',
+'text!templates/DashboardBoatDayRequestTemplate.html'
+], function(BoatDayModel, BaseView, BoatDaysTemplate, DashboardBoatDayTemplate, DashboardBoatDayRequestTemplate){
 	var BoatDaysView = BaseView.extend({
 
 		className: "view-my-boatdays",
@@ -95,7 +96,8 @@ define([
 						booking: self.boatdayBookingToDisplay(boatday.get('bookingPolicy')),
 						cancellation: self.boatdayCancellationToDisplay(boatday.get('cancellationPolicy')),
 						location: "Miami Beach",
-						active: false
+						active: false,
+						host: boatday.get('host')
 					});
 
 					target.append(_tpl);
@@ -105,7 +107,6 @@ define([
 					q.first().then(function(fileholder) {
 						
 						if( fileholder ) {
-							console.log(self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .picture'));
 							self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .picture').css({ backgroundImage: 'url('+fileholder.get('file').url()+')' });
 						}
 

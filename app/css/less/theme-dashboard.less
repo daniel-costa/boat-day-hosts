@@ -817,6 +817,27 @@ body.theme-dashboard .my-boatday-inner > .box .info {
 	overflow: auto;
 }
 
+body.theme-dashboard .my-boatday-inner > .box.box-messages .info {
+    position: absolute;
+    top: 60px;
+    bottom: 80px;
+    width: 100%;
+    background: white;
+	padding: 15px;
+	overflow: auto;
+}
+
+
+body.theme-dashboard .my-boatday-inner > .box.box-messages .bottom {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+	padding: 15px;
+	overflow: auto;
+	background: white;
+	border-top: 1px solid #e0ebed;
+}
+
 body.theme-dashboard .my-boatday-inner > .box p.empty {
 	text-align:center;
 }
@@ -830,4 +851,96 @@ body.theme-dashboard .my-boatday-inner > .box h3 {
 
 body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
 	display: none;
+}
+
+
+
+.my-boatdays .box-requests .request .profile-picture {
+	width: 40px;
+	height: 40px;
+	border-radius: 40px;
+	background: center center no-repeat;
+	background-size: cover;
+	margin-right: 10px;
+}
+
+.my-boatdays .box-requests .request img.rating {
+	max-height: 12px;
+	position: relative;
+}
+
+.my-boatdays .box-requests .request .cell {
+	padding: 0px;
+	line-height: 40px;
+}
+
+.my-boatdays .box-requests .request .cell:first-child {
+	line-height: 20px;
+}
+
+
+.my-boatdays .box-messages .line {
+	margin-top : 10px;
+}
+.my-boatdays .box-messages .line:first-child {
+	margin-top: 0px;
+}
+.my-boatdays .box-messages .text {
+  margin-left: 50px;
+}
+
+.my-boatdays .box-messages .me .text {
+  margin-right: 50px;
+}
+
+.my-boatdays .box-messages .profile-picture {
+  width: 40px;
+  height: 40px;
+  float: left;
+  background: center center no-repeat;
+  background-size: cover;
+  border-radius: 50px;
+}
+
+.my-boatdays .box-messages .me .profile-picture {
+  width: 40px;
+  height: 40px;
+  float: right;
+}
+.my-boatdays .box-messages .speech-bubble {
+  background: #f9fbfb;
+  border-radius: 5px;
+  padding: 10px;
+  float: left;
+  display: inline-block;
+  margin-left: 15px;
+  position: relative;
+  border: 1px solid #e0ebed;
+}
+.my-boatdays .box-messages .speech-bubble:after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+	top: 5px;
+  left: -19px;
+  background: url(../resources/speech-bubble-left.png) top left no-repeat;
+}
+.my-boatdays .box-messages .me .speech-bubble:after {
+  left: auto;
+  right: -19px;
+  background: url(../resources/speech-bubble-right.png) top right no-repeat;
+}
+.my-boatdays .box-messages .me .speech-bubble {
+  float: right;
+  margin-left: 0px;
+  margin-right: 15px;
+}
+.my-boatdays .box-messages  .speech-bubble p {
+  margin: 0px;
+}
+
+.my-boatdays .box-messages .bottom {
+	position: absolute;
+	bottom: 0px;
 }
