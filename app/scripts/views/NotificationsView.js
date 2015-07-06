@@ -17,10 +17,29 @@ define([
 		events: {
 			"click .approve-request": "approveRequest",
 			"click .deny-request": "denyRequest",
-			'click .profile-picture': 'detectClickOnProfile'
+			"click .profile-picture": "detectClickOnProfile",
+			"mouseover .row-remove": "showRemove",
+			"mouseout .row-remove": "hideRemove",
+			"click .remove-notification": "removeNotification",
 		},
 
 		notifications: {},
+
+		showRemove: function(event) {
+			$(event.currentTarget).find('.action').hide();
+			$(event.currentTarget).find('.remove').show();
+		},
+
+		hideRemove: function(event) {
+			$(event.currentTarget).find('.remove').hide();
+			$(event.currentTarget).find('.action').show();
+		},
+
+		removeNotification: function(event) {
+			this.notifications[$(event.currentTarget).closest('.row-remove').attr('data-id')].destroy().then(function() {
+				$(event.currentTarget).closest('.row-remove').remove();
+			});
+		},
 
 		approveRequest: function(event) {
 			
@@ -97,6 +116,7 @@ define([
 				self.notifications[notification.id] = notification;
 
 				var data = {
+					id: notification.id,
 					bd: notification.get("fromTeam"),
 					action: notification.get("action"),
 					boatId: notification.get("boat") ? notification.get("boat").id : null,

@@ -13,8 +13,9 @@ body.theme-dashboard .wrapper {
 	
 	@media (max-width: @screen-xs-max) {
 		left: auto;
-		top: 40px;
-		margin: 0px 15px;
+		top: 0px;
+		margin: 0px;
+		width: 100%;
 	}
 
 	@media (min-width: @screen-sm-min) {
@@ -198,6 +199,7 @@ body.theme-dashboard .content-highlight {
 	margin-top: 120px;
 	margin-bottom:30px;
 }
+
 body.theme-dashboard .view-my-notifications .content-highlight { 
 	margin-top:60px;
 }
@@ -537,6 +539,9 @@ body.theme-dashboard .notification-list .btn.btn-default.accept {
 	color: @brand-primary;
 }
 
+body.theme-dashboard .notification-list .remove {
+	display: none;
+}
 
 body.theme-dashboard .my-boatdays .container-fluid {
 	padding: 0px;
@@ -766,6 +771,28 @@ body.theme-dashboard .my-boatday-inner > .info .inner {
 	cursor: pointer;
 }
 
+body.theme-dashboard .my-boatday-inner > .info .inner .new {
+    font-weight: 400;
+    font-size: 0.85em;
+	display: inline-block;
+}
+
+body.theme-dashboard .my-boatday-inner > .info .inner .new.not-visible {
+	visibility: hidden;
+}
+
+body.theme-dashboard .my-boatday-inner > .info .inner .new:before {
+    content: "";
+    position: relative;
+	top: 13px;
+	lefT: -15px;
+    background: #f86335;
+    border-radius: 100px;
+    width: 10px;
+    height: 10px;
+    display: block;
+}
+
 body.theme-dashboard .my-boatday-inner > .info .inner:hover {
 	text-decoration: underline;
 }
@@ -862,6 +889,10 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
 	background: center center no-repeat;
 	background-size: cover;
 	margin-right: 10px;
+}
+
+.my-boatdays .box-requests .request img.rate {
+	cursor: pointer;
 }
 
 .my-boatdays .box-requests .request img.rating {

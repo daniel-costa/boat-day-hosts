@@ -1,10 +1,11 @@
 define([
 'models/BoatDayModel',
+'models/NotificationModel',
 'views/BaseView',
 'text!templates/BoatDaysTemplate.html',
 'text!templates/DashboardBoatDayTemplate.html',
-'text!templates/DashboardBoatDayRequestTemplate.html'
-], function(BoatDayModel, BaseView, BoatDaysTemplate, DashboardBoatDayTemplate, DashboardBoatDayRequestTemplate){
+'text!templates/DashboardBoatDayRequestRateTemplate.html'
+], function(BoatDayModel, NotificationModel, BaseView, BoatDaysTemplate, DashboardBoatDayTemplate, DashboardBoatDayRequestRateTemplate){
 	var BoatDaysView = BaseView.extend({
 
 		className: "view-my-boatdays",
@@ -13,12 +14,52 @@ define([
 		
 		events: {
 			'click .boatday-box-close': 'closeBox',
-			'click .boatday-box-open': 'openBox'
+			'click .boatday-box-open': 'openBox',
+			'mouseover .stars img': 'rateOver',
+			'mouseout .stars img': 'rateOut',
+			'click .stars img': 'rate',
 		},
 
-		captainRequests: {},
+		requests: {},
 
 		theme: "dashboard",
+
+		rateOver: function(event) {
+			var e = $(event.currentTarget);
+			e.attr('src', 'resources/star-full.png');
+			e.prevAll().attr('src', 'resources/star-full.png');
+		},
+
+		rateOut: function(event) {
+			var e = $(event.currentTarget);
+			e.attr('src', 'resources/star.png');
+			e.prevAll().attr('src', 'resources/star.png');
+		},
+
+		rate: function(event) {
+			var self = this;
+			var e = $(event.currentTarget);
+			var requestId = e.closest('.request').attr('data-id');
+			var boatdayId = e.closest('.my-boatday').attr('data-id');
+
+			console.log(self.requests[boatdayId][requestId]);
+
+			self.requests[boatdayId][requestId].save({ rating: parseInt(e.attr('data-rate')) }).then(function(request) {
+				new NotificationModel().save({
+					action: 'boatday-rating',
+					fromTeam: false,
+					message: null,
+					to: request.get('profile'),
+					from:  Parse.User.current().get('profile'),
+					boatday: request.get('boatday'),
+					sendEmail: false,
+					request: request
+				}).then(function() {
+					self.renderRequests(boatdayId);
+				});
+			});
+			
+		},
 
 		openBox: function(event) {
 			$(event.currentTarget).closest('.my-boatday').find('.boatday-share').hide();
@@ -112,6 +153,27 @@ define([
 
 					});
 
+					self.requests[boatday.id] = {};
+
+					var q = boatday.relation('seatRequests').query();
+					q.descending('createdAt');
+					q.equalTo('status', 'approved');
+					q.include('profile');
+					q.include('boatday');
+					q.find().then(function(requests) {
+
+						if( requests.length == 0 ) {
+							self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .box-requests .info').html('<p class="empty"><em>Nobody attended this BoatDay.</em></p>');
+							return ;
+						}
+						
+						_.each(requests, function(request) {
+							self.requests[boatday.id][request.id] = request;
+						});
+
+						self.renderRequests(boatday.id);
+
+					});
 				});
 
 				self.$el.find('.my-boatdays').fadeIn();
@@ -120,6 +182,24 @@ define([
 
 			return this;
 
+		},
+
+		renderRequests: function(boatdayId) {
+			
+			var self = this;
+			var tpl = _.template(DashboardBoatDayRequestRateTemplate);
+
+			self.$el.find('.my-boatdays .my-boatday-'+boatdayId+' .box-requests .info').html('');
+
+			_.each(self.requests[boatdayId], function(request) {
+
+				var _tpl = tpl({
+					profile: request.get('profile'),
+					request: request,
+				});
+
+				self.$el.find('.my-boatdays .my-boatday-'+boatdayId+' .box-requests .info').append(_tpl);
+			});
 		}
 
 	});

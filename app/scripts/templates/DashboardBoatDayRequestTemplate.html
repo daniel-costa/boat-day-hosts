@@ -3,7 +3,6 @@
 		<div class="profile-picture pull-left" data-id="<%= profile.id %>" style="background-image:url(<%= profile.get('profilePicture').url() %>)"></Div>
 
 		<strong><%= profile.get('displayName') %></strong><br/>
-		<% console.log(profile.get('rating')); %>
 		<% if( typeof profile.get('rating') != typeof undefined && profile.get('rating') ) { %>
 			<img class="rating" src="resources/rating-<%= profile.get('rating') %>.png" />
 		<% } else { %>

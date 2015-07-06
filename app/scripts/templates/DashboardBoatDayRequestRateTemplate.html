@@ -1,0 +1,20 @@
+<div class="request row" data-id="<%= request.id %>">
+	<div class="cell col-xs-14">
+		<div class="profile-picture pull-left" data-id="<%= profile.id %>" style="background-image:url(<%= profile.get('profilePicture').url() %>)"></Div>
+		<strong><%= profile.get('displayName') %></strong><br/>
+		<p><%= request.get('seats') %> seat<% request.get('seats') == 1 ? '' : 's' %></p>
+	</div>
+	<div class="cell col-xs-10 buttons text-right">
+		<% if( typeof request.get('rating') !== typeof undefined && request.get('rating')) { %>
+			<img src="resources/rating-<%= request.get('rating') %>.png" />
+		<% } else { %>
+			<div class="stars">
+				<img class="rate" src="resources/star.png" data-rate="1" />
+				<img class="rate" src="resources/star.png" data-rate="2" />
+				<img class="rate" src="resources/star.png" data-rate="3" />
+				<img class="rate" src="resources/star.png" data-rate="4" />
+				<img class="rate" src="resources/star.png" data-rate="5" />
+			</div>
+		<% } %>
+	</div>
+</div>

@@ -1,4 +1,4 @@
-<div class="row <%= read ? '' : 'not-open' %>">
+<div class="row <%= read ? '' : 'not-open' %> <%= action != "boatday-request" ? 'row-remove' : '' %>" data-id="<%= id %>">
 	<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1 profile">
 		<div class="inner text-center">
 			<% if( bd  ) { %>
@@ -63,62 +63,69 @@
 	</div>
 	<div class="cell col-xs-12 col-sm-6 col-md-7 col-lg-6">
 		<div class="inner text-center">
-			<% if( action == "certification-approved" ) { %>
-				<img src="resources/ico-certification.png" />
-			 <% } %>
+			<div class="action">
+				<% if( action == "certification-approved" ) { %>
+					<img src="resources/ico-certification.png" />
+				 <% } %>
 
-			<% if( action == "certification-denied" ) { %>
-				<img src="resources/ico-certification.png" />
-				<!-- <a href="#/my-account" class="btn btn-default btn-lg">My Account</a> -->
-			<% } %>
-
-			<% if( action == "host-approved" ) { %>
-				<img src="resources/ico-host.png" />
-			<% } %>
-			
-			<% if( action == "host-denied" ) { %>
-				<img src="resources/ico-host.png" />
-				<!-- <a href="#/my-account" class="btn btn-default btn-lg">My Account</a> -->
-			<% } %>
-
-			<% if( action == "boat-approved" ) { %>
-				<img src="resources/ico-boat.png" />
-			<% } %>
-			
-			<% if( action == "boat-denied" ) { %>
-				<img src="resources/ico-boat.png" />
-				<!-- <a href="" class="btn btn-default btn-lg" data-id="<%= boatId %>">Boat Profile</a> -->
-			<% } %>
-
-			<% if( action == "boatday-review" ) { %>
-				<img src="resources/ico-stars-3.png" />
-			<% } %>
-			
-			<% if( action == "boatday-message" ) { %>
-				<img src="resources/ico-message.png" />
-			<% } %>
-
-			<% if( action == "boatday-payment" ) { %>
-				<img src="resources/ico-payment.png" />
-			<% } %>
-			
-			<% if( action == "boatday-request" ) { %>
-				<% if( requestStatus == 'pending' ) { %>
-					<button class="btn btn-default btn-lg open-notification accept approve-request pull-left" data-id="<%= requestId %>">
-						<span class="hidden-sm">Accept</span>
-						<span class="visible-sm glyphicon glyphicon-ok "></span>
-					</button>
-					<button class="btn btn-default btn-lg open-notification deny-request pull-right" data-id="<%= requestId %>">
-						<span class="hidden-sm">Reject</span>
-						<span class="visible-sm glyphicon glyphicon-remove "></span>
-					</button>
+				<% if( action == "certification-denied" ) { %>
+					<img src="resources/ico-certification.png" />
+					<!-- <a href="#/my-account" class="btn btn-default btn-lg">My Account</a> -->
 				<% } %>
 
-			<% } %>
+				<% if( action == "host-approved" ) { %>
+					<img src="resources/ico-host.png" />
+				<% } %>
+				
+				<% if( action == "host-denied" ) { %>
+					<img src="resources/ico-host.png" />
+					<!-- <a href="#/my-account" class="btn btn-default btn-lg">My Account</a> -->
+				<% } %>
 
-			<% if( action == "bd-message" ) { %>
-				<img src="resources/ico-info.png" />
-			<% } %>
+				<% if( action == "boat-approved" ) { %>
+					<img src="resources/ico-boat.png" />
+				<% } %>
+				
+				<% if( action == "boat-denied" ) { %>
+					<img src="resources/ico-boat.png" />
+					<!-- <a href="" class="btn btn-default btn-lg" data-id="<%= boatId %>">Boat Profile</a> -->
+				<% } %>
+
+				<% if( action == "boatday-review" ) { %>
+					<img src="resources/ico-stars-3.png" />
+				<% } %>
+				
+				<% if( action == "boatday-message" ) { %>
+					<img src="resources/ico-message.png" />
+				<% } %>
+
+				<% if( action == "boatday-payment" ) { %>
+					<img src="resources/ico-payment.png" />
+				<% } %>
+				
+				<% if( action == "boatday-request" ) { %>
+					<% if( requestStatus == 'pending' ) { %>
+						<button class="btn btn-default btn-lg open-notification accept approve-request pull-left" data-id="<%= requestId %>">
+							<span class="hidden-sm">Accept</span>
+							<span class="visible-sm glyphicon glyphicon-ok "></span>
+						</button>
+						<button class="btn btn-default btn-lg open-notification deny-request pull-right" data-id="<%= requestId %>">
+							<span class="hidden-sm">Reject</span>
+							<span class="visible-sm glyphicon glyphicon-remove "></span>
+						</button>
+					<% } %>
+
+				<% } %>
+
+				<% if( action == "bd-message" ) { %>
+					<img src="resources/ico-info.png" />
+				<% } %>
+			</div>
+			<div class="remove">
+				<button class="btn btn-danger remove-notification">
+					<span class="glyphicon glyphicon-trash"></span> Remove
+				</button>
+			</div>
 		</div>
 	</div>
 </div>

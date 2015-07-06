@@ -24,25 +24,38 @@
 			<% } %>
 		</div>
 		<div class="info">
-			<div class="col-xs-8 <%= active ? '' : 'col-xs-offset-8' %> boatday-box-open" data-target=".box-details">
+			<div class="<%= active ? 'col-xs-8' : 'col-xs-12' %> boatday-box-open" data-target=".box-details">
 				<div class="inner">
 					<img src="resources/ico-info.png" />
-					<div class="inner hidden-xs">Details</div>
+					<div class="inner hidden-xs">
+						Details
+					</div>
 				</div>
 			</div>
-			<% if( active ) { %>
-			<div class="col-xs-6 col-sm-8 boatday-box-open" data-target=".box-requests">
+			
+			<div class="<%= active ? 'col-xs-8' : 'col-xs-12' %> boatday-box-open" data-target=".box-requests">
 				<div class="inner">
 					<img src="resources/ico-host.png" />
-					<div class="inner hidden-xs">Requests</div>
+					<div class="inner hidden-xs">
+						Requests
+						<% if( active ) { %>
+							<br/>
+							<div class="new new-requests"></div>
+						<% } %>
+					</div>
 				</div>
 			</div>
-			<div class="col-xs-6 col-sm-8 boatday-box-open" data-target=".box-messages">
-				<div class="inner">
-					<img src="resources/ico-message.png" />
-					<div class="inner hidden-xs">Messages</div>
+
+			<% if( active ) { %>
+				<div class="col-xs-8 boatday-box-open" data-target=".box-messages">
+					<div class="inner">
+						<img src="resources/ico-message.png" />
+						<div class="inner hidden-xs">
+							Messages<br/>
+							<div class="new new-messages"></div>
+						</div>
+					</div>
 				</div>
-			</div>
 			<% } %>
 		</div>
 		<div class="box box-details">
