@@ -110,8 +110,11 @@ define([
 				_return.fields.description = "Oops, you missed one! Please describe your BoatDay for potential Guests.";
 			}
 
-			if( !attributes.locationText ) {
+			if( attributes.locationText == "" ) {
 				_return.fields.locationText = "Oops, you missed one! Please tell Guests where to come aboard your BoatDay.";
+			}
+			if( !attributes.location ) {
+				_return.fields.locationText = "Oops, you have to drop a pin on the map.";
 			}
 
 			if( !attributes.date ) {

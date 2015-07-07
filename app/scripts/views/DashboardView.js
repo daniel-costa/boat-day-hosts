@@ -53,20 +53,16 @@ define([
 		},
 
 		sharePromo: function() {
-			var obj = {
+            FB.ui({
 				method: "feed",
-				link: "http://www.boatdayhosts.com/#/sign-up",
-				picture: "https://boatdayhosts.com/resources/logo.png",
+				link: "http://www.boatdayapp.com/hosts",
+				picture: "https://www.boatdayhosts.com/resources/FB-Ad2.png",
 				name: "20% more for your first 5 BoatDays!",
 				caption: "#BetterBoating with BoatDay!",
-				description: "I just signed-up as a BoatDay Host! \n Own a boat? Sign-up as a Host using my invite code (CODE), and earn 20% more for your first 5 BoatDays!"
-			};
+				description: "I just signed-up as a BoatDay Host! \n Own a boat? Sign-up as a Host using my invite code "+Parse.User.current().get('host').id+", and earn 20% more for your first 5 BoatDays."
+			}, function( fbReturn ) {
 
-            function callback(response) {
-              document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
-            }
-
-            FB.ui(obj, callback);
+			});
 		},
 
 		addMessage: function(event) {
@@ -435,7 +431,7 @@ define([
 							if( unread == 0 ) {
 								self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .new-requests').hide();
 							} else {
-								self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .new-requests').html(unread + ' pending');
+								self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .new-requests').show().html(unread + ' pending');
 							}
 
 							self.renderRequests(boatday.id);
@@ -521,7 +517,7 @@ define([
 			if( unread == 0 ) {
 				this.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .new-messages').hide();
 			} else {
-				this.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .new-messages').html(unread + ' pending').show();
+				this.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .new-messages').show().html(unread + ' pending').show();
 			}
 		},
 
