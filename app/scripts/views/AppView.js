@@ -35,9 +35,13 @@ define(['parse'], function(Parse){
 		initialize: function(cb) {
 
 			var self = this;
+			
+			// Cache config
+			Parse.Config.get().then(function(config) {
+				self.fetchUserInfo(null, cb);
+				setInterval(function() { self.updateNotificationsAmount() }, 60 * 1000);
+			});
 
-			this.fetchUserInfo(null, cb);
-			setInterval(function() { self.updateNotificationsAmount() }, 60 * 1000);
 
 		},
 
