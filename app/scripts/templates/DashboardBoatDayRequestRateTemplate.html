@@ -5,8 +5,8 @@
 		<p><%= request.get('seats') %> seat<% request.get('seats') == 1 ? '' : 's' %></p>
 	</div>
 	<div class="cell col-xs-10 buttons text-right">
-		<% if( typeof request.get('rating') !== typeof undefined && request.get('rating')) { %>
-			<img src="resources/rating-<%= request.get('rating') %>.png" />
+		<% if( typeof request.get('ratingHost') !== typeof undefined && request.get('ratingHost')) { %>
+			<img src="resources/rating-<%= request.get('ratingHost') %>.png" />
 		<% } else { %>
 			<div class="stars">
 				<img class="rate" src="resources/star.png" data-rate="1" />

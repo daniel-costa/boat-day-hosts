@@ -120,6 +120,11 @@ define([
 			self.buttonLoader('...', $(event.currentTarget));
 			request.save({ status: status }).then(function() {
 				
+				if( status == 'approved' ) {
+					request.get('boatday').increment('bookedSeats');
+					request.get('boatday').save();
+				}
+				
 				new NotificationModel().save({
 					action: 'request-'+status,
 					fromTeam: false,
@@ -365,7 +370,7 @@ define([
 							duration: boatday.get('duration'),
 							name: boatday.get('name'),
 							availableSeats: boatday.get('availableSeats'),
-							bookedSeats: 0,
+							bookedSeats: boatday.get('bookedSeats'),
 							potEarings: boatday.get('price') * (1 - Parse.User.current().get('host').get('rate') ) * boatday.get('availableSeats'),
 							boatName: boatday.get('boat').get('name'),
 							boatType: boatday.get('boat').get('type'),

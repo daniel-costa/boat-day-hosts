@@ -42,9 +42,11 @@ define([
 			var requestId = e.closest('.request').attr('data-id');
 			var boatdayId = e.closest('.my-boatday').attr('data-id');
 
+			console.log(parseInt(e.attr('data-rate')));
 			console.log(self.requests[boatdayId][requestId]);
+			self.requests[boatdayId][requestId].save({ ratingHost: parseInt(e.attr('data-rate')) }).then(function(request) {
 
-			self.requests[boatdayId][requestId].save({ rating: parseInt(e.attr('data-rate')) }).then(function(request) {
+				console.log('rated');
 				new NotificationModel().save({
 					action: 'boatday-rating',
 					fromTeam: false,
@@ -57,6 +59,8 @@ define([
 				}).then(function() {
 					self.renderRequests(boatdayId);
 				});
+			}, function(error) {
+				console.log(error);
 			});
 			
 		},
@@ -124,8 +128,8 @@ define([
 						duration: boatday.get('duration'),
 						name: boatday.get('name'),
 						availableSeats: boatday.get('availableSeats'),
-						bookedSeats: 0,
-						potEarings: boatday.get('price') * 0.75 * boatday.get('availableSeats'),
+						bookedSeats: boatday.get('bookedSeats'),
+						potEarings: boatday.get('price') * (1 - Parse.User.current().get('host').get('current')) * boatday.get('availableSeats'),
 						boatName: boatday.get('boat').get('name'),
 						boatType: boatday.get('boat').get('type'),
 						boatYear: boatday.get('boat').get('buildYear'),
@@ -199,6 +203,7 @@ define([
 				});
 
 				self.$el.find('.my-boatdays .my-boatday-'+boatdayId+' .box-requests .info').append(_tpl);
+				
 			});
 		}
 

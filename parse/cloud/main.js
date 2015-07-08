@@ -16,6 +16,27 @@ Parse.Cloud.define("createAdminCmsRole", function(request, response) {
 
 });
 
+
+Parse.Cloud.define("getHostsCreationStatus", function(request, response) {
+	
+	var _ = require('underscore');
+
+	var query = new Parse.Query(Parse.Object.extend('_User'));
+	query.matchesQuery('host', innerQuery);
+	query.limit(1000);
+	query.find().then(function(users) {
+
+		var data = [];
+
+		_.each(users, function(user) {
+			data.push(user.get('email'));
+		})
+
+		response.success(data);
+	})
+
+});
+
 Parse.Cloud.define("attachPictureToBoat", function(request, response) {
 	
 	var a = [];
@@ -277,6 +298,9 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 
 		if( boatday.get('bookingPolicy') == 'automatically' && seatRequest.get('status') == 'pending' ) {
 			data.status = 'approved';
+			
+			boatday.increment('bookedSeats');
+			boatday.save();
 
 			var Notification = Parse.Object.extend('Notification');
 				

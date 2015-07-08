@@ -51,7 +51,10 @@ define([
 			self.buttonLoader('...', $(event.currentTarget));
 
 			notification.get('request').save({ status: 'approved' }).then(function() {
-					
+				
+				notification.get('boatday').increment('bookedSeats');
+				notification.get('boatday').save();
+		
 				new NotificationModel().save({
 					action: 'request-approved',
 					fromTeam: false,
