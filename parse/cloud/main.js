@@ -296,27 +296,27 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 		
 		var data = {};
 
-		if( boatday.get('bookingPolicy') == 'automatically' && seatRequest.get('status') == 'pending' ) {
-			data.status = 'approved';
-			
-			boatday.increment('bookedSeats');
-			boatday.save();
-
-			var Notification = Parse.Object.extend('Notification');
-				
-			new Notification().save({
-				action: 'request-approved',
-				fromTeam: false,
-				message: null,
-				to: seatRequest.get('profile'),
-				from:  boatday.get('captain'),
-				boatday: boatday,
-				sendEmail: false,
-				request: seatRequest
-			});
-		}
-
 		if( seatRequest.get('addToBoatDay') ) {
+			
+			if( boatday.get('bookingPolicy') == 'automatically' && seatRequest.get('status') == 'pending' ) {
+			
+				data.status = 'approved';
+				
+				boatday.increment('bookedSeats');
+
+				var Notification = Parse.Object.extend('Notification');
+					
+				new Notification().save({
+					action: 'request-approved',
+					fromTeam: false,
+					message: null,
+					to: seatRequest.get('profile'),
+					from:  boatday.get('captain'),
+					boatday: boatday,
+					sendEmail: false,
+					request: seatRequest
+				});
+			}
 
 			data.addToBoatDay = false;
 
@@ -324,6 +324,18 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 			boatday.save().then(function() {
 
 				new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
+					
+					console.log({
+						action: 'boatday-request',
+						fromTeam: false,
+						message: null,
+						to: host.get('profile'),
+						from: seatRequest.get('profile'),
+						boatday: boatday,
+						sendEmail: true,
+						request: seatRequest
+					});
+					
 					new Notification().save({
 						action: 'boatday-request',
 						fromTeam: false,
@@ -331,9 +343,11 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 						to: host.get('profile'),
 						from: seatRequest.get('profile'),
 						boatday: boatday,
-						request: seatRequest,
-						sendEmail: true
-					});
+						sendEmail: true,
+						request: seatRequest
+					}).then(function() {
+						console.log("######## DONE #######");
+					}, function(error) { console.log('ÇÇÇÇÇÇÇÇÇÇERROR#############'); console.log(error) });
 				});
 
 			});
