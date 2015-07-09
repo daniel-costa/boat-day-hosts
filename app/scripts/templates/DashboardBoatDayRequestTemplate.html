@@ -4,7 +4,7 @@
 
 		<strong><%= profile.get('displayName') %></strong><br/>
 		<% if( typeof profile.get('rating') != typeof undefined && profile.get('rating') ) { %>
-			<img class="rating" src="resources/rating-<%= profile.get('rating') %>.png" />
+			<img class="rating" src="resources/rating-<%= Math.ceil(profile.get('rating')) %>.png" />
 		<% } else { %>
 			(no ratings)
 		<% } %>

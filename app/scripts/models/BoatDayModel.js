@@ -21,6 +21,7 @@ define([
 			bookingPolicy: null, 
 			cancellationPolicy: null, 
 			category: null,
+			earnings: 0,
 			features: {
 				leisure: {
 					cruising: false,

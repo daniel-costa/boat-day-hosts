@@ -347,14 +347,18 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 						request: seatRequest
 					}).then(function() {
 						console.log("######## DONE #######");
-					}, function(error) { console.log('ÇÇÇÇÇÇÇÇÇÇERROR#############'); console.log(error) });
+					}, function(error) { 
+						console.log('ÇÇÇÇÇÇÇÇÇÇERROR#############'); console.log(error)
+					});
 				});
 
 			});
 
+			console.log(data);
+			seatRequest.save(data);
+
 		} 
 
-		seatRequest.save(data);
 
 	});
 
@@ -374,7 +378,7 @@ Parse.Cloud.afterSave("ChatMessage", function(request) {
 
 			boatday.relation('chatMessages').add(message);
 			boatday.save().then(function() {
-	
+
 				// Notify host				
 				new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
 					if( message.get('profile').id != host.get('profile').id ) {
@@ -389,21 +393,21 @@ Parse.Cloud.afterSave("ChatMessage", function(request) {
 							sendEmail: false
 						});
 					}
+					
+					// Notify Captain
+					if( message.get('profile').id != boatday.get('captain').id && boatday.get('captain').id != host.get('profile').id ) {
+						console.log('** Notify Captain ***');
+						new Notification().save({
+							action: 'boatday-message',
+							fromTeam: false,
+							message: null,
+							to: boatday.get('captain'),
+							from: message.get('profile'),
+							boatday: boatday,
+							sendEmail: false
+						});
+					}
 				});
-
-				// Notify Captain
-				if( message.get('profile').id != boatday.get('captain').id ) {
-					console.log('** Notify Captain ***');
-					new Notification().save({
-						action: 'boatday-message',
-						fromTeam: false,
-						message: null,
-						to: boatday.get('captain'),
-						from: message.get('profile'),
-						boatday: boatday,
-						sendEmail: false
-					});
-				}
 
 
 				// Notify Users approved
@@ -412,6 +416,7 @@ Parse.Cloud.afterSave("ChatMessage", function(request) {
 				query.notEqualTo('profile', message.get('profile').id);
 				query.find().then(function(requests) {
 					_.each(requests, function(request) {
+						console.log('** Notify User ***');
 						new Notification().save({
 							action: 'boatday-message',
 							fromTeam: false,
@@ -424,6 +429,8 @@ Parse.Cloud.afterSave("ChatMessage", function(request) {
 					});
 				});
 
+			}, function(error) {
+				console.log(error);
 			});
 
 		});

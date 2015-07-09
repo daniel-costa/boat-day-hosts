@@ -42,11 +42,17 @@ define([
 			var requestId = e.closest('.request').attr('data-id');
 			var boatdayId = e.closest('.my-boatday').attr('data-id');
 
-			console.log(parseInt(e.attr('data-rate')));
-			console.log(self.requests[boatdayId][requestId]);
 			self.requests[boatdayId][requestId].save({ ratingHost: parseInt(e.attr('data-rate')) }).then(function(request) {
 
-				console.log('rated');
+				var profile = self.requests[boatdayId][requestId].get('profile');
+				var rating = typeof profile.get('rating') != typeof undefined && profile.get('rating') ? profile.get('rating') : 0;
+				var ratingAmount = profile.get('ratingAmount');
+
+				profile.save({
+					rating : ( rating * ratingAmount  + parseInt(e.attr('data-rate')) ) / (ratingAmount + 1),
+					ratingAmount: ratingAmount + 1
+				});
+
 				new NotificationModel().save({
 					action: 'boatday-rating',
 					fromTeam: false,
@@ -59,6 +65,7 @@ define([
 				}).then(function() {
 					self.renderRequests(boatdayId);
 				});
+
 			}, function(error) {
 				console.log(error);
 			});
@@ -142,7 +149,8 @@ define([
 						cancellation: self.boatdayCancellationToDisplay(boatday.get('cancellationPolicy')),
 						location: "Miami Beach",
 						active: false,
-						host: boatday.get('host')
+						host: boatday.get('host'),
+						potEarings: boatday.get('earnings') ? boatday.get('earnings') : 0,
 					});
 
 					target.append(_tpl);

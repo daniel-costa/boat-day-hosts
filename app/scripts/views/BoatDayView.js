@@ -254,7 +254,9 @@ define([
 			queryCaptains.include('captainProfile');
 			queryCaptains.each(function(captainRequest) {
 
-				self.collectionCaptains[captainRequest.get('captainProfile').id] = captainRequest.get('captainProfile')
+				if(captainRequest.get('captainProfile')) {
+					self.collectionCaptains[captainRequest.get('captainProfile').id] = captainRequest.get('captainProfile')
+				}
 
 			}).then(function() {
 

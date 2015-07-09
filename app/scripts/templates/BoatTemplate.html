@@ -293,11 +293,11 @@
 							<% } %>
 							<% if( status == 'approved' ) { %> 
 								<label class="control-label">Your Boat has been approved</label>
-								<p>bla bla.</p>
+								<p><%= validationText %></p>
 							<% } %>
 							<% if( status == 'denied' ) { %> 
 								<label class="control-label">Your Boat has been denied</label>
-								<p>bla bla contact us with <a href="#/help-center/update-boat">Help Center</a>.</p>
+								<p><%= validationText %>.</p>
 							<% } %>
 						</div>
 					</div>

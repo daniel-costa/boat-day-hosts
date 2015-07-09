@@ -2,7 +2,7 @@
 	<div class="profile-picture" style="background-image:url(<%= profile.get('profilePicture').url() %>)"></div>
 	<p class="text-center">
 		<% if( typeof profile.get('rating') != typeof undefined && profile.get('rating') ) { %>
-			<img class="rating" src="resources/rating-<%= profile.get('rating') %>.png" />
+			<img class="rating" src="resources/rating-<%= Math.ceil(profile.get('rating')) %>.png" />
 		<% } else { %>
 			<em>(no ratings yet)</em>
 		<% } %>

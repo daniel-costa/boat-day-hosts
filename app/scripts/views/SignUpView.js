@@ -35,7 +35,6 @@ define([
 
 			if( score != this.progressCurrent ) {
 				
-
 				if(score > 50) {	
 					this.$el.find('.input-progress .bar').animate({width: 0});
 					this.$el.find('.passwordComplexity').hide();
@@ -127,13 +126,18 @@ define([
 
 			};
 
+			var type = this.$el.find('[name="hostType"]:checked').val();
+			
+			var rate = type == 'business' ? Parse.Config.current().get('PRICE_HOST_CHARTER_PART') : Parse.Config.current().get('PRICE_HOST_PRIVATE_PART');
+			
+
 			var data = {
 				email: this._in('email').val(),
 				username: this._in('email').val(),
 				password: this._in('password').val(),
 				tos: false,
 				status: 'creation',
-				host: new HostModel({ type: this.$el.find('[name="hostType"]:checked').val() }),
+				host: new HostModel({ type: type, rate: rate }),
 				profile: new ProfileModel(),
 				type: 'host',
 			};

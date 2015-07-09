@@ -9,7 +9,8 @@ define([
 			displayName: null, 
 			profilePicture: null, 
 			about: null,
-
+			rating: null,
+			ratingAmount: 0
 		},
 
 		validate: function(attributes){
