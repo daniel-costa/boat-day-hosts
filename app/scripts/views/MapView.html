@@ -1,0 +1,39 @@
+define([
+'async!https://maps.google.com/maps/api/js?sensor=false',
+'views/BaseView',
+'text!templates/MapTemplate.html'
+], function(gmaps, BaseView, TermsTemplate){
+	var MapView = BaseView.extend({
+
+		className: 'screen-terms',
+
+		template: _.template(TermsTemplate),
+
+		statusbar: true,
+		
+		drawer: true,
+
+		render: function() {
+			BaseView.prototype.render.call(this);
+
+			var self = this;
+
+			var position = new google.maps.LatLng(self.model.get('location').latitude, self.model.get('location').longitude);
+			
+			map = new google.maps.Map(self.$el.find('.map').get(0), {
+				zoom: 10,
+				center: position
+			});
+
+			new google.maps.Marker({
+				map: map,
+				draggable: true,
+				animation: google.maps.Animation.DROP,
+				position: position
+			})
+
+			return this;
+		}
+	});
+	return TermsView;
+});
