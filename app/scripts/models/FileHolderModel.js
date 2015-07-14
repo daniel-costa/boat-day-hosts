@@ -6,7 +6,8 @@ define([
 		defaults: {
 			file: null,
 			host: null,
-			order: null
+			order: null, 
+			expiryDate: null
 		}
  
 	});
