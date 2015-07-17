@@ -79,11 +79,12 @@ define([
 
 			var updateTotalCalculator = function() {
 				// ToDo take value from parse config
+				var baseRate = self.getHostRate(Parse.User.current().get('host').get('type'));
 				var pricePerSeat = self._in('price').slider('getValue');
 				var totalSeats = self._in('availableSeats').slider('getValue');
 				var totalPriceUSD = pricePerSeat * totalSeats;
-				var totalBoatDayUSD = 0.15 * totalPriceUSD;
-				var totalPartnerDiscountPercent = 0.15 - Parse.User.current().get('host').get('rate');
+				var totalBoatDayUSD = baseRate * totalPriceUSD;
+				var totalPartnerDiscountPercent = baseRate - Parse.User.current().get('host').get('rate');
 				var totalPartnerDiscount = totalPartnerDiscountPercent * totalPriceUSD;
 				var totalHostUSD = totalPriceUSD - (totalBoatDayUSD - totalPartnerDiscount);
 
@@ -153,9 +154,9 @@ define([
 					self._map = new google.maps.Map(ctn, opts);
 
 
-					google.maps.event.addListener(map, "idle", function(){
-						map.setCenter(opts.center);
-						google.maps.event.trigger(map, 'resize');
+					google.maps.event.addListener(self._map, "idle", function(){
+						// self._map.setCenter(opts.center);
+						google.maps.event.trigger(self._map, 'resize');
 					}); 
 
 					google.maps.event.addListener(self._map, 'click', function(event) {

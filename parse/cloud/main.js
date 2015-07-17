@@ -1,123 +1,306 @@
+Parse.Cloud.define("fillFacebookEmails", function(request) {
 
-Parse.Cloud.define("createAdminCmsRole", function(request, response) {
-	
-	var cbBasicSuccess = function() {
-		response.success();	
-	};
 
-	var cbBasicError = function(error) {
-		response.error(error.message);
-	}
+	Parse.Cloud.useMasterKey();
 
-	var roleACL = new Parse.ACL();
-	roleACL.setPublicReadAccess(true);
-	var role = new Parse.Role("admin-cms", roleACL);
-	role.save().then(cbBasicSuccess, cbBasicError);
+	var _ = require('underscore');
+    var query = new Parse.Query(Parse.Object.extend('_User'));
+	query.equalTo('type', 'guest');
+	query.equalTo('email', undefined);
+	query.limit(10);
+	query.find().then(function(users) {
+		_.each(users, function(user) {
+			if( Parse.FacebookUtils.isLinked(user) ) {
+				Parse.Cloud.httpRequest({
+					url: 'https://graph.facebook.com/me?fields=email,name&access_token='+user.get('authData').facebook.access_token,
+					success: function(httpResponse) {
+						console.log(httpResponse.data.name);
+						console.log(httpResponse.data.email);
+					},
+					error: function(httpResponse) {
+						console.error(httpResponse.data.error.message);
+					}
+				});
+			}
+		}); 
+	}); 
+});
+
+Parse.Cloud.define("attachUserProfileToInstallation", function(request, response) {
+
+	Parse.Cloud.useMasterKey();
+
+	var query = new Parse.Query(Parse.Installation);
+	query.equalTo('deviceToken', request.params.token);
+	query.first().then(function(install) {
+		new Parse.Query(Parse.Object.extend('_User')).get(request.params.user).then(function(user) {
+			new Parse.Query(Parse.Object.extend('Profile')).get(request.params.profile).then(function(profile) {
+				install.set('user', user);
+				install.set('profile', profile);
+				install.save().then(function() {
+					response.success();
+				});
+			});
+		});
+	});
 
 });
 
-Parse.Cloud.define("emailOldGuests", function(request, response) {
-	
-	var Mailgun = require('mailgun');
+Parse.Cloud.define("notifyAllGuests", function(request, response) {
+
 	var _ = require('underscore');
-	var fs = require('fs');
+	var Notification = Parse.Object.extend('Notification');
+	
+	new Parse.Query(Parse.Object.extend('Profile')).get('fIdom0mjKs').then(function(bdProfile) {
+		var query = new Parse.Query(Parse.Object.extend('_User'));
+		query.equalTo('type', 'guest');
+		query.include('profile');
+		query.limit(1000);
+		query.find().then(function(users) {
+			_.each(users, function(user) {
+				var profile = user.get('profile');
+				new Notification().save({
+					action: 'bd-message',
+					sendEmail: false,
+					fromTeam: false,
+					from: bdProfile,
+					to: profile,
+					message: 'New launch special: 30% off all July BoatDays. Don’t miss the boat!',
+				}).then(function() {
+					
+				}, function(error) {
+					console.log(error);
+				});
+			});
+		});
+	});
+});
+
+Parse.Cloud.define("createStripeCustomers", function(request, response) {
+	
+	var Stripe = require('stripe');
+	var _ = require('underscore');
 
 	Parse.Config.get().then(function(config) {
+				
+		Stripe.initialize(config.get('STRIPE_SECRET_KEY'));
 
-		Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
+		var innerQuery = new Parse.Query(Parse.Object.extend('User'));
+		innerQuery.equalTo('type', 'guest');
+
+		var query = new Parse.Query(Parse.Object.extend('Profile'));
+		query.matchesQuery('user', innerQuery);
+		query.find().then(function(profiles) {
+			_.each(profiles, function(profile) {
+
+				var queryCards = profile.relation('cards').query();
+				queryCards.doesNotExist('stripeId');
+				queryCards.find().then(function(ccs) {
+					_.each(ccs, function(cc) {
+						
+						Parse.Cloud.httpRequest({
+							method : 'POST',
+							url : 'https://api.stripe.com/v1/customers',
+							headers : {
+								Authorization : "Bearer " + config.get('STRIPE_SECRET_KEY')
+							},
+							body : {
+								source: cc.get('token'),
+								description: cc.id,
+							},
+							success : function(httpResponse) {
+								cc.save({ stripeId: httpResponse.data.id });
+							},
+							error : function(httpResponse) {
+								console.log(httpResponse.data.error.message);
+							}
+						});
+
+					});
+				});		
+			});
+		});
+	});
+});
+
+// Parse.Cloud.define("sendDownloadSMS", function(request, response) {
+	
+// 	var client = require('twilio')('ACc00e6d3c6380421f6a05634a11494195', 'c820541dd98d43081cce417171f33cbc');
+// 	var _ = require('underscore');
+
+// 	var query = new Parse.Query(Parse.Object.extend('OldUserSMS'));
+// 	query.limit(20);
+// 	query.equalTo('sent', false);
+// 	query.find().then(function(users) {
+
+// 		_.each(users, function(user) {
+
+// 			console.log(user.get('number'));
+
+// 			client.sendSms({
+// 				to: user.get('number'),
+// 				from: '+17865745669',
+// 				body: "BoatDay version 2 is here... Download the app today and book a memorable boating getaway for this weekend! #BetterBoating https://appsto.re/i6L445q" 
+// 			  }, function(err, responseData) { 
+// 				if (err) {
+// 				  user.save({ sent: true });
+// 				  console.log(err);
+// 				} else { 
+// 				  user.save({ sent: true });
+// 				}
+// 			  }
+// 			);
+
+// 		});
+
+// 	}, function(error) {
+// 		console.log(error);
+// 	});
+
+
+// });
+
+// Parse.Cloud.define("sendSMS", function(request, response) {
+	
+// 	var client = require('twilio')('ACc00e6d3c6380421f6a05634a11494195', 'c820541dd98d43081cce417171f33cbc');
+
+// 	// Send an SMS message
+// 	client.sendSms({
+// 		to: request.params.number,
+// 		from: '+17865745669',
+// 		body: request.params.body 
+// 	  }, function(err, responseData) { 
+// 		if (err) {
+// 		  response.error(err);
+// 		} else { 
+// 		  response.success("SMS sent");
+// 		}
+// 	  }
+// 	);
+
+// });
+
+// Parse.Cloud.define("createAdminCmsRole", function(request, response) {
+	
+// 	var cbBasicSuccess = function() {
+// 		response.success();	
+// 	};
+
+// 	var cbBasicError = function(error) {
+// 		response.error(error.message);
+// 	}
+
+// 	var roleACL = new Parse.ACL();
+// 	roleACL.setPublicReadAccess(true);
+// 	var role = new Parse.Role("admin-cms", roleACL);
+// 	role.save().then(cbBasicSuccess, cbBasicError);
+
+// });
+
+// Parse.Cloud.define("emailOldGuests", function(request, response) {
+	
+// 	var Mailgun = require('mailgun');
+// 	var _ = require('underscore');
+// 	var fs = require('fs');
+
+// 	Parse.Config.get().then(function(config) {
+
+// 		Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
 		
-		var tpl = _.template(fs.readFileSync('cloud/templates/email-canvas-01.html.js','utf8'));
+// 		var tpl = _.template(fs.readFileSync('cloud/templates/email-canvas-01.html.js','utf8'));
 
-		var query = new Parse.Query(Parse.Object.extend('OldUser'));
-		query.limit(500);
-		query.equalTo(sent, false);
-		query.find().then(function(users) {
+// 		var query = new Parse.Query(Parse.Object.extend('OldUser'));
+// 		query.limit(500);
+// 		query.equalTo('sent', false);
+// 		query.find().then(function(users) {
 
-			_.each(users, function(user) {
+// 			_.each(users, function(user) {
 					
-				var _tpl = tpl({
-					date: 'JUNE 10, 2015',
-					more: 'https://itunes.apple.com/us/app/boatday/id953574487?ls=1&mt=8',
-					moreText: 'Update now',
-					title: 'BoatDay 2.0 has arrived',
-					text: 'Hi '+user.get('fname')+',<br/>Great news, <strong>BoatDay</strong> version 2.0 is here!<br/>Download the latest update from the app store and book your spot on one of our daily boating getaways. Fishing, sailing watersports and more, don’t miss the boat!'
-				});
+// 				var _tpl = tpl({
+// 					date: 'JUNE 10, 2015',
+// 					more: 'https://itunes.apple.com/us/app/boatday/id953574487?ls=1&mt=8',
+// 					moreText: 'Update now',
+// 					title: 'BoatDay 2.0 has arrived',
+// 					text: 'Hi '+user.get('fname')+',<br/>Great news, <strong>BoatDay</strong> version 2.0 is here!<br/>Download the latest update from the app store and book your spot on one of our daily boating getaways. Fishing, sailing watersports and more, don’t miss the boat!'
+// 				});
 
-				// Mailgun.sendEmail({
-				// 	to: user.get('email'),
-				// 	from: "Support@boatdayapp.com",
-				// 	subject: "BoatDay 2.0 has arrived",
-				// 	html: _tpl
-				// }).then(function(httpResponse) {
-				// 	user.save({ sent: true });
-				// }, function(error) {
-				// 	console.log(error);
-				// });
+// 				/*
+// 				Mailgun.sendEmail({
+// 					to: user.get('email'),
+// 				 	from: "Support@boatdayapp.com",
+// 				 	subject: "BoatDay 2.0 has arrived",
+// 				 	html: _tpl
+// 				}).then(function(httpResponse) {
+// 				 	user.save({ sent: true });
+// 				}, function(error) {
+// 				 	console.log(error);
+// 				});
+// 				*/
+				
+// 			});
 
-			});
+// 		}, function(error) {
+// 			console.log(error);
+// 		});
 
-		}, function(error) {
-			console.log(error);
-		});
+// 	});
+// });
 
-	});
-});
-
-Parse.Cloud.define("getHostsCreationStatus", function(request, response) {
+// Parse.Cloud.define("getHostsCreationStatus", function(request, response) {
 	
-	var _ = require('underscore');
+// 	var _ = require('underscore');
 
-	var query = new Parse.Query(Parse.Object.extend('_User'));
-	query.matchesQuery('host', innerQuery);
-	query.limit(1000);
-	query.find().then(function(users) {
+// 	var query = new Parse.Query(Parse.Object.extend('_User'));
+// 	query.matchesQuery('host', innerQuery);
+// 	query.limit(1000);
+// 	query.find().then(function(users) {
 
-		var data = [];
+// 		var data = [];
 
-		_.each(users, function(user) {
-			data.push(user.get('email'));
-		})
+// 		_.each(users, function(user) {
+// 			data.push(user.get('email'));
+// 		})
 
-		response.success(data);
-	})
+// 		response.success(data);
+// 	})
 
-});
+// });
 
-Parse.Cloud.define("attachPictureToBoat", function(request, response) {
+// Parse.Cloud.define("attachPictureToBoat", function(request, response) {
 	
-	var a = [];
-	var _ = require('underscore');
+// 	var a = [];
+// 	var _ = require('underscore');
 
-	new Parse.Query(Parse.Object.extend('Boat')).get(request.params.boat).then(function(boat) {
-		new Parse.Query(Parse.Object.extend('FileHolder')).get(request.params.fileHolder).then(function(fh) {
-			boat.relation('boatPictures').add(fh);
-			boat.save().then(function() {
-				response.success("done");
-			}, function(error) {
-				console.log(error);
-				response.error("error");
-			});
-		});
-	});
+// 	new Parse.Query(Parse.Object.extend('Boat')).get(request.params.boat).then(function(boat) {
+// 		new Parse.Query(Parse.Object.extend('FileHolder')).get(request.params.fileHolder).then(function(fh) {
+// 			boat.relation('boatPictures').add(fh);
+// 			boat.save().then(function() {
+// 				response.success("done");
+// 			}, function(error) {
+// 				console.log(error);
+// 				response.error("error");
+// 			});
+// 		});
+// 	});
 
-});
+// });
 
-Parse.Cloud.define("attachProfileToUser", function(request, response) {
+// Parse.Cloud.define("attachProfileToUser", function(request, response) {
 	
-	var a = [];
-	var _ = require('underscore');
+// 	var a = [];
+// 	var _ = require('underscore');
 
-	new Parse.Query(Parse.Object.extend('_User')).find().then(function(users) {
-		_.each(users, function(user) {
-			new Parse.Query(Parse.Object.extend('Profile')).get(user.get('profile').id).then(function(profile) {
-				console.log(profile.id);
-				console.log(user.id);
-				profile.save({ user: user });
-			});
-		});
-	});
+// 	new Parse.Query(Parse.Object.extend('_User')).find().then(function(users) {
+// 		_.each(users, function(user) {
+// 			new Parse.Query(Parse.Object.extend('Profile')).get(user.get('profile').id).then(function(profile) {
+// 				console.log(profile.id);
+// 				console.log(user.id);
+// 				profile.save({ user: user });
+// 			});
+// 		});
+// 	});
 
-});
+// });
 
 Parse.Cloud.define("grantCmsAdmin", function(request, response) {  
 	
@@ -210,17 +393,17 @@ Parse.Cloud.afterSave("Notification", function(request) {
 
 	var notification = request.object;
 
-	if( notification.get('sendEmail') ) {
+	var queryNotification = new Parse.Query(Parse.Object.extend('Notification'));
+	queryNotification.include('to');
+	queryNotification.include('to.user');
+	queryNotification.get(notification.id).then(function(notification) {
 
-		var Mailgun = require('mailgun');
+		if( notification.get('to').get('user').get('type') != 'guest' && notification.get('sendEmail') ) {
 
-		Parse.Config.get().then(function(config) {
-			
-			var queryNotification = new Parse.Query(Parse.Object.extend('Notification'));
-			queryNotification.include('to');
-			queryNotification.include('to.user');
-			queryNotification.get(notification.id).then(function(notification) {
+			var Mailgun = require('mailgun');
 
+			Parse.Config.get().then(function(config) {
+				
 				var name = notification.get('to').get('displayName');
 				
 				Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
@@ -234,12 +417,95 @@ Parse.Cloud.afterSave("Notification", function(request) {
 
 			});
 
-		});
+		} else {
 
-	}
-		
+			var query = new Parse.Query(Parse.Installation);
+			query.equalTo('profile', notification.get('to'));
+
+			switch( notification.get('action') ) {
+				case "request-approved"       : var message = "Your seat request has been approved"; break;
+				case "request-denied"         : var message = "Your seat request has been denied"; break;
+				case "request-cancelled-host" : var message = "You have been removed from a BoatDay."; break;
+				case "boatday-cancelled"      : var message = "Your BoatDay has been cancelled by the Host."; break;
+				case "auto-payment"           : var message = "Your BoatDay payment has been charged."; break;
+				case "boatday-message"        : var message = "You have a new chat message for your BoatDay!"; break;
+				case "boatday-rating"         : var message = "You just received a review!"; break;
+				case "bd-message"             : var message = notification.get('message'); break;
+				default                       : var message = "You have a new notification!"; break;
+			} 
+
+			Parse.Push.send({
+				where: query, // Set our Installation query
+				data: {
+					alert: message
+			  	}
+			}, {
+				success: function() { },
+				error: function(error) {
+					console.log(error);
+				}
+			});
+
+		}
+	});
 });
 
+// Parse.Cloud.afterSave("Profile", function(request) {
+
+// 	var profile = request.object;
+
+// 	if( profile.get('host') && !profile.get('stripeId')) {
+
+// 		Parse.Config.get().then(function(config) {
+
+// 			var query = new Parse.Query(Parse.Object.extend('Host'));
+// 			query.include('user');
+// 			query.get(profile.get('host').id).then(function(host) {
+
+// 				Parse.Cloud.httpRequest({
+// 					method : 'POST',
+// 					url : 'https://api.stripe.com/v1/accounts',
+// 					headers : {
+// 						Authorization : "Bearer " + config.get('STRIPE_SECRET_KEY')
+// 					},
+// 					body : {
+// 						managed: true,
+// 						country: "US",
+// 						default_currency: "usd",
+// 						email: host.get('user').get('email'),
+// 						// display_name: host.get('firstname') + ' ' + host.get('lastname'),
+// 						"tos_acceptance[ip]": "83.83.83.83",
+// 						"tos_acceptance[date]": new Date().getTime(),
+// 						"tos_acceptance[user_agent]": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/600.4.8 (KHTML, like Gecko) Version/8.0.3 Safari/600.4.8",
+// 						"legal_entity[type]": host.get('type') == 'business' ? "company" : "individual",
+// 						"legal_entity[business_name]": "test",
+// 						"legal_entity[first_name]": host.get('firstname'),
+// 						"legal_entity[last_name]": host.get('lastname'),
+// 						"legal_entity[dob][day]": new Date(host.get('birthdate')).getDate(),
+// 						"legal_entity[dob][month]": new Date(host.get('birthdate')).getMonth(),
+// 						"legal_entity[dob][year]": new Date(host.get('birthdate')).getFullYear(),
+// 						"external_account[object]": "bank_account",
+// 						"external_account[country]": "US",
+// 						"external_account[currency]": "USD",
+// 						"external_account[routing_number]": "110000000",
+// 						"external_account[account_number]": "000123456789",
+// 					},
+// 					success : function(httpResponse) {
+// 						profile.save({ stripeId: httpResponse.data.id });
+// 					},
+// 					error : function(httpResponse) {
+// 						console.log(httpResponse);
+// 					}
+// 				});
+
+// 			}, function(error) {
+// 				console.log(error);
+// 			});
+
+// 		});
+// 	}
+
+// });
 
 Parse.Cloud.afterSave("Host", function(request) {
 
@@ -336,14 +602,13 @@ Parse.Cloud.beforeSave("FileHolder", function(request, response) {
 Parse.Cloud.afterSave("SeatRequest", function(request) {
 	
 	var seatRequest = request.object;
-	var Notification = Parse.Object.extend('Notification');
 
 	new Parse.Query(Parse.Object.extend('BoatDay')).get(seatRequest.get('boatday').id).then(function(boatday) {
 		
 		var data = {};
 
 		if( seatRequest.get('addToBoatDay') ) {
-			
+
 			if( boatday.get('bookingPolicy') == 'automatically' && seatRequest.get('status') == 'pending' ) {
 			
 				data.status = 'approved';
@@ -371,17 +636,21 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 
 				new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
 					
-					console.log({
-						action: 'boatday-request',
-						fromTeam: false,
-						message: null,
-						to: host.get('profile'),
-						from: seatRequest.get('profile'),
-						boatday: boatday,
-						sendEmail: true,
-						request: seatRequest
-					});
-					
+					// console.log({
+					// 	action: 'boatday-request',
+					// 	fromTeam: false,
+					// 	message: null,
+					// 	to: host.get('profile'),
+					// 	from: seatRequest.get('profile'),
+					// 	boatday: boatday,
+					// 	sendEmail: true,
+					// 	request: seatRequest
+					// });
+
+					console.log("Notification to be sent **");
+
+					var Notification = Parse.Object.extend('Notification');
+
 					new Notification().save({
 						action: 'boatday-request',
 						fromTeam: false,
@@ -392,22 +661,127 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 						sendEmail: true,
 						request: seatRequest
 					}).then(function() {
-						console.log("######## DONE #######");
-					}, function(error) { 
-						console.log('ÇÇÇÇÇÇÇÇÇÇERROR#############'); console.log(error)
+						console.log('**** Done');
+					}, function(error) {
+						console.log('**** Error');
+						console.log(error);
 					});
 				});
-
 			});
 
-			console.log(data);
 			seatRequest.save(data);
-
 		} 
 
+		if( seatRequest.get('contribution') && !seatRequest.get('contributionPaid')) {
 
+			var Stripe = require('stripe');
+			var card = seatRequest.get('card');
+			var amount = seatRequest.get('contribution');
+
+			seatRequest.get('card').fetch().then(function(card) {
+
+				// Parse.Config.get().then(function(config) {
+						
+				// 	Stripe.initialize(config.get('STRIPE_SECRET_KEY'));
+					
+				// 	console.log(card.get('stripe').card.id);
+				// 	console.log(card.get('token'));
+				// 	console.log(card.get('stripeId'));
+
+				// 	Stripe.Charges.create({
+				// 		amount: amount * 100,
+				// 		currency: "usd",
+				// 		customer: card.get('stripeId'),
+				// 		// source: card.get('token'),
+				// 		// card: card.get('stripe').card.id,
+				// 		// description: 'Guest Contribution Paid - ' + seatRequest.id
+				// 	},{
+				// 		success: function(httpResponse) {
+				// 			seatRequest.save({ contributionPaid: true });
+				// 			console.log("**** Purchase made!");
+				// 		},
+				// 		error: function(httpResponse) {
+				// 			console.log(httpResponse);
+				// 			console.log("##### Uh oh, something went wrong");
+				// 		}
+				// 	});
+				// });
+			});
+		}
+
+		if( seatRequest.get('status') == 'cancelled-guest' && !seatRequest.get('cancelled') ) {
+
+			new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
+
+				Parse.Config.get().then(function(config) {
+
+					var seats = seatRequest.get('seats');
+					var priceSeat = boatday.get('price');
+					var ts_fee = config.get('TRUST_AND_SAFETY_FEE');
+					var isCharter = host.get('type') == 'business';
+					var guestShare = isCharter ? config.get('PRICE_GUEST_CHARTER_PART') : config.get('PRICE_GUEST_PRIVATE_PART');
+					var guestFee = Math.ceil(priceSeat / (1 - guestShare)) - priceSeat;
+					var priceSeatTotal = priceSeat + guestFee + ts_fee;
+					var priceTotal = priceSeatTotal * seats;
+
+					seatRequest.get('card').fetch().then(function(card) {
+						
+						var Stripe = require('stripe');
+
+						// Stripe.initialize(config.get('STRIPE_SECRET_KEY'));
+
+						// // var desc = seatRequest.id;
+
+						// Stripe.Charges.create({
+						// 	amount: priceTotal * 100,
+						// 	currency: "usd",
+						// 	customer: card.get('stripeId'),
+						// 	// description: desc
+						// },{
+						// 	success: function(httpResponse) {
+						// 		seatRequest.save({ cancelled:true, contributionPaid: true });
+						// 	},
+						// 	error: function(httpResponse) {
+						// 		console.log(httpResponse);
+						// 		console.log("##### Uh oh, something went wrong");
+						// 	}
+						// });
+					});
+				});
+			});
+		}
 	});
 
+	
+});
+
+Parse.Cloud.afterSave("CreditCard", function(request) {
+	
+	var card = request.object;
+
+	if( !card.get('stripeId') ) {
+		Parse.Config.get().then(function(config) {
+			Parse.Cloud.httpRequest({
+				method : 'POST',
+				url : 'https://api.stripe.com/v1/customers',
+				headers : {
+					Authorization : "Bearer " + config.get('STRIPE_SECRET_KEY')
+				},
+				body : {
+					source: card.get('token'),
+					description: card.id,
+				},
+				success : function(httpResponse) {
+					console.log('update card');
+					card.save({ stripeId: httpResponse.data.id });
+				},
+				error : function(httpResponse) {
+					console.log(httpResponse.data.error.message);
+				}
+			});
+		});
+	}
+	
 });
 
 Parse.Cloud.afterSave("ChatMessage", function(request) {

@@ -34,6 +34,10 @@ define([
 
 		afterRenderInsertedToDom: function() {},
 
+		getHostRate: function(type) {
+			return type == 'business' ? Parse.Config.current().get("PRICE_HOST_CHARTER_PART") : Parse.Config.current().get("PRICE_HOST_PRIVATE_PART");
+		},
+
 		detectClickOnProfile: function(event) {
 
 			var self = this;

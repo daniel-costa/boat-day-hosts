@@ -52,7 +52,7 @@ define([
 
 			notification.get('request').save({ status: 'approved' }).then(function() {
 				
-				notification.get('boatday').increment('bookedSeats');
+				notification.get('boatday').increment('bookedSeats', notification.get('request').get('seats'));
 				notification.get('boatday').save();
 		
 				new NotificationModel().save({

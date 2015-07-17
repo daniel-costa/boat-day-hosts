@@ -121,7 +121,12 @@ define([
 			request.save({ status: status }).then(function() {
 				
 				if( status == 'approved' ) {
-					request.get('boatday').increment('bookedSeats');
+					request.get('boatday').increment('bookedSeats', request.get('seats'));
+					request.get('boatday').save();
+				}
+
+				if( status == 'cancelled-host' ) {
+					request.get('boatday').increment('bookedSeats', -1 * request.get('seats'));
 					request.get('boatday').save();
 				}
 				
