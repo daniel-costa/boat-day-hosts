@@ -1,6 +1,6 @@
 <div class="request row" data-id="<%= request.id %>">
 	<div class="cell col-xs-10">
-		<div class="profile-picture pull-left" data-id="<%= profile.id %>" style="background-image:url(<%= profile.get('profilePicture').url() %>)"></Div>
+		<div class="profile-picture pull-left" data-id="<%= profile.id %>" style="background-image:url(<%= profile.get('profilePicture').url() %>)"></div>
 
 		<strong><%= profile.get('displayName') %></strong><br/>
 		<% if( typeof profile.get('rating') != typeof undefined && profile.get('rating') ) { %>

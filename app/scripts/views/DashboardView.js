@@ -148,6 +148,7 @@ define([
 		},
 
 		cancelBoatDay: function(event) {
+
 			$(event.currentTarget).closest('.info').find('.details').hide();
 			$(event.currentTarget).closest('.info').find('.cancel').show();
 		},

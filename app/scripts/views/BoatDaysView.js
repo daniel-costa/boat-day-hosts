@@ -18,9 +18,12 @@ define([
 			'mouseover .stars img': 'rateOver',
 			'mouseout .stars img': 'rateOut',
 			'click .stars img': 'rate',
+			'click .btn-restore': 'restoreBoatDay',
 		},
 
 		requests: {},
+
+		boatday: {},
 
 		theme: "dashboard",
 
@@ -34,6 +37,67 @@ define([
 			var e = $(event.currentTarget);
 			e.attr('src', 'resources/star.png');
 			e.prevAll().attr('src', 'resources/star.png');
+		},
+
+		restoreBoatDay: function(event) {
+			event.preventDefault();
+			var self = this;
+			var e = $(event.currentTarget);
+			var boatdayId = e.closest('.my-boatday').attr('data-id');
+			// console.log(self.boatday[boatdayId]);
+
+			var query = new Parse.Query(Parse.Object.extend("BoatDay"));
+			query.get(boatdayId, {
+
+			  success: function(boatDay) {
+			  	console.log(
+			  		boatDay.get('name') + " "+
+			  		boatDay.get('description') + " "+
+			  		boatDay.get('date') + " "+
+			  		boatDay.get('departureTime') + " "+
+			  		boatDay.get('arrivalTime') + " "+
+			  		boatDay.get('duration') + " "+
+			  		boatDay.get('location') + " "+
+			  		boatDay.get('locationText') + " "+
+			  		boatDay.get('availableSeats') + " "+
+			  		boatDay.get('price') + " "+
+			  		boatDay.get('bookingPolicy') + " "+
+			  		boatDay.get('cancellationPolicy') + " "+
+			  		boatDay.get('category') + " "+
+			  		boatDay.get('arrivalTime')
+			  	);
+
+			    new BoatDayModel().save({
+					
+					status:'creation', 
+					name: boatDay.get('name'), 
+					description: boatDay.get('description'),
+					date: boatDay.get('date'), 
+					departureTime: boatDay.get('departureTime'), 
+					arrivalTime: boatDay.get('arrivalTime'),
+					duration: boatDay.get('duration'), 
+					location: boatDay.get('location'),
+					locationText: boatDay.get('availableSeats'), 
+					availableSeats: boatDay.get('availableSeats'), 
+					price: boatDay.get('price'),
+					bookingPolicy: boatDay.get('bookingPolicy') , 
+					cancellationPolicy: boatDay.get('cancellationPolicy'), 
+					category: boatDay.get('category'), 
+					arrivalTime: boatDay.get('arrivalTime')
+
+				}).then(function(){
+					self.render();
+				});
+
+			  },
+
+			  error: function(object, error) {
+			    // The object was not retrieved successfully.
+			    // error is a Parse.Error with an error code and message.
+			  }
+
+			});
+
 		},
 
 		rate: function(event) {
