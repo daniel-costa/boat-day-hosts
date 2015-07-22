@@ -44,57 +44,40 @@ define([
 			var self = this;
 			var e = $(event.currentTarget);
 			var boatdayId = e.closest('.my-boatday').attr('data-id');
-			// console.log(self.boatday[boatdayId]);
 
 			var query = new Parse.Query(Parse.Object.extend("BoatDay"));
 			query.get(boatdayId, {
 
-			  success: function(boatDay) {
-			  	console.log(
-			  		boatDay.get('name') + " "+
-			  		boatDay.get('description') + " "+
-			  		boatDay.get('date') + " "+
-			  		boatDay.get('departureTime') + " "+
-			  		boatDay.get('arrivalTime') + " "+
-			  		boatDay.get('duration') + " "+
-			  		boatDay.get('location') + " "+
-			  		boatDay.get('locationText') + " "+
-			  		boatDay.get('availableSeats') + " "+
-			  		boatDay.get('price') + " "+
-			  		boatDay.get('bookingPolicy') + " "+
-			  		boatDay.get('cancellationPolicy') + " "+
-			  		boatDay.get('category') + " "+
-			  		boatDay.get('arrivalTime')
-			  	);
+				success: function(boatDay) {
 
-			    new BoatDayModel().save({
-					
-					status:'creation', 
-					name: boatDay.get('name'), 
-					description: boatDay.get('description'),
-					date: boatDay.get('date'), 
-					departureTime: boatDay.get('departureTime'), 
-					arrivalTime: boatDay.get('arrivalTime'),
-					duration: boatDay.get('duration'), 
-					location: boatDay.get('location'),
-					locationText: boatDay.get('availableSeats'), 
-					availableSeats: boatDay.get('availableSeats'), 
-					price: boatDay.get('price'),
-					bookingPolicy: boatDay.get('bookingPolicy') , 
-					cancellationPolicy: boatDay.get('cancellationPolicy'), 
-					category: boatDay.get('category'), 
-					arrivalTime: boatDay.get('arrivalTime')
+			  		
+			  		console.log(boatDay.get('captain'));
 
-				}).then(function(){
-					self.render();
-				});
-
-			  },
-
-			  error: function(object, error) {
-			    // The object was not retrieved successfully.
-			    // error is a Parse.Error with an error code and message.
-			  }
+				  	new BoatDayModel({
+				  		status:'creation',
+				  		name: boatDay.get('name'), 
+				  		description: boatDay.get('description'),
+				  		date: boatDay.get('date'),
+				  		departureTime: boatDay.get('departureTime'),
+				  		arrivalTime: boatDay.get('arrivalTime'),
+				  		duration: boatDay.get('duration'), 
+				  		location: boatDay.get('location'),
+				  		locationText: boatDay.get('locationText'), 
+				  		availableSeats: boatDay.get('availableSeats'),
+				  		price: boatDay.get('price'),
+				  		bookingPolicy: boatDay.get('bookingPolicy'),
+				  		cancellationPolicy: boatDay.get('cancellationPolicy'),
+				  		category: boatDay.get('category'),
+				  		arrivalTime: boatDay.get('arrivalTime'), 
+					  	captain: boatDay.get('captain'),
+					  	boat: boatDay.get('boat'),
+					  	host: boatDay.get('host'), 
+					  	chatMessages: boatDay.get('chatMessages'), 
+					  	seatRequests: boatDay.get('seatRequests')
+				  	}).save().then(function(){
+				  		Parse.history.navigate('dashboard', true);
+				  	});
+				}
 
 			});
 
