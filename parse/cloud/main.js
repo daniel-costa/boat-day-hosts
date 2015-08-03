@@ -1,6 +1,5 @@
 Parse.Cloud.define("fillFacebookEmails", function(request) {
 
-
 	Parse.Cloud.useMasterKey();
 
 	var _ = require('underscore');
@@ -18,12 +17,38 @@ Parse.Cloud.define("fillFacebookEmails", function(request) {
 						console.log(httpResponse.data.email);
 					},
 					error: function(httpResponse) {
-						console.error(httpResponse.data.error.message);
+						console.log(httpResponse.data.error.message);
 					}
 				});
 			}
 		}); 
 	}); 
+});
+
+Parse.Cloud.define("registerDevice", function(request, response) {
+
+	Parse.Cloud.useMasterKey();
+
+	var installation = new Parse.Object("_Installation");
+	
+	if( installation ) {
+		new Parse.Query(Parse.Object.extend('_User')).get(request.params.user).then(function(user) {
+			new Parse.Query(Parse.Object.extend('Profile')).get(request.params.profile).then(function(profile) {
+				installation.save({
+					deviceToken: request.params.deviceToken,
+					deviceType: request.params.deviceType,
+					user: user,
+					profile: profile,
+				}).then(function() {
+					console.log('success');
+				}, function(error) {
+					console.log('error');
+					console.log(error);
+				});
+			});
+		});
+	}
+
 });
 
 Parse.Cloud.define("attachUserProfileToInstallation", function(request, response) {
@@ -78,46 +103,35 @@ Parse.Cloud.define("notifyAllGuests", function(request, response) {
 
 Parse.Cloud.define("createStripeCustomers", function(request, response) {
 	
-	var Stripe = require('stripe');
 	var _ = require('underscore');
 
 	Parse.Config.get().then(function(config) {
-				
-		Stripe.initialize(config.get('STRIPE_SECRET_KEY'));
-
-		var innerQuery = new Parse.Query(Parse.Object.extend('User'));
-		innerQuery.equalTo('type', 'guest');
-
-		var query = new Parse.Query(Parse.Object.extend('Profile'));
-		query.matchesQuery('user', innerQuery);
-		query.find().then(function(profiles) {
-			_.each(profiles, function(profile) {
-
-				var queryCards = profile.relation('cards').query();
-				queryCards.doesNotExist('stripeId');
-				queryCards.find().then(function(ccs) {
-					_.each(ccs, function(cc) {
-						
-						Parse.Cloud.httpRequest({
-							method : 'POST',
-							url : 'https://api.stripe.com/v1/customers',
-							headers : {
-								Authorization : "Bearer " + config.get('STRIPE_SECRET_KEY')
-							},
-							body : {
-								source: cc.get('token'),
-								description: cc.id,
-							},
-							success : function(httpResponse) {
-								cc.save({ stripeId: httpResponse.data.id });
-							},
-							error : function(httpResponse) {
-								console.log(httpResponse.data.error.message);
-							}
-						});
-
-					});
-				});		
+		var query = new Parse.Query(Parse.Object.extend('CreditCard'));
+		query.doesNotExist('stripeId');
+		query.limit(50);
+		query.find().then(function(ccs) {	
+			_.each(ccs, function(cc) {
+				console.log("token="+cc.get('token'));
+				Parse.Cloud.httpRequest({
+					method : 'POST',
+					url : 'https://api.stripe.com/v1/customers',
+					headers : {
+						Authorization : "Bearer " + config.get('STRIPE_SECRET_KEY')
+					},
+					body : {
+						source: cc.get('token'),
+						description: cc.id,
+					},
+					success : function(httpResponse) {
+						console.log("cusID="+httpResponse.data.id);
+						cc.save({ stripeId: httpResponse.data.id });
+					},
+					error : function(httpResponse) {
+						console.log("** Error **");
+						cc.save({ stripeId: "failed" });
+						console.log(httpResponse.data.error.message);
+					}
+				});
 			});
 		});
 	});
@@ -246,25 +260,25 @@ Parse.Cloud.define("createStripeCustomers", function(request, response) {
 // 	});
 // });
 
-// Parse.Cloud.define("getHostsCreationStatus", function(request, response) {
+Parse.Cloud.define("getHostsCreationStatus", function(request, response) {
 	
-// 	var _ = require('underscore');
+	var _ = require('underscore');
 
-// 	var query = new Parse.Query(Parse.Object.extend('_User'));
-// 	query.matchesQuery('host', innerQuery);
-// 	query.limit(1000);
-// 	query.find().then(function(users) {
+	var query = new Parse.Query(Parse.Object.extend('_User'));
+	query.matchesQuery('host', innerQuery);
+	query.limit(1000);
+	query.find().then(function(users) {
 
-// 		var data = [];
+		var data = [];
 
-// 		_.each(users, function(user) {
-// 			data.push(user.get('email'));
-// 		})
+		_.each(users, function(user) {
+			data.push(user.get('email'));
+		})
 
-// 		response.success(data);
-// 	})
+		response.success(data);
+	})
 
-// });
+});
 
 // Parse.Cloud.define("attachPictureToBoat", function(request, response) {
 	
@@ -285,22 +299,22 @@ Parse.Cloud.define("createStripeCustomers", function(request, response) {
 
 // });
 
-// Parse.Cloud.define("attachProfileToUser", function(request, response) {
+Parse.Cloud.define("attachProfileToUser", function(request, response) {
 	
-// 	var a = [];
-// 	var _ = require('underscore');
+	var a = [];
+	var _ = require('underscore');
 
-// 	new Parse.Query(Parse.Object.extend('_User')).find().then(function(users) {
-// 		_.each(users, function(user) {
-// 			new Parse.Query(Parse.Object.extend('Profile')).get(user.get('profile').id).then(function(profile) {
-// 				console.log(profile.id);
-// 				console.log(user.id);
-// 				profile.save({ user: user });
-// 			});
-// 		});
-// 	});
+	new Parse.Query(Parse.Object.extend('_User')).find().then(function(users) {
+		_.each(users, function(user) {
+			new Parse.Query(Parse.Object.extend('Profile')).get(user.get('profile').id).then(function(profile) {
+				console.log(profile.id);
+				console.log(user.id);
+				profile.save({ user: user });
+			});
+		});
+	});
 
-// });
+});
 
 Parse.Cloud.define("grantCmsAdmin", function(request, response) {  
 	
@@ -398,6 +412,7 @@ Parse.Cloud.afterSave("Notification", function(request) {
 	queryNotification.include('to.user');
 	queryNotification.get(notification.id).then(function(notification) {
 
+		// ToDo instead just the email exists in the account
 		if( notification.get('to').get('user').get('type') != 'guest' && notification.get('sendEmail') ) {
 
 			var Mailgun = require('mailgun');
@@ -613,7 +628,7 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 			
 				data.status = 'approved';
 				
-				boatday.increment('bookedSeats');
+				boatday.increment('bookedSeats', seatRequest.get('seats'));
 
 				var Notification = Parse.Object.extend('Notification');
 					
@@ -636,19 +651,6 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 
 				new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
 					
-					// console.log({
-					// 	action: 'boatday-request',
-					// 	fromTeam: false,
-					// 	message: null,
-					// 	to: host.get('profile'),
-					// 	from: seatRequest.get('profile'),
-					// 	boatday: boatday,
-					// 	sendEmail: true,
-					// 	request: seatRequest
-					// });
-
-					console.log("Notification to be sent **");
-
 					var Notification = Parse.Object.extend('Notification');
 
 					new Notification().save({
@@ -680,36 +682,36 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 
 			seatRequest.get('card').fetch().then(function(card) {
 
-				// Parse.Config.get().then(function(config) {
+				Parse.Config.get().then(function(config) {
 						
-				// 	Stripe.initialize(config.get('STRIPE_SECRET_KEY'));
+					Stripe.initialize(config.get('STRIPE_SECRET_KEY'));
 					
-				// 	console.log(card.get('stripe').card.id);
-				// 	console.log(card.get('token'));
-				// 	console.log(card.get('stripeId'));
+					console.log(card.get('stripe').card.id);
+					console.log(card.get('token'));
+					console.log(card.get('stripeId'));
 
-				// 	Stripe.Charges.create({
-				// 		amount: amount * 100,
-				// 		currency: "usd",
-				// 		customer: card.get('stripeId'),
-				// 		// source: card.get('token'),
-				// 		// card: card.get('stripe').card.id,
-				// 		// description: 'Guest Contribution Paid - ' + seatRequest.id
-				// 	},{
-				// 		success: function(httpResponse) {
-				// 			seatRequest.save({ contributionPaid: true });
-				// 			console.log("**** Purchase made!");
-				// 		},
-				// 		error: function(httpResponse) {
-				// 			console.log(httpResponse);
-				// 			console.log("##### Uh oh, something went wrong");
-				// 		}
-				// 	});
-				// });
+					Stripe.Charges.create({
+						amount: amount * 100,
+						currency: "usd",
+						customer: card.get('stripeId'),
+						// description: 'Guest Contribution Paid - ' + seatRequest.id
+					},{
+						success: function(httpResponse) {
+							seatRequest.save({ contributionPaid: true });
+							console.log("**** Purchase made!");
+						},
+						error: function(httpResponse) {
+							console.log(httpResponse);
+							console.log("##### Uh oh, something went wrong");
+						}
+					});
+				});
 			});
 		}
 
 		if( seatRequest.get('status') == 'cancelled-guest' && !seatRequest.get('cancelled') ) {
+
+			console.log('*** make him pay!!!');
 
 			new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
 
@@ -728,9 +730,9 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 						
 						var Stripe = require('stripe');
 
-						// Stripe.initialize(config.get('STRIPE_SECRET_KEY'));
+						Stripe.initialize(config.get('STRIPE_SECRET_KEY'));
 
-						// // var desc = seatRequest.id;
+						// var desc = seatRequest.id;
 
 						// Stripe.Charges.create({
 						// 	amount: priceTotal * 100,
@@ -739,7 +741,11 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 						// 	// description: desc
 						// },{
 						// 	success: function(httpResponse) {
-						// 		seatRequest.save({ cancelled:true, contributionPaid: true });
+						// 		seatRequest.save({ 
+						// 			cancelled:true,
+						// 			contribution: priceTotal,
+						// 			contributionPaid: true,
+						// 		});
 						// 	},
 						// 	error: function(httpResponse) {
 						// 		console.log(httpResponse);
@@ -755,7 +761,7 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 	
 });
 
-Parse.Cloud.afterSave("CreditCard", function(request) {
+Parse.Cloud.beforeSave("CreditCard", function(request, response) {
 	
 	var card = request.object;
 
@@ -772,11 +778,12 @@ Parse.Cloud.afterSave("CreditCard", function(request) {
 					description: card.id,
 				},
 				success : function(httpResponse) {
-					console.log('update card');
 					card.save({ stripeId: httpResponse.data.id });
+					response.success();
 				},
 				error : function(httpResponse) {
 					console.log(httpResponse.data.error.message);
+					response.error(httpResponse.data.error.message);
 				}
 			});
 		});

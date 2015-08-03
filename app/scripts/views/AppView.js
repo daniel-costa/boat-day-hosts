@@ -36,12 +36,14 @@ define(['parse'], function(Parse){
 
 			var self = this;
 			
-			// Cache config
+			
 			Parse.Config.get().then(function(config) {
 				self.fetchUserInfo(null, cb);
 				setInterval(function() { self.updateNotificationsAmount() }, 60 * 1000);
+			}, function(error) {
+				Parse.User.logOut();
+				console.log(error);
 			});
-
 
 		},
 
@@ -84,7 +86,7 @@ define(['parse'], function(Parse){
 
 		fetchUserInfo: function(event, cb) {
 
-			if( Parse.User.current() ) {
+			if( Parse.User.current() && Parse.User.current().get("host") ) {
 
 				if( Parse.User.current().get("host").createdAt && Parse.User.current().get("profile").createdAt ) {
 					cb();

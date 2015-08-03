@@ -6,6 +6,7 @@ define([
 	'models/HelpCenterModel',
 	'models/NotificationModel',
 	'models/ProfileModel',
+	'models/HostModel',
 	'views/ReportView',
 	'views/HomeView',
 	'views/ForgotPasswordView',
@@ -25,7 +26,7 @@ define([
 	'views/CertificationsView',
 	'views/NotificationsView'
 ], function(
-	ReportModel, BoatModel, BoatDayModel, HelpCenterModel, NotificationModel, ProfileModel,
+	ReportModel, BoatModel, BoatDayModel, HelpCenterModel, NotificationModel, ProfileModel, HostModel,
 	ReportView, HomeView, ForgotPasswordView, ResetPasswordView, InvalidLinkView, PasswordChangedView, 
 	DashboardView, TermsView, SignUpView, HostView, ProfileView, AccountView, BoatView, 
 	BoatDayView, BoatDaysView, HelpCenterView, CertificationsView, NotificationsView) {
@@ -295,11 +296,28 @@ define([
 
 		handleGuestAndSignUp: function( cb ) {
 
+			var self = this;
+			
 			if( !Parse.User.current() ) {
 				
 				this.showHomeView();
 				return ;
 					
+			}
+
+
+			if( typeof Parse.User.current().get("status") == typeof undefined ) {
+
+				Parse.User.current().save({
+					tos: false,
+					status: 'creation',
+					host: new HostModel({ type: "personal", rate: Parse.Config.current().get('PRICE_HOST_PRIVATE_PART') }),
+					type: 'host'
+				}).then(function() {
+					self.handleGuestAndSignUp(cb);
+				});
+
+				return ;
 			}
 
 			if( Parse.User.current().get("status") == "creation" ) {
