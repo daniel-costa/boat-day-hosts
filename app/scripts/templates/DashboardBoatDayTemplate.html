@@ -146,15 +146,17 @@
 					</div>
 					<% if( host.id == Parse.User.current().get('host').id ) { %>
 						<% if( active ) { %>
-						<div class="row">
-							<div class="col-xs-24 text-center">
-								<button class="btn btn-lg btn-danger btn-cancel">Cancel BoatDay</button>
+							<div class="row">
+								<div class="col-xs-24 text-center">
+									<button class="btn btn-lg btn-danger btn-cancel">Cancel BoatDay</button>
+								</div>
 							</div>
-						</div>
 						<% } else { %>
-							<!-- <div class="text-center btn-restore"><a href="#/boatday/<%= id %>">Restore BoatDay</a></div> -->
-							<!-- <a href="#/boatday/<%= id %>" class="btn btn-lg btn-primary">Restore BoatDay</a> -->
-							<button class="btn btn-lg btn-primary btn-restore">Restore Boatday</button>
+							<div class="row">
+								<div class="col-xs-24 text-center">
+									<button class="btn btn-lg btn-primary btn-duplicate">Duplicate</button>
+								</div>
+							</div>
 						<% } %>
 					<% } %>
 				</div>

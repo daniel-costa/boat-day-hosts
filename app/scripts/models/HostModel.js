@@ -74,7 +74,7 @@ define([
 		isPhoneValid: function(phone) {
 			
 			var phoneNumberPattern = /^\(?([0-9]{3})\)?([ .-]?)([0-9]{3})([ .-]?)([0-9]{4})$/;
-   			return phoneNumberPattern.test(phone);
+   			return phoneNumberPattern.test(phone.trim());
 
 		},
 
@@ -118,6 +118,10 @@ define([
 				type: 'model-validation'
 			};
 
+			if( attributes.status == 'creation' ) {
+				// if the status is creation is because we are trying to update user field and not submitting the form.
+				return ;
+			}
 			// Global fields
 
 			if( !attributes.phone ) {

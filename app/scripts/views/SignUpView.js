@@ -104,7 +104,10 @@ define([
 
 			var userSignUpSuccess = function() {
 
-				Parse.history.navigate('dashboard', true);
+				Parse.User.current().get('host').save({ user: Parse.User.current() }).then(function() { 
+					Parse.history.navigate('dashboard', true);
+				});
+				
 
 			};
 

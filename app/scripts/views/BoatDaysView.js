@@ -18,7 +18,7 @@ define([
 			'mouseover .stars img': 'rateOver',
 			'mouseout .stars img': 'rateOut',
 			'click .stars img': 'rate',
-			'click .btn-restore': 'restoreBoatDay',
+			'click .btn-duplicate': 'duplicate',
 		},
 
 		requests: {},
@@ -39,46 +39,36 @@ define([
 			e.prevAll().attr('src', 'resources/star.png');
 		},
 
-		restoreBoatDay: function(event) {
+		duplicate: function(event) {
+
 			event.preventDefault();
-			var self = this;
-			var e = $(event.currentTarget);
-			var boatdayId = e.closest('.my-boatday').attr('data-id');
 
 			var query = new Parse.Query(Parse.Object.extend("BoatDay"));
-			query.get(boatdayId, {
-
-				success: function(boatDay) {
-
-			  		
-			  		console.log(boatDay.get('captain'));
-
-				  	new BoatDayModel({
-				  		status:'creation',
-				  		name: boatDay.get('name'), 
-				  		description: boatDay.get('description'),
-				  		date: boatDay.get('date'),
-				  		departureTime: boatDay.get('departureTime'),
-				  		arrivalTime: boatDay.get('arrivalTime'),
-				  		duration: boatDay.get('duration'), 
-				  		location: boatDay.get('location'),
-				  		locationText: boatDay.get('locationText'), 
-				  		availableSeats: boatDay.get('availableSeats'),
-				  		price: boatDay.get('price'),
-				  		bookingPolicy: boatDay.get('bookingPolicy'),
-				  		cancellationPolicy: boatDay.get('cancellationPolicy'),
-				  		category: boatDay.get('category'),
-				  		arrivalTime: boatDay.get('arrivalTime'), 
-					  	captain: boatDay.get('captain'),
-					  	boat: boatDay.get('boat'),
-					  	host: boatDay.get('host'), 
-					  	chatMessages: boatDay.get('chatMessages'), 
-					  	seatRequests: boatDay.get('seatRequests')
-				  	}).save().then(function(){
-				  		Parse.history.navigate('dashboard', true);
-				  	});
-				}
-
+			query.get($(event.currentTarget).closest('.my-boatday').attr('data-id')).then(function(boatDay) {
+			  	new BoatDayModel({
+			  		status:'creation',
+			  		name: boatDay.get('name'), 
+			  		description: boatDay.get('description'),
+			  		date: null,
+			  		departureTime: boatDay.get('departureTime'),
+			  		arrivalTime: boatDay.get('arrivalTime'),
+			  		duration: boatDay.get('duration'), 
+			  		location: boatDay.get('location'),
+			  		locationText: boatDay.get('locationText'), 
+			  		availableSeats: boatDay.get('availableSeats'),
+			  		price: boatDay.get('price'),
+			  		bookingPolicy: boatDay.get('bookingPolicy'),
+			  		cancellationPolicy: boatDay.get('cancellationPolicy'),
+			  		category: boatDay.get('category'),
+			  		arrivalTime: boatDay.get('arrivalTime'), 
+				  	captain: boatDay.get('captain'),
+				  	boat: boatDay.get('boat'),
+				  	host: boatDay.get('host'), 
+				  	chatMessages: boatDay.get('chatMessages'), 
+				  	seatRequests: boatDay.get('seatRequests')
+			  	}).save().then(function(bd){
+			  		Parse.history.navigate('boatday/'+bd.id, true);
+			  	});
 			});
 
 		},
@@ -147,7 +137,7 @@ define([
 
 			var queryBoatDaysOthers = new Parse.Query(BoatDayModel);
 			queryBoatDaysOthers.notEqualTo("status", 'complete');
-			
+			queryBoatDaysOthers.notEqualTo("status", 'creation');
 
 			var mainQuery = Parse.Query.or(queryBoatDaysComplete, queryBoatDaysOthers);
 			mainQuery.equalTo("host", Parse.User.current().get("host"));

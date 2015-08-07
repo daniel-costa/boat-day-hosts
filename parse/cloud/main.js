@@ -25,6 +25,30 @@ Parse.Cloud.define("fillFacebookEmails", function(request) {
 	}); 
 });
 
+Parse.Cloud.define("updateUserInHost", function(request, response) {
+
+	Parse.Cloud.useMasterKey();
+
+	var _users = [];
+
+	var _ = require('underscore');
+    var query = new Parse.Query(Parse.Object.extend('_User'));
+	query.equalTo('status', 'creation');
+	query.include('host');
+	query.find().then(function(users) {
+		_.each(users, function(user) {
+
+			if( typeof user.get('host').get('user') == typeof undefined ) {
+				user.get('host').save({ user: user });
+				_users.push(user);	
+			}
+
+		}); 
+		response.success(_users);
+	}); 
+
+});
+
 Parse.Cloud.define("registerDevice", function(request, response) {
 
 	Parse.Cloud.useMasterKey();

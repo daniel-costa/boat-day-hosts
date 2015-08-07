@@ -64,7 +64,7 @@ define([
 
 			// Todo change startDate by 0d after 11 Jul. 2015
 			this.$el.find('.date').datepicker({
-				startDate: '07/18/2015',
+				startDate: '0d',
 				autoclose: true
 			});
 

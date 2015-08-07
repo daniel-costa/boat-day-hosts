@@ -9,23 +9,27 @@ define([
 		template: _.template(TermsTemplate),
 
 		events: {
-			"submit form" : "acceptTerms",
-			"click .tos-list a": "showTos"
+			"submit form" : "acceptTerms"
 		},
 
 		theme: "account",
 
-		showTos: function(event) {
+		render: function(event) {
 			
-			event.preventDefault();
+			BaseView.prototype.render.call(this);
 
-			this.$el.find('.tos-list .active').removeClass('active');
-			var e = $(event.currentTarget);
+			var self = this;
+			
+			$.ajax({
+				type: 'GET',
+				url: Parse.Config.current().get('TOS_URL'),
+        		crossDomain: true,
+				success: function(data) {
+					self.$el.find('.tos').html(data);
+				}
+			});
 
-			e.parent().addClass('active');
-
-			this.$el.find('.text-item').hide();
-			this.$el.find('.text-item.'+e.attr('for')).show();
+			return this;
 		},
 
 		acceptTerms: function(event){
