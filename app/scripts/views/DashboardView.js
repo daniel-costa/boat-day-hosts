@@ -192,16 +192,20 @@ define([
 			var self = this;
 			var id = $(event.currentTarget).closest('.my-boatday').attr('data-id');
 			var boatday = self.boatdays[id];
+			
+			var cancelReason = $(event.currentTarget).closest('.my-boatday').find('[name="cancelReason"]').val();
 
-			if(self._in('cancelReason').val() == '') {
+			if(cancelReason == '') {
 				self.fieldError('cancelReason', 'Please indicate a reason');
 				return;
 			}
 
 			self.buttonLoader('...', $(event.currentTarget));
 
-			boatday.save({status: 'cancelled', cancelReason: self._in('cancelReason').val() }).then(function(boatday) {
+			boatday.save({status: 'cancelled', cancelReason: cancelReason }).then(function(boatday) {
 				
+				self.cleanForm();
+
 				boatday.relation('seatRequests').query().find().then(function(requests) {
 
 					_.each(requests, function(request) {
