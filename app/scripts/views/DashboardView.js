@@ -48,7 +48,7 @@ define([
 			event.preventDefault();
 
 			var query = new Parse.Query(Parse.Object.extend("BoatDay"));
-			query.get($(event.currentTarget).closest('.my-boatday').attr('data-id')).then(function() {
+			query.get($(event.currentTarget).closest('.my-boatday').attr('data-id')).then(function(boatDay) {
 			  	new BoatDayModel({
 			  		status:'creation',
 			  		name: boatDay.get('name'), 
@@ -70,7 +70,7 @@ define([
 				  	host: boatDay.get('host'), 
 				  	chatMessages: boatDay.get('chatMessages'), 
 				  	seatRequests: boatDay.get('seatRequests')
-			  	}).save().then(function(bd){
+			  	}).save().then(function(bd) {
 			  		Parse.history.navigate('boatday/'+bd.id, true);
 			  	});
 			});
@@ -286,13 +286,38 @@ define([
 			
 			var self = this;
 
-			//self.$el.find('.navbar-brand').text('Host Center');
 			self.$el.find('.left-navigation .menu-host-center').addClass('active');
 			self.$el.find('.left-navigation .menu-host-center').text('Host Center');
 			self.$el.find('.add-boat, .add-boatday, .my-boatdays, .my-boats, .my-requests').hide();
 
+			var queryBoats = new Parse.Query(BoatModel);
+			queryBoats.equalTo("host", Parse.User.current().get("host"));
+			queryBoats.ascending('name');
+			queryBoats.select("name", "buildYear", "type", "status"); 
 
-			var captainRequestsFetchSuccess = function(requests) {
+			var startingDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+
+			var queryBoatDaysHost = new Parse.Query(BoatDayModel);
+			queryBoatDaysHost.equalTo("host", Parse.User.current().get("host"));
+			queryBoatDaysHost.equalTo("status", "complete");
+			queryBoatDaysHost.greaterThanOrEqualTo("date", startingDate);
+
+			var queryBoatDaysCaptain = new Parse.Query(BoatDayModel);
+			queryBoatDaysCaptain.equalTo("captain", Parse.User.current().get("profile"));
+			queryBoatDaysCaptain.equalTo("status", "complete");
+			queryBoatDaysCaptain.greaterThanOrEqualTo("date", startingDate);
+			
+			var queryBoatDays = new Parse.Query.or(queryBoatDaysHost, queryBoatDaysCaptain);
+			queryBoatDays.ascending('date,departureTime');
+			queryBoatDays.include('boat');
+			queryBoatDays.include('captain');
+
+			var queryCaptainRequests = new Parse.Query(CaptainRequestModel);
+			queryCaptainRequests.ascending('createdAt');
+			queryCaptainRequests.equalTo('email', Parse.User.current().getEmail());
+			queryCaptainRequests.include('boat');
+			queryCaptainRequests.include('fromProfile');
+			queryCaptainRequests.find().then(function(requests) {
 
 				if(requests.length == 0) {
 					return;
@@ -318,38 +343,7 @@ define([
 				
 				self.$el.find('.my-requests').fadeIn();
 
-			};
-
-			var queryBoats = new Parse.Query(BoatModel);
-			queryBoats.equalTo("host", Parse.User.current().get("host"));
-			queryBoats.ascending('name');
-			queryBoats.select("name", "buildYear", "type", "status"); 
-			// queryBoats.find().then(boatsFetchSuccess);
-
-			var startingDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-
-			var queryBoatDaysHost = new Parse.Query(BoatDayModel);
-			queryBoatDaysHost.equalTo("host", Parse.User.current().get("host"));
-			queryBoatDaysHost.equalTo("status", "complete");
-			queryBoatDaysHost.greaterThanOrEqualTo("date", startingDate);
-
-			var queryBoatDaysCaptain = new Parse.Query(BoatDayModel);
-			queryBoatDaysCaptain.equalTo("captain", Parse.User.current().get("profile"));
-			queryBoatDaysCaptain.equalTo("status", "complete");
-			queryBoatDaysCaptain.greaterThanOrEqualTo("date", startingDate);
-			
-			var queryBoatDays = new Parse.Query.or(queryBoatDaysHost, queryBoatDaysCaptain);
-			queryBoatDays.ascending('date,departureTime');
-			queryBoatDays.include('boat');
-			queryBoatDays.include('captain');
-			// queryBoatDays.find().then(boatdaysFetchSuccess);
-
-			var queryCaptainRequests = new Parse.Query(CaptainRequestModel);
-			queryCaptainRequests.ascending('createdAt');
-			queryCaptainRequests.equalTo('email', Parse.User.current().getEmail());
-			queryCaptainRequests.include('boat');
-			queryCaptainRequests.include('fromProfile');
-			queryCaptainRequests.find().then(captainRequestsFetchSuccess);
+			});
 
 			Parse.Promise.when(queryBoats.find(), queryBoatDays.find()).then(function(boats, boatdays) {
 
@@ -457,7 +451,6 @@ define([
 
 							if( requests.length == 0 ) {
 
-								
 								self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .box-requests .info').html('<p class="empty"><em>All requests for this BoatDay will be listed here, including confirmed, pending and denied Guests.</em></p>');
 								
 								if( boatday.get('host').id == Parse.User.current().get('host').id ) {
@@ -493,7 +486,6 @@ define([
 						self.fetchChat(boatday);
 
 						setInterval(function() { self.fetchChat(boatday) }, 10000);
-
 						
 					});
 

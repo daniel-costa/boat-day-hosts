@@ -22,7 +22,7 @@ define([
 			
 			$.ajax({
 				type: 'GET',
-				url: Parse.Config.current().get('TOS_URL'),
+				url: 'app-tos.html',
         		crossDomain: true,
 				success: function(data) {
 					self.$el.find('.tos').html(data);

@@ -19,7 +19,7 @@ define([
 			city: null,
 			zipCode: null,
 			state: null,
-			country: "USA",
+			country: "US",
 
 			businessName: null,
 			businessEin: null,
