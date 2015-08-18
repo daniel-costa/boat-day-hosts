@@ -80,11 +80,6 @@ define([
 
 			var baseStatus = this.model.get('status');
 
-			var trim =  function(x) {
-				return x.replace(/\s+/g, '');
-			};
-
-
 			var data = {
 				user: Parse.User.current(),
 				profile: Parse.User.current().get('profile'),
@@ -95,8 +90,8 @@ define([
 				zipCode: this._in('zipCode').val(),
 				state: this._in('state').val(), 
 				accountHolder: this._in('accountHolder').val(),
-				accountNumber: trim(this._in('accountNumber').val()),
-				accountRouting: trim(this._in('accountRouting').val()),
+				accountNumber: this._in('accountNumber').val().trim().replace(/\s+/g, ''),
+				accountRouting: this._in('accountRouting').val().trim().replace(/\s+/g, ''),
 				firstname: this._in('firstname').val(),
 				lastname: this._in('lastname').val(),
 				birthdate: new Date(this._in('birthdateYear').val(), this._in('birthdateMonth').val()-1, this._in('birthdateDay').val()),
