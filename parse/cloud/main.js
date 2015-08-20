@@ -441,7 +441,7 @@ Parse.Cloud.afterSave("Host", function(request) {
 					"email": host.get('user').get('email'),
 					"product_description": "BoatDay Host",
 					"statement_descriptor": "BoatDay App",
-					// "support_phone": host.get('phone'), -> it is public, be carefull
+					// "support_phone": host.get('phone'), // -> it is public, be carefull
 
 					"tos_acceptance[ip]": "83.83.83.83",
 					"tos_acceptance[date]": parseInt(new Date().getTime() / 1000),
@@ -690,42 +690,108 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 
 				Parse.Config.get().then(function(config) {
 
-					var seats = seatRequest.get('seats');
-					var priceSeat = boatday.get('price');
-					var ts_fee = config.get('TRUST_AND_SAFETY_FEE');
-					var isCharter = host.get('type') == 'business';
-					var guestShare = isCharter ? config.get('PRICE_GUEST_CHARTER_PART') : config.get('PRICE_GUEST_PRIVATE_PART');
-					var guestFee = Math.ceil(priceSeat / (1 - guestShare)) - priceSeat;
-					var priceSeatTotal = priceSeat + guestFee + ts_fee;
-					var priceTotal = priceSeatTotal * seats;
+					var payCancellation = function(data) {
 
-					seatRequest.get('card').fetch().then(function(card) {
-						
-						var Stripe = require('stripe');
+						seatRequest.get('card').fetch().then(function(card) {
 
-						Stripe.initialize(config.get('STRIPE_SECRET_KEY'));
+							var guestShare = host.get('type') == 'business' ? config.get('PRICE_GUEST_CHARTER_PART') : config.get('PRICE_GUEST_PRIVATE_PART');
+							var guestFee = Math.ceil(boatday.get('price') / (1 - guestShare)) - boatday.get('price');
 
-						// var desc = seatRequest.id;
+							var priceSeatTotal = boatday.get('price') + guestFee - ( seatRequest.get('bdDiscountPerSeat') + data.promoCodeSeat );
+							var priceTotal = priceSeatTotal * seatRequest.get('seats') - ( seatRequest.get('bdDiscount') + data.promoCode );
 
-						// Stripe.Charges.create({
-						// 	amount: priceTotal * 100,
-						// 	currency: "usd",
-						// 	customer: card.get('stripeId'),
-						// 	// description: desc
-						// },{
-						// 	success: function(httpResponse) {
-						// 		seatRequest.save({ 
-						// 			cancelled:true,
-						// 			contribution: priceTotal,
-						// 			≠: true,
-						// 		});
-						// 	},
-						// 	error: function(httpResponse) {
-						// 		console.log(httpResponse);
-						// 		console.log("##### Uh oh, something went wrong");
-						// 	}
-						// });
-					});
+							var chargedAmount = config.get('TRUST_AND_SAFETY_FEE') * seatRequest.get('seats');
+
+							// console.log("data=");
+							// console.log(data);
+							// console.log("price="+boatday.get('price'));
+							// console.log("bdDiscountPerSeat="+seatRequest.get('bdDiscountPerSeat'));
+							// console.log("bdDiscount="+seatRequest.get('bdDiscount') );
+							// console.log("guestShare="+guestShare);
+							// console.log("guestFee="+guestFee);
+							// console.log("priceSeatTotal="+priceSeatTotal);
+							// console.log("priceTotal="+priceTotal);
+							// console.log("chargedAmount="+chargedAmount);
+
+							var _d = new Date(boatday.get('date'));
+							var baseDate = new Date(_d.getFullYear(), _d.getMonth(), _d.getDate(), 0, 0, 0, 0);
+
+							if( boatday.get('cancellationPolicy') == 'flexible' ) {
+
+								console.log("** flexible **");
+
+								var maxTime = baseDate.getTime() - 1 * 24 * 3600000;
+
+								if( new Date().getTime() > maxTime ) {
+									chargedAmount += priceTotal;
+								}
+
+							} else if( boatday.get('cancellationPolicy') == 'moderate' ) {
+								
+								console.log("** moderate **");
+								
+								var maxTime = baseDate.getTime() - 3 * 24 * 3600000;
+
+								if( new Date().getTime() > maxTime ) {
+									chargedAmount += priceTotal;
+								}
+
+							} else if( boatday.get('cancellationPolicy') == 'strict' ) {
+
+								console.log("** strict **");
+
+								var maxTime = baseDate.getTime() - 5 * 24 * 3600000;
+
+								if( new Date().getTime() > maxTime ) {
+									chargedAmount += priceTotal;
+								} else {
+									chargedAmount += priceTotal * 0.5;
+								}
+
+							}	
+
+
+							console.log('** Cancellation amount: '+ chargedAmount);
+
+							var Stripe = require('stripe');
+							Stripe.initialize(config.get('STRIPE_SECRET_KEY'));
+
+							var desc = seatRequest.id;
+							Stripe.Charges.create({
+								amount: chargedAmount * 100,
+								currency: "usd",
+								customer: card.get('stripeId'),
+								statement_descriptor: 'BoatDay App',
+								description: 'BoatDay cancellation for ' + seatRequest.get('seats') + ' seat' + ( seatRequest.get('seats') == 1 ? '' : 's' )
+							}, {
+								success: function(httpResponse) {
+									seatRequest.save({ 
+										cancelled: true,
+										contribution: chargedAmount,
+										contributionPaid: true,
+									});
+								},
+								error: function(httpResponse) {
+									console.log(httpResponse);
+									console.log("##### Uh oh, something went wrong");
+								}
+							});
+						});
+					};
+					
+					if( seatRequest.get('promoCode') ) {
+						seatRequest.get('promoCode').fetch().then(function(coupon) {
+							payCancellation({
+								promoCodeSeat: coupon.get('perSeat') ? coupon.get('discount') : 0,
+								promoCode: coupon.get('perSeat') ? 0 : coupon.get('discount')
+							});
+						});
+					} else {
+						payCancellation({
+							promoCodeSeat: 0,
+							promoCode: 0
+						});
+					}
 				});
 			});
 		}

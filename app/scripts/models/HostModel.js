@@ -51,22 +51,22 @@ define([
 			certCCL: null,
 			certStatusCCL: "pending",
 			certResponseCCL: null,
-			
-			certMCL: null,
-			certStatusMCL: "pending",
-			certResponseMCL: null,
+
+			certFAC: null,
+			certStatusFAC: "pending",
+			certResponseFAC: null,
 			
 			certFL: null,
 			cerStatustFL: "pending",
 			certResponseFL: null,
 
+			certMCL: null,
+			certStatusMCL: "pending",
+			certResponseMCL: null,
+			
 			certSL: null,
 			cerStatustSL: "pending",
 			certResponseSL: null,
-
-			certFAC: null,
-			certStatusFAC: "pending",
-			certResponseFAC: null,
 
 			notificationSent: false,
 		},

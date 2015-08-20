@@ -379,11 +379,9 @@ define([
 						var q = boat.relation('boatPictures').query();
 						q.ascending('order');
 						q.first().then(function(fileholder) {
-
 							if( fileholder ) {
 								self.$el.find('.my-boats .my-boat-'+boat.id+' .picture').css({ backgroundImage: 'url('+fileholder.get('file').url()+')' });
 							}
-
 						});
 					});
 
