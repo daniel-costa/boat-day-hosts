@@ -7,7 +7,9 @@
 				<p class="date"><%= date %> at <%= time %></p>
 				<h1><%= name %></h1>
 				<!-- <p class="sub"><%= boatName %> / <%= boatType %> / <%= duration %> hour<%= duration != 1 ? 's' : '' %></p> -->
+				<a href="#/boatdayOverview/<%= id %>" style="color:white;">Overview</a>
 			</div>
+
 
 			<!-- <a class="boatday-share share boatday-box-open" data-target=".box-share"><span class="glyphicon glyphicon-share-alt"></span></a> -->
 
@@ -57,6 +59,9 @@
 					</div>
 				</div>
 			<% } %>
+
+
+
 		</div>
 		<div class="box box-details">
 			<div class="header">

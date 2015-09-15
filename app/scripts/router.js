@@ -24,12 +24,13 @@ define([
 	'views/BoatDaysView', 
 	'views/HelpCenterView',
 	'views/CertificationsView',
-	'views/NotificationsView'
+	'views/NotificationsView',
+	'views/BoatDayOverview'
 ], function(
 	ReportModel, BoatModel, BoatDayModel, HelpCenterModel, NotificationModel, ProfileModel, HostModel,
 	ReportView, HomeView, ForgotPasswordView, ResetPasswordView, InvalidLinkView, PasswordChangedView, 
 	DashboardView, TermsView, SignUpView, HostView, ProfileView, AccountView, BoatView, 
-	BoatDayView, BoatDaysView, HelpCenterView, CertificationsView, NotificationsView) {
+	BoatDayView, BoatDaysView, HelpCenterView, CertificationsView, NotificationsView, BoatDayOverview) {
 	
 	var AppRouter = Parse.Router.extend({
 
@@ -54,6 +55,7 @@ define([
 			'help-center': 'showHelpCenterView',
 			'help-center/:category': 'showHelpCenterView',
 			'report/:id': 'showReportView',
+			'boatdayOverview/:boatdayid' : 'showBoatDayOverview',
 			'*actions': 'showDashboardView'
 		},
 
@@ -363,6 +365,33 @@ define([
 
 
 		},
+
+
+		showBoatDayOverview: function( boatdayid ) {
+			var self = this;
+			var cb = function() {
+				
+				if( boatdayid ) {
+
+					var boatDayOverviewSuccess = function(boatday){
+						self.render(new BoatDayOverview({model: boatday}));
+					};
+
+					var boatDayOverviewError = function(error){
+						console.log(error);
+					};
+
+					new Parse.Query(BoatDayModel).get(boatdayid).then(boatDayOverviewSuccess, boatDayOverviewError);
+				
+				} else {
+					console.log("Error in getting boatday id");
+				}
+
+			};
+
+			this.handleGuestAndSignUp(cb);
+		},
+
 
 		render: function(view) {
 

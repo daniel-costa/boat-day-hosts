@@ -1,0 +1,36 @@
+<div class="container-fluid add-block" style="margin-bottom:10px;">	
+	<div class="row heading">
+		<div class="col-sm-16 col-sm-offset-2">
+			<a href="#" class="trigger">QUESTIONS - </a>
+			<span class="new-question-count"> <%= unAnsweredQuestions.length %> new</span>
+		</div>
+		<div class="col-sm-5 text-right">
+			<img src="resources/down-arrow.png">
+		</div>
+	</div>
+
+
+
+	<div class="boatday-question" style="display:none;">
+
+		<% if(toatalQuestions < 1) { %>
+		<div class="text-center">
+			<h4>No questions yet!</h4>
+		</div>
+		<% } %>
+		<!-- -->
+		<div class="new-question-list">
+
+		</div>
+
+		<div class="old-question-list">
+			
+		</div>	
+		<!-- -->
+
+	</div>
+
+
+
+
+</div>

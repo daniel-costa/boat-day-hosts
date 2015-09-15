@@ -1,0 +1,53 @@
+<div class="row new-question-row">
+
+	<div class="row container-fluid">
+		<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1 profile">
+			<div class="inner text-center">
+					<div class="obj-thumb profile-picture" data-id="<%= from.id %>" style="background-image:url(<%= from.get("profilePicture").url() %>)"></div>
+			</div>
+		</div>
+		<div class="cell col-sm-18 col-md-19 col-lg-20">
+			<div class="inner">
+				<strong><%= from.get("displayName") %></strong> has a question regarding 
+				<strong>"<%= boatday.get("name") %>"</strong>
+			</div>
+			<div class="inner">
+				<%= question.get("question") %>
+			</div>
+		</div>
+	</div>
+
+	<div class="clear"></div>
+
+	<div class="row container-fluid" style="margin-top:20px;">
+		<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1 profile">
+			<div class="inner text-center">
+					<div class="obj-thumb profile-picture" data-id="<%= profile.id %>" style="background-image:url(<%= profile.get("profilePicture").url() %>)"></div>
+			</div>
+		</div>
+		<div class="cell col-sm-18 col-md-19 col-lg-20 boatday-question-form" data-id="<%= question.id %>">
+			<form id="<%= question.id %>">
+				<div class="inner">
+					<div class="form-group">
+						<textarea name="answer-<%= question.id %>" class="form-control" rows="3" required="required" placeholder="Your answer"></textarea>
+					</div>
+				</div>
+
+				<div class="inner">
+					<div class="form-group" style="margin-top:10px;">
+						<input type="checkbox" id="makePublic-<%= question.id %>" name="makePublic-<%= question.id %>" >
+						<label class="control-label" for="makePublic-<%= question.id %>">Make question and answer visible to anyone who opens the BoatDay on the app.</label>
+
+						<button type="submit" class="btn btn-primary submit-answer" name="submit-answer-<%= question.id %>" style="margin-left:10px;">
+							Send
+						</button>
+
+						<div class="display-messages text-center"></div>
+
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</div>
