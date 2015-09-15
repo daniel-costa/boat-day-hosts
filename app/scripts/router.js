@@ -25,20 +25,13 @@ define([
 	'views/HelpCenterView',
 	'views/CertificationsView',
 	'views/NotificationsView',
-<<<<<<< HEAD
-	'views/BoatDayOverview'
-=======
-	'views/HostBankAccountView',
->>>>>>> 3fcd50f597731f00e8a10b31b57ed2d14f496d35
+	'views/BoatDayOverview',
+	'views/HostBankAccountView'
 ], function(
 	ReportModel, BoatModel, BoatDayModel, HelpCenterModel, NotificationModel, ProfileModel, HostModel, 
 	ReportView, HomeView, ForgotPasswordView, ResetPasswordView, InvalidLinkView, PasswordChangedView, 
-	DashboardView, TermsView, SignUpView, HostView, ProfileView, AccountView, BoatView, 
-<<<<<<< HEAD
-	BoatDayView, BoatDaysView, HelpCenterView, CertificationsView, NotificationsView, BoatDayOverview) {
-=======
-	BoatDayView, BoatDaysView, HelpCenterView, CertificationsView, NotificationsView, HostBankAccountView) {
->>>>>>> 3fcd50f597731f00e8a10b31b57ed2d14f496d35
+	DashboardView, TermsView, SignUpView, HostView, ProfileView, AccountView, BoatView, BoatDayView, 
+	BoatDaysView, HelpCenterView, CertificationsView, NotificationsView, BoatDayOverview, HostBankAccountView) {
 	
 	var AppRouter = Parse.Router.extend({
 

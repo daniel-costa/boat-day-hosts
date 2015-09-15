@@ -838,6 +838,8 @@ define([
 
 				var cb = function(modal) {
 					
+					alert(2);
+
 					var cancelReason = modal.find('[name="cancelReason"]').val();
 					console.log(modal);
 					console.log(cancelReason);
@@ -858,7 +860,13 @@ define([
 					closeButton: true,
 					cancelButton: true,
 					yesButtonText: "Continue",
-					yesCb: cb
+					yesCb: cb,
+					yesCbValidation: function(modal){
+
+						alert(1);
+
+						return false;
+					}
 				});
 
 			},
