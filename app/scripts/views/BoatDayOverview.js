@@ -12,8 +12,8 @@ define([
 	'text!templates/BoatDayOverviewQuestionsTemplate.html',
 	'text!templates/BoatDayOverviewCancelTemplate.html',
 	'text!templates/BoatDayOverviewRescheduleTemplate.html',
-	'text!templates/DashboardBoatDayMessageTemplate.html',
-	'text!templates/NotificationTemplate.html',
+	'text!templates/BoatDayOverviewChatMessageTemplate.html',
+	'text!templates/BoatDayOverviewBoookingRowTemplate.html',
 	'text!templates/BoatDayNewQuestionRowTemplate.html',
 	'text!templates/BoatDayOldQuestionRowTemplate.html'
 	], function(
@@ -30,8 +30,8 @@ define([
 		BoatDayOverviewQuestionsTemplate, 
 		BoatDayOverviewCancelTemplate, 
 		BoatDayOverviewRescheduleTemplate, 
-		DashboardBoatDayMessageTemplate,
-		NotificationTemplate,
+		BoatDayOverviewChatMessageTemplate,
+		BoatDayOverviewBoookingRowTemplate,
 		BoatDayNewQuestionRowTemplate,
 		BoatDayOldQuestionRowTemplate
 		){
@@ -531,7 +531,10 @@ define([
 					//console.log(notification.get("request").get("status"));
 
 					if(notification.get("request").get("status") == "pending"){
-						self.$el.find('.notification-list').append(_.template(NotificationTemplate)(data));
+
+						console.log("Appending notification template");
+
+						self.$el.find('.notification-list').append(_.template(BoatDayOverviewBoookingRowTemplate)(data));
 					}
 
 				}
@@ -837,26 +840,42 @@ define([
 				var self = this;
 
 				var cb = function(modal) {
-					
-					var cancelReason = modal.find('[name="cancelReason"]').val();
-					//console.log(modal);
-					//console.log(cancelReason);
 
-					//self.submitCancelBoatDay(cancelReason);
+					var field = modal.find('[name="cancelReason"]');
+					var cancelReason = field.val();
+					
+					var btn = modal.find('.btn-yes');
+
+					btn.html("Cancelling...");
+
+					self.submitCancelBoatDay(cancelReason);
 				};
 
 				var modalValidation = function(modal){
 
-					console.log(modal);
+					var field = modal.find('[name="cancelReason"]');
+					var cancelReason = field.val();
+					var errorField = modal.find('.display-messages');
 					
-					return false;
+					if(cancelReason.length < 1){
 
+						field.closest('.form-group').addClass("has-error");
+						errorField.html("Please write the reason.");
+
+						return false;
+					}
+
+					else{
+
+						return true;
+					}
 				};
 
 				var modalBody = '<div class="form-group">'+
 									'<label control-label">Reason</label>'+
-									'<textarea name="cancelReason" class="form-control" rows="5" required="required" placeholder="Cancellations negatively affect user’s BoatDay experience and may lead to poor reviews from your Guests.  Be sure to tell Guests the reason for your cancellation."></textarea>'+
-								'</div>';
+									'<textarea name="cancelReason" class="form-control" rows="5" placeholder="Cancellations negatively affect user’s BoatDay experience and may lead to poor reviews from your Guests.  Be sure to tell Guests the reason for your cancellation."></textarea>'+
+								'</div>'+
+								'<div class="display-messages text-center"></div>';
 
 
 				this.modal({
@@ -1225,7 +1244,7 @@ define([
 			appendMessage: function(boatdayId, message) {
 
 				var self = this;
-				var tpl = _.template(DashboardBoatDayMessageTemplate);
+				var tpl = _.template(BoatDayOverviewChatMessageTemplate);
 
 				var _tpl = tpl({
 					profile: message.get('profile'),

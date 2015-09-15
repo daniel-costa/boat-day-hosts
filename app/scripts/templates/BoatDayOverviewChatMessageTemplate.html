@@ -1,0 +1,11 @@
+<div class="line <%= profile.id == Parse.User.current().get('profile').id ? 'me' : '' %>">
+	<div class="profile-picture" data-id="<%= profile.id %>" style="background-image:url(<%= profile.get('profilePicture').url() %>)"></div>
+	<div class="text">
+		<div class="speech-bubble">
+			<p><%= message.get('message') %></p>
+		</div>
+	</div>
+	<div class="clear">
+		<p style="color:#aaa;font-size:0.75em;<%= profile.id == Parse.User.current().get('profile').id ? 'text-align:right;' : '' %>"><%= self.dateParseToDisplayDate(message.createdAt) %></p>
+	</div>
+</div>
