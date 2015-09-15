@@ -154,7 +154,7 @@ define([
 
 			if(opts.noCb) {
 				_modal.find('.btn-no').click(function () {
-					if( opts.noCbValidation && !opts.noCbValidation() ) {
+					if( opts.noCbValidation && !opts.noCbValidation(_modal) ) {
 						return ;
 					}
 					_exec = opts.noCb;
@@ -165,7 +165,7 @@ define([
 
 			if(opts.yesCb) {
 				_modal.find('.btn-yes').click(function () {
-					if( opts.yesCbValidation && !opts.yesCbValidation() ) {
+					if( opts.yesCbValidation && !opts.yesCbValidation(_modal) ) {
 						return ;
 					}
 					_exec = opts.yesCb;
