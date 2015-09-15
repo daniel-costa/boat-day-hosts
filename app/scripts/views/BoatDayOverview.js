@@ -838,13 +838,19 @@ define([
 
 				var cb = function(modal) {
 					
-					alert(2);
-
 					var cancelReason = modal.find('[name="cancelReason"]').val();
-					console.log(modal);
-					console.log(cancelReason);
-					var cancelReason = "Some test reason.";
+					//console.log(modal);
+					//console.log(cancelReason);
+
 					//self.submitCancelBoatDay(cancelReason);
+				};
+
+				var modalValidation = function(modal){
+
+					console.log(modal);
+					
+					return false;
+
 				};
 
 				var modalBody = '<div class="form-group">'+
@@ -861,12 +867,7 @@ define([
 					cancelButton: true,
 					yesButtonText: "Continue",
 					yesCb: cb,
-					yesCbValidation: function(modal){
-
-						alert(1);
-
-						return false;
-					}
+					yesCbValidation: modalValidation
 				});
 
 			},
@@ -1229,6 +1230,7 @@ define([
 				var _tpl = tpl({
 					profile: message.get('profile'),
 					message: message,
+					self: self
 				});
 
 				self.$el.find('.dashboard-canvas .boatday-overview-group-chat .boatday-group-chat-form .box-messages .info > .inner').append(_tpl);
