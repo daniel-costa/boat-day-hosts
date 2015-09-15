@@ -5,9 +5,7 @@
 			<p><%= message.get('message') %></p>
 		</div>
 	</div>
-	<div class="clear"></div>
+	<div class="clear">
+		<p style="color:#aaa;font-size:0.75em;<%= profile.id == Parse.User.current().get('profile').id ? 'text-align:right;' : '' %>"><%= self.dateParseToDisplayDate(message.createdAt) %></p>
+	</div>
 </div>
-
-<style>
-
-</style>

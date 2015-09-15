@@ -150,11 +150,13 @@ define([
 
 			var _modal = $(self.modalTpl(params));
 			var _exec = null;
+			var _dissmised = true; // define if it's a normal dissmis or a user dissmis
 
 			if(opts.noCb) {
 				_modal.find('.btn-no').click(function () {
 					_exec = opts.noCb;
 					_modal.modal('hide');
+					_dissmised = false;
 				});	
 			}
 
@@ -162,12 +164,16 @@ define([
 				_modal.find('.btn-yes').click(function () {
 					_exec = opts.yesCb;
 					_modal.modal('hide');
+					_dissmised = false;
 				});
 			}
-			
+
 			_modal.on('hidden.bs.modal', function() {
 				if( _exec ) 
-					_exec();
+					_exec(_modal);
+				
+				if( _dissmised && opts.cancelCb )
+					opts.cancelCb(_modal);
 
 				_modal.remove();
 			});

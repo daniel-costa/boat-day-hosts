@@ -24,12 +24,13 @@ define([
 	'views/BoatDaysView', 
 	'views/HelpCenterView',
 	'views/CertificationsView',
-	'views/NotificationsView'
+	'views/NotificationsView',
+	'views/HostBankAccountView',
 ], function(
-	ReportModel, BoatModel, BoatDayModel, HelpCenterModel, NotificationModel, ProfileModel, HostModel,
+	ReportModel, BoatModel, BoatDayModel, HelpCenterModel, NotificationModel, ProfileModel, HostModel, 
 	ReportView, HomeView, ForgotPasswordView, ResetPasswordView, InvalidLinkView, PasswordChangedView, 
 	DashboardView, TermsView, SignUpView, HostView, ProfileView, AccountView, BoatView, 
-	BoatDayView, BoatDaysView, HelpCenterView, CertificationsView, NotificationsView) {
+	BoatDayView, BoatDaysView, HelpCenterView, CertificationsView, NotificationsView, HostBankAccountView) {
 	
 	var AppRouter = Parse.Router.extend({
 
@@ -50,6 +51,7 @@ define([
 			'my-profile': 'showProfileView',
 			'my-certifications': 'showCertificationsView',
 			'my-notifications': 'showNotificationsView',
+			'my-bank-account': 'showHostBankAccountView',
 			'my-boatdays': 'showBoatDaysView',
 			'help-center': 'showHelpCenterView',
 			'help-center/:category': 'showHelpCenterView',
@@ -288,6 +290,18 @@ define([
 			var cb = function() {
 
 				self.render(new HelpCenterView({ model: new HelpCenterModel({ category: category }) }));
+
+			};
+
+			this.handleGuestAndSignUp(cb);
+		}, 
+
+		showHostBankAccountView: function(category) {
+			
+			var self = this;
+			var cb = function() {
+
+				self.render(new HostBankAccountView());
 
 			};
 

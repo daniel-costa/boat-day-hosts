@@ -63,9 +63,6 @@ define([
 				this._in('street').val('9861 SW 117th Ct');
 				this._in('city').val('Miami');
 				this._in('zipCode').val('98613');
-				this._in('accountHolder').val('Daniel Costa');
-				this._in('accountNumber').val('1039531801');
-				this._in('accountRouting').val('324377516');
 			}
 		},
 
@@ -89,9 +86,6 @@ define([
 				city: this._in('city').val(),
 				zipCode: this._in('zipCode').val(),
 				state: this._in('state').val(), 
-				accountHolder: this._in('accountHolder').val(),
-				accountNumber: this._in('accountNumber').val().trim().replace(/\s+/g, ''),
-				accountRouting: this._in('accountRouting').val().trim().replace(/\s+/g, ''),
 				firstname: this._in('firstname').val(),
 				lastname: this._in('lastname').val(),
 				birthdate: new Date(this._in('birthdateYear').val(), this._in('birthdateMonth').val()-1, this._in('birthdateDay').val()),

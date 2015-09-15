@@ -1,4 +1,75 @@
 
+Parse.Cloud.define("updateHostBankAccount", function(request, response) {
+
+	var hostId = request.params.host;
+	var accountHolder = request.params.accountHolder;
+	var accountNumber = request.params.accountNumber;
+	var accountRouting = request.params.accountRouting;
+		
+	Parse.Config.get().then(function(config) {
+		
+		var host = new Parse.Query(Parse.Object.extend('Host'));
+		host.include('user');
+		host.get(hostId).then(function(host) {
+
+			var data = {
+				"managed": true,
+				"country": "US",
+				"default_currency": "usd",
+				"email": host.get('user').get('email'),
+				"product_description": "BoatDay Host",
+				"statement_descriptor": "BoatDay App",
+				"tos_acceptance[ip]": "83.83.83.83",
+				"tos_acceptance[date]": parseInt(new Date().getTime() / 1000),
+				"tos_acceptance[user_agent]": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/600.4.8 (KHTML, like Gecko) Version/8.0.3 Safari/600.4.8",
+				"legal_entity[type]": host.get('type') == 'business' ? "company" : "individual",
+				"legal_entity[first_name]": host.get('firstname'),
+				"legal_entity[last_name]": host.get('lastname'),
+				"legal_entity[address][line1]": host.get('street'),
+				"legal_entity[address][city]": host.get('city'),
+				"legal_entity[address][state]": host.get('state'),
+				"legal_entity[address][postal_code]": host.get('zipCode'),
+				"legal_entity[address][country]": host.get('country'),
+				"legal_entity[dob][day]": new Date(host.get('birthdate')).getDate(),
+				"legal_entity[dob][month]": new Date(host.get('birthdate')).getMonth() + 1,
+				"legal_entity[dob][year]": new Date(host.get('birthdate')).getFullYear(),
+				"external_account[object]": "bank_account",
+				"external_account[country]": "US",
+				"external_account[currency]": "USD",
+				"external_account[account_number]": accountNumber,
+				"external_account[routing_number]": accountRouting,
+			};
+
+			if( host.get('businessName') ) {
+				data["legal_entity[business_name]"] = host.get('businessName');
+			}
+
+			Parse.Cloud.httpRequest({
+				method : 'POST',
+				url : 'https://api.stripe.com/v1/accounts',
+				headers : {
+					Authorization : "Bearer " + config.get('STRIPE_SECRET_KEY')
+				},
+				body : data,
+				success : function(httpResponse) {
+					host.save({ 
+						accountHolder: accountHolder,
+						accountNumber: accountNumber,
+						accountRouting: accountRouting,
+						stripeId: httpResponse.data.id,
+						// stripeResponse: httpResponse.data // Do not store because it is too dangerous if someone sees the public/private keys
+					}).then(function() {
+						response.success();
+					});
+				},
+				error : function(httpResponse) {
+					response.error(httpResponse.data.error.message);
+				}
+			});
+		});
+	});
+});
+
 Parse.Cloud.define("attachUserProfileToInstallation", function(request, response) {
 
 	Parse.Cloud.useMasterKey();
@@ -186,71 +257,6 @@ Parse.Cloud.afterSave("Host", function(request) {
 		});
 	}
 
-	if( host.get('status') != 'creation' &&  !host.get('stripeId') ) {
-
-		Parse.Config.get().then(function(config) {
-			host.get('user').fetch().then(function() {
-
-				var data = {
-					"managed": true,
-					"country": "US",
-					"default_currency": "usd",
-					
-					"email": host.get('user').get('email'),
-					"product_description": "BoatDay Host",
-					"statement_descriptor": "BoatDay App",
-					// "support_phone": host.get('phone'), // -> it is public, be carefull
-
-					"tos_acceptance[ip]": "83.83.83.83",
-					"tos_acceptance[date]": parseInt(new Date().getTime() / 1000),
-					"tos_acceptance[user_agent]": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/600.4.8 (KHTML, like Gecko) Version/8.0.3 Safari/600.4.8",
-					
-					"legal_entity[type]": host.get('type') == 'business' ? "company" : "individual",
-					"legal_entity[first_name]": host.get('firstname'),
-					"legal_entity[last_name]": host.get('lastname'),
-					"legal_entity[address][line1]": host.get('street'),
-					"legal_entity[address][city]": host.get('city'),
-					"legal_entity[address][state]": host.get('state'),
-					"legal_entity[address][postal_code]": host.get('zipCode'),
-					"legal_entity[address][country]": host.get('country'),
-
-					"legal_entity[dob][day]": new Date(host.get('birthdate')).getDate(),
-					"legal_entity[dob][month]": new Date(host.get('birthdate')).getMonth() + 1,
-					"legal_entity[dob][year]": new Date(host.get('birthdate')).getFullYear(),
-
-					"external_account[object]": "bank_account",
-					"external_account[country]": "US",
-					"external_account[currency]": "USD",
-					// "external_account[routing_number]": "110000000",
-					// "external_account[account_number]": "000123456789",
-					"external_account[routing_number]": host.get('accountRouting'),
-					"external_account[account_number]": host.get('accountNumber'),
-				};
-
-				if( host.get('businessName') ) {
-					data["legal_entity[business_name]"] = host.get('businessName');
-				}
-
-				Parse.Cloud.httpRequest({
-					method : 'POST',
-					url : 'https://api.stripe.com/v1/accounts',
-					headers : {
-						Authorization : "Bearer " + config.get('STRIPE_SECRET_KEY')
-					},
-					body : data,
-					success : function(httpResponse) {
-						host.save({ 
-							stripeId: httpResponse.data.id,
-							// stripeResponse: httpResponse.data // Do not store because it is too dangerous if someone sees the public/private keys
-						});
-					},
-					error : function(httpResponse) {
-						console.log(httpResponse);
-					}
-				});
-			});
-		});
-	}
 });
 
 Parse.Cloud.afterSave("HelpCenter", function(request) {
@@ -600,13 +606,18 @@ Parse.Cloud.afterSave("ChatMessage", function(request) {
 
 		new Parse.Query(Parse.Object.extend('BoatDay')).get(message.get('boatday').id).then(function(boatday) {
 
+			console.log(123);
 			boatday.relation('chatMessages').add(message);
+
+			console.log(123);
 			boatday.save().then(function() {
 
-				// Notify host				
+				// Notify host		
 				new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
+
 					if( message.get('profile').id != host.get('profile').id ) {
 						console.log('** Notify Host ***');
+
 						new Notification().save({
 							action: 'boatday-message',
 							fromTeam: false,
@@ -633,12 +644,18 @@ Parse.Cloud.afterSave("ChatMessage", function(request) {
 					}
 				});
 
+				console.log(123);
 
 				// Notify Users approved
-				var query = boatday.relation('seatRequests').query();
+				var query = new Parse.Query(Parse.Object.extend('SeatRequest'));
 				query.equalTo('status', 'approved');
-				query.notEqualTo('profile', message.get('profile').id);
+				query.equalTo('boatday', boatday);
+				query.notEqualTo('profile', message.get('profile'));
 				query.find().then(function(requests) {
+
+					console.log("got requests")
+					console.log(requests);
+
 					_.each(requests, function(request) {
 						console.log('** Notify User ***');
 						new Notification().save({
@@ -650,6 +667,49 @@ Parse.Cloud.afterSave("ChatMessage", function(request) {
 							boatday: boatday,
 							sendEmail: false
 						});
+					});
+
+				}, function(error) {
+					console.log('123 ww')
+					console.log(error)
+				});
+
+			}, function(error) {
+				console.log('123 xx')
+				console.log(error);
+			});
+
+		});
+
+	}
+
+});
+
+Parse.Cloud.afterSave("Question", function(request) {
+	
+	var question = request.object;
+	var Notification = Parse.Object.extend('Notification');
+	var _ = require('underscore');
+
+	if( question.get('addToBoatDay') ) {
+
+		new Parse.Query(Parse.Object.extend('BoatDay')).get(question.get('boatday').id).then(function(boatday) {
+
+			boatday.relation('questions').add(question);
+			boatday.save().then(function() {
+
+				question.save({ addToBoatDay: false });
+
+				// Notify host				
+				new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
+					new Notification().save({
+						action: 'boatday-question',
+						fromTeam: false,
+						message: null,
+						to: host.get('profile'),
+						from: question.get('from'),
+						boatday: boatday,
+						sendEmail: true
 					});
 				});
 

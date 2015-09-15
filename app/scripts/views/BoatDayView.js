@@ -375,6 +375,26 @@ define([
 			var self = this;
 			var baseStatus = this.model.get('status');
 
+			if( self.$el.find('[name="bookingPolicy"]:checked').val() == 'automatically' && ( typeof Parse.User.current().get('host').get('stripeId') === typeof undefined || !Parse.User.current().get('host').get('stripeId') ) ) {
+
+				this.modal({
+					title: 'How you get paid!',
+					body: 'To automatically confirm Guests with “Instant Book", you must first provide a payment account (its how Guests pay you!)<br/><br/>Don’t worry, this information is NEVER shared with other Users. ',
+					noButton: false,
+					cancelButtonText: 'Change Booking Policy',
+					yesButtonText: 'Add Payment Account',
+					yesCb: function() {
+						Parse.history.navigate('my-bank-account', true);
+					},
+					cancelCb: function() {
+						self.buttonLoader();
+						self.$el.find('[name="bookingPolicy"][value="manually"]').prop("checked", true);
+					},
+				});
+
+				return;
+			}
+
 			var data = {
 				status: 'complete',
 				boat: self.collectionBoats ? self.collectionBoats[this._in('boat').val()] : null,
