@@ -147,6 +147,23 @@ define([
 		seatChangeStatus: function(event, status) {
 			
 			event.preventDefault();
+
+			if( typeof Parse.User.current().get('host').get('stripeId') === typeof undefined || !Parse.User.current().get('host').get('stripeId') ) {
+				
+				this.modal({
+					title: 'How you get paid!',
+					body: 'To confirm Guests on-board your BoatDay, you must first provide a payment account (its how Guests pay you!)<br/><br/>Don’t worry, this information is NEVER shared with other Users.',
+					noButton: false,
+					cancelButtonText: 'Do it later',
+					yesButtonText: 'Add Payment Account',
+					yesCb: function() {
+						Parse.history.navigate('my-bank-account', true);
+					}
+				});
+
+				return;
+			}
+
 			var self = this;
 			var boatdayId = $(event.currentTarget).closest('.my-boatday').attr("data-id");
 			var requestId = $(event.currentTarget).closest('.request').attr("data-id");
@@ -573,6 +590,7 @@ define([
 			var _tpl = tpl({
 				profile: message.get('profile'),
 				message: message,
+				self: self
 			});
 
 			self.$el.find('.my-boatdays .my-boatday-'+boatdayId+' .box-messages .info > .inner').append(_tpl);

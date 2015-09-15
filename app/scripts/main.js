@@ -61,7 +61,11 @@ require.config({
 require(['parse', 'router', 'views/AppView', 'bootstrap', 'datepicker', 'slider', 'fb', 'twitter', 'gapi'], function(Parse, AppRouter, AppView) {
 	
 	Parse.initialize("LCn0EYL8lHOZOtAksGSdXMiHI08jHqgNOC5J0tmU", "kXeZHxlhpWhnRdtg7F0Cdc6kvuGHVtDlnSZjfxpU"); // QA LCn0E...
+//<<<<<<< HEAD
 	//Parse.initialize("8YpQsh2LwXpCgkmTIIncFSFALHmeaotGVDTBqyUv", "FaULY8BIForvAYZwVwqX4IAmfsyxckikiZ2NFuEp"); //HP
+//=======
+	// Parse.initialize("8YpQsh2LwXpCgkmTIIncFSFALHmeaotGVDTBqyUv", "FaULY8BIForvAYZwVwqX4IAmfsyxckikiZ2NFuEp"); //HP
+//>>>>>>> 3fcd50f597731f00e8a10b31b57ed2d14f496d35
 
 	var cb = function() {
 		new AppRouter();

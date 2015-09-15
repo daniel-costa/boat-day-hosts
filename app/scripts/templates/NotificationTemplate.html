@@ -10,8 +10,9 @@
 	</div>
 	<div class="cell col-xs-12 col-sm-14 col-md-13 col-lg-15">
 		<div class="inner">
+
 			<% if( bd  ) { %>
-				<strong>BoatDay Team:</strong>
+				<strong>BoatDay Team</strong>
 			<% } else { %>
 				<strong><%= sender.get("displayName") %></strong>
 			<% }  %>
@@ -41,11 +42,15 @@
 			<% } %>
 
 			<% if( action == "boatday-review" ) { %>
-				<%= sender.displayName %> just left you a review.
+				just left you a review.
+			<% } %>
+
+			<% if( action == "boatday-question" ) { %>
+				just asked a question for your BoatDay <%= boatdayName %>.
 			<% } %>
 			
 			<% if( action == "boatday-message" ) { %>
-				<%= sender.displayName %> just sent you a message regarding <%= boatdayName %>.
+				just sent you a message regarding <%= boatdayName %>.
 			<% } %>
 
 			<% if( action == "boatday-payment" ) { %>
@@ -53,12 +58,14 @@
 			<% } %>
 			
 			<% if( action == "boatday-request" ) { %>
-				<%= sender.displayName %> has requested <%= seats %> seat(s) on your BoatDay <%= boatdayName %>.
+				has requested <%= seats %> seat(s) on your BoatDay <%= boatdayName %>.
 			<% } %>
 
 			<% if( action == "bd-message" ) { %>
 				<%= message %>
 			<% } %>
+
+			<em style="color: #aaa;"><%= self.dateParseToDisplayDate(notification.createdAt) %></em>
 		</div>
 	</div>
 	<div class="cell col-xs-12 col-sm-6 col-md-7 col-lg-6">

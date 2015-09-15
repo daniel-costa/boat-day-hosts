@@ -54,8 +54,9 @@ define([
 				
 				notification.get('boatday').increment('bookedSeats', notification.get('request').get('seats'));
 				notification.get('boatday').save();
-		
+			
 				new NotificationModel().save({
+					notification: notification,
 					action: 'request-approved',
 					fromTeam: false,
 					message: null,
@@ -119,6 +120,8 @@ define([
 				self.notifications[notification.id] = notification;
 
 				var data = {
+					self: self,
+					notification: notification,
 					id: notification.id,
 					bd: notification.get("fromTeam"),
 					action: notification.get("action"),

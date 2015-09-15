@@ -11,7 +11,8 @@ define([
 			accountHolder: null,
 			accountNumber: null,
 			accountRouting: null,
-
+			stripeId: null,
+			
 			rate: 0.15,
 			coupon: null,
 
@@ -28,6 +29,7 @@ define([
 			lastname: null, 
 			birthdate: null,
 			SSN: null,
+
 			//for boatDay cms
 			bgCheck:null, 
 			bgCheckDate: null, 
@@ -83,25 +85,6 @@ define([
 			var emailPattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     		return emailPattern.test(email);
 
-		},
-
-		isRoutingNumberValid: function(n) {
-
-			n = n && n.match(/\d/g) ? n.match(/\d/g).join('') : 0;
-			
-			var c = 0, isValid = false;
-
-			if (n && n.length == 9){//don't waste energy totalling if its not 9 digits
-			
-				for (var i = 0; i < n.length; i += 3) {
-					c += parseInt(n.charAt(i), 10) * 3 +  parseInt(n.charAt(i + 1), 10) * 7 +  parseInt(n.charAt(i + 2), 10);
-				}
-			
-				isValid = c != 0 && c % 10 == 0;
-			
-			}
-
-			return isValid;
 		},
 
 		isBusinessEIN: function(ein) {
@@ -163,19 +146,6 @@ define([
 			if( attributes.businessEin && !this.isBusinessEIN(attributes.businessEin) ) {
 				_return.fields.businessEin = 'The EIN number must be in a valid 9 digit format.';
 			}	
-
-			// Payment
-			if( !attributes.accountHolder ) {
-				_return.fields.accountHolder = 'Oops, you missed one!';
-			}
-
-			if( !attributes.accountNumber ) {
-				_return.fields.accountNumber = 'Oops, you missed one!';
-			}
-
-			if( !this.isRoutingNumberValid(attributes.accountRouting) ) {
-				_return.fields.accountRouting = 'Oops, you missed one! Please enter a valid 9 digit routing number.';
-			}
 
 			if( _.size(_return.fields) > 0 ) {
 				return _return;
