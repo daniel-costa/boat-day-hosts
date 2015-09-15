@@ -154,6 +154,9 @@ define([
 
 			if(opts.noCb) {
 				_modal.find('.btn-no').click(function () {
+					if( opts.noCbValidation && !opts.noCbValidation() ) {
+						return ;
+					}
 					_exec = opts.noCb;
 					_modal.modal('hide');
 					_dissmised = false;
@@ -162,6 +165,9 @@ define([
 
 			if(opts.yesCb) {
 				_modal.find('.btn-yes').click(function () {
+					if( opts.yesCbValidation && !opts.yesCbValidation() ) {
+						return ;
+					}
 					_exec = opts.yesCb;
 					_modal.modal('hide');
 					_dissmised = false;
