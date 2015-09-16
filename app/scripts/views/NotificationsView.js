@@ -51,25 +51,23 @@ define([
 			self.buttonLoader('...', $(event.currentTarget));
 
 			notification.get('request').save({ status: 'approved' }).then(function() {
-				
 				notification.get('boatday').increment('bookedSeats', notification.get('request').get('seats'));
-				notification.get('boatday').save();
-			
-				new NotificationModel().save({
-					notification: notification,
-					action: 'request-approved',
-					fromTeam: false,
-					message: null,
-					to: notification.get('request').get('profile'),
-					from:  Parse.User.current().get('profile'),
-					boatday: notification.get('boatday'),
-					sendEmail: false,
-					request: notification.get('request')
-				}).then(function() {
-					self.buttonLoader();
-					self.render();
+				notification.get('boatday').save().then(function() {
+					new NotificationModel().save({
+						notification: notification,
+						action: 'request-approved',
+						fromTeam: false,
+						message: null,
+						to: notification.get('request').get('profile'),
+						from:  Parse.User.current().get('profile'),
+						boatday: notification.get('boatday'),
+						sendEmail: false,
+						request: notification.get('request')
+					}).then(function() {
+						self.buttonLoader();
+						self.render();
+					});
 				});
-
 			});
 
 		},	

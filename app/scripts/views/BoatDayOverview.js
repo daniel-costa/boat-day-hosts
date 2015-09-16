@@ -527,55 +527,11 @@ define([
 				target.append(_tpl);
 
 				self.displayNewBookingCount(self.collectionPendingSeatRequests.length);
-				var gotNotification = function(notification) {
-
-					self.notifications[notification.id] = notification;
-
-					var data = {
-						id: notification.id,
-						bd: notification.get("fromTeam"),
-						action: notification.get("action"),
-						boatId: notification.get("boat") ? notification.get("boat").id : null,
-						boatName: notification.get("boat") ? notification.get("boat").get('name') : null,
-						boatdayId: notification.get("boatday") ? notification.get("boatday").id : null,
-						boatdayName: notification.get("boatday") ? notification.get("boatday").get('name') : null,
-						message: notification.get("message") ? notification.get("message").replace(/\n/g, "<br>") : '',
-						sender: notification.get("from"),
-						read:  notification.get("read"),
-						// requestId: request.id,
-						// amount: request.get('contribution'),
-						// seats: request.get('seats')
-						requestId: notification.id,
-						amount: notification.get('request') ? notification.get('request').get('contribution') : null,
-						seats: notification.get('request') ? notification.get('request').get('seats') : null,
-						requestStatus: notification.get('request') ? notification.get('request').get('status') : null,
-						request: notification.get('request'),
-					};
-
-					//console.log(notification.get("request").get("status"));
-
-					if(notification.get("request").get("status") == "pending"){
-
-						//console.log("Appending notification template");
-
-						self.$el.find('.pending-list').append(_.template(BoatDayOverviewBoookingRowTemplate)(data));
-					}
-
-				}
-
-				var query = new Parse.Query(NotificationModel);
-				query.descending('createdAt');
-				query.equalTo("to", Parse.User.current().get("profile"));
-				query.equalTo("boatday", boatday),
-				query.equalTo("action", "boatday-request"),
-				query.include('from');
-				query.include('boat');
-				query.include('boatday');
-				query.include('request');
 
 				var query = new Parse.Query(Parse.Object.extend('SeatRequest'));
 				query.equalTo('boatday', this.model);
 				query.include('profile');
+				query.include('boatday');
 				query.find().then(function(matches){
 					
 					if(matches.length > 0) {
@@ -586,14 +542,8 @@ define([
 
 						self.requests[request.id] = request;
 
-						var data = {
-							request: request,
-						};
-
 						if( request.get("status") == "pending" ){
-							console.log(1)
-							console.log(data);
-							self.$el.find('.pending-list').append(_.template(BoatDayOverviewBoookingRowTemplate)(data));
+							self.$el.find('.pending-list').append(_.template(BoatDayOverviewBoookingRowTemplate)({ request: request }));
 						}
 
 					});
@@ -619,28 +569,30 @@ define([
 
 				request.save({ status: 'approved' }).then(function() {
 
+					alert(request.get('seats'));
+					alert(request.get('boatday').get('bookedSeats'));
 					request.get('boatday').increment('bookedSeats', request.get('seats'));
-					request.get('boatday').save();
+					request.get('boatday').save().then(function() {
+						alert(request.get('boatday').get('bookedSeats'))
+						new NotificationModel().save({
+							action: 'request-approved',
+							fromTeam: false,
+							message: null,
+							to: request.get('profile'),
+							from:  Parse.User.current().get('profile'),
+							boatday: request.get('boatday'),
+							sendEmail: false,
+							request: request
+						}).then(function() {
 
-					new NotificationModel().save({
-						action: 'request-approved',
-						fromTeam: false,
-						message: null,
-						to: request.get('profile'),
-						from:  Parse.User.current().get('profile'),
-						boatday: request.get('boatday'),
-						sendEmail: false,
-						request: request
-					}).then(function() {
-
-						self.model.fetch().then(function(object){
-							self.buttonLoader();
-							self.model = object;
-							self.render();
+							self.model.fetch().then(function(object) {
+								self.buttonLoader();
+								self.model = object;
+								self.render();
+							});
+							
 						});
-						
 					});
-
 				});
 
 			},	
