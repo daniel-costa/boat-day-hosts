@@ -569,8 +569,8 @@ define([
 
 				request.save({ status: 'approved' }).then(function() {
 
-					alert(request.get('seats'));
-					alert(request.get('boatday').get('bookedSeats'));
+					//alert(request.get('seats'));
+					//alert(request.get('boatday').get('bookedSeats'));
 					request.get('boatday').increment('bookedSeats', request.get('seats'));
 					request.get('boatday').save().then(function() {
 						alert(request.get('boatday').get('bookedSeats'))
