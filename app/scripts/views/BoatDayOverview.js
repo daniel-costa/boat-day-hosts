@@ -16,25 +16,7 @@ define([
 	'text!templates/BoatDayOverviewBoookingRowTemplate.html',
 	'text!templates/BoatDayNewQuestionRowTemplate.html',
 	'text!templates/BoatDayOldQuestionRowTemplate.html'
-	], function(
-		gmaps, 
-		BaseView, 
-		BoatDayModel, 
-		ChatMessageModel, 
-		NotificationModel, 
-		BoatDayOverviewTemplate, 
-		BoatDayOverviewInfoTemplate, 
-		BoatDayOverviewEditTemplate, 
-		BoatDayOverviewGroupChatTemplate, 
-		BoatDayOverviewBookingTemplate, 
-		BoatDayOverviewQuestionsTemplate, 
-		BoatDayOverviewCancelTemplate, 
-		BoatDayOverviewRescheduleTemplate, 
-		BoatDayOverviewChatMessageTemplate,
-		BoatDayOverviewBoookingRowTemplate,
-		BoatDayNewQuestionRowTemplate,
-		BoatDayOldQuestionRowTemplate
-		){
+	], function(gmaps, BaseView, BoatDayModel, ChatMessageModel, NotificationModel, BoatDayOverviewTemplate, BoatDayOverviewInfoTemplate, BoatDayOverviewEditTemplate, BoatDayOverviewGroupChatTemplate, BoatDayOverviewBookingTemplate, BoatDayOverviewQuestionsTemplate, BoatDayOverviewCancelTemplate, BoatDayOverviewRescheduleTemplate, BoatDayOverviewChatMessageTemplate, BoatDayOverviewBoookingRowTemplate, BoatDayNewQuestionRowTemplate, BoatDayOldQuestionRowTemplate){
 
 		var BoatdayOveviewView = BaseView.extend({
 
@@ -71,7 +53,7 @@ define([
 
 			collectionCaptains: {},
 
-			notifications: {},
+			requests: {},
 
 			collectionSeatRequests: {},
 
@@ -159,7 +141,7 @@ define([
 				var qChatMessage = new Parse.Query(ChatMessage);
 				qChatMessage.equalTo("boatday", this.model);
 
-				//console.log("Host Last Read: "  + boatday.get("hostLastRead"));
+				//console.log("Host Last Read: " + boatday.get("hostLastRead"));
 				
 				if(typeof boatday.get('hostLastRead') !== "undefined"){
 					qChatMessage.greaterThan("createdAt", boatday.get("hostLastRead"));
@@ -354,9 +336,7 @@ define([
 						var ctn = self.$el.find('.map').get(0);
 						self._map = new google.maps.Map(ctn, opts);
 
-
-						google.maps.event.addListener(self._map, "idle", function(){
-							// self._map.setCenter(opts.center);
+						google.maps.event.addListener(self._map, "idle", function() {
 							google.maps.event.trigger(self._map, 'resize');
 						}); 
 
@@ -502,7 +482,6 @@ define([
 				target.append(_tpl);
 
 				self.displayNewBookingCount(self.collectionPendingSeatRequests.length);
-
 				var gotNotification = function(notification) {
 
 					self.notifications[notification.id] = notification;
@@ -549,13 +528,30 @@ define([
 				query.include('boatday');
 				query.include('request');
 
+				var query = new Parse.Query(Parse.Object.extend('SeatRequest'));
+				query.equalTo('boatday', this.model);
+				query.include('profile');
 				query.find().then(function(matches){
-					/*
+					
 					if(matches.length > 0) {
 						self.$el.find('.notification-list').show();
 					}
-					*/
-					_.each(matches, gotNotification);
+					
+					_.each(matches, function(request) {
+
+						self.requests[request.id] = request;
+
+						var data = {
+							request: request,
+						};
+
+						if( request.get("status") == "pending" ){
+							console.log(1)
+							console.log(data);
+							self.$el.find('.notification-list').append(_.template(BoatDayOverviewBoookingRowTemplate)(data));
+						}
+
+					});
 					
 				});
 
@@ -571,33 +567,33 @@ define([
 				event.preventDefault();
 
 				var self = this;			
-				var notification = self.notifications[$(event.currentTarget).attr("data-id")];
+
+				var request = self.requests[$(event.currentTarget).attr("data-id")];
 
 				self.buttonLoader('...', $(event.currentTarget));
 
-				notification.get('request').save({ status: 'approved' }).then(function() {
+				request.save({ status: 'approved' }).then(function() {
 
-					notification.get('boatday').increment('bookedSeats', notification.get('request').get('seats'));
-					notification.get('boatday').save();
+					request.get('boatday').increment('bookedSeats', request.get('seats'));
+					request.get('boatday').save();
 
 					new NotificationModel().save({
 						action: 'request-approved',
 						fromTeam: false,
 						message: null,
-						to: notification.get('request').get('profile'),
+						to: request.get('profile'),
 						from:  Parse.User.current().get('profile'),
-						boatday: notification.get('boatday'),
+						boatday: request.get('boatday'),
 						sendEmail: false,
-						request: notification.get('request')
+						request: request
 					}).then(function() {
-						self.buttonLoader();
-						
 
 						self.model.fetch().then(function(object){
+							self.buttonLoader();
 							self.model = object;
+							self.render();
 						});
-
-						self.render();
+						
 					});
 
 				});
@@ -609,29 +605,29 @@ define([
 				event.preventDefault();
 
 				var self = this;
-				var notification = self.notifications[$(event.currentTarget).attr("data-id")];
+				var request = self.requests[$(event.currentTarget).attr("data-id")];
 
 				self.buttonLoader('...', $(event.currentTarget));
 
-				notification.get('request').save({ status: 'denied' }).then(function() {
+				request.save({ status: 'denied' }).then(function() {
 
 					new NotificationModel().save({
 						action: 'request-denied',
 						fromTeam: false,
 						message: null,
-						to: notification.get('request').get('profile'),
+						to: request.get('profile'),
 						from:  Parse.User.current().get('profile'),
-						boatday: notification.get('boatday'),
+						boatday: request.get('boatday'),
 						sendEmail: false,
-						request: notification.get('request')
+						request: request
 					}).then(function() {
-						self.buttonLoader();
 						
 						self.model.fetch().then(function(object){
+							self.buttonLoader();
 							self.model = object;
+							self.render();
 						});
 
-						self.render();
 					});
 
 				});
