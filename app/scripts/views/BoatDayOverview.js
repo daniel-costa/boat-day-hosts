@@ -380,9 +380,9 @@ define([
 						var ctn = self.$el.find('.map').get(0);
 						self._map = new google.maps.Map(ctn, opts);
 
-						google.maps.event.addListenerOnce(map, "idle", function(){
+						google.maps.event.addListenerOnce(self._map, "idle", function(){
 							google.maps.event.trigger(self._map, 'resize');
-							self._map.setCenter(center);
+							self._map.setCenter(latlng);
 						}); 
 
 						google.maps.event.addListener(self._map, 'click', function(event) {
@@ -676,6 +676,8 @@ define([
 					var answeredQuestions = [];
 
 					_.each(questions, function(question){
+
+							self.collectionQuestions[question.id] = question;
 							
 							if((question.get("answer") == null) || question.get("answer") == ""){
 								unAnsweredQuestions.push(question);
@@ -744,24 +746,27 @@ define([
 					return;
 				}
 
-				
+				var question = self.collectionQuestions[id];
 
-				var Question = Parse.Object.extend("Question");
-				var question = new Question();
-				question.set("answer", answer);
-				question.id = id;
-				question.save(null, {
-					success: function(question){
-						console.log("Save success");
-						self.buttonLoader();
+				question.save({"answer": answer}).then(function(){
+
+					console.log(question.get('from'));
+					
+					new NotificationModel().save({
+						action: 'boatday-answer',
+						fromTeam: false,
+						boatday: self.model,
+						message: null,
+						to: question.get('from'),
+						from:  Parse.User.current().get('profile'),
+						boatday: question.get('boatday'),
+						sendEmail: false
+					}).then(function(){
 						self.render();
-					},
-					error: function(error){
-						console.log("Saving error");
-						self.buttonLoader();
-						self.render();
-					}
+					});
 				});
+
+				
 
 			},
 

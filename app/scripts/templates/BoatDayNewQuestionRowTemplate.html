@@ -1,6 +1,6 @@
 <div class="row new-question-row">
 
-	<div class="row container-fluid">
+	<div class="row">
 		<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1 profile">
 			<div class="inner text-center">
 					<div class="obj-thumb profile-picture" data-id="<%= from.id %>" style="background-image:url(<%= from.get("profilePicture").url() %>)"></div>
@@ -17,9 +17,8 @@
 		</div>
 	</div>
 
-	<div class="clear"></div>
 
-	<div class="row container-fluid" style="margin-top:20px;">
+	<div class="row" style="margin-top:5px;">
 		<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1 profile">
 			<div class="inner text-center">
 					<div class="obj-thumb profile-picture" data-id="<%= profile.id %>" style="background-image:url(<%= profile.get("profilePicture").url() %>)"></div>
@@ -35,8 +34,20 @@
 
 				<div class="inner">
 					<div class="form-group" style="margin-top:10px;">
-						<input type="checkbox" id="makePublic-<%= question.id %>" name="makePublic-<%= question.id %>" >
-						<label class="control-label" for="makePublic-<%= question.id %>">Make question and answer visible to anyone who opens the BoatDay on the app.</label>
+						<label class="control-label">
+							This question is 
+							<% 
+							if(question.get('public') == true){
+								%>
+								public.
+							<%}
+							if(question.get('public') == false){
+								%>
+								private.
+							<%}
+
+							%>
+						</label>
 
 						<button type="submit" class="btn btn-primary submit-answer" name="submit-answer-<%= question.id %>" style="margin-left:10px;">
 							Send

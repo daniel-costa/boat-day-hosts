@@ -7,7 +7,7 @@
 				<p class="date"><%= date %> at <%= time %></p>
 				<h1><%= name %></h1>
 				<!-- <p class="sub"><%= boatName %> / <%= boatType %> / <%= duration %> hour<%= duration != 1 ? 's' : '' %></p> -->
-				<a href="#/boatdayOverview/<%= id %>" style="color:white;">Overview</a>
+				
 			</div>
 
 
@@ -25,8 +25,20 @@
 				</p>
 			<% } %>
 		</div>
-		<div class="info">
-			<div class="<%= active ? 'col-xs-8' : 'col-xs-12' %> boatday-box-open" data-target=".box-details">
+
+		<div class="info" style="height:120px;">
+
+			<div class="inner">
+					<img src="resources/ico-info.png" />
+					<div class="inner hidden-xs">
+						<a href="#/boatday-overview/<%= id %>">Overview</a>
+					</div>
+			</div>
+
+			
+			<!-- 
+
+				<div class="<%= active ? 'col-xs-8' : 'col-xs-12' %> boatday-box-open" data-target=".box-details">
 				<div class="inner">
 					<img src="resources/ico-info.png" />
 					<div class="inner hidden-xs">
@@ -59,11 +71,12 @@
 					</div>
 				</div>
 			<% } %>
-
+		-->
 
 
 		</div>
-		<div class="box box-details">
+		<!-- 
+					<div class="box box-details">
 			<div class="header">
 				<h1>Details</h1>
 				<img src="resources/dashboard-box-close.png" class="boatday-box-close" />
@@ -192,6 +205,7 @@
 				<input type="text" class="form-control" name="message" placeholder="(press enter to send message)" />
 			</div>
 		</div>
+		-->
 		<!-- <div class="box box-share">
 			<div class="header">
 				<h1>Share BoatDay</h1>

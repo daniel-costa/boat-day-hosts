@@ -130,6 +130,7 @@ define([
 					message: notification.get("message") ? notification.get("message").replace(/\n/g, "<br>") : '',
 					sender: notification.get("from"),
 					read:  notification.get("read"),
+					boatdayStatus: notification.get('boatday').get('status'),
 					// requestId: request.id,
 					// amount: request.get('contribution'),
 					// seats: request.get('seats')
@@ -139,6 +140,9 @@ define([
 					requestStatus: notification.get('request') ? notification.get('request').get('status') : null,
 					request: notification.get('request'),
 				};
+
+
+				
 
 				self.$el.find('.notification-list').append(_.template(NotificationTemplate)(data));
 

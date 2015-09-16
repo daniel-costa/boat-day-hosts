@@ -57,7 +57,7 @@ define([
 			'help-center': 'showHelpCenterView',
 			'help-center/:category': 'showHelpCenterView',
 			'report/:id': 'showReportView',
-			'boatdayOverview/:boatdayid' : 'showBoatDayOverview',
+			'boatday-overview/:boatdayid' : 'showBoatDayOverview',
 			'*actions': 'showDashboardView'
 		},
 

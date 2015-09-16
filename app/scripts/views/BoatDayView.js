@@ -153,7 +153,7 @@ define([
 					var ctn = self.$el.find('.map').get(0);
 					self._map = new google.maps.Map(ctn, opts);
 
-					google.maps.event.addListenerOnce(map, "idle", function(){
+					google.maps.event.addListenerOnce(self._map, "idle", function(){
 						google.maps.event.trigger(self._map, 'resize');
 						self._map.setCenter(center);
 					}); 

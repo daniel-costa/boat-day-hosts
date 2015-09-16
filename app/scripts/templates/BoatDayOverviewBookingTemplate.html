@@ -1,7 +1,7 @@
 <div style="margin-bottom:10px;">
 	<div class="container-fluid">	
 		<div class="row heading">
-			<div class="col-sm-8 text-left pull-left">
+			<div class="col-sm-20 text-left pull-left">
 				<a href="#" class="trigger">BOOKING REQUESTS - </a>
 				<span class="new-booking-count"> 0 new</span>
 			</div>
@@ -51,8 +51,9 @@
 									style="background-image:url(<%= request.get('profile').get('profilePicture').url() %>)">
 									</div>
 								</div>
-								<div class="inner">			
+								<div class="inner text-center">			
 									<strong><%= request.get('profile').get('displayName') %></strong>
+									<span style="display:block;"><%= request.get('seats') %> seat(s)</span>
 								</div>
 							</div>
 						<% }); %>
@@ -69,8 +70,9 @@
 									style="background-image:url(<%= request.get('profile').get('profilePicture').url() %>)">
 									</div>
 								</div>
-								<div class="inner">			
+								<div class="inner text-center">			
 									<strong><%= request.get('profile').get('displayName') %></strong>
+									<span style="display:block;"><%= request.get('seats') %> seat(s)</span>
 								</div>
 							</div>
 						<% }); %>
@@ -86,8 +88,18 @@
 								style="background-image:url(<%= request.get('profile').get('profilePicture').url() %>)">
 								</div>
 							</div>
-							<div class="inner">			
+							<div class="inner text-center">			
 								<strong><%= request.get('profile').get('displayName') %></strong>
+								<span style="display:block;">
+									<% if(request.get('status') == "cancelled-host"){
+									%>
+									by Host	
+									<%} if(request.get('status') == "cancelled-guest") {
+									%>
+									by Guest
+									<%
+									}%> 
+								</span>
 							</div>
 						</div>
 						<% }); %>
