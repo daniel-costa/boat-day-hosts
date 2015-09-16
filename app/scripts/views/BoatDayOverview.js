@@ -532,7 +532,7 @@ define([
 
 					if(notification.get("request").get("status") == "pending"){
 
-						console.log("Appending notification template");
+						//console.log("Appending notification template");
 
 						self.$el.find('.notification-list').append(_.template(BoatDayOverviewBoookingRowTemplate)(data));
 					}
