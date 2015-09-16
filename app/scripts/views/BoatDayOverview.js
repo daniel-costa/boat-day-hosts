@@ -558,7 +558,7 @@ define([
 
 						//console.log("Appending notification template");
 
-						self.$el.find('.notification-list').append(_.template(BoatDayOverviewBoookingRowTemplate)(data));
+						self.$el.find('.pending-list').append(_.template(BoatDayOverviewBoookingRowTemplate)(data));
 					}
 
 				}
