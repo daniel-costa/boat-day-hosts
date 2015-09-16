@@ -1,36 +1,37 @@
-<div class="container-fluid add-block" style="margin-bottom:10px;">	
-	<div class="row heading">
-		<div class="col-sm-16 col-sm-offset-2">
-			<a href="#" class="trigger">QUESTIONS - </a>
-			<span class="new-question-count"> <%= unAnsweredQuestions.length %> new</span>
-		</div>
-		<div class="col-sm-5 text-right">
-			<img src="resources/down-arrow.png">
+<div style="margin-bottom:10px;">
+	
+	<div class="container-fluid">	
+		<div class="row heading">
+			<div class="col-sm-8 text-left pull-left">
+				<a href="#" class="trigger">QUESTIONS - </a>
+				<span class="new-question-count"> <%= unAnsweredQuestions.length %> new</span>
+			</div>
+			<div class="col-sm-4 text-right pull-right">
+				<img src="resources/down-arrow.png">
+			</div>
 		</div>
 	</div>
 
+	<div class="row boatdayoverview-row-details">
 
+		<div class="boatday-question boatday-overview-row-hidden">
 
-	<div class="boatday-question" style="display:none;">
+			<% if(toatalQuestions < 1) { %>
+			<div class="text-center" style="padding-bottom:20px;">
+				<h4>No questions yet!</h4>
+			</div>
+			<% } %>
+			<!-- -->
+			<div class="new-question-list">
 
-		<% if(toatalQuestions < 1) { %>
-		<div class="text-center">
-			<h4>No questions yet!</h4>
+			</div>
+
+			<div class="old-question-list">
+				
+			</div>	
+			<!-- -->
+
 		</div>
-		<% } %>
-		<!-- -->
-		<div class="new-question-list">
-
-		</div>
-
-		<div class="old-question-list">
-			
-		</div>	
-		<!-- -->
-
 	</div>
-
-
-
 
 </div>

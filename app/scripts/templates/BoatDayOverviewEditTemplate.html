@@ -1,578 +1,573 @@
+<div style="margin-bottom:10px;">
 
-<div class="container-fluid add-block" style="margin-bottom:10px;">	
+	<div class="container-fluid">	
 
-	<div class="row heading">
-		<div class="col-sm-16 col-sm-offset-2" style="color: #69878c;">
-			<a href="#" class="trigger">EDIT BOATDAY DETAILS</a>
-		</div>
-		<div class="col-sm-5 text-right">
-			<img src="resources/down-arrow.png">
+		<div class="row overview-row">
+			<div class="col-sm-6 text-left pull-left">
+				<a href="#" class="trigger">BOATDAY DETAILS</a>
+			</div>
+			<div class="col-sm-6 text-right pull-right">
+				<img src="resources/down-arrow.png">
+			</div>
 		</div>
 	</div>
 
-	<div class="boatday-edit-form" style="display:none;">
-		<form class="form-horizontal" name="edit-form">
-
-			
-			<div class="row">
-				<div class="col-sm-20 col-sm-offset-2">
-					<div class="form-group">
-						<label for="name" class="control-label">BoatDay Name</label>
-						<div>
-							<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="Give a fun name to your BoatDay">
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-sm-20 col-sm-offset-2">
-					Boatday photos
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<label for="boat" class="control-label">Select Boat</label>
-						<div class="boats">
-							<em>Loading...</em>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<label for="captain" class="control-label">Select Captain</label>
-						<div class="captains">
-							<em>Loading...</em>
-						</div>
-					</div>
-				</div>
-			</div>
-
-
-			<div class="row">
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<label for="availableSeats" class="control-label">Available Seats</label>
-						<label class="preview-availableSeats control-label pull-right"></label>
-						<div>
-							<input type="text" class="form-control" id="availableSeats" name="availableSeats" data-slider-min="2" data-slider-max="15" data-slider-step="1" data-slider-value="<%= availableSeats ? availableSeats : 8 %>">
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<label for="date" class="control-label">
-							Date
-							<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="Saturday July 18th is the first available day for BoatDay outings.  This ensures Guests have plenty of time to see and book your BoatDays before you set sail."></span>
-						</label>
-						<div>
-							<input type="text" class="form-control date select-styles" placeholder="mm/dd/yyyy" id="date" name="date" />
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<label for="departureTime" class="control-label">Departure Time</label>
-						<label class="preview-departureTime control-label pull-right"></label>
-						<div>
-							<input type="text" class="form-control" id="departureTime" name="departureTime" data-slider-min="0" data-slider-max="23.5" data-slider-step="0.5" data-slider-value="<%= departureTime ? departureTime : 9 %>">
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<label for="duration" class="control-label">
-							Duration
-							<a href="https://www.boatdayapp.com/faq#duration" target="_blank"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="All BoatDays must depart and return on the same day, and are limited to a maximum of 12 hours duration. Learn more by clicking on this help icon."></span></a>
-						</label>
-						<label class="preview-duration control-label pull-right"></label>
-						<div>
-							<input type="text" class="form-control" id="duration" name="duration" data-slider-min="0.5" data-slider-max="12" data-slider-step="0.5" data-slider-value="<%= duration ? duration : 6 %>">
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<label for="price" class="control-label">
-							Price Per Seat
-						</label>
-						<label class="preview-price control-label pull-right"></label>
-						<div>
-							<input type="text" class="form-control" id="price" name="price" data-slider-min="5" data-slider-max="250" data-slider-step="5" data-slider-value="<%= price ? price : 50 %>">	
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<label for="price" class="control-label">
-							Price Calculator
-							<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="Estimated contribution you will receive if your boat is fully booked."></span>
-						</label>
-						<table class="table table-bordered">
-							<tr>
-								<td class="totalSeats"></td>
-								<td class="text-right totalPriceUSD"></td>
-							</tr>
-							<tr>
-								<td class="totalBD">
-									Host Fee
-									<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the fee charged to Hosts by BoatDay."></span>
-								</td>
-								<td class="text-right totalBoatDayUSD"></td>
-							</tr>
-							<tr class="partnerDiscount" style="display:none;">
-								<td>
-									Premium Discount
-								</td>
-								<td class="text-right totalPartnerDiscount"></td>
-							</tr>
-							<tr>
-								<td style="border-top: double 3px black;" class="totalHost">
-									Host Payout 
-								</td>
-								<td style="border-top: double 3px black;" class="text-right totalHostUSD"></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</div>
-
-
-			<div class="row split-top"></div>
-
-			<div class="row">
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<label for="activity" class="control-label">Activity</label>
-						<div>
-							<select class="input-small form-control" id="activity" name="activity">
-								<option value="leisure" <%= category && category == 'leisure' ? 'selected' : '' %> selected>Leisure</option> 
-								<option value="fishing" <%= category && category == 'fishing' ? 'selected' : '' %>>Fishing</option>
-								<option value="sailing" <%= category && category == 'sailing' ? 'selected' : '' %>>Sailing</option>
-								<option value="sports" <%= category && category == 'sports' ? 'selected' : '' %>>Water Sports</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="activityContainer leisure">
+	<div class="row boatdayoverview-row-details">
+			<div class="boatday-edit-form boatday-overview-row-hidden">
+			<form class="form-horizontal" name="edit-form">
+				<div class="row">
 					<div class="col-sm-20 col-sm-offset-2">
 						<div class="form-group">
-							<label class="control-label">Leisure Category</label>
-						</div>
-					</div>
-					<div class="col-sm-20 col-sm-offset-2">
-						<div class="form-group">
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresLeisureCruising" name="featuresLeisureCruising" <%= features.leisure.cruising ? 'checked': '' %>>
-									<label class="control-label" for="featuresLeisureCruising">Crusing</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresLeisurePartying" name="featuresLeisurePartying" <%= features.leisure.partying ? 'checked': '' %>>
-									<label class="control-label" for="featuresLeisurePartying">Partying</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresLeisureSightseeing" name="featuresLeisureSightseeing" <%= features.leisure.sightseeing ? 'checked': '' %>>
-									<label class="control-label" for="featuresLeisureSightseeing">Sightseeing</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresLeisureOther" name="featuresLeisureOther" <%= features.leisure.other ? 'checked': '' %>>
-									<label class="control-label" for="featuresLeisureOther">Other</label> 
-								</div>
+							<label for="name" class="control-label">BoatDay Name</label>
+							<div>
+								<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="Give a fun name to your BoatDay">
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="activityContainer fishing">
-					<div class="col-sm-20 col-sm-offset-2">
-						<div class="form-group">
-							<label class="control-label">Fishing Category</label>
-						</div>
-					</div>
-					<div class="col-sm-20 col-sm-offset-2">
-						<div class="form-group">
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresFishingOffshore" name="featuresFishingOffshore" <%= features.fishing.offshore ? 'checked': '' %>>
-									<label class="control-label" for="featuresFishingOffshore" data-toggle="tooltip" data-placement="top" data-container="body" title="limit 12 miles out">Offshore Fishing</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresFishingFlats" name="featuresFishingFlats" <%= features.fishing.flats ? 'checked': '' %>>
-									<label class="control-label" for="featuresFishingFlats">Flats Fishing</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresFishingLake" name="featuresFishingLake" <%= features.fishing.lake ? 'checked': '' %>>
-									<label class="control-label" for="featuresFishingLake">Lake Fishing</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresFishingRecreational" name="featuresFishingRecreational" <%= features.fishing.recreational ? 'checked': '' %>>
-									<label class="control-label" for="featuresFishingRecreational" data-toggle="tooltip" data-placement="top" data-container="body" data-container="body"  title="just for fun">Recreational Fishing</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresFishingOther" name="featuresFishingOther" <%= features.fishing.other ? 'checked': '' %>>
-									<label class="control-label" for="featuresFishingOther">Other</label>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-20 col-sm-offset-2">
-						<div class="form-group">
-							<label class="control-label">Equipment</label>
-						</div>
-					</div>
-					<div class="col-sm-20 col-sm-offset-2">
-						<div class="form-group" style="margin-bottom:0px;">
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresFishingEquipment" name="featuresFishingEquipment" <%= features.fishing.equipment ? 'checked': '' %>>
-									<label class="control-label" for="featuresFishingEquipment">Equipment Provided</label>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-20 col-sm-offset-2 equipment-list" <%= features.fishing.equipment ? '': 'style="display:none"' %>>
-						<div class="form-group">
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresFishingEquipmentItemsBait" name="featuresFishingEquipmentItemsBait" <%= features.fishing.equipmentItems.bait ? 'checked': '' %>>
-									<label class="control-label" for="featuresFishingEquipmentItemsBait">Bait</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresFishingEquipmentItemsLines" name="featuresFishingEquipmentItemsLines" <%= features.fishing.equipmentItems.lines ? 'checked': '' %>>
-									<label class="control-label" for="featuresFishingEquipmentItemsLines">Fishing Line</label>
-								</div>
-							</div>
-							
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresFishingEquipmentItemsHooks" name="featuresFishingEquipmentItemsHooks" <%= features.fishing.equipmentItems.hooks ? 'checked': '' %>>
-									<label class="control-label" for="featuresFishingEquipmentItemsHooks">Hooks</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresFishingEquipmentItemsLures" name="featuresFishingEquipmentItemsLures" <%= features.fishing.equipmentItems.lures ? 'checked': '' %>>
-									<label class="control-label" for="featuresFishingEquipmentItemsLures">Lures</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresFishingEquipmentItemsNets" name="featuresFishingEquipmentItemsNets" <%= features.fishing.equipmentItems.nets ? 'checked': '' %>>
-									<label class="control-label" for="featuresFishingEquipmentItemsNets">Nets</label>
-								</div>
-							</div>
 
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresFishingEquipmentItemsRods" name="featuresFishingEquipmentItemsRods" <%= features.fishing.equipmentItems.rods ? 'checked': '' %>>
-									<label class="control-label" for="featuresFishingEquipmentItemsRods">Rods</label>
-								</div>
+				<div class="row">
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="boat" class="control-label">Select Boat</label>
+							<div class="boats">
+								<em>Loading...</em>
 							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresFishingEquipmentItemsSinkers" name="featuresFishingEquipmentItemsSinkers" <%= features.fishing.equipmentItems.sinkers ? 'checked': '' %>>
-									<label class="control-label" for="featuresFishingEquipmentItemsSinkers">Sinkers</label>
-								</div>
+						</div>
+					</div>
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="captain" class="control-label">Select Captain</label>
+							<div class="captains">
+								<em>Loading...</em>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="activityContainer sports">
-					<div class="col-sm-20 col-sm-offset-2 activityContainer sports">
+
+
+				<div class="row">
+					<div class="col-sm-9 col-sm-offset-2">
 						<div class="form-group">
-							<label class="control-label">Water Sports Category</label>
-						</div>
-					</div>
-					<div class="col-sm-20 col-sm-offset-2">
-						<div class="form-group">
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresSportsSnorkeling" name="featuresSportsSnorkeling" <%= features.sports.snorkeling ? 'checked': '' %>>
-									<label class="control-label" for="featuresSportsSnorkeling">Snorkeling</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresSportStubing" name="featuresSportStubing" <%= features.sports.tubing ? 'checked': '' %>>
-									<label class="control-label" for="featuresSportStubing">Tubing</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresSportsWakeBoarding" name="featuresSportsWakeBoarding" <%= features.sports.wakeBoarding ? 'checked': '' %>>
-									<label class="control-label" for="featuresSportsWakeBoarding">Wake Boarding</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresSportsWaterSkiing" name="featuresSportsWaterSkiing" <%= features.sports.waterSkiing ? 'checked': '' %>>
-									<label class="control-label" for="featuresSportsWaterSkiing">Water Skiing </label>
-								</div>
-							</div>
-						</div>								
-					</div>
-					<div class="col-sm-20 col-sm-offset-2">
-						<div class="form-group">
-							<label class="control-label">Equipment</label>
-						</div>
-					</div>
-					<div class="col-sm-20 col-sm-offset-2">
-						<div class="form-group" style="margin-bottom:0px;">
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresSportsEquipment" name="featuresSportsEquipment" <%= features.sports.equipment ? 'checked': '' %>>
-									<label class="control-label" for="featuresSportsEquipment">Equipment Provided</label>
-								</div>
+							<label for="availableSeats" class="control-label">Available Seats</label>
+							<label class="preview-availableSeats control-label pull-right"></label>
+							<div>
+								<input type="text" class="form-control" id="availableSeats" name="availableSeats" data-slider-min="2" data-slider-max="15" data-slider-step="1" data-slider-value="<%= availableSeats ? availableSeats : 8 %>">
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-20 col-sm-offset-2 equipment-list" <%= features.sports.equipment ? '': 'style="display:none"' %>>
+					<div class="col-sm-9 col-sm-offset-2">
 						<div class="form-group">
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresSportsEquipmentItemsFins" name="featuresSportsEquipmentItemsFins" <%= features.sports.equipmentItems.fins ? 'checked': '' %>>
-									<label for="featuresSportsEquipmentItemsFins" class="control-label">Fins</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresSportsEquipmentItemsHelmets" name="featuresSportsEquipmentItemsHelmets" <%= features.sports.equipmentItems.helmets ? 'checked': '' %>>
-									<label for="featuresSportsEquipmentItemsHelmets" class="control-label">Helmets</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresSportsEquipmentItemsMasks" name="featuresSportsEquipmentItemsMasks" <%= features.sports.equipmentItems.masks ? 'checked': '' %>>
-									<label for="featuresSportsEquipmentItemsMasks" class="control-label">Masks</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresSportsEquipmentItemsSnorkels" name="featuresSportsEquipmentItemsSnorkels" <%= features.sports.equipmentItems.snorkels ? 'checked': '' %>>
-									<label for="featuresSportsEquipmentItemsSnorkels" class="control-label">Snorkels</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresSportsEquipmentItemsTowLine" name="featuresSportsEquipmentItemsTowLine" <%= features.sports.equipmentItems.towLine ? 'checked': '' %>>
-									<label for="featuresSportsEquipmentItemsTowLine" class="control-label">Tow Line</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresSportsEquipmentItemsTubes" name="featuresSportsEquipmentItemsTubes" <%= features.sports.equipmentItems.tubes ? 'checked': '' %>>
-									<label for="featuresSportsEquipmentItemsTubes" class="control-label">Tubes</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresSportsEquipmentItemsWakeboard" name="featuresSportsEquipmentItemsWakeboard" <%= features.sports.equipmentItems.wakeboard ? 'checked': '' %>>
-									<label for="featuresSportsEquipmentItemsWakeboard" class="control-label">Wakeboard</label>
-								</div>
-							</div>
-							<div class="col-sm-8 col-md-6 col-lg-6">
-								<div class="form-group">
-									<input type="checkbox" id="featuresSportsEquipmentItemsWaterSkis" name="featuresSportsEquipmentItemsWaterSkis" <%= features.sports.equipmentItems.waterSkis ? 'checked': '' %>>
-									<label for="featuresSportsEquipmentItemsWaterSkis" class="control-label">Water Skis</label>
-								</div>
+							<label for="date" class="control-label">
+								Date
+								<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="Saturday July 18th is the first available day for BoatDay outings.  This ensures Guests have plenty of time to see and book your BoatDays before you set sail."></span>
+							</label>
+							<div>
+								<input type="text" class="form-control date select-styles" placeholder="mm/dd/yyyy" id="date" name="date" />
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-
-			<div class="row split-top"></div>
-
-			<div class="row">
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<label for="description" class="control-label">
-							Description
-							<!-- <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title=""></span> -->
-						</label>
-						<div>
-							<textarea class="form-control" name="description" id="description" rows="7"  placeholder="Attract more Guests with a custom description of your BoatDay! Share the extra details that make your BoatDay unique."><%= description ?  description : '' %></textarea>
+				<div class="row">
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="departureTime" class="control-label">Departure Time</label>
+							<label class="preview-departureTime control-label pull-right"></label>
+							<div>
+								<input type="text" class="form-control" id="departureTime" name="departureTime" data-slider-min="0" data-slider-max="23.5" data-slider-step="0.5" data-slider-value="<%= departureTime ? departureTime : 9 %>">
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="duration" class="control-label">
+								Duration
+								<a href="https://www.boatdayapp.com/faq#duration" target="_blank"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="All BoatDays must depart and return on the same day, and are limited to a maximum of 12 hours duration. Learn more by clicking on this help icon."></span></a>
+							</label>
+							<label class="preview-duration control-label pull-right"></label>
+							<div>
+								<input type="text" class="form-control" id="duration" name="duration" data-slider-min="0.5" data-slider-max="12" data-slider-step="0.5" data-slider-value="<%= duration ? duration : 6 %>">
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group checkboxes">
-						<div class="container-fluid">
-							<div class="row">
-								<div class="col-sm-12">
+
+				<div class="row">
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="price" class="control-label">
+								Price Per Seat
+							</label>
+							<label class="preview-price control-label pull-right"></label>
+							<div>
+								<input type="text" class="form-control" id="price" name="price" data-slider-min="5" data-slider-max="250" data-slider-step="5" data-slider-value="<%= price ? price : 50 %>">	
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="price" class="control-label">
+								Price Calculator
+								<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="Estimated contribution you will receive if your boat is fully booked."></span>
+							</label>
+							<table class="table table-bordered">
+								<tr>
+									<td class="totalSeats"></td>
+									<td class="text-right totalPriceUSD"></td>
+								</tr>
+								<tr>
+									<td class="totalBD">
+										Host Fee
+										<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the fee charged to Hosts by BoatDay."></span>
+									</td>
+									<td class="text-right totalBoatDayUSD"></td>
+								</tr>
+								<tr class="partnerDiscount" style="display:none;">
+									<td>
+										Premium Discount
+									</td>
+									<td class="text-right totalPartnerDiscount"></td>
+								</tr>
+								<tr>
+									<td style="border-top: double 3px black;" class="totalHost">
+										Host Payout 
+									</td>
+									<td style="border-top: double 3px black;" class="text-right totalHostUSD"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row split-top"></div>
+
+				<div class="row">
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="activity" class="control-label">Activity</label>
+							<div>
+								<select class="input-small form-control" id="activity" name="activity">
+									<option value="leisure" <%= category && category == 'leisure' ? 'selected' : '' %> selected>Leisure</option> 
+									<option value="fishing" <%= category && category == 'fishing' ? 'selected' : '' %>>Fishing</option>
+									<option value="sailing" <%= category && category == 'sailing' ? 'selected' : '' %>>Sailing</option>
+									<option value="sports" <%= category && category == 'sports' ? 'selected' : '' %>>Water Sports</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="activityContainer leisure">
+						<div class="col-sm-20 col-sm-offset-2">
+							<div class="form-group">
+								<label class="control-label">Leisure Category</label>
+							</div>
+						</div>
+						<div class="col-sm-20 col-sm-offset-2">
+							<div class="form-group">
+								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<label class="col-sm-24 control-label">
-											<div class="form-group">Extras</div>
-										</label>
-										<div class="col-sm-24">
-											<div class="form-group">
-												<input type="checkbox" name="featuresExtrasFood" id="featuresExtrasFood" <%= features.extras.food ? 'checked': '' %>> 
-												<label class="control-label" for="featuresExtrasFood">Food</label>
+										<input type="checkbox" id="featuresLeisureCruising" name="featuresLeisureCruising" <%= features.leisure.cruising ? 'checked': '' %>>
+										<label class="control-label" for="featuresLeisureCruising">Crusing</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresLeisurePartying" name="featuresLeisurePartying" <%= features.leisure.partying ? 'checked': '' %>>
+										<label class="control-label" for="featuresLeisurePartying">Partying</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresLeisureSightseeing" name="featuresLeisureSightseeing" <%= features.leisure.sightseeing ? 'checked': '' %>>
+										<label class="control-label" for="featuresLeisureSightseeing">Sightseeing</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresLeisureOther" name="featuresLeisureOther" <%= features.leisure.other ? 'checked': '' %>>
+										<label class="control-label" for="featuresLeisureOther">Other</label> 
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="activityContainer fishing">
+						<div class="col-sm-20 col-sm-offset-2">
+							<div class="form-group">
+								<label class="control-label">Fishing Category</label>
+							</div>
+						</div>
+						<div class="col-sm-20 col-sm-offset-2">
+							<div class="form-group">
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresFishingOffshore" name="featuresFishingOffshore" <%= features.fishing.offshore ? 'checked': '' %>>
+										<label class="control-label" for="featuresFishingOffshore" data-toggle="tooltip" data-placement="top" data-container="body" title="limit 12 miles out">Offshore Fishing</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresFishingFlats" name="featuresFishingFlats" <%= features.fishing.flats ? 'checked': '' %>>
+										<label class="control-label" for="featuresFishingFlats">Flats Fishing</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresFishingLake" name="featuresFishingLake" <%= features.fishing.lake ? 'checked': '' %>>
+										<label class="control-label" for="featuresFishingLake">Lake Fishing</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresFishingRecreational" name="featuresFishingRecreational" <%= features.fishing.recreational ? 'checked': '' %>>
+										<label class="control-label" for="featuresFishingRecreational" data-toggle="tooltip" data-placement="top" data-container="body" data-container="body"  title="just for fun">Recreational Fishing</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresFishingOther" name="featuresFishingOther" <%= features.fishing.other ? 'checked': '' %>>
+										<label class="control-label" for="featuresFishingOther">Other</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-20 col-sm-offset-2">
+							<div class="form-group">
+								<label class="control-label">Equipment</label>
+							</div>
+						</div>
+						<div class="col-sm-20 col-sm-offset-2">
+							<div class="form-group" style="margin-bottom:0px;">
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresFishingEquipment" name="featuresFishingEquipment" <%= features.fishing.equipment ? 'checked': '' %>>
+										<label class="control-label" for="featuresFishingEquipment">Equipment Provided</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-20 col-sm-offset-2 equipment-list" <%= features.fishing.equipment ? '': 'style="display:none"' %>>
+							<div class="form-group">
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresFishingEquipmentItemsBait" name="featuresFishingEquipmentItemsBait" <%= features.fishing.equipmentItems.bait ? 'checked': '' %>>
+										<label class="control-label" for="featuresFishingEquipmentItemsBait">Bait</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresFishingEquipmentItemsLines" name="featuresFishingEquipmentItemsLines" <%= features.fishing.equipmentItems.lines ? 'checked': '' %>>
+										<label class="control-label" for="featuresFishingEquipmentItemsLines">Fishing Line</label>
+									</div>
+								</div>
+								
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresFishingEquipmentItemsHooks" name="featuresFishingEquipmentItemsHooks" <%= features.fishing.equipmentItems.hooks ? 'checked': '' %>>
+										<label class="control-label" for="featuresFishingEquipmentItemsHooks">Hooks</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresFishingEquipmentItemsLures" name="featuresFishingEquipmentItemsLures" <%= features.fishing.equipmentItems.lures ? 'checked': '' %>>
+										<label class="control-label" for="featuresFishingEquipmentItemsLures">Lures</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresFishingEquipmentItemsNets" name="featuresFishingEquipmentItemsNets" <%= features.fishing.equipmentItems.nets ? 'checked': '' %>>
+										<label class="control-label" for="featuresFishingEquipmentItemsNets">Nets</label>
+									</div>
+								</div>
+
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresFishingEquipmentItemsRods" name="featuresFishingEquipmentItemsRods" <%= features.fishing.equipmentItems.rods ? 'checked': '' %>>
+										<label class="control-label" for="featuresFishingEquipmentItemsRods">Rods</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresFishingEquipmentItemsSinkers" name="featuresFishingEquipmentItemsSinkers" <%= features.fishing.equipmentItems.sinkers ? 'checked': '' %>>
+										<label class="control-label" for="featuresFishingEquipmentItemsSinkers">Sinkers</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="activityContainer sports">
+						<div class="col-sm-20 col-sm-offset-2 activityContainer sports">
+							<div class="form-group">
+								<label class="control-label">Water Sports Category</label>
+							</div>
+						</div>
+						<div class="col-sm-20 col-sm-offset-2">
+							<div class="form-group">
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresSportsSnorkeling" name="featuresSportsSnorkeling" <%= features.sports.snorkeling ? 'checked': '' %>>
+										<label class="control-label" for="featuresSportsSnorkeling">Snorkeling</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresSportStubing" name="featuresSportStubing" <%= features.sports.tubing ? 'checked': '' %>>
+										<label class="control-label" for="featuresSportStubing">Tubing</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresSportsWakeBoarding" name="featuresSportsWakeBoarding" <%= features.sports.wakeBoarding ? 'checked': '' %>>
+										<label class="control-label" for="featuresSportsWakeBoarding">Wake Boarding</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresSportsWaterSkiing" name="featuresSportsWaterSkiing" <%= features.sports.waterSkiing ? 'checked': '' %>>
+										<label class="control-label" for="featuresSportsWaterSkiing">Water Skiing </label>
+									</div>
+								</div>
+							</div>								
+						</div>
+						<div class="col-sm-20 col-sm-offset-2">
+							<div class="form-group">
+								<label class="control-label">Equipment</label>
+							</div>
+						</div>
+						<div class="col-sm-20 col-sm-offset-2">
+							<div class="form-group" style="margin-bottom:0px;">
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresSportsEquipment" name="featuresSportsEquipment" <%= features.sports.equipment ? 'checked': '' %>>
+										<label class="control-label" for="featuresSportsEquipment">Equipment Provided</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-20 col-sm-offset-2 equipment-list" <%= features.sports.equipment ? '': 'style="display:none"' %>>
+							<div class="form-group">
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresSportsEquipmentItemsFins" name="featuresSportsEquipmentItemsFins" <%= features.sports.equipmentItems.fins ? 'checked': '' %>>
+										<label for="featuresSportsEquipmentItemsFins" class="control-label">Fins</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresSportsEquipmentItemsHelmets" name="featuresSportsEquipmentItemsHelmets" <%= features.sports.equipmentItems.helmets ? 'checked': '' %>>
+										<label for="featuresSportsEquipmentItemsHelmets" class="control-label">Helmets</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresSportsEquipmentItemsMasks" name="featuresSportsEquipmentItemsMasks" <%= features.sports.equipmentItems.masks ? 'checked': '' %>>
+										<label for="featuresSportsEquipmentItemsMasks" class="control-label">Masks</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresSportsEquipmentItemsSnorkels" name="featuresSportsEquipmentItemsSnorkels" <%= features.sports.equipmentItems.snorkels ? 'checked': '' %>>
+										<label for="featuresSportsEquipmentItemsSnorkels" class="control-label">Snorkels</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresSportsEquipmentItemsTowLine" name="featuresSportsEquipmentItemsTowLine" <%= features.sports.equipmentItems.towLine ? 'checked': '' %>>
+										<label for="featuresSportsEquipmentItemsTowLine" class="control-label">Tow Line</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresSportsEquipmentItemsTubes" name="featuresSportsEquipmentItemsTubes" <%= features.sports.equipmentItems.tubes ? 'checked': '' %>>
+										<label for="featuresSportsEquipmentItemsTubes" class="control-label">Tubes</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresSportsEquipmentItemsWakeboard" name="featuresSportsEquipmentItemsWakeboard" <%= features.sports.equipmentItems.wakeboard ? 'checked': '' %>>
+										<label for="featuresSportsEquipmentItemsWakeboard" class="control-label">Wakeboard</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-6 col-lg-6">
+									<div class="form-group">
+										<input type="checkbox" id="featuresSportsEquipmentItemsWaterSkis" name="featuresSportsEquipmentItemsWaterSkis" <%= features.sports.equipmentItems.waterSkis ? 'checked': '' %>>
+										<label for="featuresSportsEquipmentItemsWaterSkis" class="control-label">Water Skis</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row split-top"></div>
+
+				<div class="row">
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="description" class="control-label">
+								Description
+								<!-- <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title=""></span> -->
+							</label>
+							<div>
+								<textarea class="form-control" name="description" id="description" rows="7"  placeholder="Attract more Guests with a custom description of your BoatDay! Share the extra details that make your BoatDay unique."><%= description ?  description : '' %></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group checkboxes">
+							<div class="container-fluid">
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label class="col-sm-24 control-label">
+												<div class="form-group">Extras</div>
+											</label>
+											<div class="col-sm-24">
+												<div class="form-group">
+													<input type="checkbox" name="featuresExtrasFood" id="featuresExtrasFood" <%= features.extras.food ? 'checked': '' %>> 
+													<label class="control-label" for="featuresExtrasFood">Food</label>
+												</div>
 											</div>
-										</div>
-										<div class="col-sm-24">
-											<div class="form-group">
-												<input type="checkbox" name="featuresExtrasDrink" id="featuresExtrasDrink" <%= features.extras.drink ? 'checked': '' %>> 
-												<label class="control-label" for="featuresExtrasDrink">Drink</label>
+											<div class="col-sm-24">
+												<div class="form-group">
+													<input type="checkbox" name="featuresExtrasDrink" id="featuresExtrasDrink" <%= features.extras.drink ? 'checked': '' %>> 
+													<label class="control-label" for="featuresExtrasDrink">Drink</label>
+												</div>
 											</div>
-										</div>
-										<div class="col-sm-24">
-											<div class="form-group">
-												<input type="checkbox" name="featuresExtrasMusic" id="featuresExtrasMusic" <%= features.extras.music ? 'checked': '' %>> 
-												<label class="control-label" for="featuresExtrasMusic">Music</label>
+											<div class="col-sm-24">
+												<div class="form-group">
+													<input type="checkbox" name="featuresExtrasMusic" id="featuresExtrasMusic" <%= features.extras.music ? 'checked': '' %>> 
+													<label class="control-label" for="featuresExtrasMusic">Music</label>
+												</div>
 											</div>
-										</div>
-										<div class="col-sm-24">
-											<div class="form-group">
-												<input type="checkbox" name="featuresExtrasTowels" id="featuresExtrasTowels" <%= features.extras.towels ? 'checked': '' %>> 
-												<label class="control-label" for="featuresExtrasTowels">Towels</label>
+											<div class="col-sm-24">
+												<div class="form-group">
+													<input type="checkbox" name="featuresExtrasTowels" id="featuresExtrasTowels" <%= features.extras.towels ? 'checked': '' %>> 
+													<label class="control-label" for="featuresExtrasTowels">Towels</label>
+												</div>
 											</div>
-										</div>
-										<div class="col-sm-24">
-											<div class="form-group">
-												<input type="checkbox" name="featuresExtrasSunscreen" id="featuresExtrasSunscreen" <%= features.extras.sunscreen ? 'checked': '' %>> 
-												<label class="control-label" for="featuresExtrasSunscreen">Sunscreen</label>
+											<div class="col-sm-24">
+												<div class="form-group">
+													<input type="checkbox" name="featuresExtrasSunscreen" id="featuresExtrasSunscreen" <%= features.extras.sunscreen ? 'checked': '' %>> 
+													<label class="control-label" for="featuresExtrasSunscreen">Sunscreen</label>
+												</div>
 											</div>
-										</div>
-										<div class="col-sm-24">
-											<div class="form-group">
-												<input type="checkbox" name="featuresExtrasInflatables" id="featuresExtrasInflatables" <%= features.extras.inflatables ? 'checked': '' %>> 
-												<label class="control-label" for="featuresExtrasInflatables">Inflatables </label>
+											<div class="col-sm-24">
+												<div class="form-group">
+													<input type="checkbox" name="featuresExtrasInflatables" id="featuresExtrasInflatables" <%= features.extras.inflatables ? 'checked': '' %>> 
+													<label class="control-label" for="featuresExtrasInflatables">Inflatables </label>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div class="col-sm-12">
-									<div class="form-group">
-										<label class="control-label">Family Settings</label>
-										<div class="col-sm-24">
-											<div class="form-group">
-												<input type="checkbox" name="featuresGlobalChildren" id="featuresGlobalChildren" <%= features.global.children ? 'checked': '' %>> 
-												<label class="control-label" for="featuresGlobalChildren">Children allowed </label>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label class="control-label">Family Settings</label>
+											<div class="col-sm-24">
+												<div class="form-group">
+													<input type="checkbox" name="featuresGlobalChildren" id="featuresGlobalChildren" <%= features.global.children ? 'checked': '' %>> 
+													<label class="control-label" for="featuresGlobalChildren">Children allowed </label>
+												</div>
 											</div>
-										</div>
-										<div class="col-sm-24">
-											<div class="form-group">
-												<input type="checkbox" name="featuresGlobalSmoking" id="featuresGlobalSmoking" <%= features.global.smoking ? 'checked': '' %>> 
-												<label class="control-label" for="featuresGlobalSmoking">Smoking Permitted</label>
+											<div class="col-sm-24">
+												<div class="form-group">
+													<input type="checkbox" name="featuresGlobalSmoking" id="featuresGlobalSmoking" <%= features.global.smoking ? 'checked': '' %>> 
+													<label class="control-label" for="featuresGlobalSmoking">Smoking Permitted</label>
+												</div>
 											</div>
-										</div>
-										<div class="col-sm-24">
-											<div class="form-group">
-												<input type="checkbox" name="featuresGlobalDrinking" id="featuresGlobalDrinking" <%= features.global.drinking ? 'checked': '' %>> 
-												<label class="control-label" for="featuresGlobalDrinking">Drinking Permitted </label>
+											<div class="col-sm-24">
+												<div class="form-group">
+													<input type="checkbox" name="featuresGlobalDrinking" id="featuresGlobalDrinking" <%= features.global.drinking ? 'checked': '' %>> 
+													<label class="control-label" for="featuresGlobalDrinking">Drinking Permitted </label>
+												</div>
 											</div>
-										</div>
-										<div class="col-sm-24">
-											<div class="form-group">
-												<input type="checkbox" name="featuresGlobalPets" id="featuresGlobalPets" <%= features.global.pets ? 'checked': '' %>> 
-												<label class="control-label" for="featuresGlobalPets">Pets Permitted </label>
+											<div class="col-sm-24">
+												<div class="form-group">
+													<input type="checkbox" name="featuresGlobalPets" id="featuresGlobalPets" <%= features.global.pets ? 'checked': '' %>> 
+													<label class="control-label" for="featuresGlobalPets">Pets Permitted </label>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					
-				</div>
-			</div>
-
-			<div class="row split-top"></div>
-			<div class="row">
-				<div class="col-sm-20 col-sm-offset-2">
-					<div class="form-group">
-						<label class="control-label">
-							Departure location (where Guests come aboard)
-							<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-container="body" data-placement="top" title="Click on the map to set the location."></span>
-						</label>
-						<div>
-							<input type="text" class="form-control" id="locationText" name="locationText" placeholder="Click on the map to set the location.">
-						</div>
-						<div class="embed-responsive embed-responsive-16by9 map" style="margin-top: 10px"></div>
+						
 					</div>
 				</div>
-			</div>
 
-			<div class="row split-top"></div>
-
-			<div class="row">
-				<div class="col-sm-20 col-sm-offset-2">
-					<div class="form-group">
-						<label class="control-label">
-							Booking Policy (how you accept Guest requests)
-							<a href="https://www.boatdayapp.com/faq#bookingPolicy" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a>
-						</label>
-						<br/><br/>
-						<div>
-							<input type="radio" id="bookingPolicy1" name="bookingPolicy" value="manually" <%= bookingPolicy == 'manually' ? 'checked': (status == 'creation' ? 'checked' : '') %>>
-							<label class="control-label" for="bookingPolicy1"><strong>Manual Book: </strong>I want to review each Guest request and choose the best fit for my BoatDay.</label>
-							<input type="radio" id="bookingPolicy2" name="bookingPolicy" value="automatically" <%= bookingPolicy == 'automatically' ? 'checked': '' %>>
-							<label class="control-label" for="bookingPolicy2"><strong>Instant Book: </strong>Automatically accept all Guest requests.</label>
-							<!--
-							<input type="radio" id="bookingPolicy3" name="bookingPolicy" value="halfway">
-							<label class="control-label" for="bookingPolicy3"><strong>Trusted Book: </strong>Automatically acceots requests from Guests who have attended one of my BoatDays and received a positive review. I want to review all other requests.</label
-							-->
+				<div class="row split-top"></div>
+				<div class="row">
+					<div class="col-sm-20 col-sm-offset-2">
+						<div class="form-group">
+							<label class="control-label">
+								Departure location (where Guests come aboard)
+								<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-container="body" data-placement="top" title="Click on the map to set the location."></span>
+							</label>
+							<div>
+								<input type="text" class="form-control" id="locationText" name="locationText" placeholder="Click on the map to set the location.">
+							</div>
+							<div class="embed-responsive embed-responsive-16by9 map" style="margin-top: 10px"></div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="row split-top"></div>
+				<div class="row split-top"></div>
 
-			<div class="row">
-				<div class="col-sm-20 col-sm-offset-2">
-					<div class="form-group">
-						<label class="control-label">
-							Cancellation Policy (how you treat Guest cancellations)
-							<a href="https://www.boatdayapp.com/faq#cancellationPolicy" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a>
-						</label>
-						<br/><br/>
-						<div>
-							<input type="radio" id="cancellationPolicy1" name="cancellationPolicy" value="flexible"  <%= cancellationPolicy == 'flexible' ? 'checked': (status == 'creation' ? 'checked' : '') %>>
-							<label class="control-label" for="cancellationPolicy1"><strong>Flexible:</strong> No charge for Guest cancellations up to 1 day prior to departure, except Trust &amp; Safety Fee.</label>
-							<input type="radio" id="cancellationPolicy2" name="cancellationPolicy" value="moderate" <%= cancellationPolicy == 'moderate' ? 'checked': '' %>>
-							<label class="control-label" for="cancellationPolicy2"><strong>Moderate:</strong> No charge for Guest cancellations up to 3 days prior to departure, except Trust &amp; Safety Fee.</label>
-							<input type="radio" id="cancellationPolicy3" name="cancellationPolicy" value="strict" <%= cancellationPolicy == 'strict' ? 'checked': '' %>>
-							<label class="control-label" for="cancellationPolicy3"><strong>Strict:</strong> 50% charge for Guest cancellations up to five days prior to departure time, including Trust &amp; Safety Fee.</label>
+				<div class="row">
+					<div class="col-sm-20 col-sm-offset-2">
+						<div class="form-group">
+							<label class="control-label">
+								Booking Policy (how you accept Guest requests)
+								<a href="https://www.boatdayapp.com/faq#bookingPolicy" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a>
+							</label>
+							<br/><br/>
+							<div>
+								<input type="radio" id="bookingPolicy1" name="bookingPolicy" value="manually" <%= bookingPolicy == 'manually' ? 'checked': (status == 'creation' ? 'checked' : '') %>>
+								<label class="control-label" for="bookingPolicy1"><strong>Manual Book: </strong>I want to review each Guest request and choose the best fit for my BoatDay.</label>
+								<input type="radio" id="bookingPolicy2" name="bookingPolicy" value="automatically" <%= bookingPolicy == 'automatically' ? 'checked': '' %>>
+								<label class="control-label" for="bookingPolicy2"><strong>Instant Book: </strong>Automatically accept all Guest requests.</label>
+								<!--
+								<input type="radio" id="bookingPolicy3" name="bookingPolicy" value="halfway">
+								<label class="control-label" for="bookingPolicy3"><strong>Trusted Book: </strong>Automatically acceots requests from Guests who have attended one of my BoatDays and received a positive review. I want to review all other requests.</label
+								-->
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="row btn-row">
-				<div class="col-xs-24 text-center">
-					<button type="submit" class="btn btn-lg btn-primary"><%= status == 'creation' ? 'Create BoatDay' : 'Update BoatDay' %></button>
-					<div class="display-messages text-center"></div>
+				<div class="row split-top"></div>
+
+				<div class="row">
+					<div class="col-sm-20 col-sm-offset-2">
+						<div class="form-group">
+							<label class="control-label">
+								Cancellation Policy (how you treat Guest cancellations)
+								<a href="https://www.boatdayapp.com/faq#cancellationPolicy" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a>
+							</label>
+							<br/><br/>
+							<div>
+								<input type="radio" id="cancellationPolicy1" name="cancellationPolicy" value="flexible"  <%= cancellationPolicy == 'flexible' ? 'checked': (status == 'creation' ? 'checked' : '') %>>
+								<label class="control-label" for="cancellationPolicy1"><strong>Flexible:</strong> No charge for Guest cancellations up to 1 day prior to departure, except Trust &amp; Safety Fee.</label>
+								<input type="radio" id="cancellationPolicy2" name="cancellationPolicy" value="moderate" <%= cancellationPolicy == 'moderate' ? 'checked': '' %>>
+								<label class="control-label" for="cancellationPolicy2"><strong>Moderate:</strong> No charge for Guest cancellations up to 3 days prior to departure, except Trust &amp; Safety Fee.</label>
+								<input type="radio" id="cancellationPolicy3" name="cancellationPolicy" value="strict" <%= cancellationPolicy == 'strict' ? 'checked': '' %>>
+								<label class="control-label" for="cancellationPolicy3"><strong>Strict:</strong> 50% charge for Guest cancellations up to five days prior to departure time, including Trust &amp; Safety Fee.</label>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
 
-		</form>
+				<div class="row btn-row">
+					<div class="col-xs-24 text-center">
+						<button type="submit" class="btn btn-lg btn-primary"><%= status == 'creation' ? 'Create BoatDay' : 'Update BoatDay' %></button>
+						<div class="display-messages text-center"></div>
+					</div>
+				</div>
+			</form>
+			</div>
 	</div>
 
 </div>

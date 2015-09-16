@@ -1,103 +1,110 @@
-<div class="container-fluid add-block" style="margin-bottom:10px;">	
-	<div class="row heading">
-		<div class="col-sm-16 col-sm-offset-2" style="color: #69878c;">
-			<a href="#" class="trigger">BOOKING REQUESTS - </a>
-			<span class="new-booking-count"> 0 new</span>
+<div style="margin-bottom:10px;">
+	<div class="container-fluid">	
+		<div class="row heading">
+			<div class="col-sm-8 text-left pull-left">
+				<a href="#" class="trigger">BOOKING REQUESTS - </a>
+				<span class="new-booking-count"> 0 new</span>
+			</div>
+			<div class="col-sm-4 text-right pull-right">
+				<img src="resources/down-arrow.png">
+			</div>
 		</div>
-		<div class="col-sm-5 text-right">
-			<img src="resources/down-arrow.png">
-		</div>
+
+		
+
 	</div>
 
-	<div class="boatday-booking-requests" style="display:none;">
-		
-		<div class="notification-list" style="display:none;">
-		</div>
-		
-		<div class="tabbable">
-			<div class="text-center">
-				<ul class="nav nav-pills centered-pills">
-					<li class="active">
-						<a href="#attending-guest-tab" data-toggle="tab">
-							Attending Guests (<%= approvedRequests.length %>)
-						</a>
-					</li>
-					<li>
-						<a href="#rejected-guests-tab" data-toggle="tab">
-							Rejected Guests (<%= rejectedRequests.length %>)
-						</a>
-					</li>
-					<li>
-						<a href="#cancellation-tab" data-toggle="tab">
-							Cancellation (<%= cancelledRequests.length %>)
-						</a>
-					</li>
-				</ul>
+	<div class="row boatdayoverview-row-details">
+		<div class="boatday-booking-requests boatday-overview-row-hidden">
+			
+			<div class="pending-list" style="display:none;">
 			</div>
-			<div class="tab-content">
-				<div class="tab-pane active" id="attending-guest-tab">
+			
+			<div class="tabbable">
+				<div class="text-center">
+					<ul class="nav nav-pills centered-pills">
+						<li class="active">
+							<a href="#attending-guest-tab" data-toggle="tab">
+								Attending Guests (<%= approvedRequests.length %>)
+							</a>
+						</li>
+						<li>
+							<a href="#rejected-guests-tab" data-toggle="tab">
+								Rejected Guests (<%= rejectedRequests.length %>)
+							</a>
+						</li>
+						<li>
+							<a href="#cancellation-tab" data-toggle="tab">
+								Cancellation (<%= cancelledRequests.length %>)
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-content">
+					<div class="tab-pane active" id="attending-guest-tab">
 
-					<% _.each( approvedRequests, function( request ) { %>
-						<div class="cell col-sm-4 profile">
-							<div class="inner text-center">
-								<div class="obj-thumb profile-picture" 
-								data-id="<%= request.get('profile').id %>" 
-								style="background-image:url(<%= request.get('profile').get('profilePicture').url() %>)">
+						<% _.each( approvedRequests, function( request ) { %>
+							<div class="cell col-sm-4 profile">
+								<div class="inner text-center">
+									<div class="obj-thumb profile-picture" 
+									data-id="<%= request.get('profile').id %>" 
+									style="background-image:url(<%= request.get('profile').get('profilePicture').url() %>)">
+									</div>
+								</div>
+								<div class="inner">			
+									<strong><%= request.get('profile').get('displayName') %></strong>
 								</div>
 							</div>
-							<div class="inner">			
-								<strong><%= request.get('profile').get('displayName') %></strong>
-							</div>
-						</div>
-					<% }); %>
+						<% }); %>
 
-				</div>
-
-				<div class="tab-pane" id="rejected-guests-tab">
-					
-					<% _.each( rejectedRequests, function( request ) { %>
-						<div class="cell col-sm-4 profile">
-							<div class="inner text-center">
-								<div class="obj-thumb profile-picture" 
-								data-id="<%= request.get('profile').id %>" 
-								style="background-image:url(<%= request.get('profile').get('profilePicture').url() %>)">
-								</div>
-							</div>
-							<div class="inner">			
-								<strong><%= request.get('profile').get('displayName') %></strong>
-							</div>
-						</div>
-					<% }); %>
-
-				</div>
-
-				<div class="tab-pane" id="cancellation-tab">
-					<% _.each( cancelledRequests, function( request ) { %>
-					<div class="cell col-sm-4 profile">
-						<div class="inner text-center">
-							<div class="obj-thumb profile-picture" 
-							data-id="<%= request.get('profile').id %>" 
-							style="background-image:url(<%= request.get('profile').get('profilePicture').url() %>)">
-							</div>
-						</div>
-						<div class="inner">			
-							<strong><%= request.get('profile').get('displayName') %></strong>
-						</div>
 					</div>
-					<% }); %>
+
+					<div class="tab-pane" id="rejected-guests-tab">
+						
+						<% _.each( rejectedRequests, function( request ) { %>
+							<div class="cell col-sm-4 profile">
+								<div class="inner text-center">
+									<div class="obj-thumb profile-picture" 
+									data-id="<%= request.get('profile').id %>" 
+									style="background-image:url(<%= request.get('profile').get('profilePicture').url() %>)">
+									</div>
+								</div>
+								<div class="inner">			
+									<strong><%= request.get('profile').get('displayName') %></strong>
+								</div>
+							</div>
+						<% }); %>
+
+					</div>
+
+					<div class="tab-pane" id="cancellation-tab">
+						<% _.each( cancelledRequests, function( request ) { %>
+						<div class="cell col-sm-4 profile">
+							<div class="inner text-center">
+								<div class="obj-thumb profile-picture" 
+								data-id="<%= request.get('profile').id %>" 
+								style="background-image:url(<%= request.get('profile').get('profilePicture').url() %>)">
+								</div>
+							</div>
+							<div class="inner">			
+								<strong><%= request.get('profile').get('displayName') %></strong>
+							</div>
+						</div>
+						<% }); %>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- earnigs -->
-		<div class="row">
-			<div class="cell text-center earnings">
-				<span class="potential-earnings">Potential earnings: </span>
-				<span class="people-count">&#36;<%= pricePerSeat %> x <%= bookedSeats %> people = </span>
-				<span class="earning-total">&#36;<%= earnings %></span>
+			<!-- earnigs -->
+			<div class="row">
+				<div class="cell text-center earnings">
+					<span class="potential-earnings">Potential earnings: </span>
+					<span class="people-count">&#36;<%= pricePerSeat %> x <%= bookedSeats %> people = </span>
+					<span class="earning-total">&#36;<%= earnings %></span>
+				</div>
 			</div>
+			<!-- -->
 		</div>
-		<!-- -->
 	</div>
 
 </div>

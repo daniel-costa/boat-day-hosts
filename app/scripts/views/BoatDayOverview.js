@@ -118,7 +118,7 @@ define([
 					self.renderGroupChat();
 					self.renderBookingRequests();
 					self.renderQuestions();
-					self.renderRescheduleBoatDay();
+					//self.renderRescheduleBoatDay();
 
 				});
 			
@@ -151,10 +151,12 @@ define([
 
 				qChatMessage.count().then(function(count){
 
+					
 					var _tpl = tpl({
 						name: boatday.get("name"),
-						date: self.dateParseToDisplayDate(boatday.get("date")),
-						seatRequests: (self.collectionPendingSeatRequests.length + self.collectionApprovedSeatRequests.length),
+						//date: self.dateParseToDisplayDate(boatday.get("date")),
+						date: self.formatDate(boatday.get("date")),
+						bookedSeats: boatday.get("bookedSeats"),
 						messages: count
 					});
 
@@ -179,6 +181,46 @@ define([
 								*/
 			
 			},
+
+			formatDate: function(date){
+
+				var dateStr = "";
+				var _date = new Date(date);
+				var _month = _date.getMonth();
+				var _dt = _date.getDate();
+
+				var month = new Array();
+			    month[0] = "January";
+			    month[1] = "February";
+			    month[2] = "March";
+			    month[3] = "April";
+			    month[4] = "May";
+			    month[5] = "June";
+			    month[6] = "July";
+			    month[7] = "August";
+			    month[8] = "September";
+			    month[9] = "October";
+			    month[10] = "November";
+			    month[11] = "December";
+
+				dateStr = _dt + this.nth(_dt)+ " " +month[_month];
+
+				return dateStr;
+			},
+
+			nth: function(d){
+				if(d>3 && d<21) return 'th';
+
+				switch (d % 10) {
+					case 1:  return "st";
+					case 2:  return "nd";
+					case 3:  return "rd";
+					default: return "th";
+			    }
+
+			},
+
+
 
 			renderEditBoatDay: function(){
 				var self = this;
@@ -534,7 +576,7 @@ define([
 				query.find().then(function(matches){
 					
 					if(matches.length > 0) {
-						self.$el.find('.notification-list').show();
+						self.$el.find('.pending-list').show();
 					}
 					
 					_.each(matches, function(request) {
@@ -548,7 +590,7 @@ define([
 						if( request.get("status") == "pending" ){
 							console.log(1)
 							console.log(data);
-							self.$el.find('.notification-list').append(_.template(BoatDayOverviewBoookingRowTemplate)(data));
+							self.$el.find('.pending-list').append(_.template(BoatDayOverviewBoookingRowTemplate)(data));
 						}
 
 					});
@@ -556,7 +598,7 @@ define([
 				});
 
 				if(self.collectionPendingSeatRequests.length > 0){
-					self.$el.find('.notification-list').show();
+					self.$el.find('.pending-list').show();
 				}
 
 
