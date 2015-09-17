@@ -14,13 +14,18 @@
 
 	<div class="row boatdayoverview-row-details">
 			<div class="boatday-edit-form boatday-overview-row-hidden">
-			<form class="form-horizontal" name="edit-form">
+
+				<% if(readOnly){%>
+				<p class="boatday-read-only text-center">This BoatDay has requests pending or / and approved, you can not edit it anymore. For any emergency change, please contact the BoatDay Team trough the <a href="#/help-center">Help Center</a>.</p>
+				<%} %>
+
+			<form class="form-horizontal" name="edit-form" >
 				<div class="row">
 					<div class="col-sm-20 col-sm-offset-2">
 						<div class="form-group">
 							<label for="name" class="control-label">BoatDay Name</label>
 							<div>
-								<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="Give a fun name to your BoatDay">
+								<input type="text" value="<%= name ? name : '' %>" class="form-control" id="name" name="name" placeholder="Give a fun name to your BoatDay" <%= readOnly ? "readOnly" : "" %>>
 							</div>
 						</div>
 					</div>
@@ -52,7 +57,7 @@
 							<label for="availableSeats" class="control-label">Available Seats</label>
 							<label class="preview-availableSeats control-label pull-right"></label>
 							<div>
-								<input type="text" class="form-control" id="availableSeats" name="availableSeats" data-slider-min="2" data-slider-max="15" data-slider-step="1" data-slider-value="<%= availableSeats ? availableSeats : 8 %>">
+								<input type="text" class="form-control" id="availableSeats" name="availableSeats" data-slider-min="2" data-slider-max="15" data-slider-step="1" data-slider-value="<%= availableSeats ? availableSeats : 8 %>" >
 							</div>
 						</div>
 					</div>
@@ -63,7 +68,7 @@
 								<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="Saturday July 18th is the first available day for BoatDay outings.  This ensures Guests have plenty of time to see and book your BoatDays before you set sail."></span>
 							</label>
 							<div>
-								<input type="text" class="form-control date select-styles" placeholder="mm/dd/yyyy" id="date" name="date" />
+								<input type="text" class="form-control date select-styles" placeholder="mm/dd/yyyy" id="date" name="date" <%= readOnly ? "disabled" : "" %>/>
 							</div>
 						</div>
 					</div>
@@ -148,7 +153,7 @@
 						<div class="form-group">
 							<label for="activity" class="control-label">Activity</label>
 							<div>
-								<select class="input-small form-control" id="activity" name="activity">
+								<select class="input-small form-control" id="activity" name="activity" <%= readOnly ? "disabled" : "" %>>
 									<option value="leisure" <%= category && category == 'leisure' ? 'selected' : '' %> selected>Leisure</option> 
 									<option value="fishing" <%= category && category == 'fishing' ? 'selected' : '' %>>Fishing</option>
 									<option value="sailing" <%= category && category == 'sailing' ? 'selected' : '' %>>Sailing</option>
@@ -167,25 +172,25 @@
 							<div class="form-group">
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresLeisureCruising" name="featuresLeisureCruising" <%= features.leisure.cruising ? 'checked': '' %>>
+										<input type="checkbox" id="featuresLeisureCruising" name="featuresLeisureCruising" <%= features.leisure.cruising ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresLeisureCruising">Crusing</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresLeisurePartying" name="featuresLeisurePartying" <%= features.leisure.partying ? 'checked': '' %>>
+										<input type="checkbox" id="featuresLeisurePartying" name="featuresLeisurePartying" <%= features.leisure.partying ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresLeisurePartying">Partying</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresLeisureSightseeing" name="featuresLeisureSightseeing" <%= features.leisure.sightseeing ? 'checked': '' %>>
+										<input type="checkbox" id="featuresLeisureSightseeing" name="featuresLeisureSightseeing" <%= features.leisure.sightseeing ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresLeisureSightseeing">Sightseeing</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresLeisureOther" name="featuresLeisureOther" <%= features.leisure.other ? 'checked': '' %>>
+										<input type="checkbox" id="featuresLeisureOther" name="featuresLeisureOther" <%= features.leisure.other ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresLeisureOther">Other</label> 
 									</div>
 								</div>
@@ -202,31 +207,31 @@
 							<div class="form-group">
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresFishingOffshore" name="featuresFishingOffshore" <%= features.fishing.offshore ? 'checked': '' %>>
+										<input type="checkbox" id="featuresFishingOffshore" name="featuresFishingOffshore" <%= features.fishing.offshore ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresFishingOffshore" data-toggle="tooltip" data-placement="top" data-container="body" title="limit 12 miles out">Offshore Fishing</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresFishingFlats" name="featuresFishingFlats" <%= features.fishing.flats ? 'checked': '' %>>
+										<input type="checkbox" id="featuresFishingFlats" name="featuresFishingFlats" <%= features.fishing.flats ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresFishingFlats">Flats Fishing</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresFishingLake" name="featuresFishingLake" <%= features.fishing.lake ? 'checked': '' %>>
+										<input type="checkbox" id="featuresFishingLake" name="featuresFishingLake" <%= features.fishing.lake ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresFishingLake">Lake Fishing</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresFishingRecreational" name="featuresFishingRecreational" <%= features.fishing.recreational ? 'checked': '' %>>
+										<input type="checkbox" id="featuresFishingRecreational" name="featuresFishingRecreational" <%= features.fishing.recreational ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresFishingRecreational" data-toggle="tooltip" data-placement="top" data-container="body" data-container="body"  title="just for fun">Recreational Fishing</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresFishingOther" name="featuresFishingOther" <%= features.fishing.other ? 'checked': '' %>>
+										<input type="checkbox" id="featuresFishingOther" name="featuresFishingOther" <%= features.fishing.other ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresFishingOther">Other</label>
 									</div>
 								</div>
@@ -241,7 +246,7 @@
 							<div class="form-group" style="margin-bottom:0px;">
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresFishingEquipment" name="featuresFishingEquipment" <%= features.fishing.equipment ? 'checked': '' %>>
+										<input type="checkbox" id="featuresFishingEquipment" name="featuresFishingEquipment" <%= features.fishing.equipment ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresFishingEquipment">Equipment Provided</label>
 									</div>
 								</div>
@@ -251,45 +256,45 @@
 							<div class="form-group">
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresFishingEquipmentItemsBait" name="featuresFishingEquipmentItemsBait" <%= features.fishing.equipmentItems.bait ? 'checked': '' %>>
+										<input type="checkbox" id="featuresFishingEquipmentItemsBait" name="featuresFishingEquipmentItemsBait" <%= features.fishing.equipmentItems.bait ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresFishingEquipmentItemsBait">Bait</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresFishingEquipmentItemsLines" name="featuresFishingEquipmentItemsLines" <%= features.fishing.equipmentItems.lines ? 'checked': '' %>>
+										<input type="checkbox" id="featuresFishingEquipmentItemsLines" name="featuresFishingEquipmentItemsLines" <%= features.fishing.equipmentItems.lines ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresFishingEquipmentItemsLines">Fishing Line</label>
 									</div>
 								</div>
 								
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresFishingEquipmentItemsHooks" name="featuresFishingEquipmentItemsHooks" <%= features.fishing.equipmentItems.hooks ? 'checked': '' %>>
+										<input type="checkbox" id="featuresFishingEquipmentItemsHooks" name="featuresFishingEquipmentItemsHooks" <%= features.fishing.equipmentItems.hooks ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresFishingEquipmentItemsHooks">Hooks</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresFishingEquipmentItemsLures" name="featuresFishingEquipmentItemsLures" <%= features.fishing.equipmentItems.lures ? 'checked': '' %>>
+										<input type="checkbox" id="featuresFishingEquipmentItemsLures" name="featuresFishingEquipmentItemsLures" <%= features.fishing.equipmentItems.lures ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresFishingEquipmentItemsLures">Lures</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresFishingEquipmentItemsNets" name="featuresFishingEquipmentItemsNets" <%= features.fishing.equipmentItems.nets ? 'checked': '' %>>
+										<input type="checkbox" id="featuresFishingEquipmentItemsNets" name="featuresFishingEquipmentItemsNets" <%= features.fishing.equipmentItems.nets ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresFishingEquipmentItemsNets">Nets</label>
 									</div>
 								</div>
 
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresFishingEquipmentItemsRods" name="featuresFishingEquipmentItemsRods" <%= features.fishing.equipmentItems.rods ? 'checked': '' %>>
+										<input type="checkbox" id="featuresFishingEquipmentItemsRods" name="featuresFishingEquipmentItemsRods" <%= features.fishing.equipmentItems.rods ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresFishingEquipmentItemsRods">Rods</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresFishingEquipmentItemsSinkers" name="featuresFishingEquipmentItemsSinkers" <%= features.fishing.equipmentItems.sinkers ? 'checked': '' %>>
+										<input type="checkbox" id="featuresFishingEquipmentItemsSinkers" name="featuresFishingEquipmentItemsSinkers" <%= features.fishing.equipmentItems.sinkers ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresFishingEquipmentItemsSinkers">Sinkers</label>
 									</div>
 								</div>
@@ -306,25 +311,25 @@
 							<div class="form-group">
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresSportsSnorkeling" name="featuresSportsSnorkeling" <%= features.sports.snorkeling ? 'checked': '' %>>
+										<input type="checkbox" id="featuresSportsSnorkeling" name="featuresSportsSnorkeling" <%= features.sports.snorkeling ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresSportsSnorkeling">Snorkeling</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresSportStubing" name="featuresSportStubing" <%= features.sports.tubing ? 'checked': '' %>>
+										<input type="checkbox" id="featuresSportStubing" name="featuresSportStubing" <%= features.sports.tubing ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresSportStubing">Tubing</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresSportsWakeBoarding" name="featuresSportsWakeBoarding" <%= features.sports.wakeBoarding ? 'checked': '' %>>
+										<input type="checkbox" id="featuresSportsWakeBoarding" name="featuresSportsWakeBoarding" <%= features.sports.wakeBoarding ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresSportsWakeBoarding">Wake Boarding</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresSportsWaterSkiing" name="featuresSportsWaterSkiing" <%= features.sports.waterSkiing ? 'checked': '' %>>
+										<input type="checkbox" id="featuresSportsWaterSkiing" name="featuresSportsWaterSkiing" <%= features.sports.waterSkiing ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresSportsWaterSkiing">Water Skiing </label>
 									</div>
 								</div>
@@ -339,7 +344,7 @@
 							<div class="form-group" style="margin-bottom:0px;">
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresSportsEquipment" name="featuresSportsEquipment" <%= features.sports.equipment ? 'checked': '' %>>
+										<input type="checkbox" id="featuresSportsEquipment" name="featuresSportsEquipment" <%= features.sports.equipment ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label class="control-label" for="featuresSportsEquipment">Equipment Provided</label>
 									</div>
 								</div>
@@ -349,49 +354,49 @@
 							<div class="form-group">
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresSportsEquipmentItemsFins" name="featuresSportsEquipmentItemsFins" <%= features.sports.equipmentItems.fins ? 'checked': '' %>>
+										<input type="checkbox" id="featuresSportsEquipmentItemsFins" name="featuresSportsEquipmentItemsFins" <%= features.sports.equipmentItems.fins ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label for="featuresSportsEquipmentItemsFins" class="control-label">Fins</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresSportsEquipmentItemsHelmets" name="featuresSportsEquipmentItemsHelmets" <%= features.sports.equipmentItems.helmets ? 'checked': '' %>>
+										<input type="checkbox" id="featuresSportsEquipmentItemsHelmets" name="featuresSportsEquipmentItemsHelmets" <%= features.sports.equipmentItems.helmets ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label for="featuresSportsEquipmentItemsHelmets" class="control-label">Helmets</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresSportsEquipmentItemsMasks" name="featuresSportsEquipmentItemsMasks" <%= features.sports.equipmentItems.masks ? 'checked': '' %>>
+										<input type="checkbox" id="featuresSportsEquipmentItemsMasks" name="featuresSportsEquipmentItemsMasks" <%= features.sports.equipmentItems.masks ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label for="featuresSportsEquipmentItemsMasks" class="control-label">Masks</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresSportsEquipmentItemsSnorkels" name="featuresSportsEquipmentItemsSnorkels" <%= features.sports.equipmentItems.snorkels ? 'checked': '' %>>
+										<input type="checkbox" id="featuresSportsEquipmentItemsSnorkels" name="featuresSportsEquipmentItemsSnorkels" <%= features.sports.equipmentItems.snorkels ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label for="featuresSportsEquipmentItemsSnorkels" class="control-label">Snorkels</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresSportsEquipmentItemsTowLine" name="featuresSportsEquipmentItemsTowLine" <%= features.sports.equipmentItems.towLine ? 'checked': '' %>>
+										<input type="checkbox" id="featuresSportsEquipmentItemsTowLine" name="featuresSportsEquipmentItemsTowLine" <%= features.sports.equipmentItems.towLine ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label for="featuresSportsEquipmentItemsTowLine" class="control-label">Tow Line</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresSportsEquipmentItemsTubes" name="featuresSportsEquipmentItemsTubes" <%= features.sports.equipmentItems.tubes ? 'checked': '' %>>
+										<input type="checkbox" id="featuresSportsEquipmentItemsTubes" name="featuresSportsEquipmentItemsTubes" <%= features.sports.equipmentItems.tubes ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 										<label for="featuresSportsEquipmentItemsTubes" class="control-label">Tubes</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresSportsEquipmentItemsWakeboard" name="featuresSportsEquipmentItemsWakeboard" <%= features.sports.equipmentItems.wakeboard ? 'checked': '' %>>
+										<input type="checkbox" id="featuresSportsEquipmentItemsWakeboard" name="featuresSportsEquipmentItemsWakeboard" <%= features.sports.equipmentItems.wakeboard ? 'checked': '' %><%= readOnly ? "disabled" : "" %>>
 										<label for="featuresSportsEquipmentItemsWakeboard" class="control-label">Wakeboard</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-6 col-lg-6">
 									<div class="form-group">
-										<input type="checkbox" id="featuresSportsEquipmentItemsWaterSkis" name="featuresSportsEquipmentItemsWaterSkis" <%= features.sports.equipmentItems.waterSkis ? 'checked': '' %>>
+										<input type="checkbox" id="featuresSportsEquipmentItemsWaterSkis" name="featuresSportsEquipmentItemsWaterSkis" <%= features.sports.equipmentItems.waterSkis ? 'checked': '' %><%= readOnly ? "disabled" : "" %>>
 										<label for="featuresSportsEquipmentItemsWaterSkis" class="control-label">Water Skis</label>
 									</div>
 								</div>
@@ -411,7 +416,7 @@
 								<!-- <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title=""></span> -->
 							</label>
 							<div>
-								<textarea class="form-control" name="description" id="description" rows="7"  placeholder="Attract more Guests with a custom description of your BoatDay! Share the extra details that make your BoatDay unique."><%= description ?  description : '' %></textarea>
+								<textarea class="form-control" name="description" id="description" rows="7"  placeholder="Attract more Guests with a custom description of your BoatDay! Share the extra details that make your BoatDay unique." <%= readOnly ? "readOnly" : "" %>><%= description ?  description : '' %></textarea>
 							</div>
 						</div>
 					</div>
@@ -426,37 +431,37 @@
 											</label>
 											<div class="col-sm-24">
 												<div class="form-group">
-													<input type="checkbox" name="featuresExtrasFood" id="featuresExtrasFood" <%= features.extras.food ? 'checked': '' %>> 
+													<input type="checkbox" name="featuresExtrasFood" id="featuresExtrasFood" <%= features.extras.food ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>> 
 													<label class="control-label" for="featuresExtrasFood">Food</label>
 												</div>
 											</div>
 											<div class="col-sm-24">
 												<div class="form-group">
-													<input type="checkbox" name="featuresExtrasDrink" id="featuresExtrasDrink" <%= features.extras.drink ? 'checked': '' %>> 
+													<input type="checkbox" name="featuresExtrasDrink" id="featuresExtrasDrink" <%= features.extras.drink ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>> 
 													<label class="control-label" for="featuresExtrasDrink">Drink</label>
 												</div>
 											</div>
 											<div class="col-sm-24">
 												<div class="form-group">
-													<input type="checkbox" name="featuresExtrasMusic" id="featuresExtrasMusic" <%= features.extras.music ? 'checked': '' %>> 
+													<input type="checkbox" name="featuresExtrasMusic" id="featuresExtrasMusic" <%= features.extras.music ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>> 
 													<label class="control-label" for="featuresExtrasMusic">Music</label>
 												</div>
 											</div>
 											<div class="col-sm-24">
 												<div class="form-group">
-													<input type="checkbox" name="featuresExtrasTowels" id="featuresExtrasTowels" <%= features.extras.towels ? 'checked': '' %>> 
+													<input type="checkbox" name="featuresExtrasTowels" id="featuresExtrasTowels" <%= features.extras.towels ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>> 
 													<label class="control-label" for="featuresExtrasTowels">Towels</label>
 												</div>
 											</div>
 											<div class="col-sm-24">
 												<div class="form-group">
-													<input type="checkbox" name="featuresExtrasSunscreen" id="featuresExtrasSunscreen" <%= features.extras.sunscreen ? 'checked': '' %>> 
+													<input type="checkbox" name="featuresExtrasSunscreen" id="featuresExtrasSunscreen" <%= features.extras.sunscreen ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>> 
 													<label class="control-label" for="featuresExtrasSunscreen">Sunscreen</label>
 												</div>
 											</div>
 											<div class="col-sm-24">
 												<div class="form-group">
-													<input type="checkbox" name="featuresExtrasInflatables" id="featuresExtrasInflatables" <%= features.extras.inflatables ? 'checked': '' %>> 
+													<input type="checkbox" name="featuresExtrasInflatables" id="featuresExtrasInflatables" <%= features.extras.inflatables ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>> 
 													<label class="control-label" for="featuresExtrasInflatables">Inflatables </label>
 												</div>
 											</div>
@@ -467,25 +472,25 @@
 											<label class="control-label">Family Settings</label>
 											<div class="col-sm-24">
 												<div class="form-group">
-													<input type="checkbox" name="featuresGlobalChildren" id="featuresGlobalChildren" <%= features.global.children ? 'checked': '' %>> 
+													<input type="checkbox" name="featuresGlobalChildren" id="featuresGlobalChildren" <%= features.global.children ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>> 
 													<label class="control-label" for="featuresGlobalChildren">Children allowed </label>
 												</div>
 											</div>
 											<div class="col-sm-24">
 												<div class="form-group">
-													<input type="checkbox" name="featuresGlobalSmoking" id="featuresGlobalSmoking" <%= features.global.smoking ? 'checked': '' %>> 
+													<input type="checkbox" name="featuresGlobalSmoking" id="featuresGlobalSmoking" <%= features.global.smoking ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>> 
 													<label class="control-label" for="featuresGlobalSmoking">Smoking Permitted</label>
 												</div>
 											</div>
 											<div class="col-sm-24">
 												<div class="form-group">
-													<input type="checkbox" name="featuresGlobalDrinking" id="featuresGlobalDrinking" <%= features.global.drinking ? 'checked': '' %>> 
+													<input type="checkbox" name="featuresGlobalDrinking" id="featuresGlobalDrinking" <%= features.global.drinking ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>> 
 													<label class="control-label" for="featuresGlobalDrinking">Drinking Permitted </label>
 												</div>
 											</div>
 											<div class="col-sm-24">
 												<div class="form-group">
-													<input type="checkbox" name="featuresGlobalPets" id="featuresGlobalPets" <%= features.global.pets ? 'checked': '' %>> 
+													<input type="checkbox" name="featuresGlobalPets" id="featuresGlobalPets" <%= features.global.pets ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>> 
 													<label class="control-label" for="featuresGlobalPets">Pets Permitted </label>
 												</div>
 											</div>
@@ -507,7 +512,7 @@
 								<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-container="body" data-placement="top" title="Click on the map to set the location."></span>
 							</label>
 							<div>
-								<input type="text" class="form-control" id="locationText" name="locationText" placeholder="Click on the map to set the location.">
+								<input type="text" class="form-control" id="locationText" name="locationText" placeholder="Click on the map to set the location." <%= readOnly ? "disabled" : "" %>>
 							</div>
 							<div class="embed-responsive embed-responsive-16by9 map" style="margin-top: 10px"></div>
 						</div>
@@ -525,9 +530,9 @@
 							</label>
 							<br/><br/>
 							<div>
-								<input type="radio" id="bookingPolicy1" name="bookingPolicy" value="manually" <%= bookingPolicy == 'manually' ? 'checked': (status == 'creation' ? 'checked' : '') %>>
+								<input type="radio" id="bookingPolicy1" name="bookingPolicy" value="manually" <%= bookingPolicy == 'manually' ? 'checked': (status == 'creation' ? 'checked' : '') %> <%= readOnly ? "disabled" : "" %>>
 								<label class="control-label" for="bookingPolicy1"><strong>Manual Book: </strong>I want to review each Guest request and choose the best fit for my BoatDay.</label>
-								<input type="radio" id="bookingPolicy2" name="bookingPolicy" value="automatically" <%= bookingPolicy == 'automatically' ? 'checked': '' %>>
+								<input type="radio" id="bookingPolicy2" name="bookingPolicy" value="automatically" <%= bookingPolicy == 'automatically' ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 								<label class="control-label" for="bookingPolicy2"><strong>Instant Book: </strong>Automatically accept all Guest requests.</label>
 								<!--
 								<input type="radio" id="bookingPolicy3" name="bookingPolicy" value="halfway">
@@ -549,11 +554,11 @@
 							</label>
 							<br/><br/>
 							<div>
-								<input type="radio" id="cancellationPolicy1" name="cancellationPolicy" value="flexible"  <%= cancellationPolicy == 'flexible' ? 'checked': (status == 'creation' ? 'checked' : '') %>>
+								<input type="radio" id="cancellationPolicy1" name="cancellationPolicy" value="flexible"  <%= cancellationPolicy == 'flexible' ? 'checked': (status == 'creation' ? 'checked' : '') %> <%= readOnly ? "disabled" : "" %>>
 								<label class="control-label" for="cancellationPolicy1"><strong>Flexible:</strong> No charge for Guest cancellations up to 1 day prior to departure, except Trust &amp; Safety Fee.</label>
-								<input type="radio" id="cancellationPolicy2" name="cancellationPolicy" value="moderate" <%= cancellationPolicy == 'moderate' ? 'checked': '' %>>
+								<input type="radio" id="cancellationPolicy2" name="cancellationPolicy" value="moderate" <%= cancellationPolicy == 'moderate' ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 								<label class="control-label" for="cancellationPolicy2"><strong>Moderate:</strong> No charge for Guest cancellations up to 3 days prior to departure, except Trust &amp; Safety Fee.</label>
-								<input type="radio" id="cancellationPolicy3" name="cancellationPolicy" value="strict" <%= cancellationPolicy == 'strict' ? 'checked': '' %>>
+								<input type="radio" id="cancellationPolicy3" name="cancellationPolicy" value="strict" <%= cancellationPolicy == 'strict' ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 								<label class="control-label" for="cancellationPolicy3"><strong>Strict:</strong> 50% charge for Guest cancellations up to five days prior to departure time, including Trust &amp; Safety Fee.</label>
 							</div>
 						</div>
@@ -562,8 +567,8 @@
 
 				<div class="row btn-row">
 					<div class="col-xs-24 text-center">
-						<button type="submit" class="btn btn-lg btn-primary"><%= status == 'creation' ? 'Create BoatDay' : 'Update BoatDay' %></button>
-						<div class="display-messages text-center"></div>
+						<button type="submit" class="btn btn-lg btn-primary" <%= readOnly ? "disabled" : "" %>><%= status == 'creation' ? 'Create BoatDay' : 'Update BoatDay' %></button>
+						<div class="display-messages text-center" ></div>
 					</div>
 				</div>
 			</form>

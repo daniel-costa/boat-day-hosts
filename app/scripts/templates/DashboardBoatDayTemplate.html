@@ -6,12 +6,8 @@
 			<div class="inner">
 				<p class="date"><%= date %> at <%= time %></p>
 				<h1><%= name %></h1>
-				<!-- <p class="sub"><%= boatName %> / <%= boatType %> / <%= duration %> hour<%= duration != 1 ? 's' : '' %></p> -->
 				
 			</div>
-
-
-			<!-- <a class="boatday-share share boatday-box-open" data-target=".box-share"><span class="glyphicon glyphicon-share-alt"></span></a> -->
 
 			<p class="seats">
 				<strong><%= bookedSeats %>/<%= availableSeats %></strong> 
@@ -27,195 +23,15 @@
 		</div>
 
 		<div class="info" style="height:120px;">
-
-			<div class="inner">
-					<img src="resources/ico-info.png" />
-					<div class="inner hidden-xs">
-						<a href="#/boatday-overview/<%= id %>">Overview</a>
-					</div>
-			</div>
-
-			
-			<!-- 
-
-				<div class="<%= active ? 'col-xs-8' : 'col-xs-12' %> boatday-box-open" data-target=".box-details">
+			<a href="#/boatday-overview/<%= id %>">
 				<div class="inner">
-					<img src="resources/ico-info.png" />
-					<div class="inner hidden-xs">
-						Details
-					</div>
-				</div>
-			</div>
-			
-			<div class="<%= active ? 'col-xs-8' : 'col-xs-12' %> boatday-box-open" data-target=".box-requests">
-				<div class="inner">
-					<img src="resources/ico-host.png" />
-					<div class="inner hidden-xs">
-						Requests
-						<% if( active ) { %>
-							<br/>
-							<div class="new new-requests" style="display:none"></div>
-						<% } %>
-					</div>
-				</div>
-			</div>
-
-			<% if( active ) { %>
-				<div class="col-xs-8 boatday-box-open" data-target=".box-messages">
-					<div class="inner">
-						<img src="resources/ico-message.png" />
+						<img src="resources/ico-info.png" />
 						<div class="inner hidden-xs">
-							Messages<br/>
-							<div class="new new-messages" style="display:none"></div>
+							Overview
 						</div>
-					</div>
 				</div>
-			<% } %>
-		-->
+			</a>
 
-
-		</div>
-		<!-- 
-					<div class="box box-details">
-			<div class="header">
-				<h1>Details</h1>
-				<img src="resources/dashboard-box-close.png" class="boatday-box-close" />
-			</div>
-			<div class="info">
-				<% if( active ) { %>
-					<div class="content-fluid cancel">
-						<div class="row">
-							<div class="col-md-24">
-								<div class="form-group">
-									<label class="control-label">Reason</label>
-									<textarea name="cancelReason" class="form-control" rows="5" placeholder="Cancellations negatively affect user’s BoatDay experience and may lead to poor reviews from your Guests.  Be sure to tell Guests the reason for your cancellation."></textarea>
-								</div>
-								<div class="form-group">
-									<button class="btn btn-lg btn-block btn-primary btn-cancel-confirm">Cancel</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				<% } %>
-				<div class="content-fluid details">
-					<div class="row">
-						<div class="col-md-24">
-							<h3 class="text-center"><%= name %></h3>
-							<% if( active ) { %>
-								<div class="text-center edit-button" style="display:none;"><a href="#/boatday/<%= id %>">edit BoatDay</a></div>
-							<% } %>
-
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-15">
-							<strong>Boat</strong>
-							<p>
-								<%= boatName %>, <%= boatYear %> <%= boatType %>
-							</p>
-						</div>
-						<div class="col-md-9">
-							<strong>Captain</strong>
-							<p><%= captainName %></p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-15">
-							<strong>Date</strong>
-							<p><%= date %> at <%= time %></p>
-						</div>
-						<div class="col-md-9">
-							<strong>Duration</strong>
-							<p><%= duration %> hour<%= duration != 1 ? 's' : '' %></p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-15">
-							<strong>Departure</strong>
-							<p><%= location %></p>
-						</div>
-						<div class="col-md-9">
-							<strong>Price per seat</strong>
-							<p>$<%= price %></p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-15">
-							<strong>Available Seats</strong>
-							<p><%= availableSeats %></p>
-						</div>
-						<div class="col-md-9">
-							<strong>Activity</strong>
-							<p><%= activity %></p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-15">
-							<strong>Cancellation Policy</strong>
-							<p><%= cancellation %></p>
-						</div>
-						<div class="col-md-9">
-							<strong>Booking Policy</strong>
-							<p><%= booking %></p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-24">
-							<strong>Description</strong>
-							<p><%= description %></p>
-						</div>
-					</div>
-					<% if( host.id == Parse.User.current().get('host').id ) { %>
-						<% if( active ) { %>
-							<div class="row">
-								<div class="col-xs-12 text-center">
-									<button class="btn btn-lg btn-default btn-duplicate">Duplicate</button>
-								</div>
-								<div class="col-xs-12 text-center">
-									<button class="btn btn-lg btn-danger btn-cancel">Cancel BoatDay</button>
-								</div>
-							</div>
-						<% } else { %>
-							<div class="row">
-								<div class="col-xs-24 text-center">
-									<button class="btn btn-lg btn-primary btn-duplicate">Duplicate</button>
-								</div>
-							</div>
-						<% } %>
-					<% } %>
-				</div>
-			</div>
-		</div>
-		<div class="box box-requests">
-			<div class="header">
-				<h1>Requests</h1>
-				<img src="resources/dashboard-box-close.png" class="boatday-box-close" />
-			</div>
-			<div class="info"></div>
-		</div>
-		<div class="box box-messages">
-			<div class="header">
-				<h1>Message Board</h1>
-				<img src="resources/dashboard-box-close.png" class="boatday-box-close" />
-			</div>
-			<div class="info">
-				<div class="inner"></div>
-			</div>
-			<div class="bottom">
-				<input type="text" class="form-control" name="message" placeholder="(press enter to send message)" />
-			</div>
-		</div>
-		-->
-		<!-- <div class="box box-share">
-			<div class="header">
-				<h1>Share BoatDay</h1>
-				<img src="resources/dashboard-box-close.png" class="boatday-box-close" />
-			</div>
-			<div class="info">
-				<p class="empty">
-					<div class="fb-send" data-href="https://developers.facebook.com/docs/plugins/"></div>
-				</p>
-			</div>
-		</div> -->
+			
 	</div>
 </div>

@@ -27,10 +27,10 @@ define([
 			template: _.template(BoatDayOverviewTemplate),
 
 			events: {
-				'click .boatday-overview-edit a': 'processBoatDayEdit',
-				'click .boatday-overview-group-chat a': 'processBoatDayGroupChat',
+				'click .boatday-overview-edit a.trigger': 'processBoatDayEdit',
+				'click .boatday-overview-group-chat a.trigger': 'processBoatDayGroupChat',
 				'click .boatday-overview-booking-requests a.trigger': 'processBookingRequests',
-				'click .boatday-overview-questions a': 'processQuestions',
+				'click .boatday-overview-questions a.trigger': 'processQuestions',
 				'click .btn-cancel': 'cancelBoatDay',
 				'click .btn-reschedule': 'rescheduleBoatDay',
 				'submit form[name="edit-form"]': 'updateBoatDay',
@@ -70,6 +70,8 @@ define([
 			collectionRejectedSeatRequests: [],
 
 			chatLastFetch: null,
+
+			boatdayReadOnly: true,
 
 			render: function() {
 				BaseView.prototype.render.call(this);
@@ -112,9 +114,9 @@ define([
 
 					self.renderBoatDayInfo();
 
-					if((self.collectionPendingSeatRequests.length < 1) && (self.collectionApprovedSeatRequests.length < 1)){
+					//if((self.collectionPendingSeatRequests.length < 1) && (self.collectionApprovedSeatRequests.length < 1)){
 						self.renderEditBoatDay();
-					}
+					//}
 
 					self.renderCancelBoatDay();
 					self.renderGroupChat();
@@ -231,6 +233,13 @@ define([
 				var target = self.$el.find('.dashboard-canvas .boatday-overview-edit');
 				target.html('');
 
+				
+
+				if((self.collectionPendingSeatRequests.length < 1) && (self.collectionApprovedSeatRequests.length < 1)){
+					self.boatdayReadOnly = false;
+				}
+
+
 				var _tpl = tpl({
 					name: this.model.get("name"),
 					date: self.dateParseToDisplayDate(this.model.get("date")),
@@ -243,13 +252,21 @@ define([
 					description: this.model.get("description"),
 					bookingPolicy: this.model.get("bookingPolicy"),
 					cancellationPolicy: this.model.get("cancellationPolicy"),
+					readOnly: self.boatdayReadOnly
 				});
+
+				console.log("Readonly :"+self.boatdayReadOnly);
 
 				target.append(_tpl);
 
 				var boatsFetchSuccess = function(matches) {
 
-					var select = $('<select>').attr({ id: 'boat', name: 'boat', class: 'form-control' });
+					if(self.boatdayReadOnly){
+						var select = $('<select>').attr({ id: 'boat', name: 'boat', class: 'form-control', disabled:'disabled' });
+					}
+					else{
+						var select = $('<select>').attr({ id: 'boat', name: 'boat', class: 'form-control' });
+					}
 
 						_.each(matches, function(boat) {
 
@@ -278,8 +295,10 @@ define([
 					this.$el.find('.date').datepicker('setDate', this.model.get('date'));
 				}
 
+				
 				var slidersConfig = { 
-					tooltip: 'hide'
+					tooltip: 'hide',
+					enabled: !self.boatdayReadOnly
 				};
 
 				var updateTotalCalculator = function() {
@@ -385,9 +404,11 @@ define([
 							self._map.setCenter(latlng);
 						}); 
 
-						google.maps.event.addListener(self._map, 'click', function(event) {
-							self.moveMarker(event.latLng)
-						});
+						if(!self.boatdayReadOnly){
+							google.maps.event.addListener(self._map, 'click', function(event) {
+								self.moveMarker(event.latLng)
+							});
+						}
 
 					}
 
@@ -489,9 +510,12 @@ define([
 
 			displayNewChatCount: function(messageCount){
 				
-				var target = this.$el.find('.boatday-overview-group-chat .new-chat-count');
+				var target = this.$el.find('.boatday-overview .boatday-overview-group-chat .new-chat-count');
 				target.html(messageCount + " new");
-			
+
+				var newMessageTarget = this.$el.find('.boatday-overview .overviewinfo-right .info-new-messages');
+				//console.log(newMessageTarget);
+				newMessageTarget.html(messageCount);
 			},
 
 			displayNewBookingCount: function(bookingCount){
@@ -568,12 +592,10 @@ define([
 				self.buttonLoader('...', $(event.currentTarget));
 
 				request.save({ status: 'approved' }).then(function() {
-
-					//alert(request.get('seats'));
-					//alert(request.get('boatday').get('bookedSeats'));
-					request.get('boatday').increment('bookedSeats', request.get('seats'));
+	
+				request.get('boatday').increment('bookedSeats', request.get('seats'));
 					request.get('boatday').save().then(function() {
-						alert(request.get('boatday').get('bookedSeats'))
+						
 						new NotificationModel().save({
 							action: 'request-approved',
 							fromTeam: false,
@@ -1135,7 +1157,14 @@ define([
 
 				}).then(function() {
 
-					var select = $('<select>').attr({ id: 'captain', name: 'captain', class: 'form-control' });
+					if(self.boatdayReadOnly){
+						var select = $('<select>').attr({ id: 'captain', name: 'captain', class: 'form-control', disabled:'disabled' });
+					}
+					else{
+						var select = $('<select>').attr({ id: 'captain', name: 'captain', class: 'form-control' });
+					}
+
+					
 
 					_.each(self.collectionCaptains, function(captain) {
 						var opt = $('<option>').attr('value', captain.id).text(captain.get('displayName'));
