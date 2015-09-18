@@ -511,7 +511,13 @@ define([
 			displayNewChatCount: function(messageCount){
 				
 				var target = this.$el.find('.boatday-overview .boatday-overview-group-chat .new-chat-count');
-				target.html(messageCount + " new");
+				
+				if(messageCount > 0){
+					target.html(' - <font color="#f8b62c">'+ messageCount + " new</font>");
+				}
+				else{
+					target.html("");
+				}
 
 				var newMessageTarget = this.$el.find('.boatday-overview .overviewinfo-right .info-new-messages');
 				//console.log(newMessageTarget);
@@ -521,9 +527,22 @@ define([
 			displayNewBookingCount: function(bookingCount){
 			
 				var target = this.$el.find('.boatday-overview-booking-requests .new-booking-count');
-				target.html(" "+ bookingCount + " new");
+				if(bookingCount > 0){
+					target.html(' - <font color="#f8b62c">'+ bookingCount + " new</font>");
+				}
+				
 			
 			},
+
+			displayNewQuestionCount: function(questionCount){
+			
+				var target = this.$el.find('.boatday-overview-questions .new-question-count');
+				if(questionCount > 0){
+					target.html(' - <font color="#f8b62c">'+ questionCount + " new</font>");
+				}
+			
+			},
+
 
 			renderBookingRequests: function(){
 				var self = this;
@@ -567,6 +586,7 @@ define([
 						self.requests[request.id] = request;
 
 						if( request.get("status") == "pending" ){
+
 							self.$el.find('.pending-list').append(_.template(BoatDayOverviewBoookingRowTemplate)({ request: request }));
 						}
 
@@ -584,6 +604,22 @@ define([
 			approveRequest: function(event) {
 
 				event.preventDefault();
+
+				if( typeof Parse.User.current().get('host').get('stripeId') === typeof undefined || !Parse.User.current().get('host').get('stripeId') ) {
+					
+					this.modal({
+						title: 'How you get paid!',
+						body: 'To confirm Guests on-board your BoatDay, you must first provide a payment account (its how Guests pay you!)<br/><br/>Don’t worry, this information is NEVER shared with other Users.',
+						noButton: false,
+						cancelButtonText: 'Do it later',
+						yesButtonText: 'Add Payment Account',
+						yesCb: function() {
+							Parse.history.navigate('my-bank-account', true);
+						}
+					});
+
+					return;
+				}
 
 				var self = this;			
 
@@ -622,6 +658,22 @@ define([
 			denyRequest: function(event) {
 
 				event.preventDefault();
+
+				if( typeof Parse.User.current().get('host').get('stripeId') === typeof undefined || !Parse.User.current().get('host').get('stripeId') ) {
+					
+					this.modal({
+						title: 'How you get paid!',
+						body: 'To reject Guests on-board your BoatDay, you must first provide a payment account (its how Guests pay you!)<br/><br/>Don’t worry, this information is NEVER shared with other Users.',
+						noButton: false,
+						cancelButtonText: 'Do it later',
+						yesButtonText: 'Add Payment Account',
+						yesCb: function() {
+							Parse.history.navigate('my-bank-account', true);
+						}
+					});
+
+					return;
+				}
 
 				var self = this;
 				var request = self.requests[$(event.currentTarget).attr("data-id")];
@@ -715,6 +767,8 @@ define([
 
 					target.append(_tpl);
 
+					self.displayNewQuestionCount(unAnsweredQuestions.length);
+
 					_.each(unAnsweredQuestions, function(question){
 
 						var data = {
@@ -761,8 +815,8 @@ define([
 
 				if(answer.length == 0){
 					
-					self.fieldError('answer-'+id, "You missed this field.");
-					self._error("Oops, you missed one! Please write your answer.");
+					self.fieldError('answer-'+id, "Oops, you missed one! Please write your answer.");
+					
 					self.buttonLoader();
 
 					return;

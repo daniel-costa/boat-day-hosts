@@ -1,21 +1,21 @@
 <div style="margin-bottom:10px;">
-	<div class="container-fluid">	
-		<div class="row heading">
-			<div class="col-sm-20 text-left pull-left">
-				<a href="#" class="trigger">BOOKING REQUESTS - </a>
-				<span class="new-booking-count"> 0 new</span>
-			</div>
-			<div class="col-sm-4 text-right pull-right">
-				<img src="resources/down-arrow.png">
+	
+	<a href="#" class="trigger">
+		<div class="container-fluid">	
+			<div class="row heading">
+				<div class="col-sm-20 text-left pull-left">
+					BOOKING REQUESTS
+					<span class="new-booking-count"></span>
+				</div>
+				<div class="col-sm-4 text-right pull-right">
+					<img src="resources/down-arrow.png">
+				</div>
 			</div>
 		</div>
-
-		
-
-	</div>
+	</a>
 
 	<div class="row boatdayoverview-row-details">
-		<div class="boatday-booking-requests boatday-overview-row-hidden">
+		<div class="boatday-booking-requests boatday-overview-row-hidden" style="display:block;padding-top:0px;">
 			
 			<div class="pending-list" style="display:none;">
 			</div>
@@ -42,9 +42,10 @@
 				</div>
 				<div class="tab-content">
 					<div class="tab-pane active" id="attending-guest-tab">
+						<div class="row">
 
 						<% _.each( approvedRequests, function( request ) { %>
-							<div class="cell col-sm-4 profile">
+							<div class="cell col-sm-4 profile" style="margin-bottom:10px;">
 								<div class="inner text-center">
 									<div class="obj-thumb profile-picture" 
 									data-id="<%= request.get('profile').id %>" 
@@ -53,11 +54,20 @@
 								</div>
 								<div class="inner text-center">			
 									<strong><%= request.get('profile').get('displayName') %></strong>
-									<span style="display:block;"><%= request.get('seats') %> seat(s)</span>
+									<span style="display:block;">
+										<%= request.get('seats') %>
+										<% if(request.get('seats') > 1 || request.get('seats') == 0){
+											%>
+											seats
+										<% } else { 
+										%>
+										seat
+									<% } %>
+									</span>
 								</div>
 							</div>
 						<% }); %>
-
+					</div>
 					</div>
 
 					<div class="tab-pane" id="rejected-guests-tab">
@@ -72,7 +82,16 @@
 								</div>
 								<div class="inner text-center">			
 									<strong><%= request.get('profile').get('displayName') %></strong>
-									<span style="display:block;"><%= request.get('seats') %> seat(s)</span>
+									<span style="display:block;">
+										<%= request.get('seats') %>
+										<% if(request.get('seats') > 1 || request.get('seats') == 0){
+											%>
+											seats
+										<% } else { 
+										%>
+										seat
+									<% } %>
+									</span>
 								</div>
 							</div>
 						<% }); %>

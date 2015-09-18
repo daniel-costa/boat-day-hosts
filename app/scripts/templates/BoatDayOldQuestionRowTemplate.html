@@ -8,8 +8,7 @@
 		</div>
 		<div class="cell col-sm-18 col-md-19 col-lg-20">
 			<div class="inner">
-				<strong><%= from.get("displayName") %></strong> has a question regarding 
-				<strong>"<%= boatday.get("name") %>"</strong>
+				<strong><%= from.get("displayName") %></strong>
 			</div>
 			<div class="inner">
 				<%= question.get("question") %>
@@ -20,9 +19,15 @@
 
 	<div class="row">
 		
-		<div class="cell col-sm-18 col-md-19 col-lg-20" data-id="<%= question.id %>">
+		<div class="cell" data-id="<%= question.id %>">
 			<div class="inner" style="margin-left:110px;">
-				<span><b>Answer:</b> </span><%= question.get("answer") %>
+				 
+				<div class="col-sm-2">
+					<span><b>Answer:</b></span>
+				</div>
+				<div class="col-sm-20">
+					<%= question.get("answer").replace(/\n/g, "<br>").replace(/(<([^>]+)>)/ig,"") %>
+				</div>
 			</div>
 		</div>
 	</div>

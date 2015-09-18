@@ -1,12 +1,25 @@
 <div class="row pending-list-row" data-id="<%= request.id %>" style="">
-	<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1 profile">
+	<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1 profile" style="margin-left:20px;">
 		<div class="inner text-center">
 			<div class="obj-thumb profile-picture" data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>)"></div>
 		</div>
 	</div>
 	<div class="cell col-xs-12 col-sm-14 col-md-13 col-lg-15">
 		<div class="inner">
-			<%= request.get('profile').get('displayName') %> has requested <%= request.get('seats') %> seat(s).
+			<strong><%= request.get('profile').get('displayName') %></strong> has requested 
+			<%= request.get('seats') %>
+			<% if(request.get('seats') > 1 || request.get('seats') == 0)  { %>
+				seats.
+			<% } else { %>
+				seat.
+			<% } %>
+		</br>
+			<em style="color: #aaa;">
+				<% 
+				var date = new Date(request.createdAt);
+				var _date = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+				%>
+				<%= _date %></em>
 		</div>
 	</div>
 	<div class="cell col-xs-10 col-sm-6 col-md-7 col-lg-6">
