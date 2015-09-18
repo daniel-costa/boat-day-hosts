@@ -21,13 +21,8 @@
 		
 		<div class="cell" data-id="<%= question.id %>">
 			<div class="inner" style="margin-left:110px;">
-				 
-				<div class="col-sm-2">
-					<span><b>Answer:</b></span>
-				</div>
-				<div class="col-sm-20">
-					<%= question.get("answer").replace(/\n/g, "<br>").replace(/(<([^>]+)>)/ig,"") %>
-				</div>
+				 <span><b>Answer:</b></span>
+				 <%= question.get("answer").replace(/\n/g, "<br>") %>
 			</div>
 		</div>
 	</div>
