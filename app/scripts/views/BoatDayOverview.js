@@ -400,8 +400,8 @@ define([
 						self._map = new google.maps.Map(ctn, opts);
 
 						google.maps.event.addListenerOnce(self._map, "idle", function(){
-							google.maps.event.trigger(self._map, 'resize');
 							self._map.setCenter(latlng);
+							google.maps.event.trigger(self._map, 'resize');
 						}); 
 
 						if(!self.boatdayReadOnly){
