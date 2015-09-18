@@ -130,7 +130,7 @@ define([
 					message: notification.get("message") ? notification.get("message").replace(/\n/g, "<br>") : '',
 					sender: notification.get("from"),
 					read:  notification.get("read"),
-					boatdayStatus: notification.get('boatday') ? notification.get('boatday').get('status'),
+					boatdayStatus: notification.get('boatday') ? notification.get('boatday').get('status') : null,
 					// requestId: request.id,
 					// amount: request.get('contribution'),
 					// seats: request.get('seats')
