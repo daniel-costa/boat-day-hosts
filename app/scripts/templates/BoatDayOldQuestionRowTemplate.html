@@ -1,9 +1,9 @@
 <div class="row old-question-row">
 
-	<div class="row">
-		<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1 profile">
-			<div class="inner text-center">
-					<div class="obj-thumb profile-picture" data-id="<%= from.id %>" style="background-image:url(<%= from.get("profilePicture").url() %>)"></div>
+	<div class="row" >
+		<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1 profile" >
+			<div class="inner">
+					<div class="obj-thumb profile-picture" data-id="<%= from.id %>" style="background-image:url(<%= from.get("profilePicture").url() %>);"></div>
 			</div>
 		</div>
 		<div class="cell col-sm-18 col-md-19 col-lg-20">
@@ -18,9 +18,10 @@
 
 
 	<div class="row">
-		
-		<div class="cell" data-id="<%= question.id %>">
-			<div class="inner" style="margin-left:110px;">
+		<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1">
+		</div>
+		<div class="cell cell col-sm-18 col-md-19 col-lg-20" data-id="<%= question.id %>">
+			<div class="inner">
 				 <span><b>Answer:</b></span>
 				 <%= question.get("answer").replace(/\n/g, "<br>") %>
 			</div>
@@ -28,3 +29,6 @@
 	</div>
 
 </div>
+
+
+
