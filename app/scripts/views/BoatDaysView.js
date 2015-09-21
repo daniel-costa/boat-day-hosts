@@ -39,40 +39,6 @@ define([
 			e.prevAll().attr('src', 'resources/star.png');
 		},
 
-		duplicate: function(event) {
-
-			event.preventDefault();
-
-			var query = new Parse.Query(Parse.Object.extend("BoatDay"));
-			query.get($(event.currentTarget).closest('.my-boatday').attr('data-id')).then(function(boatDay) {
-			  	new BoatDayModel({
-			  		status:'creation',
-			  		name: boatDay.get('name'), 
-			  		description: boatDay.get('description'),
-			  		date: null,
-			  		departureTime: boatDay.get('departureTime'),
-			  		arrivalTime: boatDay.get('arrivalTime'),
-			  		duration: boatDay.get('duration'), 
-			  		location: boatDay.get('location'),
-			  		locationText: boatDay.get('locationText'), 
-			  		availableSeats: boatDay.get('availableSeats'),
-			  		price: boatDay.get('price'),
-			  		bookingPolicy: boatDay.get('bookingPolicy'),
-			  		cancellationPolicy: boatDay.get('cancellationPolicy'),
-			  		category: boatDay.get('category'),
-			  		arrivalTime: boatDay.get('arrivalTime'), 
-				  	captain: boatDay.get('captain'),
-				  	boat: boatDay.get('boat'),
-				  	host: boatDay.get('host'), 
-				  	chatMessages: boatDay.get('chatMessages'), 
-				  	seatRequests: boatDay.get('seatRequests')
-			  	}).save().then(function(bd){
-			  		Parse.history.navigate('boatday/'+bd.id, true);
-			  	});
-			});
-
-		},
-
 		rate: function(event) {
 			var self = this;
 			var e = $(event.currentTarget);
