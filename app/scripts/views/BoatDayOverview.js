@@ -15,8 +15,9 @@ define([
 	'text!templates/BoatDayOverviewChatMessageTemplate.html',
 	'text!templates/BoatDayOverviewBoookingRowTemplate.html',
 	'text!templates/BoatDayNewQuestionRowTemplate.html',
-	'text!templates/BoatDayOldQuestionRowTemplate.html'
-	], function(gmaps, BaseView, BoatDayModel, ChatMessageModel, NotificationModel, BoatDayOverviewTemplate, BoatDayOverviewInfoTemplate, BoatDayOverviewEditTemplate, BoatDayOverviewGroupChatTemplate, BoatDayOverviewBookingTemplate, BoatDayOverviewQuestionsTemplate, BoatDayOverviewCancelTemplate, BoatDayOverviewRescheduleTemplate, BoatDayOverviewChatMessageTemplate, BoatDayOverviewBoookingRowTemplate, BoatDayNewQuestionRowTemplate, BoatDayOldQuestionRowTemplate){
+	'text!templates/BoatDayOldQuestionRowTemplate.html',
+	'text!templates/BoatDayOverviewDuplicateTemplate.html'
+	], function(gmaps, BaseView, BoatDayModel, ChatMessageModel, NotificationModel, BoatDayOverviewTemplate, BoatDayOverviewInfoTemplate, BoatDayOverviewEditTemplate, BoatDayOverviewGroupChatTemplate, BoatDayOverviewBookingTemplate, BoatDayOverviewQuestionsTemplate, BoatDayOverviewCancelTemplate, BoatDayOverviewRescheduleTemplate, BoatDayOverviewChatMessageTemplate, BoatDayOverviewBoookingRowTemplate, BoatDayNewQuestionRowTemplate, BoatDayOldQuestionRowTemplate, BoatDayOverviewDuplicateTemplate){
 
 		// GitHub trigger changes
 
@@ -73,9 +74,12 @@ define([
 
 			boatdayReadOnly: true,
 
+			boatDayisPassed: false,
+
 			render: function() {
 				BaseView.prototype.render.call(this);
 				var self = this;
+				var boatday = this.model;
 				var SeatRequest = Parse.Object.extend("SeatRequest");
 
 				//reset all collections
@@ -112,6 +116,37 @@ define([
 						
 					});
 
+					var boatdayDate = new Date( boatday.get("date"));
+					console.log("Boatday date: " + boatdayDate);
+
+					var arrivalTime = boatday.get("arrivalTime");
+					console.log("Arrival time: " + arrivalTime);
+					
+					//var lastMidNight = Date.setHours(hour,min,sec,millisec) 
+					var lastMidNight = new Date();
+					lastMidNight.setHours(0,0,0,0) 
+					console.log("Last mid night: " +lastMidNight);
+
+					var nextMidnight = new Date();
+					nextMidnight.setHours(23, 59, 59, 999);
+					console.log("Next mid night: " + nextMidnight);
+					
+					
+
+					var curDate = new Date();
+					var curTime = curDate.getHours();
+					console.log("Current hours: "+ curTime);
+
+					if(curDate >= boatdayDate){
+						if(curTime > arrivalTime){
+							
+						}
+					}
+
+
+
+
+
 					self.renderBoatDayInfo();
 
 					//if((self.collectionPendingSeatRequests.length < 1) && (self.collectionApprovedSeatRequests.length < 1)){
@@ -123,6 +158,7 @@ define([
 					self.renderBookingRequests();
 					self.renderQuestions();
 					//self.renderRescheduleBoatDay();
+					self.renderDuplicateBoatDay();
 
 				});
 			
@@ -224,7 +260,19 @@ define([
 
 			},
 
+			renderDuplicateBoatDay:function(){
+				var self = this;
 
+				var tpl = _.template(BoatDayOverviewDuplicateTemplate);
+				var target = self.$el.find('.dashboard-canvas .boatday-overview-duplicate');
+				target.html('');
+
+				var _tpl = tpl({
+
+				});
+
+				target.append(_tpl);
+			},
 
 			renderEditBoatDay: function(){
 				var self = this;
