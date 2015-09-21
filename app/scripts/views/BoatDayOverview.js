@@ -400,6 +400,7 @@ define([
 						self._map = new google.maps.Map(ctn, opts);
 
 						google.maps.event.addListenerOnce(self._map, "idle", function(){
+							console.log(latlng);
 							self._map.setCenter(latlng);
 							google.maps.event.trigger(self._map, 'resize');
 						}); 
@@ -1358,6 +1359,12 @@ define([
 						//self.displayMessagesUnread(boatday, 0);
 					});
 				}
+
+			},
+
+			duplicate: function(event) {
+				
+				// BoatDay to duplicate : this.model
 
 			},
 
