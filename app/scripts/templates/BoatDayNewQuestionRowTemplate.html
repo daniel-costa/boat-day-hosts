@@ -22,7 +22,10 @@
 			
 		</div>
 		<div class="cell col-sm-18 col-md-19 col-lg-20 boatday-question-form" data-id="<%= question.id %>">
-			<form role="form" id="<%= question.id %>">
+			<% if(self.boatDayisPassed) { %>
+				<em>This question wasn't answer</em>
+			<% } else { %>
+				<form role="form" id="<%= question.id %>">
 				<div class="inner">
 					<div class="form-group">
 						<textarea name="answer-<%= question.id %>" class="form-control" rows="3" required="required" placeholder="Your answer"></textarea>
@@ -56,6 +59,7 @@
 					</div>
 				</div>
 			</form>
+			<% } %>
 		</div>
 	</div>
 

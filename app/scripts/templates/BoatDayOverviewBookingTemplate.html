@@ -25,7 +25,13 @@
 					<ul class="nav nav-pills centered-pills">
 						<li class="active">
 							<a href="#attending-guest-tab" data-toggle="tab">
-								Attending Guests (<%= approvedRequests.length %>)
+
+								<% if(self.boatDayisPassed) {%>
+									Pending Guests (<%= pendingRequests.length %>)
+								<% } else {%>
+									Attending Guests (<%= approvedRequests.length %>)
+								<% } %>
+								
 							</a>
 						</li>
 						<li>
@@ -44,7 +50,13 @@
 					<div class="tab-pane active" id="attending-guest-tab">
 						<div class="row" >
 
-						<% _.each( approvedRequests, function( request ) { %>
+						<% 
+						var requestsList = approvedRequests;
+						if(self.boatDayisPassed) { 
+							requestsList = pendingRequests
+						}%>
+
+						<% _.each( requestsList, function( request ) { %>
 							<div class="cell col-sm-4 profile">
 								<div class="inner text-center">
 									<div class="obj-thumb profile-picture" 
@@ -56,13 +68,7 @@
 									<strong><%= request.get('profile').get('displayName') %></strong>
 									<span style="display:block;">
 										<%= request.get('seats') %>
-										<% if(request.get('seats') > 1 || request.get('seats') == 0){
-											%>
-											seats
-										<% } else { 
-										%>
-										seat
-									<% } %>
+										<%= request.get('seats') == 1 ? 'seat' : 'seats' %>
 									</span>
 								</div>
 							</div>
@@ -84,13 +90,7 @@
 									<strong><%= request.get('profile').get('displayName') %></strong>
 									<span style="display:block;">
 										<%= request.get('seats') %>
-										<% if(request.get('seats') > 1 || request.get('seats') == 0){
-											%>
-											seats
-										<% } else { 
-										%>
-										seat
-									<% } %>
+										<%= request.get('seats') == 1 ? 'seat' : 'seats' %>
 									</span>
 								</div>
 							</div>

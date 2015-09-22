@@ -1016,7 +1016,7 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   display: flex;
   align-items: center;
 }
-.boatday-overview .boatday-booking-requests .pending-list-row .inner strong{
+.boatday-overview .boatday-booking-requests .pending-list-row .inner strong {
   color: #00a8bf;
 }
 .boatday-overview-info .overviewinfo {
@@ -1126,8 +1126,12 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
 .boatday-overview-booking-requests .tab-content strong {
   color: #00a8bf;
   font-size: .80em;
-
 }
+
+.boatday-overview-booking-requests .tab-content .tab-pane .profile{
+  margin-bottom: 15px;
+}
+
 .boatday-overview-booking-requests .earnings {
   border-top: 1px solid #E0EBED;
   margin: 10px;
@@ -1159,7 +1163,6 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   margin: 0px 0px 5px 0px;
 }
 .boatday-overview .cancel-row {
-  display: flex;
   align-items: center;
   margin: 20px;
 }
@@ -1174,7 +1177,6 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
 }
 .boatday-overview .boatday-read-only {
   border-bottom: 1px solid #E0EBED;
-  margin-bottom: 50px;
   padding: 20px;
   font-size: 1em;
 }
@@ -1188,15 +1190,32 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   margin-top: 10px;
 }
 @media only screen and (max-width: 768px) {
-  .boatday-overview .old-question-row .obj-thumb{
+  .boatday-overview .old-question-row .obj-thumb {
     height: 60px;
   }
-  .boatday-overview .new-question-row .obj-thumb{
+  .boatday-overview .new-question-row .obj-thumb {
     height: 60px;
   }
-  .boatday-overview .boatday-booking-requests .obj-thumb{
+  .boatday-overview .boatday-booking-requests .obj-thumb {
     height: 60px;
   }
-
 }
+
+.boatday-overview .pending-list-row .approve-request{
+  color: #00a8bf;
+  background-color: transparent;
+  border-color:  #CFD8DC;
+}
+.boatday-overview .pending-list-row .approve-request:hover{
+  background-color: #CFD8DC;
+} 
+.boatday-overview .pending-list-row .deny-request{
+  color: #000;
+  background-color: transparent;
+  border-color:  #CFD8DC;
+}
+.boatday-overview .pending-list-row .deny-request:hover{
+  background-color: #CFD8DC;
+  color: #FFF;
+} 
 /* boatday overview css ends */

@@ -28,8 +28,13 @@
 
 			<div class="chat-text-area">
 				<div class="row bottom " style="margin-bottom:5px;">
-					<div class="col-xs-24">
-						<input type="text" class="form-control" name="message" placeholder="(press enter to send message)" />
+					<div class="col-xs-24 text-center">
+						<% if(self.boatDayisPassed) { %>
+							<em>This BoatDay is over, the chat is now deactivated</em>
+						<% } else { %>
+							<input type="text" class="form-control" name="message" placeholder="(press enter to send message)" />
+						<% } %>
+						
 					</div>
 				</div>
 			</div>

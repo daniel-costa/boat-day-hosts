@@ -155,7 +155,7 @@ define([
 
 					google.maps.event.addListenerOnce(self._map, "idle", function(){
 						google.maps.event.trigger(self._map, 'resize');
-						self._map.setCenter(center);
+						self._map.setCenter(latlng);
 					}); 
 
 					// google.maps.event.addListener(self._map, "idle", function(){
