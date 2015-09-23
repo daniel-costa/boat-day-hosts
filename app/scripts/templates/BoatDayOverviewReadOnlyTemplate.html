@@ -99,7 +99,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th><%= category %> Category</th>
+							<th>Activity Category</th>
 							<td>
 								<%= categoryItems.join(", ") %>
 								<% if(equipments.length > 0) { %>
@@ -127,16 +127,15 @@
 						<tr>
 							<th>Booking policy</th>
 							<td>
-								<%= bookingPolicy %>
-								<p>
+								<%= bookingPolicy %>, 
+								
 									<%= boatday.get('bookingPolicy') == 'manually' ? 'I want to review each Guest request and choose the best fit for my BoatDay.' : 'Automatically accept all Guest requests.' %>
-								</p>
+								
 							</td>
 						</tr>
 						<tr>
 							<th>Cancellation Policy</th>
-							<td><%= cancellationPolicy %>
-								<p>
+							<td><%= cancellationPolicy %>, 
 									<% if(boatday.get('cancellationPolicy') == "flexible") { %>
 										No charge for Guest cancellations up to 1 day prior to departure, except Trust &amp; Safety Fee.
 									<% } else if (boatday.get('cancellationPolicy') == "moderate") { %>
@@ -144,7 +143,6 @@
 									<% }  else if(boatday.get('cancellationPolicy') == "strict"){%>
 										50% charge for Guest cancellations up to five days prior to departure time, including Trust &amp; Safety Fee.
 									<% } %>
-								</p>
 							</td>
 						</tr>
 					</table>
