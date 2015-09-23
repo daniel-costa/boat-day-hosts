@@ -123,7 +123,7 @@ define([
 
 				_.each(boatdays, function(boatday) {
 
-					alert(boatday.get('status'));
+					//alert(boatday.get('status'));
 					
 					left = !left;
 
