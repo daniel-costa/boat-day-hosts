@@ -22,7 +22,7 @@
 			
 		</div>
 		<div class="cell col-sm-18 col-md-19 col-lg-20 boatday-question-form" data-id="<%= question.id %>">
-			<% if(self.boatDayisPassed) { %>
+			<% if(self.isPastBoatDay) { %>
 				<em>This question wasn't answer</em>
 			<% } else { %>
 				<form role="form" id="<%= question.id %>">

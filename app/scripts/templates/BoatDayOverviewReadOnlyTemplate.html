@@ -101,7 +101,11 @@
 						<tr>
 							<th><%= category %> Category</th>
 							<td>
-								<%= categoryItems %>
+								<%= categoryItems.join(", ") %>
+								<% if(equipments.length > 0) { %>
+									</br> Equipments provided:
+									<%= equipments.join(", ") %>
+								<% } %>
 							</td>
 						</tr>
 						<tr>
@@ -110,11 +114,11 @@
 						</tr>
 						<tr>
 							<th>Extras</th>
-							<td>Food, drink, mmusic</td>
+							<td><%= extras.join(", ") %></td>
 						</tr>
 						<tr>
 							<th>Family Settings</th>
-							<td>Pets permitted, smoking permitted, drinks permitted</td>
+							<td><%= familySettings.join(", ") %></td>
 						</tr>
 						<tr>
 							<th>Departure location</th>

@@ -11,7 +11,7 @@
 	<div class="col-xs-12 overviewinfo-right">
 		<div class="col-xs-12 text-center">
 			<div class="circle">
-				<% if(self.boatDayisPassed){ %>
+				<% if(self.isPastBoatDay){ %>
 					<span><%= self.collectionPendingRatingRequests.length %></span>
 				<% } else { %>
 					<span><%= bookedSeats %></span>
@@ -20,7 +20,7 @@
 			</div>
 
 		
-			<% if(self.boatDayisPassed) { %>
+			<% if(self.isPastBoatDay) { %>
 				<h3>Review<%= self.collectionPendingRatingRequests.length == 1 ? '' : 's' %> </br> Pending</h3>
 			<% } else {%>
 				<h3>Approved </br> Seat<%= bookedSeats == 1 ? '' : 's' %></h3>

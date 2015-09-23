@@ -26,7 +26,7 @@
 						<li class="active">
 							<a href="#attending-guest-tab" data-toggle="tab">
 
-								<% if(self.boatDayisPassed) {%>
+								<% if(self.isPastBoatDay) {%>
 									Pending Guests (<%= pendingRequests.length %>)
 								<% } else {%>
 									Attending Guests (<%= approvedRequests.length %>)
@@ -52,7 +52,7 @@
 
 						<% 
 						var requestsList = approvedRequests;
-						if(self.boatDayisPassed) { 
+						if(self.isPastBoatDay) { 
 							requestsList = pendingRequests
 						}%>
 

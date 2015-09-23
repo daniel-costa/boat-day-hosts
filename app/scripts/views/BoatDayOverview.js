@@ -109,6 +109,8 @@ define([
 					this.isPastBoatDay = true;
 				} 
 
+	
+
 			},
 
 			rateOver: function(event) {
@@ -197,7 +199,6 @@ define([
 							if((typeof profileRating == typeof undefined ) || (profileRating == null)){
 								self.collectionPendingRatingRequests.push(request);
 
-								console.log("Profile rating to collections: " + profileRating);
 							}
 						}
 
@@ -220,47 +221,6 @@ define([
 						self.isReadOnly = false;
 					}
 
-					var boatdayDate = new Date( boatday.get("date"));
-					console.log("Boatday date: " + boatdayDate);
-
-					var arrivalTime = boatday.get("arrivalTime");
-					console.log("Arrival time: " + arrivalTime);
-					
-					//var lastMidNight = Date.setHours(hour,min,sec,millisec) 
-					var lastMidNight = new Date();
-					lastMidNight.setHours(0,0,0,0) 
-					console.log("Last mid night: " +lastMidNight);
-
-					var nextMidnight = new Date();
-					nextMidnight.setHours(23, 59, 59, 999);
-					console.log("Next mid night: " + nextMidnight);
-					
-					var curDate = new Date();
-					var curHrs = curDate.getHours();
-					var curMins = curDate.getMinutes();
-					var avgCurTime = curHrs + (curMins / 60);
-
-					console.log("Average current time: " + avgCurTime);
-
-
-					console.log("Current hours: "+ curHrs);
-
-					var q1 = new Parse.Query(Parse.Object.extend("BoatDay"));
-					console.log(boatday.id);
-					//q1.id = boatday.id;
-					q1.equalTo("objectId", boatday.id);
-					q1.lessThan('date', lastMidNight);
-					
-					var q2 = new Parse.Query(Parse.Object.extend("BoatDay"));
-					q2.lessThanOrEqualTo('date', nextMidnight);
-					q2.greaterThanOrEqualTo('date', lastMidNight);
-					q2.lessThanOrEqualTo('arrivalTime', avgCurTime);
-
-					var q3 = new Parse.Query.or(q1, q2);
-					q3.find().then(function(results){
-						console.log("Passed boatdays : " + results.length);
-					});
-
 
 					self.renderBoatDayInfo();
 					
@@ -270,8 +230,6 @@ define([
 						self.renderEditBoatDay();
 					}
 
-										
-					
 					self.renderGroupChat();
 					
 					self.renderBookingRequests();
@@ -312,42 +270,69 @@ define([
 				var totalPartnerDiscount = totalPartnerDiscountPercent * totalPriceUSD;
 				var totalHostUSD = totalPriceUSD - (totalBoatDayUSD - totalPartnerDiscount);
 
-
 				var features = boatday.get('features');
 				var category = boatday.get('category');
 				var categoryItems = [];
 				var equipments = [];
+				var extras = [];
+				var familySettings = [];
 
-				$(features).each(function(i, val){
-				    $.each(val,function(k, v){
-				        
-				          if(k == category){
-				          	$(v).each(function(j, val2){
-				          		$.each(val2, function(k2, v2){
-				          			console.log(k2 + " " + v2);
-				          			
-				          			if(k2 == "equipment"){
-				          				if(v2 == true){
-				          					console.log(v2);
-				          				}
-				          			}
-				          			else{
-				          				if(v2 == true){
-				          					categoryItems.push(k2);
-				          				}
-				          			}
+			    $.each(features,function(k, v){
+			          
+			          if(k == category){
 
-				          			
-				          		});
-				          	});
-				          }
+			          		$.each(v, function(k2, v2){
+			          				if((v2 == true) && (k2 != "equipment")){
+			          					categoryItems.push(k2.charAt(0).toUpperCase() + k2.slice(1));
+			          				}
+			          				else{
+			          					if(k2 == "equipmentItems"){
+			          						$.each(v2, function(k3, v3){	
+			          							if(v3 == true){
+			          								equipments.push(k3.charAt(0).toUpperCase() + k3.slice(1));
+			          							}
+			          						});
+			          					}
+			          				}
+			          		});
 
-					});
+			          }
+			          if(k == "extras"){
+
+			          	$.each(v, function(ek, ev){
+			          		if(ev == true){
+			          			extras.push(ek.charAt(0).toUpperCase() + ek.slice(1));
+			          		}
+			          	});
+			          }
+
+			          if(k == "global"){
+			          	$.each(v, function(gk, gv){
+			          		if(gv == true){
+			          			var str = "";
+
+			          			switch(gk){
+			          				case "children":
+			          					str = "Children allowed";
+			          					break;
+			          				case "smoking":
+			          					str = "Smoking Permitted";
+			          					break;
+			          				case "drinking":
+			          					str = "Drinking Permitted";
+			          					break;
+			          				case "pets":
+			          					str = "Pets Permitted";
+			          					break;
+			          			}
+
+			          			familySettings.push(str);
+			          		}
+			          	});
+			          }
+
 				});
-
-				//arr.join(", ")
-				console.log("Items in category: "+ categoryItems.join(", "));
-	
+			
 
 				Parse.Promise.when(queryBoat.get(boatday.get('boat').id), queryCaptain.get(boatday.get('captain').id)).then(function(boat, captain){
 					
@@ -360,7 +345,10 @@ define([
 						totalHostUSD: totalHostUSD,
 						totalPriceUSD: totalPriceUSD,
 						totalBoatDayUSD: totalBoatDayUSD,
-						categoryItems: categoryItems.join(", "),
+						categoryItems: categoryItems,
+						equipments: equipments,
+						extras: extras,
+						familySettings: familySettings,
 						category: boatday.get('category').charAt(0).toUpperCase() + boatday.get('category').slice(1),
 						bookingPolicy: boatday.get('bookingPolicy').charAt(0).toUpperCase() + boatday.get('bookingPolicy').slice(1),
 						cancellationPolicy: boatday.get('cancellationPolicy').charAt(0).toUpperCase() + boatday.get('cancellationPolicy').slice(1)
@@ -509,7 +497,6 @@ define([
 					self: self
 				});
 
-				console.log("Readonly :"+self.isReadOnly);
 
 				target.append(_tpl);
 
@@ -545,7 +532,7 @@ define([
 				});
 
 				if( this.model.get('date') ) {
-					console.log(this.model.get('date'));
+					
 					this.$el.find('.date').datepicker('setDate', this.model.get('date'));
 				}
 
@@ -668,7 +655,7 @@ define([
 					}
 
 					google.maps.event.addListenerOnce(self._map, "idle", function(){
-						console.log(latlng);
+						//console.log(latlng);
 						self._map.setCenter(latlng);
 						google.maps.event.trigger(self._map, 'resize');
 					}); 
