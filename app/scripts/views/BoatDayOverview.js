@@ -21,8 +21,6 @@ define([
 	'text!templates/BoatdayOverViewReadOnlyTemplate.html'
 	], function(gmaps, BaseView, BoatDayModel, ChatMessageModel, NotificationModel, BoatDayOverviewTemplate, BoatDayOverviewInfoTemplate, BoatDayOverviewEditTemplate, BoatDayOverviewGroupChatTemplate, BoatDayOverviewBookingTemplate, BoatDayOverviewQuestionsTemplate, BoatDayOverviewCancelTemplate, BoatDayOverviewRescheduleTemplate, BoatDayOverviewChatMessageTemplate, BoatDayOverviewBoookingRowTemplate, BoatDayNewQuestionRowTemplate, BoatDayOldQuestionRowTemplate, BoatDayOverviewDuplicateTemplate, BoatDayOverviewRatingRowTemplate, BoatdayOverViewReadOnlyTemplate){
 
-		// GitHub trigger changes
-
 		var BoatdayOveviewView = BaseView.extend({
 
 			className:"view-overview",
@@ -81,10 +79,37 @@ define([
 
 			chatLastFetch: null,
 
-			boatdayReadOnly: true,
+			isReadOnly: true,
 
-			boatDayisPassed: true,
+			isPastBoatDay: false,
 
+			initialize: function() {
+
+				var self = this;
+
+				// Base Date
+				var _bd = new Date(this.model.get('date'));
+
+				// Base Arrival Time
+				var _bt = this.model.get('arrivalTime');
+
+				// Today date
+				var _td = new Date();
+
+				// Today date min
+				var _tdn = new Date(_td.getFullYear(), _td.getMonth(), _td.getDate(), 0, 0, 0, 0);
+
+				// Today date max
+				var _tdx = new Date(_td.getFullYear(), _td.getMonth(), _td.getDate(), 23, 59, 59, 999);
+
+				// Current Time
+				var _ct = _td.getHours() + ( _td.getMinutes() >= 30 ? 0.5 : 0 );
+
+				if( _bd < _tdn || ( _bd < _tdx && _bt <= _ct ) ) {
+					this.isPastBoatDay = true;
+				} 
+
+			},
 
 			rateOver: function(event) {
 				var e = $(event.currentTarget);
@@ -135,7 +160,9 @@ define([
 			},
 
 			render: function() {
+
 				BaseView.prototype.render.call(this);
+
 				var self = this;
 				var boatday = this.model;
 				var SeatRequest = Parse.Object.extend("SeatRequest");
@@ -152,6 +179,7 @@ define([
 				qSeatRequest.include('boatday');
 
 				qSeatRequest.find().then(function(seatRequests){
+					
 					_.each(seatRequests, function(request){
 						
 						self.collectionSeatRequests[request.id] = request;
@@ -159,6 +187,7 @@ define([
 						if(request.get('status') == "pending"){
 							self.collectionPendingSeatRequests.push(request);
 						}
+
 						if(request.get('status') == "approved"){
 							
 							self.collectionApprovedSeatRequests.push(request);
@@ -171,24 +200,25 @@ define([
 								console.log("Profile rating to collections: " + profileRating);
 							}
 						}
+
 						if(request.get('status') == "cancelled-host"){
 							self.collectionCancelledSeatRequests.push(request);
 						}
+
 						if(request.get('status') == "cancelled-guest"){
 							self.collectionCancelledSeatRequests.push(request);
 						}
+
 						if(request.get('status') == "denied"){
 							self.collectionRejectedSeatRequests.push(request);
 						}
-
 						
 					});
 
 
-					if((self.collectionPendingSeatRequests.length < 1) && (self.collectionApprovedSeatRequests.length < 1)){
-							self.boatdayReadOnly = false;
-						}
-
+					if( self.collectionPendingSeatRequests.length + self.collectionApprovedSeatRequests.length === 0 ) {
+						self.isReadOnly = false;
+					}
 
 					var boatdayDate = new Date( boatday.get("date"));
 					console.log("Boatday date: " + boatdayDate);
@@ -234,8 +264,8 @@ define([
 
 					self.renderBoatDayInfo();
 					
-					if(self.boatDayisPassed || self.boatdayReadOnly){
-						self.renderBoatDayReadOnly();
+					if(self.isPastBoatDay || self.isReadOnly){
+						self.renderisReadOnly();
 					} else {
 						self.renderEditBoatDay();
 					}
@@ -248,7 +278,7 @@ define([
 					
 					self.renderQuestions();
 					
-					if(!self.boatDayisPassed){
+					if( !self.isPastBoatDay ) {
 						self.renderCancelBoatDay();
 					}
 					
@@ -260,7 +290,7 @@ define([
 				return this;
 			},
 
-			renderBoatDayReadOnly: function(){
+			renderisReadOnly: function(){
 				var self = this;
 				var boatday = this.model;
 
@@ -475,17 +505,17 @@ define([
 					description: this.model.get("description"),
 					bookingPolicy: this.model.get("bookingPolicy"),
 					cancellationPolicy: this.model.get("cancellationPolicy"),
-					readOnly: self.boatdayReadOnly,
+					readOnly: self.isReadOnly,
 					self: self
 				});
 
-				console.log("Readonly :"+self.boatdayReadOnly);
+				console.log("Readonly :"+self.isReadOnly);
 
 				target.append(_tpl);
 
 				var boatsFetchSuccess = function(matches) {
 
-					if(self.boatdayReadOnly){
+					if(self.isReadOnly){
 						var select = $('<select>').attr({ id: 'boat', name: 'boat', class: 'form-control', disabled:'disabled' });
 					}
 					else{
@@ -522,7 +552,7 @@ define([
 				
 				var slidersConfig = { 
 					tooltip: 'hide',
-					enabled: !self.boatdayReadOnly
+					enabled: !self.isReadOnly
 				};
 
 				var updateTotalCalculator = function() {
@@ -623,13 +653,7 @@ define([
 						var ctn = self.$el.find('.map').get(0);
 						self._map = new google.maps.Map(ctn, opts);
 
-						google.maps.event.addListenerOnce(self._map, "idle", function(){
-							console.log(latlng);
-							self._map.setCenter(latlng);
-							google.maps.event.trigger(self._map, 'resize');
-						}); 
-
-						if(!self.boatdayReadOnly){
+						if( !self.isReadOnly ) {
 							google.maps.event.addListener(self._map, 'click', function(event) {
 								self.moveMarker(event.latLng)
 							});
@@ -642,6 +666,12 @@ define([
 						self.moveMarker(new google.maps.LatLng(self.model.get('location').latitude, self.model.get('location').longitude));
 
 					}
+
+					google.maps.event.addListenerOnce(self._map, "idle", function(){
+						console.log(latlng);
+						self._map.setCenter(latlng);
+						google.maps.event.trigger(self._map, 'resize');
+					}); 
 
 				};
 
@@ -755,7 +785,7 @@ define([
 				if(bookingCount > 0){
 					
 
-					if(self.boatDayisPassed){
+					if(self.isPastBoatDay){
 						var reviewStr = "reviews";
 						if(bookingCount == 1){
 							reviewStr = "review";
@@ -775,7 +805,7 @@ define([
 			
 				var target = this.$el.find('.boatday-overview-questions .new-question-count');
 				if(questionCount > 0){
-					if(!self.boatDayisPassed){
+					if( !self.isPastBoatDay ){
 						target.html(' - <font color="#f8b62c">'+ questionCount + " new</font>");
 					}
 				}
@@ -809,8 +839,7 @@ define([
 
 				target.append(_tpl);
 
-				if(self.boatDayisPassed){
-
+				if( self.isPastBoatDay ) {
 					self.displayNewBookingCount(self.collectionPendingRatingRequests.length);
 				}
 				else{
@@ -833,7 +862,7 @@ define([
 
 						self.requests[request.id] = request;
 
-						if(self.boatDayisPassed){
+						if(self.isPastBoatDay){
 
 							if( request.get('status') == 'approved'){
 
@@ -1484,7 +1513,7 @@ define([
 
 				}).then(function() {
 
-					if(self.boatdayReadOnly){
+					if(self.isReadOnly){
 						var select = $('<select>').attr({ id: 'captain', name: 'captain', class: 'form-control', disabled:'disabled' });
 					}
 					else{

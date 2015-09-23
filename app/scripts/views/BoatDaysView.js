@@ -18,7 +18,6 @@ define([
 			'mouseover .stars img': 'rateOver',
 			'mouseout .stars img': 'rateOut',
 			'click .stars img': 'rate',
-			'click .btn-duplicate': 'duplicate',
 		},
 
 		requests: {},
@@ -102,8 +101,7 @@ define([
 			queryBoatDaysComplete.lessThan("date", new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
 
 			var queryBoatDaysOthers = new Parse.Query(BoatDayModel);
-			queryBoatDaysOthers.notEqualTo("status", 'complete');
-			queryBoatDaysOthers.notEqualTo("status", 'creation');
+			queryBoatDaysOthers.notContainedIn("status", ['complete', 'creation']);
 
 			var mainQuery = Parse.Query.or(queryBoatDaysComplete, queryBoatDaysOthers);
 			mainQuery.equalTo("host", Parse.User.current().get("host"));
@@ -124,8 +122,11 @@ define([
 				var left = false;
 
 				_.each(boatdays, function(boatday) {
+
+					alert(boatday.get('status'));
 					
 					left = !left;
+
 					var _bDa = boatday.get('date');
 					var _bDt = boatday.get('departureTime');
 
@@ -168,27 +169,27 @@ define([
 
 					});
 
-					self.requests[boatday.id] = {};
+					// self.requests[boatday.id] = {};
 
-					var q = boatday.relation('seatRequests').query();
-					q.descending('createdAt');
-					q.equalTo('status', 'approved');
-					q.include('profile');
-					q.include('boatday');
-					q.find().then(function(requests) {
+					// var q = boatday.relation('seatRequests').query();
+					// q.descending('createdAt');
+					// q.equalTo('status', 'approved');
+					// q.include('profile');
+					// q.include('boatday');
+					// q.find().then(function(requests) {
 
-						if( requests.length == 0 ) {
-							self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .box-requests .info').html('<p class="empty"><em>Nobody attended this BoatDay.</em></p>');
-							return ;
-						}
+					// 	if( requests.length == 0 ) {
+					// 		self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .box-requests .info').html('<p class="empty"><em>Nobody attended this BoatDay.</em></p>');
+					// 		return ;
+					// 	}
 						
-						_.each(requests, function(request) {
-							self.requests[boatday.id][request.id] = request;
-						});
+					// 	_.each(requests, function(request) {
+					// 		self.requests[boatday.id][request.id] = request;
+					// 	});
 
-						self.renderRequests(boatday.id);
+					// 	self.renderRequests(boatday.id);
 
-					});
+					// });
 				});
 
 				self.$el.find('.my-boatdays').fadeIn();

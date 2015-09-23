@@ -479,14 +479,12 @@ define([
 
 				if( baseStatus == 'creation' ) {
 
-					var hostSaveSuccess = function() {
-						Parse.history.navigate('dashboard', true);
-						self._info('BoatDay Created! Once you are approved as a Host, all of your BoatDays will automatically appear in the BoatDay App.');
-					};
-
 					var host = Parse.User.current().get("host");
 					host.relation('boatdays').add(boatday);
-					host.save().then(hostSaveSuccess);
+					host.save().then(function() {
+						Parse.history.navigate('dashboard', true);
+						self._info('BoatDay Created! Once you are approved as a Host, all of your BoatDays will automatically appear in the BoatDay App.');
+					});
 
 				} else {
 					
