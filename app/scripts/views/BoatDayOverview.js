@@ -83,7 +83,7 @@ define([
 
 			boatdayReadOnly: true,
 
-			boatDayisPassed: false,
+			boatDayisPassed: true,
 
 
 			rateOver: function(event) {
@@ -273,12 +273,51 @@ define([
 
 				var _d = new Date(boatday.get('date'));
 
-				//var featuresObj = $.parseJSON(boatday.get('features').toString());
+				var baseRate = self.getHostRate(Parse.User.current().get('host').get('type'));
+				var pricePerSeat = boatday.get('price');
+				var totalSeats = boatday.get('bookedSeats');
+				var totalPriceUSD = pricePerSeat * totalSeats;
+				var totalBoatDayUSD = baseRate * totalPriceUSD;
+				var totalPartnerDiscountPercent = baseRate - Parse.User.current().get('host').get('rate');
+				var totalPartnerDiscount = totalPartnerDiscountPercent * totalPriceUSD;
+				var totalHostUSD = totalPriceUSD - (totalBoatDayUSD - totalPartnerDiscount);
 
-				var grossIncome = boatday.get('bookedSeats') * boatday.get('price');
-				var hostFee = 78;
-				var netIncome = grossIncome - hostFee;
 
+				var features = boatday.get('features');
+				var category = boatday.get('category');
+				var categoryItems = [];
+				var equipments = [];
+
+				$(features).each(function(i, val){
+				    $.each(val,function(k, v){
+				        
+				          if(k == category){
+				          	$(v).each(function(j, val2){
+				          		$.each(val2, function(k2, v2){
+				          			console.log(k2 + " " + v2);
+				          			
+				          			if(k2 == "equipment"){
+				          				if(v2 == true){
+				          					console.log(v2);
+				          				}
+				          			}
+				          			else{
+				          				if(v2 == true){
+				          					categoryItems.push(k2);
+				          				}
+				          			}
+
+				          			
+				          		});
+				          	});
+				          }
+
+					});
+				});
+
+				//arr.join(", ")
+				console.log("Items in category: "+ categoryItems.join(", "));
+	
 
 				Parse.Promise.when(queryBoat.get(boatday.get('boat').id), queryCaptain.get(boatday.get('captain').id)).then(function(boat, captain){
 					
@@ -288,9 +327,10 @@ define([
 						captain: captain,
 						boatdayDate: (_d.getDate() + "/" + _d.getMonth() + "/" + _d.getFullYear()),
 						self: self,
-						grossIncome: grossIncome,
-						hostFee: hostFee,
-						netIncome: netIncome,
+						totalHostUSD: totalHostUSD,
+						totalPriceUSD: totalPriceUSD,
+						totalBoatDayUSD: totalBoatDayUSD,
+						categoryItems: categoryItems.join(", "),
 						category: boatday.get('category').charAt(0).toUpperCase() + boatday.get('category').slice(1),
 						bookingPolicy: boatday.get('bookingPolicy').charAt(0).toUpperCase() + boatday.get('bookingPolicy').slice(1),
 						cancellationPolicy: boatday.get('cancellationPolicy').charAt(0).toUpperCase() + boatday.get('cancellationPolicy').slice(1)

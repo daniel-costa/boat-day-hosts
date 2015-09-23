@@ -70,20 +70,16 @@
 								<td>
 									<table class="table table-bordered calculator">
 											<tr>
-												<td><%= boatday.get('bookedSeats') %> seats x &#36;<%= boatday.get('price') %></td>
-												<td>
-													<%= grossIncome %>
-												 </td>
+												<td align="left"><%= boatday.get('bookedSeats') %> seats x &#36;<%= boatday.get('price') %></td>
+												<td align="right">&#36;<%= totalPriceUSD %></td>
 											</tr>
 											<tr>
-												<td>Host Fee</td>
-												<td>-&#36;<%= hostFee %></td>
+												<td align="left">Host Fee</td>
+												<td align="right">-&#36;<%= totalBoatDayUSD %></td>
 											</tr>
 											<tr>
-												<td>
-													Host Payout
-												</td>
-												<td>&#36;<%= netIncome %></td>
+												<td align="left">Host Payout</td>
+												<td align="right">&#36;<%= totalHostUSD %></td>
 											</tr>
 									</table>
 								</td>
@@ -105,7 +101,7 @@
 						<tr>
 							<th><%= category %> Category</th>
 							<td>
-								
+								<%= categoryItems %>
 							</td>
 						</tr>
 						<tr>
