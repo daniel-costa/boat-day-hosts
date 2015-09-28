@@ -304,7 +304,7 @@ define([
 			var self = this;
 
 			self.$el.find('.left-navigation .menu-host-center').addClass('active');
-			self.$el.find('.left-navigation .menu-host-center').text('Host Center');
+			self.$el.find('.left-navigation .menu-host-center').text('Dashboard');
 			self.$el.find('.add-boat, .add-boatday, .my-boatdays, .my-boats, .my-requests').hide();
 
 			var queryBoats = new Parse.Query(BoatModel);

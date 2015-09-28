@@ -4,7 +4,7 @@
 		<div class="container-fluid">
 			<div class="row overview-row">
 				<div class="col-sm-20 text-left pull-left">
-					BOATDAY DETAILS
+					BoatDay Details : <%= name %>
 				</div>
 				<div class="col-sm-4 text-right pull-right">
 					<img src="resources/down-arrow.png">
@@ -103,7 +103,7 @@
 					<div class="col-sm-9 col-sm-offset-2">
 						<div class="form-group">
 							<label for="price" class="control-label">
-								Price Per Seat
+								Price per Guest
 							</label>
 							<label class="preview-price control-label pull-right"></label>
 							<div>
@@ -124,7 +124,7 @@
 								</tr>
 								<tr>
 									<td class="totalBD">
-										Host Fee
+										BoatDay Fee
 										<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the fee charged to Hosts by BoatDay."></span>
 									</td>
 									<td class="text-right totalBoatDayUSD"></td>
@@ -531,14 +531,14 @@
 							</label>
 							<br/><br/>
 							<div>
-								<input type="radio" id="bookingPolicy1" name="bookingPolicy" value="manually" <%= bookingPolicy == 'manually' ? 'checked': (status == 'creation' ? 'checked' : '') %> <%= readOnly ? "disabled" : "" %>>
+								<!-- <input type="radio" id="bookingPolicy1" name="bookingPolicy" value="manually" <%= bookingPolicy == 'manually' ? 'checked': (status == 'creation' ? 'checked' : '') %> <%= readOnly ? "disabled" : "" %>>
 								<label class="control-label" for="bookingPolicy1"><strong>Manual Book: </strong>I want to review each Guest request and choose the best fit for my BoatDay.</label>
 								<input type="radio" id="bookingPolicy2" name="bookingPolicy" value="automatically" <%= bookingPolicy == 'automatically' ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
-								<label class="control-label" for="bookingPolicy2"><strong>Instant Book: </strong>Automatically accept all Guest requests.</label>
-								<!--
-								<input type="radio" id="bookingPolicy3" name="bookingPolicy" value="halfway">
-								<label class="control-label" for="bookingPolicy3"><strong>Trusted Book: </strong>Automatically acceots requests from Guests who have attended one of my BoatDays and received a positive review. I want to review all other requests.</label
-								-->
+								<label class="control-label" for="bookingPolicy2"><strong>Instant Book: </strong>Automatically accept all Guest requests.</label> -->
+								<input type="radio" id="bookingPolicy1" name="bookingPolicy" value="manually" <%= bookingPolicy == 'manually' ? 'checked': (status == 'creation' ? 'checked' : '') %> <%= readOnly ? "disabled" : "" %>>
+								<label class="control-label" for="bookingPolicy1"><strong>Manual Book </strong></label><br>
+								<input type="radio" id="bookingPolicy2" name="bookingPolicy" value="automatically" <%= bookingPolicy == 'automatically' ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
+								<label class="control-label" for="bookingPolicy2"><strong>Instant Book </strong></label>
 							</div>
 						</div>
 					</div>
@@ -555,12 +555,18 @@
 							</label>
 							<br/><br/>
 							<div>
-								<input type="radio" id="cancellationPolicy1" name="cancellationPolicy" value="flexible"  <%= cancellationPolicy == 'flexible' ? 'checked': (status == 'creation' ? 'checked' : '') %> <%= readOnly ? "disabled" : "" %>>
+								<!-- <input type="radio" id="cancellationPolicy1" name="cancellationPolicy" value="flexible"  <%= cancellationPolicy == 'flexible' ? 'checked': (status == 'creation' ? 'checked' : '') %> <%= readOnly ? "disabled" : "" %>>
 								<label class="control-label" for="cancellationPolicy1"><strong>Flexible:</strong> No charge for Guest cancellations up to 1 day prior to departure, except Trust &amp; Safety Fee.</label>
 								<input type="radio" id="cancellationPolicy2" name="cancellationPolicy" value="moderate" <%= cancellationPolicy == 'moderate' ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
 								<label class="control-label" for="cancellationPolicy2"><strong>Moderate:</strong> No charge for Guest cancellations up to 3 days prior to departure, except Trust &amp; Safety Fee.</label>
 								<input type="radio" id="cancellationPolicy3" name="cancellationPolicy" value="strict" <%= cancellationPolicy == 'strict' ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
-								<label class="control-label" for="cancellationPolicy3"><strong>Strict:</strong> 50% charge for Guest cancellations up to five days prior to departure time, including Trust &amp; Safety Fee.</label>
+								<label class="control-label" for="cancellationPolicy3"><strong>Strict:</strong> 50% charge for Guest cancellations up to five days prior to departure time, including Trust &amp; Safety Fee.</label> -->
+								<input type="radio" id="cancellationPolicy1" name="cancellationPolicy" value="flexible"  <%= cancellationPolicy == 'flexible' ? 'checked': (status == 'creation' ? 'checked' : '') %> <%= readOnly ? "disabled" : "" %>>
+								<label class="control-label" for="cancellationPolicy1"><strong>Flexible</strong></label><br>
+								<input type="radio" id="cancellationPolicy2" name="cancellationPolicy" value="moderate" <%= cancellationPolicy == 'moderate' ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
+								<label class="control-label" for="cancellationPolicy2"><strong>Moderate</strong></label><br>
+								<input type="radio" id="cancellationPolicy3" name="cancellationPolicy" value="strict" <%= cancellationPolicy == 'strict' ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
+								<label class="control-label" for="cancellationPolicy3"><strong>Strict</strong></label>
 							</div>
 						</div>
 					</div>

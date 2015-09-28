@@ -29,7 +29,7 @@
 								<td><%= boat.get('name') %></td>
 							</tr>
 							<tr>
-								<th>Number of Seats</th>
+								<th>Number of Guests</th>
 								<td>
 									<%= boatday.get('bookedSeats') %>
 									<%= boatday.get('bookedSeats') == 1 ? ' seat' : ' seats' %>
@@ -51,7 +51,7 @@
 				<div class="col-sm-12 table-responsive">
 					<table class="table">
 							<tr>
-								<th>Select your captain</th>
+								<th>Captain</th>
 								<td><%= captain.get('displayName') %></td>
 							</tr>
 							<tr>
@@ -74,7 +74,7 @@
 												<td align="right">&#36;<%= totalPriceUSD %></td>
 											</tr>
 											<tr>
-												<td align="left">Host Fee</td>
+												<td align="left">BoatDay Fee</td>
 												<td align="right">-&#36;<%= totalBoatDayUSD %></td>
 											</tr>
 											<tr>
