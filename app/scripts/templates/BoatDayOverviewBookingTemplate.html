@@ -57,7 +57,7 @@
 						}%>
 
 						<% _.each( requestsList, function( request ) { %>
-							<div class="cell col-sm-4 profile">
+							<div class="cell col-sm-4 col-xs-8 profile">
 								<div class="inner text-center">
 									<div class="obj-thumb profile-picture" 
 									data-id="<%= request.get('profile').id %>" 
@@ -79,7 +79,7 @@
 					<div class="tab-pane" id="rejected-guests-tab">
 						
 						<% _.each( rejectedRequests, function( request ) { %>
-							<div class="cell col-sm-4 profile">
+							<div class="cell col-sm-4 col-xs-8 profile">
 								<div class="inner text-center">
 									<div class="obj-thumb profile-picture" 
 									data-id="<%= request.get('profile').id %>" 
@@ -100,7 +100,7 @@
 
 					<div class="tab-pane" id="cancellation-tab">
 						<% _.each( cancelledRequests, function( request ) { %>
-						<div class="cell col-sm-4 profile">
+						<div class="cell col-sm-4 col-xs-8 profile">
 							<div class="inner text-center">
 								<div class="obj-thumb profile-picture" 
 								data-id="<%= request.get('profile').id %>" 

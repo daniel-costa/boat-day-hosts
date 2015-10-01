@@ -52,7 +52,8 @@ define([
 				"click .submit-answer": "submitAnswer",
 				"mouseover .stars img": "rateOver",
 				"mouseout .stars img": "rateOut",
-				"click .stars img": "rate"
+				"click .stars img": "rate",
+				"click .chat-text-area .enter-chat-text": "submitChat"
 			},
 
 			theme: "dashboard",
@@ -1579,6 +1580,39 @@ define([
 					this.addMessage(event);
 				}
 
+			},
+
+			submitChat: function(event){
+
+				event.preventDefault();
+
+				var self = this;
+
+				var e = $(event.currentTarget);
+				var inputField = e.closest('.input-group').find("input[name=message]");
+
+			
+				var boatday = self.model;
+				var msg = inputField.val();
+
+				if( msg == '' ) {
+					return;
+				}
+
+				inputField.val('');
+
+				new ChatMessageModel({
+					message: msg,
+					boatday: boatday,
+					profile: Parse.User.current().get('profile'),
+					addToBoatDay: true
+				}).save().then(function(message) {
+					self.appendMessage(boatday.id, message);
+					self._scrollDown(boatday.id);
+					self.saveLastReading(boatday);
+				}, function(error) {
+					console.log(error);
+				});
 			},
 
 			addMessage: function(event) {
