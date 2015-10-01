@@ -1,4 +1,11 @@
 <div class="dashboard-canvas">
+
+	<style>
+	.row{
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	</style>
 				
 	<h4>Add a new boat</h4>
 	<form class="form-horizontal">
@@ -204,12 +211,12 @@
 				</div>
 			<% } else { %>
 				<div class="row heading">
-					<div class="col-sm-16 col-sm-offset-2">
+					<div class="col-sm-16 col-xs-12 col-sm-offset-2">
 						<div class="form-group">	
 							Info &amp; Amenities
 						</div>
 					</div>
-					<div class="col-sm-5 text-right">
+					<div class="col-sm-5 col-xs-12 text-right">
 						<div class="form-group">
 							<img src="resources/check.png" />
 						</div>
@@ -257,12 +264,12 @@
 			<% if( status == 'complete' || status == 'approved' || status == 'denied') { %>
 
 				<div class="row heading">
-					<div class="col-sm-16 col-sm-offset-2">
+					<div class="col-sm-16 col-xs-12 col-sm-offset-2">
 						<div class="form-group">	
 							Boat Pictures &amp; Insurance
 						</div>
 					</div>
-					<div class="col-sm-5 text-right">
+					<div class="col-sm-5 col-xs-12 text-right">
 						<div class="form-group">
 							<img src="resources/check.png" />
 						</div>
@@ -270,12 +277,12 @@
 				</div>
 
 				<div class="row heading">
-					<div class="col-sm-16 col-sm-offset-2">
+					<div class="col-sm-16 col-xs-12 col-sm-offset-2">
 						<div class="form-group">	
 							Boat status
 						</div>
 					</div>
-					<div class="col-sm-5 text-right">
+					<div class="col-sm-5 col-xs-12 text-right">
 						<div class="form-group">
 							<%= status == 'complete' ? 'Under Review' : '' %>
 							<%= status == 'approved' ? 'Approved' : '' %>
