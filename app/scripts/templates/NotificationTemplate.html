@@ -47,51 +47,21 @@
 
 			<% if( action == "boatday-question" ) { %>
 				just asked a question for your BoatDay 
-				<% if(boatdayStatus != "cancelled"){
-					%>
-					<a href="#boatday-overview/<%= boatdayId %>"><%= boatdayName %></a>
-				<%} else {
-					%>
-					<%= boatdayName %>
-				<%} %>
-				.
+					<a href="#boatday-overview/<%= boatdayId %>"><%= boatdayName %></a>.
 			<% } %>
 			
 			<% if( action == "boatday-message" ) { %>
-				just sent you a message regarding <% if(boatdayStatus != "cancelled"){
-					%>
-					<a href="#boatday-overview/<%= boatdayId %>"><%= boatdayName %></a>
-				<%} else {
-					%>
-					<%= boatdayName %>
-				<%} %>
-				.
+				<a href="#boatday-overview/<%= boatdayId %>"><%= boatdayName %></a>.
 			<% } %>
 
 			<% if( action == "boatday-payment" ) { %>
 				You just received $<%= amount %> contributions for your BoatDay 
-				<% if(boatdayStatus != "cancelled"){
-					%>
-					<a href="#boatday-overview/<%= boatdayId %>"><%= boatdayName %></a>
-				<%} else {
-					%>
-					<%= boatdayName %>
-				<%} %>
-				.
+					<a href="#boatday-overview/<%= boatdayId %>"><%= boatdayName %></a>.
 			<% } %>
 			
 			<% if( action == "boatday-request" ) { %>
 				has requested <%= seats %> seat(s) on your BoatDay 
-
-				<% if(boatdayStatus != "cancelled"){
-					%>
-					<a href="#boatday-overview/<%= boatdayId %>"><%= boatdayName %></a>
-				<%} else {
-					%>
-					<%= boatdayName %>
-				<%} %>
-				.
-
+					<a href="#boatday-overview/<%= boatdayId %>"><%= boatdayName %></a>.
 			<% } %>
 
 			<% if( action == "bd-message" ) { %>

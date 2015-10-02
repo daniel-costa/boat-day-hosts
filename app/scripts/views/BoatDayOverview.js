@@ -110,6 +110,7 @@ define([
 					this.isPastBoatDay = true;
 				} 
 
+
 	
 
 			},
@@ -217,10 +218,13 @@ define([
 						
 					});
 
-
-					if( self.collectionPendingSeatRequests.length + self.collectionApprovedSeatRequests.length === 0 ) {
-						self.isReadOnly = false;
+					if(boatday.get("status") != "cancelled"){
+						if( self.collectionPendingSeatRequests.length + self.collectionApprovedSeatRequests.length === 0 ) {
+							self.isReadOnly = false;
+						}
 					}
+
+					
 
 
 					self.renderBoatDayInfo();
@@ -740,7 +744,8 @@ define([
 				target.html('');
 
 				var _tpl = tpl({
-					self: self
+					self: self,
+					boatday: boatday
 				});
 
 				target.append(_tpl);
