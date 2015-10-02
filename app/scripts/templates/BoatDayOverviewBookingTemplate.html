@@ -70,6 +70,10 @@
 										<%= request.get('seats') %>
 										<%= request.get('seats') == 1 ? 'seat' : 'seats' %>
 									</span>
+									<span style="display:block;">
+										<img src="resources/mobile-icon.png" style="height:12px; margin-right:3px;"/>
+										<%= request.get("profile").get("phone") != undefined ? request.get("profile").get("phone") : "00" %>
+									</span>
 								</div>
 							</div>
 						<% }); %>

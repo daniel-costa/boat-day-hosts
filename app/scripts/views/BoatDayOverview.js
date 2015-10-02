@@ -254,6 +254,8 @@ define([
 			},
 
 			renderisReadOnly: function(){
+
+
 				var self = this;
 				var boatday = this.model;
 
@@ -360,10 +362,12 @@ define([
 					});
 
 					target.append(_tpl);
+					self.$el.find('[data-toggle="tooltip"]').tooltip();
 				});
 
 
 			},
+
 			renderBoatDayInfo: function(){
 
 				var self = this;
@@ -427,8 +431,8 @@ define([
 
 				var dateStr = "";
 				var _date = new Date(date);
-				var _month = _date.getMonth();
-				var _dt = _date.getDate();
+				var _month = _date.getMonth(); 
+				var _dt = _date.getDate(); 
 
 				var month = new Array();
 			    month[0] = "January";
@@ -504,6 +508,7 @@ define([
 
 
 				target.append(_tpl);
+				self.$el.find('[data-toggle="tooltip"]').tooltip();
 
 				var boatsFetchSuccess = function(matches) {
 
@@ -1253,6 +1258,7 @@ define([
 					noButton: false,
 					closeButton: true,
 					cancelButton: true,
+					cancelButtonText: "Go Back",
 					yesButtonText: "Continue",
 					yesCb: cb,
 					yesCbValidation: modalValidation

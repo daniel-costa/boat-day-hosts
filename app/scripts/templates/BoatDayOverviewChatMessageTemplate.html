@@ -6,6 +6,6 @@
 		</div>
 	</div>
 	<div class="clear">
-		<p style="color:#aaa;font-size:0.75em;<%= profile.id == Parse.User.current().get('profile').id ? 'text-align:right;' : '' %>"><%= self.dateParseToDisplayDate(message.createdAt) %></p>
+		<p style="color:#aaa;font-size:0.75em;<%= profile.id == Parse.User.current().get('profile').id ? 'text-align:right;' : '' %>">Sent by <font color="#00A8BF"><%= profile.get("displayName") %></font> <%= self.dateParseToDisplayDate(message.createdAt) %></p>
 	</div>
 </div>
