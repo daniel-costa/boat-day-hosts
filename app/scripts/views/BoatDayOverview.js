@@ -343,6 +343,18 @@ define([
 
 				Parse.Promise.when(queryBoat.get(boatday.get('boat').id), queryCaptain.get(boatday.get('captain').id)).then(function(boat, captain){
 					
+
+					var bookingPolicy = "";
+
+					switch(boatday.get("bookingPolicy")){
+						case "manually":
+							bookingPolicy = "Manual Book";
+							break;
+						case "automatically":
+							bookingPolicy = "Instant Book";
+							break;
+					}
+
 					var _tpl = tpl({
 						name: self.model.get("name"),
 						boatday: self.model,
@@ -358,7 +370,7 @@ define([
 						extras: extras,
 						familySettings: familySettings,
 						category: boatday.get('category').charAt(0).toUpperCase() + boatday.get('category').slice(1),
-						bookingPolicy: boatday.get('bookingPolicy').charAt(0).toUpperCase() + boatday.get('bookingPolicy').slice(1),
+						bookingPolicy: bookingPolicy,
 						cancellationPolicy: boatday.get('cancellationPolicy').charAt(0).toUpperCase() + boatday.get('cancellationPolicy').slice(1)
 					});
 
@@ -797,7 +809,7 @@ define([
 					if(messageCount == 1) { pl = ""; } 
 
 					
-					target.html(' - <font color="#f8b62c">'+ messageCount + " new message" + pl + ".</font>");
+					target.html(' - <font color="#f8b62c">'+ messageCount + " new message" + pl + "</font>");
 				}
 				else{
 					target.html("");
@@ -818,10 +830,10 @@ define([
 
 					if(self.isPastBoatDay){
 
-						target.html(' - <font color="#f8b62c">'+ bookingCount + " review" + pl + " left.</font>");
+						target.html(' - <font color="#f8b62c">'+ bookingCount + " review" + pl + " left</font>");
 					}
 					else{
-						target.html(' - <font color="#f8b62c">'+ bookingCount + " new request" + pl + ".</font>");
+						target.html(' - <font color="#f8b62c">'+ bookingCount + " new request" + pl + "</font>");
 					}
 				}
 				
@@ -837,7 +849,7 @@ define([
 					if(questionCount == 1) { pl = ""; }
 					
 					if( !self.isPastBoatDay ){
-						target.html(' - <font color="#f8b62c">'+ questionCount + " new question" + pl + ".</font>");
+						target.html(' - <font color="#f8b62c">'+ questionCount + " new question" + pl + "</font>");
 					}
 				}
 			
@@ -1316,7 +1328,7 @@ define([
 
 
 				this.modal({
-					title: 'Cancel Boatday:' + self.model.get("name"),
+					title: 'Cancel Boatday: ' + self.model.get("name"),
 					body: modalBody,
 					noButton: false,
 					closeButton: true,
