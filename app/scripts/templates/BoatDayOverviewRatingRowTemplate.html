@@ -14,7 +14,7 @@
 			<em style="color: #aaa;">
 				<% 
 				var date = new Date(request.createdAt);
-				var _date = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+				var _date = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 				%>
 				<%= _date %></em>
 		</div>

@@ -344,10 +344,11 @@ define([
 				Parse.Promise.when(queryBoat.get(boatday.get('boat').id), queryCaptain.get(boatday.get('captain').id)).then(function(boat, captain){
 					
 					var _tpl = tpl({
+						name: self.model.get("name"),
 						boatday: self.model,
 						boat: boat,
 						captain: captain,
-						boatdayDate: (_d.getDate() + "/" + _d.getMonth() + "/" + _d.getFullYear()),
+						boatdayDate: ((_d.getMonth() + 1) + "/" + _d.getDate() + "/" + _d.getFullYear().toString().substr(2,2)),
 						self: self,
 						totalHostUSD: totalHostUSD,
 						totalPriceUSD: totalPriceUSD,
@@ -746,6 +747,9 @@ define([
 				
 				var tpl = _.template(BoatDayOverviewGroupChatTemplate);
 				var target = self.$el.find('.dashboard-canvas .boatday-overview-group-chat');
+
+				//this._in('description').val(),
+
 				target.html('');
 
 				var _tpl = tpl({
@@ -755,26 +759,52 @@ define([
 
 				target.append(_tpl);
 
-				self.fetchChat(boatday);
+				var activateChat = !self.isPastBoatDay;
 
-				setInterval(function() { self.fetchChat(boatday) }, 10000);
+				if(boatday.get("status") == "cancelled") { activateChat = false; }
+
+				if(activateChat){
+					
+					self.fetchChat(boatday);
+
+					setInterval(function() { self.fetchChat(boatday) }, 10000);
+
+
+					//var textarea = self.$el.find('.dashboard-canvas .boatday-overview-group-chat .auto-expand-textarea');
+
+					var textarea = document.getElementById("auto-expand-textarea");
+
+					var limit = 200;
+
+					textarea.oninput = function() {
+					  textarea.style.height = "";
+					  textarea.style.height = Math.min(textarea.scrollHeight, 300) + "px";
+					};		
+				}
+				
 			
 			},
 
 			displayNewChatCount: function(messageCount){
 				
 				var target = this.$el.find('.boatday-overview .boatday-overview-group-chat .new-chat-count');
+				var infoMsgCountTarget = this.$el.find('.boatday-overview .overviewinfo-right .info-new-messages');
 				
 				if(messageCount > 0){
-					target.html(' - <font color="#f8b62c">'+ messageCount + " new</font>");
+
+					var pl = "s";
+					
+					if(messageCount == 1) { pl = ""; } 
+
+					
+					target.html(' - <font color="#f8b62c">'+ messageCount + " new message" + pl + ".</font>");
 				}
 				else{
 					target.html("");
 				}
-
-				var newMessageTarget = this.$el.find('.boatday-overview .overviewinfo-right .info-new-messages');
+				
 				//console.log(newMessageTarget);
-				newMessageTarget.html(messageCount);
+				infoMsgCountTarget.html(messageCount);
 			},
 
 			displayNewBookingCount: function(bookingCount){
@@ -782,16 +812,16 @@ define([
 				var target = this.$el.find('.boatday-overview-booking-requests .new-booking-count');
 				if(bookingCount > 0){
 					
+					var pl = "s";
+					
+					if(bookingCount == 1){ pl = ""; }
 
 					if(self.isPastBoatDay){
-						var reviewStr = "reviews";
-						if(bookingCount == 1){
-							reviewStr = "review";
-						}
-						target.html(' - <font color="#f8b62c">'+ bookingCount + " "+ reviewStr +" left</font>");
+
+						target.html(' - <font color="#f8b62c">'+ bookingCount + " review" + pl + " left.</font>");
 					}
 					else{
-						target.html(' - <font color="#f8b62c">'+ bookingCount + " new</font>");
+						target.html(' - <font color="#f8b62c">'+ bookingCount + " new request" + pl + ".</font>");
 					}
 				}
 				
@@ -803,8 +833,11 @@ define([
 			
 				var target = this.$el.find('.boatday-overview-questions .new-question-count');
 				if(questionCount > 0){
+					var pl = "s";
+					if(questionCount == 1) { pl = ""; }
+					
 					if( !self.isPastBoatDay ){
-						target.html(' - <font color="#f8b62c">'+ questionCount + " new</font>");
+						target.html(' - <font color="#f8b62c">'+ questionCount + " new question" + pl + ".</font>");
 					}
 				}
 			
@@ -1056,6 +1089,7 @@ define([
 					var _tpl = tpl({
 						toatalQuestions: (unAnsweredQuestions.length + answeredQuestions),
 						unAnsweredQuestions: unAnsweredQuestions,
+						boatday: boatday,
 						self: self
 					});
 
@@ -1065,8 +1099,15 @@ define([
 
 					_.each(unAnsweredQuestions, function(question){
 
+						var questionDateTimeStr = "";
+						var createdAt = new Date(question.createdAt);
+
+						questionDateTimeStr = self.getShortenDayname(createdAt) + " " + (createdAt.getMonth() + 1) + "/" + createdAt.getDate() + " at " + self.formatAmPm(createdAt) + ".";
+
+
 						var data = {
 							question: question,
+							questionDateTimeStr: questionDateTimeStr,
 							from: question.get("from"),
 							boatday: question.get("boatday"),
 							profile: Parse.User.current().get('profile'),
@@ -1079,7 +1120,13 @@ define([
 
 					_.each(answeredQuestions, function(question){
 
+						var questionDateTimeStr = "";
+						var createdAt = new Date(question.createdAt);
+
+						questionDateTimeStr = self.getShortenDayname(createdAt) + " " + (createdAt.getMonth() + 1) + "/" + createdAt.getDate() + " at " + self.formatAmPm(createdAt) + ".";
+
 						var data = {
+							questionDateTimeStr: questionDateTimeStr,
 							question: question,
 							from: question.get("from"),
 							boatday: question.get("boatday"),
@@ -1092,6 +1139,22 @@ define([
 
 				});
 
+			},
+
+			getShortenDayname: function(date){
+				var daysName = ["Sun.","Mon.","Tue.","Wed.","Thu.","Fri.","Sat."];
+				return daysName[date.getDay()];
+			},
+
+			formatAmPm: function(date){
+				var hours = date.getHours();
+				var minutes = date.getMinutes();
+				var ampm = hours >= 12 ? 'pm' : 'am';
+				hours = hours % 12;
+				hours = hours ? hours : 12;
+				minutes = minutes < 10 ? '0'+minutes : minutes;
+
+				return (hours + ":" + minutes + " " + ampm);
 			},
 
 			submitAnswer: function(event){
@@ -1119,7 +1182,7 @@ define([
 
 				var question = self.collectionQuestions[id];
 
-				question.save({"answer": answer}).then(function(){
+				question.save({"answer": answer, "public" : makePublic}).then(function(){
 
 					console.log(question.get('from'));
 					
@@ -1253,13 +1316,13 @@ define([
 
 
 				this.modal({
-					title: 'Cancel Boatday',
+					title: 'Cancel Boatday:' + self.model.get("name"),
 					body: modalBody,
 					noButton: false,
 					closeButton: true,
 					cancelButton: true,
 					cancelButtonText: "Go Back",
-					yesButtonText: "Continue",
+					yesButtonText: "Cancel BoatDay",
 					yesCb: cb,
 					yesCbValidation: modalValidation
 				});
@@ -1598,19 +1661,20 @@ define([
 				event.preventDefault();
 
 				var self = this;
-
-				var e = $(event.currentTarget);
-				var inputField = e.closest('.input-group').find("input[name=message]");
-
 			
 				var boatday = self.model;
-				var msg = inputField.val();
+				var msg = this._in('message').val();
+
+				
 
 				if( msg == '' ) {
 					return;
 				}
 
-				inputField.val('');
+				this._in('message').val('');
+				var textarea = document.getElementById("auto-expand-textarea");
+				textarea.style.height = "";
+				
 
 				new ChatMessageModel({
 					message: msg,
@@ -1661,11 +1725,16 @@ define([
 				var self = this;
 				var tpl = _.template(BoatDayOverviewChatMessageTemplate);
 
+				var msg = message.get("message");
+
+				//console.log("Message : " + msg.replace(/\n/g, "<br>"));
+
 				var _tpl = tpl({
 					profile: message.get('profile'),
 					message: message,
 					self: self
 				});
+
 
 				self.$el.find('.dashboard-canvas .boatday-overview-group-chat .boatday-group-chat-form .box-messages .info > .inner').append(_tpl);
 

@@ -2,7 +2,9 @@
 	<div class="profile-picture" data-id="<%= profile.id %>" style="background-image:url(<%= profile.get('profilePicture').url() %>)"></div>
 	<div class="text">
 		<div class="speech-bubble">
-			<p><%= message.get('message') %></p>
+			<p>
+				<%= (message.get('message')).replace(/\n/g,"<br>") %>
+			</p>
 		</div>
 	</div>
 	<div class="clear">

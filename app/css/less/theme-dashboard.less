@@ -987,16 +987,14 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   margin-left: 0px;
   margin-right: 0px;
 }
-
-.boatday-overview .boatdayoverview-row-details .right-row-col{
+.boatday-overview .boatdayoverview-row-details .right-row-col {
   border-left: 1px solid #E0EBED;
 }
 @media only screen and (max-width: 768px) {
-  .boatday-overview .boatdayoverview-row-details .right-row-col{
+  .boatday-overview .boatdayoverview-row-details .right-row-col {
     border-left: none;
   }
 }
-
 .boatday-overview .boatday-overview-row-hidden {
   border-top: 1px solid #e6ebec;
   display: none;
@@ -1012,20 +1010,25 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   border: none;
 }
 .boatday-overview .chat-text-area {
-  padding: 20px;
+  padding: 30px;
   background-color: #f9fbfb;
 }
-.boatday-overview .chat-text-area .input-group input {
-  border-color: #edf1f3;
+
+.boatday-overview .chat-text-area .row textarea {
+  display:block;
+  box-sizing: padding-box;
+  overflow:hidden;
+  resize:none;
 }
-.boatday-overview .chat-text-area .input-group button {
+.boatday-overview .chat-text-area .row button {
   border-color: #edf1f3;
   height: 48px;
   padding-left: 40px;
   padding-right: 40px;
   background-color: #f9fbfb;
+  border-radius: 5px;
 }
-.boatday-overview .chat-text-area .input-group button:hover {
+.boatday-overview .chat-text-area .row button:hover {
   background-color: #79c6d4;
 }
 .boatday-overview .boatday-booking-requests .pending-list {
@@ -1197,9 +1200,7 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   padding: 20px;
 }
 .boatday-overview .boatday-read-only {
-  border-bottom: 1px solid #E0EBED;
-  padding: 20px;
-  font-size: 1em;
+  
 }
 .boatday-overview .boatday-edit-form .row {
   padding: 10px 20px 0px 20px;
@@ -1238,27 +1239,25 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   background-color: #CFD8DC;
   color: #FFF;
 }
-.boatday-read-only .table-responsive {
+.boatday-read-only .table {
   padding-top: 20px;
 }
 .boatday-read-only .table th {
   border-top: none !important;
   padding: 20px;
+  color: #9faab5;
+  font-weight: 500;
+  width: 200px;
 }
 .boatday-read-only .table td {
   border-top: none !important;
   padding: 20px 20px 20px 0px;
-}
-.boatday-read-only .table td {
   color: #607884;
-  font-weight: 500;
-}
-.boatday-read-only .table th {
-  color: #9faab5;
   font-weight: 500;
 }
 .boatday-read-only .calculator td,
 .boatday-read-only .calculator th {
-  padding: 5px;
+  padding: 7px;
 }
+
 /* boatday overview css ends */

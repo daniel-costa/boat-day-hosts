@@ -4,7 +4,7 @@
 		<div class="container-fluid">	
 			<div class="row heading">
 				<div class="col-sm-20 text-left pull-left">
-					Guest Chat Wall
+					GUEST CHAT WALL
 					<span class="new-chat-count"></span>
 				</div>
 				<div class="col-sm-4 text-right pull-right">
@@ -34,16 +34,26 @@
 
 						<em>This BoatDay is over, the chat is now deactivated.</em>
 						
-						<% } else { %>
+						<% } else { 
 
-						<div class="input-group text-center">
-								<input type="text" class="form-control" name="message" placeholder="Your comment" />
-								<span class="input-group-btn">
-						        	<button class="btn btn-default enter-chat-text" type="button">Send</button>
-						      	</span>
-						</div>
+								if(boatday.get("status") == "cancelled"){ %>
 
-						<% } %>
+									<em>This BoatDay was cancelled, the chat is now deactivated.</em>
+
+								<% } else { %> 
+
+								<div class="row expand-textarea">
+									<textarea name="message" class="form-control auto-expand-textarea" id="auto-expand-textarea" rows="1" placeholder="Chat message"></textarea>
+								</div>
+										
+								<div class="row pull-right" style="margin-top:10px;">
+									<span class="input-group-btn">
+								    	<button class="btn btn-default enter-chat-text" type="button">Send</button>
+								     </span>
+								</div>
+
+
+						<% } } %>
 					</div>
 				</div>
 

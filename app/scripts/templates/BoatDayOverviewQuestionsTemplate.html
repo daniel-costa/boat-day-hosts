@@ -4,7 +4,7 @@
 		<div class="container-fluid">	
 			<div class="row heading">
 				<div class="col-sm-20 text-left pull-left">
-					BoatDay Q&A
+					BOATDAY Q&amp;A
 					<span class="new-question-count"></span>
 				</div>
 				<div class="col-sm-4 text-right pull-right">
@@ -19,19 +19,27 @@
 		<div class="boatday-question boatday-overview-row-hidden" style="display:block;">
 
 			<% if(self.isPastBoatDay) { %>
-				
-					<p class="text-center" style="margin-bottom:0px; padding: 20px; font-size: 1em;">
+	
+				<p class="text-center" style="margin-bottom:0px; padding: 20px; font-size: 1em; border-bottom:1px solid #E0EBED;">
 					<em>This BoatDay is over, the questions are now deactivated</em>
-					</p>
+				</p>
 				
 			<% }  else { %>
 
+				<% if(boatday.get("status") == "cancelled") { %>
+
+					<p class="text-center" style="margin-bottom:0px; padding: 20px; font-size: 1em; border-bottom:1px solid #E0EBED;">
+						<em>This BoatDay was cancelled, the questions are now deactivated</em>
+					</p>
+
+				<% } %>
+
 				<% if(toatalQuestions < 1) { %>
-				<div class="text-center" style="padding-bottom:20px;">
-					<h4 style="text-transform:none;">No questions have been asked about this BoatDay... yet!</h4>
-				</div>
+					<div class="text-center" style="padding-bottom:20px;">
+						<h4 style="text-transform:none;">No questions have been asked about this BoatDay... yet!</h4>
+					</div>
 				
-			<% }  } %>
+			<% } }  %>
 			
 			<!-- -->
 			<div class="new-question-list">

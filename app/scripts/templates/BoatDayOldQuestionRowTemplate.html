@@ -8,7 +8,7 @@
 		</div>
 		<div class="cell col-sm-18 col-md-19 col-lg-20">
 			<div class="inner">
-				<strong><%= from.get("displayName") %></strong> asked:
+				<strong><%= from.get("displayName") %></strong> asked a question on <%= questionDateTimeStr %>
 			</div>
 			<div class="inner">
 				<%= question.get("question") %>
@@ -16,17 +16,22 @@
 		</div>
 	</div>
 
-
-	<div class="row">
-		<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1">
-		</div>
-		<div class="cell cell col-sm-18 col-md-19 col-lg-20" data-id="<%= question.id %>">
+	<div class="row" style="margin-top:15px;">
+		<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1 profile" >
 			<div class="inner">
-				 <span><b>Your answer:</b></span></br>
+					<div class="obj-thumb profile-picture" data-id="<%= profile.id %>" style="background-image:url(<%= profile.get("profilePicture").url() %>)"></div>
+			</div>
+		</div>
+		<div class="cell col-sm-18 col-md-19 col-lg-20">
+			<div class="inner">
+				<span><b>Reply:</b></span></br>
+			</div>
+			<div class="inner">
 				 <%= question.get("answer").replace(/\n/g, "<br>") %>
 			</div>
 		</div>
 	</div>
+
 
 </div>
 

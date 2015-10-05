@@ -25,13 +25,7 @@
 					<ul class="nav nav-pills centered-pills">
 						<li class="active">
 							<a href="#attending-guest-tab" data-toggle="tab">
-
-								<% if(self.isPastBoatDay) {%>
-									Pending Guests (<%= pendingRequests.length %>)
-								<% } else {%>
-									Confirmed Guests (<%= approvedRequests.length %>)
-								<% } %>
-								
+								Confirmed Guests (<%= approvedRequests.length %>)
 							</a>
 						</li>
 						<li>
@@ -50,13 +44,8 @@
 					<div class="tab-pane active" id="attending-guest-tab">
 						<div class="row" >
 
-						<% 
-						var requestsList = approvedRequests;
-						if(self.isPastBoatDay) { 
-							requestsList = pendingRequests
-						}%>
 
-						<% _.each( requestsList, function( request ) { %>
+						<% _.each( approvedRequests, function( request ) { %>
 							<div class="cell col-sm-4 col-xs-8 profile">
 								<div class="inner text-center">
 									<div class="obj-thumb profile-picture" 
