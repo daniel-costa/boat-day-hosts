@@ -885,6 +885,15 @@ define([
 				var pricePerSeat = boatday.get('price');
 				var bookedSeats = boatday.get("bookedSeats");
 				var earnings = pricePerSeat * bookedSeats;
+
+
+				var baseRate = self.getHostRate(Parse.User.current().get('host').get('type'));
+
+				var totalPriceUSD = pricePerSeat * bookedSeats;
+				var totalBoatDayUSD = baseRate * totalPriceUSD;
+				var totalPartnerDiscountPercent = baseRate - Parse.User.current().get('host').get('rate');
+				var totalPartnerDiscount = totalPartnerDiscountPercent * totalPriceUSD;
+				var totalHostUSD = totalPriceUSD - (totalBoatDayUSD - totalPartnerDiscount);
 				
 				var _tpl = tpl({
 					pendingRequests: self.collectionPendingSeatRequests,
@@ -893,7 +902,7 @@ define([
 					rejectedRequests: self.collectionRejectedSeatRequests,
 					pricePerSeat: pricePerSeat,
 					bookedSeats: bookedSeats,
-					earnings: earnings,
+					earnings: totalHostUSD,
 					self: self
 				});
 
