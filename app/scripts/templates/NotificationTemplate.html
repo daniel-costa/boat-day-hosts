@@ -1,5 +1,7 @@
 <div class="row <%= read ? '' : 'not-open' %> <%= action != "boatday-request" ? 'row-remove' : '' %>" data-id="<%= id %>">
-	<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1 profile">
+	
+
+	<div class="col-sm-3 col-xs-10 col-md-offset-1 profile">
 		<div class="inner text-center">
 			<% if( bd  ) { %>
 				<img src="resources/ico-bd.png" />
@@ -8,14 +10,26 @@
 			<% }  %>
 		</div>
 	</div>
-	<div class="cell col-xs-12 col-sm-14 col-md-13 col-lg-15">
+
+	<div class="col-sm-3 col-xs-10">
+
 		<div class="inner">
 
-			<% if( bd  ) { %>
-				<strong>BoatDay Team</strong>
-			<% } else { %>
-				<strong><%= sender.get("displayName") %></strong>
-			<% }  %>
+			<strong>
+				<% if( bd  ) { %>
+					BoatDay Team
+				<% } else { %>
+					<%= sender.get("displayName") %>
+				<% } %>
+			</strong>
+			</br>
+			<span><%= dateStr %></span>
+		</div>
+
+	</div>
+
+	<div class="col-sm-10 col-xs-10">
+		<div class="inner">
 
 			<% if( action == "certification-approved" ) { %>
 				Your <a href="#/my-account"><%= message %></a> has been approved! You will now have a <a href="#/my-account"><%= message %></a> badge displayed on your BoatDay Profile. 
@@ -71,7 +85,8 @@
 			<em style="color: #aaa;"><%= self.dateParseToDisplayDate(notification.createdAt) %></em>
 		</div>
 	</div>
-	<div class="cell col-xs-12 col-sm-6 col-md-7 col-lg-6">
+
+	<div class="col-sm-6 col-xs-10">
 		<div class="inner text-center">
 			<div class="action">
 				<% if( action == "certification-approved" ) { %>
@@ -139,4 +154,5 @@
 			</div>
 		</div>
 	</div>
+	
 </div>

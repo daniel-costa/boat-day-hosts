@@ -11,15 +11,25 @@
 
     <div class="collapse navbar-collapse" id="bs-collapse-1">
       <ul class="nav navbar-nav navbar-right" style="position:relative; z-index:999; background-color:#EAF1F4;">
-        <li><a href="#/help-center">Help Center</a></li>
-			<li>
-				<a href="#/my-account" class="my-account">
-					<%= Parse.User.current().get('profile').get('displayName') %>
-					<span class="glyphicon glyphicon-cog"></span>
-				</a>
-			</li>
-			<li><a href="#/sign-out" class="sign-out">Sign out</a></li>
         
+        <li><a href="#/help-center">Help Center</a></li>
+  			
+        <li>
+  				<a href="#/my-account" class="my-account">
+            <div class="pull-left">
+              <%= Parse.User.current().get('profile').get('displayName') %>
+            </div>
+  					
+            <div class="profile pull-right" style="margin-left:10px; margin-top:-10px;">
+              <div class="inner">
+                <div class="obj-thumb profile-picture" data-id="<%= Parse.User.current().id %>" style="background-image:url(<%= Parse.User.current().get("profile").get("profilePicture").url() %>); height:40px; width:40px;"></div>
+              </div>
+            </div>
+          </a>
+  			</li>
+  			
+        <li><a href="#/sign-out" class="sign-out">Sign out</a></li>
+          
       </ul>
     
     </div>

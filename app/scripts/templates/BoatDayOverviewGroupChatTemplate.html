@@ -32,18 +32,22 @@
 
 						<% if(self.isPastBoatDay) { %>
 
-						<em>This BoatDay is over, the chat is now deactivated.</em>
+						<p class="text-center">
+							<em>This BoatDay is over, the chat is now deactivated.</em>
+						</p>
 						
 						<% } else { 
 
 								if(boatday.get("status") == "cancelled"){ %>
 
+								<p class="text-center">
 									<em>This BoatDay was cancelled, the chat is now deactivated.</em>
+								</p>
 
 								<% } else { %> 
 
 								<div class="row expand-textarea">
-									<textarea name="message" class="form-control auto-expand-textarea" id="auto-expand-textarea" rows="1" placeholder="Chat message"></textarea>
+									<textarea name="message" class="form-control auto-expand-textarea" id="auto-expand-textarea" rows="1" placeholder="you chat message"></textarea>
 								</div>
 										
 								<div class="row text-right" style="margin-top:10px;">

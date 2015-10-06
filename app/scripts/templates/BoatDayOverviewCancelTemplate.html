@@ -1,5 +1,11 @@
-<div class="row cancel-row">
-	<div class="cell col-sm-10 col-md-5 col-lg-5" >
-    	<button class="btn btn-lg btn-danger btn-cancel">Cancel BoatDay</button>
-    </div>
+<div class="row cancel-row text-center">
+
+	<% if (showCancelBtn) { %>
+
+	<button class="btn btn-lg btn-danger btn-cancel">Cancel BoatDay</button>
+
+	<% } %>
+
+	<button class="btn btn-lg btn-default btn-duplicate">Duplicate BoatDay</button>
+    
 </div>

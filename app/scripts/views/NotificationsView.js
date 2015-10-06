@@ -101,6 +101,45 @@ define([
 
 		},	
 
+		formatDate: function(date){
+
+			var dateStr = "";
+			var _date = new Date(date);
+			var _month = _date.getMonth(); 
+			var _dt = _date.getDate(); 
+
+			var month = new Array();
+		    month[0] = "Jan";
+		    month[1] = "Feb";
+		    month[2] = "Mar";
+		    month[3] = "Apr";
+		    month[4] = "May";
+		    month[5] = "Jun";
+		    month[6] = "Jul";
+		    month[7] = "Aug";
+		    month[8] = "Sep";
+		    month[9] = "Oct";
+		    month[10] = "Nov";
+		    month[11] = "Dec";
+
+			dateStr = _dt + this.nth(_dt)+ " " +month[_month];
+
+			return dateStr;
+		},
+		
+		nth: function(d){
+			if(d>3 && d<21) return 'th';
+
+			switch (d % 10) {
+				case 1:  return "st";
+				case 2:  return "nd";
+				case 3:  return "rd";
+				default: return "th";
+		    }
+
+		},
+
+
 		render: function() {
 
 			BaseView.prototype.render.call(this);
@@ -118,6 +157,7 @@ define([
 				self.notifications[notification.id] = notification;
 
 				var data = {
+					dateStr: self.formatDate(notification.createdAt),
 					self: self,
 					notification: notification,
 					id: notification.id,

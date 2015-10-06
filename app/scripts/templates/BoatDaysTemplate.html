@@ -1,4 +1,4 @@
-<div class="dashboard-canvas">
+<div class="dashboard-canvas" >
 
 	<div class="display-messages text-center"></div>
 
@@ -7,12 +7,47 @@
 		<h2>This is where your all of your past BoatDays will be displayed, including booking details, lost and found, and payments received from Guests.</h2>
 	</div>
 
-	<div class="row my-boatdays">
-		<div class="col-sm-24">
-			<h4>PAST &amp; CANCELED BOATDAYS</h4>
-			<div class="content container-fluid">
-				<div class="items"></div>
+	<div class="row my-boatdays" >
+		<div class="col-sm-24" >
+		
+		<!-- Tab -->
+			<div class="cancelled-past-boatdays tabbable" >
+				<div class="text-center">
+					<ul class="nav nav-pills centered-pills">
+						<li class="active">
+							<a href="#past-boatdays-tab" data-toggle="tab">
+								PAST BOATDAYS
+							</a>
+						</li>
+						<li>
+							<a href="#cancelled-boatdays-tab" data-toggle="tab">
+								CANCELLED BOATDAYS
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="tab-content" >
+					<div class="tab-pane past-boatdays-tab active" id="past-boatdays-tab">
+						<div class="row" >
+							<div class="content container-fluid">
+								<div class="items"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="tab-pane cancelled-boatdays-tab" id="cancelled-boatdays-tab">
+						<div class="row" >
+							<div class="content container-fluid">
+								<div class="items"></div>
+							</div>
+						</div>
+					</div>
+
+				</div>
 			</div>
+
+			<!-- Tab  -->
+			
 		</div>
 	</div>
 

@@ -1,5 +1,5 @@
 <div class="row overviewinfo">
-	<div class="col-sm-12 overviewinfo-left">
+	<div class="col-sm-9 overviewinfo-left">
 		<div class="infodate">
 			<span><%= date %></span>
 		</div>
@@ -8,32 +8,26 @@
 		</div>
 	</div>
 	
-	<div class="col-sm-12 overviewinfo-right">
-		<div class="col-xs-12 text-center">
+	<div class="col-sm-15 overviewinfo-right">
+		<div class="col-xs-8 text-center">
 			<div class="circle">
-				<% if(self.isPastBoatDay){ %>
-					<span><%= self.collectionPendingRatingRequests.length %></span>
-				<% } else { %>
-					<span><%= bookedSeats %></span>
-				<% } %>
-				
+				<span><%= self.collectionPendingSeatRequests.length %></span>
 			</div>
-
-		
-			<% if(self.isPastBoatDay) { %>
-				<h3>Review<%= self.collectionPendingRatingRequests.length == 1 ? '' : 's' %> </br> Pending</h3>
-			<% } else {%>
-				<h3>Approved </br> Seat<%= bookedSeats == 1 ? '' : 's' %></h3>
-			<% } %>
-				
-			
+			<a href="#" class="info-pending-link">Pending </br> Request<%= self.collectionPendingSeatRequests.length == 1 ? "" : "s" %></a>
 		</div>
 
-		<div class="col-xs-12 text-center">
+		<div class="col-xs-8 text-center">
+			<div class="circle">
+				<span><%= self.collectionUnAnsweredQuestions.length %></span>
+			</div>
+			<a href="#" class="info-question-link">New </br> Guest Question<%= self.collectionUnAnsweredQuestions.length == 1 ? "" : "s" %></a>
+		</div>
+
+		<div class="col-xs-8 text-center">
 			<div class="circle">
 				<span class="info-new-messages"><%= messages %></span>
 			</div>
-			<h3>New </br> Message<%= messages == 1 ? '': 's' %></h3>
+			<a href="#" class="info-message-link">New </br>Chat Message<%= messages == 1 ? '': 's' %></a>
 		</div>
 	</div>
 </div>

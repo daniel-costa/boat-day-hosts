@@ -116,8 +116,18 @@ define([
 				}
 
 				var tpl = _.template(DashboardBoatDayTemplate);
-				var target = self.$el.find('.my-boatdays .content .items');
-				target.html('');
+				//var target = self.$el.find('.my-boatdays .content .items');
+
+				var targetPastBoatDays = self.$el.find('.my-boatdays .past-boatdays-tab .content .items');
+
+				var targetCancelledBoatDays = self.$el.find('.my-boatdays .cancelled-boatdays-tab .content .items');
+				
+				//target.html('');
+
+				targetPastBoatDays.html('');
+
+				targetCancelledBoatDays.html('');
+
 
 				var left = false;
 
@@ -157,7 +167,14 @@ define([
 						potEarings: boatday.get('earnings') ? boatday.get('earnings') : 0,
 					});
 
-					target.append(_tpl);
+					
+					//target.append(_tpl);
+
+					if(boatday.get("status") == "cancelled"){
+						targetCancelledBoatDays.append(_tpl);
+					} else {
+						targetPastBoatDays.append(_tpl);
+					}
 
 					var q = boatday.get('boat').relation('boatPictures').query();
 					q.ascending('order');
