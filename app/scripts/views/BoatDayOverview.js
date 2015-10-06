@@ -823,8 +823,8 @@ define([
 					
 					if(messageCount == 1) { pl = ""; } 
 
-					
-					target.html(' - <font color="#f8b62c">'+ messageCount + " new message" + pl + "</font>");
+					target.html(' - <font color="#f8b62c"> new message</font>');
+					//target.html(' - <font color="#f8b62c">'+ messageCount + " new message" + pl + "</font>");
 				}
 				else{
 					target.html("");
@@ -846,11 +846,12 @@ define([
 					if(bookingCount == 1){ pl = ""; }
 
 					if(this.isPastBoatDay){
-
-						target.html(' - <font color="#f8b62c">'+ bookingCount + " review" + pl + " left</font>");
+						target.html(' - <font color="#f8b62c"> new review left</font>');
+						//target.html(' - <font color="#f8b62c">'+ bookingCount + " review" + pl + " left</font>");
 					}
 					else{
-						target.html(' - <font color="#f8b62c">'+ bookingCount + " new request" + pl + "</font>");
+						target.html(' - <font color="#f8b62c"> new request</font>');
+						//target.html(' - <font color="#f8b62c">'+ bookingCount + " new request" + pl + "</font>");
 					}
 				}
 				
@@ -866,7 +867,8 @@ define([
 					if(questionCount == 1) { pl = ""; }
 					
 					if( !self.isPastBoatDay ){
-						target.html(' - <font color="#f8b62c">'+ questionCount + " new question" + pl + "</font>");
+						//target.html(' - <font color="#f8b62c">'+ questionCount + " new question" + pl + "</font>");
+						target.html(' - <font color="#f8b62c"> new question</font>');
 					}
 				}
 			

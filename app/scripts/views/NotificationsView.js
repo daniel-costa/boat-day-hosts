@@ -127,6 +127,16 @@ define([
 			return dateStr;
 		},
 
+		formatAmPm: function(date){
+			var hours = date.getHours();
+			var minutes = date.getMinutes();
+			var ampm = hours >= 12 ? 'pm' : 'am';
+			hours = hours % 12;
+			hours = hours ? hours : 12;
+			minutes = minutes < 10 ? '0'+minutes : minutes;
+
+			return (hours + ":" + minutes + " " + ampm);
+		},
 
 		render: function() {
 
@@ -146,6 +156,7 @@ define([
 
 				var data = {
 					dateStr: self.formatDate(notification.createdAt),
+					timeStr: self.formatAmPm(notification.createdAt),
 					self: self,
 					notification: notification,
 					id: notification.id,

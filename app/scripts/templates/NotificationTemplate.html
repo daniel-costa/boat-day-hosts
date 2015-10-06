@@ -13,7 +13,7 @@
 
 	</style>
 
-	<div class="col-sm-3 col-xs-10 col-md-offset-1 profile" style="margin-left:0px;" >
+	<div class="col-sm-3 col-xs-10 col-md-offset-1 profile" style="margin-left:0px;">
 		<div class="inner text-center">
 			<% if( bd  ) { %>
 				<img src="resources/ico-bd.png" />
@@ -23,7 +23,7 @@
 		</div>
 	</div>
 
-	<div class="col-sm-4 col-xs-10">
+	<div class="col-sm-4 col-xs-10" >
 
 		<div class="inner">
 
@@ -39,7 +39,7 @@
 
 	</div>
 
-	<div class="col-sm-10 col-xs-10">
+	<div class="col-sm-12 col-xs-10" >
 		<div class="inner">
 			<p>
 				<% if( action == "certification-approved" ) { %>
@@ -93,13 +93,13 @@
 					<%= message %>
 				<% } %>
 
-				<em style="color: #aaa;"><%= self.dateParseToDisplayDate(notification.createdAt) %></em>
+				<em style="color: #aaa;"><%= timeStr %></em>
 			</p>
 		</div>
 	</div>
 
-	<div class="col-sm-6 col-xs-10" >
-		<div class="inner text-right">
+	<div class="col-sm-4 col-xs-10" >
+		<div class="inner text-center">
 			<div class="action">
 				<% if( action == "certification-approved" ) { %>
 					<img src="resources/ico-certification.png" />
