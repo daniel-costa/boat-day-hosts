@@ -26,12 +26,13 @@ define([
 	'views/CertificationsView',
 	'views/NotificationsView',
 	'views/BoatDayOverview',
-	'views/HostBankAccountView'
+	'views/HostBankAccountView',
+	'views/NotificationSettingsView'
 ], function(
 	ReportModel, BoatModel, BoatDayModel, HelpCenterModel, NotificationModel, ProfileModel, HostModel, 
 	ReportView, HomeView, ForgotPasswordView, ResetPasswordView, InvalidLinkView, PasswordChangedView, 
 	DashboardView, TermsView, SignUpView, HostView, ProfileView, AccountView, BoatView, BoatDayView, 
-	BoatDaysView, HelpCenterView, CertificationsView, NotificationsView, BoatDayOverview, HostBankAccountView) {
+	BoatDaysView, HelpCenterView, CertificationsView, NotificationsView, BoatDayOverview, HostBankAccountView, NotificationSettingsView) {
 	
 	var AppRouter = Parse.Router.extend({
 
@@ -52,13 +53,15 @@ define([
 			'my-profile': 'showProfileView',
 			'my-certifications': 'showCertificationsView',
 			'my-notifications': 'showNotificationsView',
-			'my-bank-account': 'showHostBankAccountView',
+			'my-bank-account?*queryString': 'showHostBankAccountView',
 			'my-boatdays': 'showBoatDaysView',
 			'help-center': 'showHelpCenterView',
 			'help-center/:category': 'showHelpCenterView',
 			'report/:id': 'showReportView',
-			'boatday-overview/:boatdayid' : 'showBoatDayOverview',
+			'boatday-overview/:boatdayid?*queryString' : 'showBoatDayOverview',
+			'notifications-settings': 'showNotificationSettingsView',
 			'*actions': 'showDashboardView'
+			
 		},
 
 		currentView: null,
@@ -298,12 +301,12 @@ define([
 			this.handleGuestAndSignUp(cb);
 		}, 
 
-		showHostBankAccountView: function(category) {
+		showHostBankAccountView: function(queryString) {
 			
 			var self = this;
 			var cb = function() {
 
-				self.render(new HostBankAccountView());
+				self.render(new HostBankAccountView({queryString: queryString}));
 
 			};
 
@@ -381,14 +384,14 @@ define([
 		},
 
 
-		showBoatDayOverview: function( boatdayid ) {
+		showBoatDayOverview: function( boatdayid, queryString ) {
 			var self = this;
 			var cb = function() {
 				
 				if( boatdayid ) {
 
 					var boatDayOverviewSuccess = function(boatday){
-						self.render(new BoatDayOverview({model: boatday}));
+						self.render(new BoatDayOverview({model: boatday, queryString: queryString}));
 					};
 
 					var boatDayOverviewError = function(error){
@@ -406,6 +409,18 @@ define([
 			this.handleGuestAndSignUp(cb);
 		},
 
+
+		showNotificationSettingsView: function(){
+			var self = this;
+
+			var cb = function() {
+
+				self.render(new NotificationSettingsView({ model: Parse.User.current().get('profile') }));
+
+			};
+
+			this.handleGuestAndSignUp(cb);
+		},
 
 		render: function(view) {
 

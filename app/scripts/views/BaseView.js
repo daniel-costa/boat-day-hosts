@@ -34,6 +34,85 @@ define([
 
 		afterRenderInsertedToDom: function() {},
 
+		splitURLParams: function(string){
+
+			var array = {};
+
+			var pair;
+			var tokenize = /([^&=]+)=?([^&]*)/g;
+
+			var re_space = function(s){
+				return decodeURIComponent(s.replace(/\+/g, " "));
+			};
+
+			while (pair = tokenize.exec(string)) {
+
+				//var data = [];
+				//data[re_space(pair[1])] = re_space(pair[2]);
+				
+				array[re_space(pair[1])] = re_space(pair[2]);
+
+				//array.push(data);
+				//console.log("From baseview :" + re_space(pair[1]) + ":" + re_space(pair[2]));
+				//console.log(array.length);
+
+			}
+
+			return array;
+
+		},
+
+
+		formatDateWithMonthAndDate: function(date){
+
+			var dateStr = "";
+			var _date = new Date(date);
+			var _month = _date.getMonth(); 
+			var _dt = _date.getDate(); 
+
+			var month = new Array();
+		    month[0] = "Jan.";
+		    month[1] = "Feb.";
+		    month[2] = "Mar.";
+		    month[3] = "Apr.";
+		    month[4] = "May";
+		    month[5] = "June";
+		    month[6] = "July";
+		    month[7] = "Aug.";
+		    month[8] = "Sep.";
+		    month[9] = "Oct.";
+		    month[10] = "Nov.";
+		    month[11] = "Dec.";
+
+			//dateStr = _dt + this.nth(_dt)+ " " +month[_month];
+			dateStr = month[_month] + " " + _dt;
+
+			return dateStr;
+		},
+
+		nth: function(d){
+			if(d>3 && d<21) return 'th';
+
+			switch (d % 10) {
+				case 1:  return "st";
+				case 2:  return "nd";
+				case 3:  return "rd";
+				default: return "th";
+		    }
+
+		},
+
+		formatAmPm: function(date){
+			var hours = date.getHours();
+			var minutes = date.getMinutes();
+			var ampm = hours >= 12 ? 'pm' : 'am';
+			hours = hours % 12;
+			hours = hours ? hours : 12;
+			minutes = minutes < 10 ? '0'+minutes : minutes;
+
+			return (hours + ":" + minutes + " " + ampm);
+		},
+
 		getHostRate: function(type) {
 			return type == 'business' ? Parse.Config.current().get("PRICE_HOST_CHARTER_PART") : Parse.Config.current().get("PRICE_HOST_PRIVATE_PART");
 		},

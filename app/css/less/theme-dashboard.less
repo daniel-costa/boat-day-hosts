@@ -1027,16 +1027,15 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   background-color: #f9fbfb;
   border-radius: 5px;
 }
-.boatday-overview .chat-text-area .row button.hovered{
-   background-color: #79c6d4;
-   color: #ffffff;
+.boatday-overview .chat-text-area .row button.hovered {
+  background-color: #79c6d4;
+  color: #ffffff;
 }
-
-
 .boatday-overview .chat-text-area .row button:hover {
   background-color: #79c6d4;
 }
-.boatday-overview .boatday-booking-requests .pending-list {
+.boatday-overview .boatday-booking-requests .pending-list,
+.boatday-overview .boatday-booking-requests .review-list {
   display: none;
   margin: 0, auto;
 }
@@ -1049,6 +1048,45 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
 }
 .boatday-overview .boatday-booking-requests .pending-list-row .inner strong {
   color: #00a8bf;
+}
+
+.review-list-row button.rate-guest{
+  width: 80px;
+  white-space: normal;
+  line-height: 120%;
+  padding-top: 5px;
+  color: #00a8bf;
+}
+.review-list-row button.rate-guest:hover{
+  color: #ffffff;
+}
+
+.boatday-overview .boatday-booking-requests .review-list-row {
+  border: 1px solid #f8b62c;
+  padding: 0px 10px 0px 10px;
+  margin: 5px 15px 0px 15px;
+
+}
+
+.boatday-overview .boatday-booking-requests .review-list-row .col{
+  display:inline-block;
+  vertical-align: middle;
+  float: none;
+  margin:-2px;
+  padding: 0px;
+}
+.boatday-booking-requests .review-list-row .inner .guest-rating{
+  margin-bottom: 5px;
+}
+.boatday-booking-requests .review-list-row .inner .guest-rating .date{
+  font-size: 0.85em;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.boatday-overview .boatday-booking-requests .review-list-row .inner strong {
+  color: #00a8bf;
+  font-size: 0.85em;
 }
 .boatday-overview-info .overviewinfo {
   border: 1px solid #E0EBED;
@@ -1069,17 +1107,22 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
 .overviewinfo-left {
   background: #00a8bf;
   padding: 35px;
-  height: 160px;
+  min-height: 160px;
+
 }
 .overviewinfo-left .infodate span {
   color: #d4e8ec;
   font-size: 1.0em;
 }
-.overviewinfo-left .name h3 {
+.overviewinfo-left .name h3,
+.overviewinfo-right .name h3 {
   color: #ffffff;
   font-size: 1.5em;
   margin-top: 0px;
   line-height: 130%;
+}
+.overviewinfo-right .name {
+  margin-top: 25px;
 }
 .overviewinfo-right {
   background: #24b4c7;
@@ -1131,7 +1174,6 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   /* hasLayout ie7 trigger */
   margin: 35px;
 }
-
 .cancelled-past-boatdays .nav-tabs > li,
 .cancelled-past-boatdays .nav-pills > li {
   float: none;
@@ -1144,7 +1186,6 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   margin-bottom: 70px;
   margin-right: 20px;
 }
-
 .boatday-overview-booking-requests .nav-tabs,
 .cancelled-past-boatdays .nav-tabs,
 .nav-pills {
@@ -1163,12 +1204,11 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
 .boatday-overview-booking-requests .nav-pills > li > a:hover {
   color: #546e7a;
   background-color: #ffffff;
-  border-bottom: 4px solid #00a8bf;
+  border-bottom: 3px solid #00a8bf;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
 }
-
 .cancelled-past-boatdays .nav-pills > li.active > a,
 .cancelled-past-boatdays .nav-tabs > li.active > a:hover,
 .cancelled-past-boatdays .nav-tabs > li.active > a:focus,
@@ -1180,7 +1220,6 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   -moz-border-radius: 0;
   border-radius: 0;
 }
-
 .boatday-overview-booking-requests .tab-content {
   min-height: 100px;
 }
@@ -1191,9 +1230,14 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
 .boatday-overview-booking-requests .tab-content .tab-pane .profile {
   margin-bottom: 15px;
 }
+
+.boatday-overview-booking-requests .tab-content .tab-pane .cell{
+  min-width: 200px;
+}
+
 .boatday-overview-booking-requests .earnings {
   border-top: 1px solid #E0EBED;
-  margin: 10px;
+  margin: 10px 15px 10px 15px;
   padding: 20px;
 }
 .boatday-overview-booking-requests .earnings .potential-earnings {
@@ -1204,7 +1248,8 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   color: #546e7a;
   font-size: 1.2em;
 }
-.boatday-overview-booking-requests .earnings .earning-total {
+.boatday-overview-booking-requests .earnings .earning-total,
+.pending-list-row .earning-total {
   color: #00a8bf;
   font-size: 2.2em;
 }
@@ -1219,19 +1264,18 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
 }
 .boatday-question .old-question-list .old-question-row {
   padding: 15px;
-  margin: 0px 0px 5px 0px;
+  margin: 5px 0px 5px 0px;
 }
 .boatday-overview .cancel-row {
   align-items: center;
   margin: 20px;
 }
-
-.boatday-overview .cancel-row button{
+.boatday-overview .cancel-row button {
   margin-right: 20px;
 }
-
 .boatday-booking-requests .tab-content .inner > strong {
-  font-size: 1.0em;
+  font-size: .90em;
+  font-weight: 500;
 }
 .boatday-booking-requests .tab-content .inner > span {
   font-size: .80em;
@@ -1239,6 +1283,13 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
 .boatday-group-chat-form p.empty {
   padding: 20px;
 }
+
+.boatday-overview .boatday-edit-form{
+  border-top: 1px solid #e6ebec;
+  height: 0px;
+  overflow: hidden;
+}
+
 .boatday-overview .boatday-edit-form .row {
   padding: 10px 20px 0px 20px;
 }
@@ -1263,6 +1314,7 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   color: #00a8bf;
   background-color: transparent;
   border-color: #CFD8DC;
+  
 }
 .boatday-overview .pending-list-row .approve-request:hover {
   background-color: #CFD8DC;
@@ -1295,5 +1347,10 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
 .boatday-read-only .calculator td,
 .boatday-read-only .calculator th {
   padding: 7px;
+}
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
 }
 /* boatday overview css ends */

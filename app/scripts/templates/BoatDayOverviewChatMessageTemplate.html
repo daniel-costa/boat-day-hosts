@@ -1,13 +1,13 @@
 <div class="line <%= profile.id == Parse.User.current().get('profile').id ? 'me' : '' %>">
 	<div class="profile-picture" data-id="<%= profile.id %>" style="background-image:url(<%= profile.get('profilePicture').url() %>)"></div>
 	<div class="text">
-		<div class="speech-bubble">
+		<div class="speech-bubble" style="margin-bottom:5px;">
 			<p>
 				<%= (message.get('message')).replace(/\n/g,"<br>") %>
 			</p>
 		</div>
 	</div>
 	<div class="clear">
-		<p style="color:#aaa;font-size:0.75em;<%= profile.id == Parse.User.current().get('profile').id ? 'text-align:right;' : '' %>">Sent by <font color="#00A8BF"><%= profile.get("displayName") %></font> <%= self.dateParseToDisplayDate(message.createdAt) %></p>
+		<p style="color:#aaa; font-size:0.75em;<%= profile.id == Parse.User.current().get('profile').id ? 'text-align:right;' : '' %>">Sent by <font color="#00A8BF"><%= profile.get("displayName") %></font> <%= self.dateParseToDisplayDate(message.createdAt) %></p>
 	</div>
 </div>

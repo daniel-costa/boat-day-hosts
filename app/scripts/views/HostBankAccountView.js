@@ -11,9 +11,21 @@ define([
 		debug: true,
 
 		theme: "account",
+
+		redirect: "",
 		
 		events: {
 			"submit form" : "save"
+		},
+
+		initialize: function(data) {
+			var self = this;
+
+			var queryArray = self.splitURLParams( data.queryString);
+
+			if( queryArray['redirect'] != undefined){
+				self.redirect = queryArray['redirect'];
+			}
 		},
 
 		debugAutofillFields: function() {
@@ -88,7 +100,15 @@ define([
 			}).then(function(){
 				Parse.User.current().get('host').fetch().then(function() {
 					self.buttonLoader();
-					Parse.history.navigate("my-account", true);
+
+					if(self.redirect != ""){
+						Parse.history.navigate(self.redirect, true);
+					}
+					else{
+						Parse.history.navigate("my-account", true);
+					}
+
+					
 				});
 			}, function(error){
 				self.buttonLoader();

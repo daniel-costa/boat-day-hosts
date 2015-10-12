@@ -234,14 +234,33 @@
 						</div>
 					</div>
 					<div class="text-left">
-						<a href="#/my-bank-account" class="btn btn-default btn-lg btn-block">Edit Payment Account</a>
+						<a href="#/my-bank-account?redirect=my-account" class="btn btn-default btn-lg btn-block">Edit Payment Account</a>
 					</div>
 				<% } else { %>
 					<p>Add a payment account (its how Guests pay you!)</p>
 					<div class="text-left">
-						<a href="#/my-bank-account" class="btn btn-default btn-lg btn-block">Add Payment Account</a>
+						<a href="#/my-bank-account?redirect=my-account" class="btn btn-default btn-lg btn-block">Add Payment Account</a>
 					</div>
 				<% } %>
+			</div>
+		</div>
+
+		<div class="split col-lg-16 col-lg-offset-4"></div>
+		
+		<div class="row">		
+			<div class="col-sm-10">
+				<h4>Notification Settings</h4>
+			</div>
+			<div class="col-sm-offset-1 col-sm-10 col-md-8 col-lg-7">
+				<div class="form-group">
+					<label class="col-sm-24 control-label">Notify me by</label>
+					<div class="col-sm-24">
+						Email &amp; Text Message
+					</div>
+				</div>
+				<div class="text-left">
+					<a href="#/notifications-settings" class="btn btn-default btn-lg btn-block">Edit Notification Settings</a>
+				</div>
 			</div>
 		</div>
 	</div>

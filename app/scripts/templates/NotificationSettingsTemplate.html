@@ -1,0 +1,48 @@
+<header>
+	<h1 class="text-center">Notification Settings</h1>
+	<p class="text-center">This information not visible for other users.</p>
+	<div class="text-center steps">
+		<a href="#/my-account" class="btn btn-default btn-lg">Back to my account</a>
+	</div>
+</header>
+
+<form class="form-horizontal">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-10">
+				<h4>How we let you know when you have a new message or booking request?</h4>
+			</div>
+			<div class="col-sm-offset-1 col-sm-10 col-md-8 col-lg-7">
+				
+					<div class="form-group">
+						<label class="control-label">Notify me by<%= about %></label>
+						<br/><br/>
+						<div>
+
+							<% 
+								var settings = this.model.get("settings");
+								var notificationType = settings.notificationType;						
+							%>
+							<input style="height:20px;" type="radio" id="email" name="notificationType" value="email" <%= notificationType == "email" ? 'checked' : '' %>>
+							<label class="control-label" for="email">Email</label></br></br>
+							<input type="radio" id="text" name="notificationType" value="text" <%= notificationType == "text" ? 'checked' : '' %>>
+							<label class="control-label" for="text">Text Message</label></br></br>
+							<input type="radio" id="both" name="notificationType" value="both" <%= notificationType == "both" ? 'checked' : '' %>>
+							<label class="control-label" for="both">Email &amp; Text Message</label>
+						</div>
+					</div>
+
+
+					<button type="submit" class="btn btn-block btn-lg btn-primary">Update Notification Settings</button>
+					</br>
+					<div class="display-messages text-center"></div>
+
+
+			</div>
+		</div>
+	</div>
+</form>
+
+
+
+

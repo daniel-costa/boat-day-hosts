@@ -15,54 +15,47 @@
 	</a>
 
 	<div class="row boatdayoverview-row-details">
-		<div class="boatday-group-chat-form boatday-overview-row-hidden" style="display:block;">
-			<div class="my-boatdays" >
-				<div class="box box-messages">
-					<div class="info chat-box">
-						<div class="inner" >
+
+		<div class="boatday-group-chat-form boatday-overview-row-hidden">
+
+			<% if(infoMessage != "") { %>
+
+				<p class="text-center" style="margin-bottom:0px; padding: 20px; font-size: 1em;">
+					<em><%= infoMessage %></em>
+				</p>
+
+			<% } else {  %>
+
+				<div class="my-boatdays" >
+					<div class="box box-messages">
+						<div class="info chat-box">
+							<div class="inner" >
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
 
-			<div class="chat-text-area">
-				<div class="row bottom " style="margin-bottom:5px;">
-					<div class="col-xs-24">
+				<div class="chat-text-area">
+					<div class="row bottom " style="margin-bottom:5px;">
+						<div class="col-xs-24">
 
-						<% if(self.isPastBoatDay) { %>
+							<div class="row expand-textarea">
+								<textarea name="message" class="form-control auto-expand-textarea" id="auto-expand-textarea" rows="1" placeholder="your chat message"></textarea>
+							</div>
+									
+							<div class="row text-right" style="margin-top:10px;">
+								<span class="input-group-btn">
+							    	<button class="btn btn-default enter-chat-text" type="button">Send</button>
+							     </span>
+							</div>
 
-						<p class="text-center">
-							<em>This BoatDay is over, the chat is now deactivated.</em>
-						</p>
-						
-						<% } else { 
-
-								if(boatday.get("status") == "cancelled"){ %>
-
-								<p class="text-center">
-									<em>This BoatDay was cancelled, the chat is now deactivated.</em>
-								</p>
-
-								<% } else { %> 
-
-								<div class="row expand-textarea">
-									<textarea name="message" class="form-control auto-expand-textarea" id="auto-expand-textarea" rows="1" placeholder="your chat message"></textarea>
-								</div>
-										
-								<div class="row text-right" style="margin-top:10px;">
-									<span class="input-group-btn">
-								    	<button class="btn btn-default enter-chat-text" type="button">Send</button>
-								     </span>
-								</div>
-
-
-						<% } } %>
+						</div>
 					</div>
+
 				</div>
 
-			</div>
-
+			<% } %>
 
 		</div>
 	</div>

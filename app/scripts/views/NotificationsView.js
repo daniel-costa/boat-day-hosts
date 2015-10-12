@@ -101,42 +101,7 @@ define([
 
 		},	
 
-		formatDate: function(date){
 
-			var dateStr = "";
-			var _date = new Date(date);
-			var _month = _date.getMonth(); 
-			var _dt = _date.getDate(); 
-
-			var month = new Array();
-		    month[0] = "Jan";
-		    month[1] = "Feb";
-		    month[2] = "Mar";
-		    month[3] = "Apr";
-		    month[4] = "May";
-		    month[5] = "Jun";
-		    month[6] = "Jul";
-		    month[7] = "Aug";
-		    month[8] = "Sep";
-		    month[9] = "Oct";
-		    month[10] = "Nov";
-		    month[11] = "Dec";
-
-			dateStr = month[_month] + " " + _dt;
-
-			return dateStr;
-		},
-
-		formatAmPm: function(date){
-			var hours = date.getHours();
-			var minutes = date.getMinutes();
-			var ampm = hours >= 12 ? 'pm' : 'am';
-			hours = hours % 12;
-			hours = hours ? hours : 12;
-			minutes = minutes < 10 ? '0'+minutes : minutes;
-
-			return (hours + ":" + minutes + " " + ampm);
-		},
 
 		render: function() {
 
@@ -155,7 +120,7 @@ define([
 				self.notifications[notification.id] = notification;
 
 				var data = {
-					dateStr: self.formatDate(notification.createdAt),
+					dateStr: self.formatDateWithMonthAndDate(notification.createdAt),
 					timeStr: self.formatAmPm(notification.createdAt),
 					self: self,
 					notification: notification,

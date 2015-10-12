@@ -9,25 +9,71 @@
 	</div>
 	
 	<div class="col-sm-15 overviewinfo-right">
-		<div class="col-xs-8 text-center">
-			<div class="circle">
-				<span><%= self.collectionPendingSeatRequests.length %></span>
-			</div>
-			<a href="#" class="info-pending-link">Pending </br> Request<%= self.collectionPendingSeatRequests.length == 1 ? "" : "s" %></a>
-		</div>
 
-		<div class="col-xs-8 text-center">
-			<div class="circle">
-				<span><%= self.collectionUnAnsweredQuestions.length %></span>
-			</div>
-			<a href="#" class="info-question-link">New </br> Guest Question<%= self.collectionUnAnsweredQuestions.length == 1 ? "" : "s" %></a>
-		</div>
+	<% if(boatday.get("status") == "cancelled")  { %>
 
-		<div class="col-xs-8 text-center">
-			<div class="circle">
-				<span class="info-new-messages"><%= messages %></span>
-			</div>
-			<a href="#" class="info-message-link">New </br>Chat Message<%= messages == 1 ? '': 's' %></a>
+		<!-- Boatday is cancelled -->
+		<div class="name text-center">
+			<h3>This BoatDay was cancelled</h3>
 		</div>
+		<!-- Boatday is cancelled -->
+
+	<% } else { 
+
+		if(self.isPastBoatDay) { %>
+
+			<!-- BoatDay is past -->
+			<div class="col-xs-8 text-center">
+				<div class="name">
+					<h3>&#36;<%= totalHostUSD %></h3>
+				</div>
+			</div>
+
+			<div class="col-xs-8 text-center">
+				<div class="circle">
+					<span><%= bookedSeats %></span>
+				</div>
+				<a href="#" class="info-pending-link">Confirmed</br> Guest<%= bookedSeats == 1 ? "" : "s" %></a>
+			</div>
+
+			<div class="col-xs-8 text-center">
+				<div class="circle">
+					<span class="info-new-review">0</span>
+				</div>
+				<a href="#" class="info-review-link">New</br> Reviews</a>
+			</div>
+			<!-- BoatDay is past -->
+
+		<% } else { %>
+
+			<!-- BoatDay is active -->
+			<div class="col-xs-8 text-center">
+				<div class="circle">
+					<span class="info-new-pending">0</span>
+				</div>
+				<a href="#" class="info-pending-link">Pending</br>Requests</a>
+			</div>
+
+			<div class="col-xs-8 text-center">
+				<div class="circle">
+					<span class="info-new-question">0</span>
+				</div>
+				<a href="#" class="info-question-link">New Guest</br> Questions</a>
+			</div>
+
+			<div class="col-xs-8 text-center">
+				<div class="circle">
+					<span class="info-new-messages">0</span>
+				</div>
+				<a href="#" class="info-message-link">New Chat</br> Messages</a>
+			</div>
+			<!-- BoatDay is active -->
+
+		<% } %>
+
+
+	<% } %>
+
+
 	</div>
 </div>

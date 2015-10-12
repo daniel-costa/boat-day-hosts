@@ -1,33 +1,138 @@
-<div class="row pending-list-row" data-id="<%= request.id %>" style="">
-	<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1 profile" style="margin-left:20px;">
+<!-- No Host Yes Guest -->
+<% _.each( self.collectionNoHostYesGuestReviews, function( request ) {  %>
+<div class="row  review-list-row" data-id="<%= request.id %>">
+	<div class="col col-sm-3 text-center profile" style="margin-top:10px;">
 		<div class="inner text-center">
-			<div class="obj-thumb profile-picture" data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>); height:50px; width:50px;"></div>
+			<div class="obj-thumb profile-picture" data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>); height:40px; width:40px;"></div>
+			<strong><%= request.get('profile').get('displayName') %> </strong> 
 		</div>
 	</div>
-	<div class="cell col-xs-12 col-sm-14 col-md-13 col-lg-15">
-		<div class="inner">
-			<strong><%= request.get('profile').get('displayName') %></strong> 
-			<%= request.get('seats') %>
-			<%= request.get('seats') == 1 ? '(seat)' : '(seats)' %>
-			
-		</br>
-			<em style="color: #aaa;">
-				<% 
-				var date = new Date(request.createdAt);
-				var _date = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-				%>
-				<%= _date %></em>
+	<div class="col col-sm-13">
+		<div class="inner" style="height:70px; padding:10px 10px 10px 10px;">
+			<em><strong>You have a review!</strong> Rate <b><%= request.get('profile').get('displayName') %></b>? to display their review of your BoatDay.</em>
 		</div>
 	</div>
-	<div class="cell col-xs-10 col-sm-6 col-md-7 col-lg-6">
+	<div class="col col-sm-4 ">
 		<div class="inner text-center">
 			<div class="stars">
-				<img class="rate" src="resources/star.png" data-rate="1" />
-				<img class="rate" src="resources/star.png" data-rate="2" />
-				<img class="rate" src="resources/star.png" data-rate="3" />
-				<img class="rate" src="resources/star.png" data-rate="4" />
-				<img class="rate" src="resources/star.png" data-rate="5" />
+				<img class="rate rate-img-1-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="1" />
+				<img class="rate rate-img-2-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="2" />
+				<img class="rate rate-img-3-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="3" />
+				<img class="rate rate-img-4-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="4" />
+				<img class="rate rate-img-5-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="5" />
 			</div>
 		</div>
 	</div>
+	<div class="col col-sm-4">
+		<div class="inner text-center">
+			<button data-rating="0" class="btn btn-default btn-lg rate-guest 
+			 rate-btn-<%= request.id %>" data-id="<%= request.id %>">
+				Rate Guest
+			</button>
+		</div>
+	</div>
 </div>
+<% }); %>
+<!-- No Host Yes Guest -->
+
+<!-- No Host No Guest -->
+<% _.each( self.collectionNoHostNoGuestReviews, function( request ) {  %>
+<div class="row  review-list-row" data-id="<%= request.id %>">
+	<div class="col col-sm-3 text-center profile" style="margin-top:10px;">
+		<div class="inner text-center">
+			<div class="obj-thumb profile-picture" data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>); height:40px; width:40px;"></div>
+			<strong><%= request.get('profile').get('displayName') %> </strong> 
+		</div>
+	</div>
+	<div class="col col-sm-13">
+		<div class="inner" style="height:70px; padding:10px 10px 10px 10px;">
+			<em>Had a great time with <b><%= request.get('profile').get('displayName') %></b>? Leave a gerat rating to show your support!</em>
+		</div>
+	</div>
+	<div class="col col-sm-4 ">
+		<div class="inner text-center">
+			<div class="stars">
+				<img class="rate rate-img-1-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="1" />
+				<img class="rate rate-img-2-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="2" />
+				<img class="rate rate-img-3-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="3" />
+				<img class="rate rate-img-4-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="4" />
+				<img class="rate rate-img-5-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="5" />
+			</div>
+		</div>
+	</div>
+	<div class="col col-sm-4">
+		<div class="inner text-center">
+			<button data-rating="0" class="btn btn-default btn-lg rate-guest rate-btn-<%= request.id %>" data-id="<%= request.id %>">
+				Rate Guest
+			</button>
+		</div>
+	</div>
+</div>
+<% }); %>
+<!-- No Host No Guest -->
+
+<!-- Yes Host Yes Guest -->
+<% _.each( self.collectionYesHostYesGuestReviews, function( request ) {  %>
+<div class="row  review-list-row" data-id="<%= request.id %>">
+	<div class="col col-sm-3 text-center profile" style="margin-top:10px;">
+		<div class="inner text-center">
+			<div class="obj-thumb profile-picture" data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>); height:40px; width:40px;"></div>
+			<strong><%= request.get('profile').get('displayName') %> </strong> 
+		</div>
+	</div>
+	<div class="col col-sm-13">
+		<div class="inner" style="min-height:80px; padding:10px 10px 10px 10px;">
+			<div class="guest-rating">
+				<img height="12px;" src="resources/rating-<%= request.get('ratingGuest') %>.png"/>
+				<span class="date">
+					<% 
+						var createdAt = new Date(request.createdAt);
+						var dateStr = self.formatDateWithMonthAndDate(createdAt) + ", " + createdAt.getFullYear();
+					%>
+					<%= dateStr %>
+				</span>
+			</div>
+			<p><%= request.get('reviewGuest') %></p>
+		</div>
+	</div>
+	<div class="col col-sm-4 ">
+		<div class="inner text-center">
+			<img src="resources/rating-<%= request.get("ratingHost") %>.png" data-rate="1" />
+		</div>
+	</div>
+	<div class="col col-sm-4">
+		<div class="inner text-center">
+			<img src="resources/check.png" />
+		</div>
+	</div>
+</div>
+<% }); %>
+<!-- Yes Host Yes Guest -->
+
+<!-- Yes Host No Guest -->
+<% _.each( self.collectionYesHostNoGuestReviews, function( request ) {  %>
+<div class="row  review-list-row" data-id="<%= request.id %>">
+	<div class="col col-sm-3 text-center profile" style="margin-top:10px;">
+		<div class="inner text-center">
+			<div class="obj-thumb profile-picture" data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>); height:40px; width:40px;"></div>
+			<strong><%= request.get('profile').get('displayName') %> </strong> 
+		</div>
+	</div>
+	<div class="col col-sm-13">
+		<div class="inner" style="height:70px; padding:10px 10px 10px 10px;">
+			<em><b><%= request.get('profile').get('displayName') %></b> hasn't reviewed this BoatDay yet!</em>
+		</div>
+	</div>
+	<div class="col col-sm-4 ">
+		<div class="inner text-center">
+			<img src="resources/rating-<%= request.get("ratingHost") %>.png" data-rate="1" />
+		</div>
+	</div>
+	<div class="col col-sm-4">
+		<div class="inner text-center">
+			<img src="resources/check.png" />
+		</div>
+	</div>
+</div>
+<% }); %>
+<!-- Yes Host No Guest -->
