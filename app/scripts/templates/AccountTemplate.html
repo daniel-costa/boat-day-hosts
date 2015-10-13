@@ -255,7 +255,24 @@
 				<div class="form-group">
 					<label class="col-sm-24 control-label">Notify me by</label>
 					<div class="col-sm-24">
-						Email &amp; Text Message
+						
+						<% 
+						var settings = ((_profile.settings != undefined) || (_profile.settings != null)) ? _profile.settings : '';
+						var notificationType = settings.notificationType;
+						
+						var notifyBy = "<em>not set yet!</em>";
+						
+						if( notificationType == "text"){
+							notifyBy = "Text Message";
+						}
+						if ( notificationType == "email"){
+							notifyBy = "Email";
+						}
+						if ( notificationType == "both"){
+							notifyBy = "Email &amp; Text Message"
+						}
+						%>
+						<%= notifyBy %>
 					</div>
 				</div>
 				<div class="text-left">

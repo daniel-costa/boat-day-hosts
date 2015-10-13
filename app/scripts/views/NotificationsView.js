@@ -119,7 +119,24 @@ define([
 
 				self.notifications[notification.id] = notification;
 
+				var boatdayIsPast = false;
+				var bd = notification.get("boatday") ? notification.get("boatday") : null;
+
+				if( bd != null ){
+					var _bd = new Date(bd.get('date'));
+					var _bt = bd.get('arrivalTime');
+					var _td = new Date();
+					var _tdn = new Date(_td.getFullYear(), _td.getMonth(), _td.getDate(), 0, 0, 0, 0);
+					var _tdx = new Date(_td.getFullYear(), _td.getMonth(), _td.getDate(), 23, 59, 59, 999);
+					var _ct = _td.getHours() + ( _td.getMinutes() >= 30 ? 0.5 : 0 );
+
+					if( _bd < _tdn || ( _bd < _tdx && _bt <= _ct ) ) {
+						boatdayIsPast = true;
+					} 
+				}
+
 				var data = {
+					boatdayIsPast: boatdayIsPast,
 					dateStr: self.formatDateWithMonthAndDate(notification.createdAt),
 					timeStr: self.formatAmPm(notification.createdAt),
 					self: self,

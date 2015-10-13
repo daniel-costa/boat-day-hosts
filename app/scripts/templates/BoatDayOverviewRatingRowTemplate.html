@@ -8,8 +8,8 @@
 		</div>
 	</div>
 	<div class="col col-sm-13">
-		<div class="inner" style="height:70px; padding:10px 10px 10px 10px;">
-			<em><strong>You have a review!</strong> Rate <b><%= request.get('profile').get('displayName') %></b>? to display their review of your BoatDay.</em>
+		<div class="inner" style="height:70px; display:table; padding-left:15px;">
+			<em style="vertical-align:middle; display:table-cell;">Rate this guest to display their review.</em>
 		</div>
 	</div>
 	<div class="col col-sm-4 ">
@@ -45,8 +45,8 @@
 		</div>
 	</div>
 	<div class="col col-sm-13">
-		<div class="inner" style="height:70px; padding:10px 10px 10px 10px;">
-			<em>Had a great time with <b><%= request.get('profile').get('displayName') %></b>? Leave a gerat rating to show your support!</em>
+		<div class="inner" style="height:70px; display:table; padding-left:15px;">
+			<em style="vertical-align:middle; display:table-cell;">Rate this guest.</em>
 		</div>
 	</div>
 	<div class="col col-sm-4 ">
@@ -119,8 +119,8 @@
 		</div>
 	</div>
 	<div class="col col-sm-13">
-		<div class="inner" style="height:70px; padding:10px 10px 10px 10px;">
-			<em><b><%= request.get('profile').get('displayName') %></b> hasn't reviewed this BoatDay yet!</em>
+		<div class="inner" style="height:70px; display:table; padding-left:15px;">
+			<em style="vertical-align:middle; display:table-cell;"><b><%= request.get('profile').get('displayName') %></b> hasn't reviewed this BoatDay yet!</em>
 		</div>
 	</div>
 	<div class="col col-sm-4 ">

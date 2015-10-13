@@ -4,7 +4,7 @@
 		<div class="container-fluid">	
 			<div class="row heading">
 				<div class="col-sm-20 text-left pull-left">
-					<%= (self.isPastBoatDay && (boatday.get("status") != "cancelled")) ? "CONFIRMED GUESTS" : "BOOKING REQUESTS" %>
+					<%= (self.isPastBoatDay && (boatday.get("status") != "cancelled")) ? "GUESTS REVIEWS" : "BOOKING REQUESTS" %>
 					<span class="new-booking-count"></span>
 				</div>
 				<div class="col-sm-4 text-right pull-right">
@@ -40,7 +40,7 @@
 							<li class="rejected-guest-tgl">
 								<a href="#rejected-guests-tab" data-toggle="tab">
 									<% if(self.isPastBoatDay) { %>
-										Guest Reviews (<%= (self.collectionNoHostNoGuestReviews.length + self.collectionNoHostYesGuestReviews.length) %>)
+										Guest Reviews (<%= (self.collectionNoHostYesGuestReviews.length + self.collectionYesHostYesGuestReviews.length) %>)
 									<% } else { %>
 										Rejected Guests (<%= rejectedRequests.length %>)
 									<% } %>
@@ -161,7 +161,7 @@
 										<%= request.get('seats') == 1 ? 'seat' : 'seats' %>
 									</span>
 									<span style="display:block;">
-										Cancellation Fee: &#36;<%= request.get("contribution") != null ? request.get("contribution") : 0  %>
+										Fee: &#36;<%= request.get("contribution") != null ? request.get("contribution") : 0  %>
 									</span>
 								</div>
 							</div>

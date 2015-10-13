@@ -326,7 +326,7 @@ define([
 
 				if(self.isPastBoatDay){
 
-					self.displayNewBookingCount(self.collectionNoHostNoGuestReviews.length + self.collectionNoHostYesGuestReviews.length);
+					self.displayNewBookingCount(self.collectionNoHostYesGuestReviews.length + self.collectionYesHostYesGuestReviews.length);
 
 				} else {
 
@@ -859,7 +859,7 @@ define([
 				if( !self.isPastBoatDay ) {
 
 					infoQuestionCountTarget.html(questionCount);
-					infoQuestionLinkTarget.html('New Guests</br> Question' + pl );
+					infoQuestionLinkTarget.html('New Guest</br> Question' + pl );
 					
 					if( questionCount > 0 ){
 						//target.html(' - <font color="#f8b62c">'+ questionCount + " new question" + pl + "</font>");
@@ -907,7 +907,7 @@ define([
 
 				if( self.isPastBoatDay ) {
 					
-					self.displayNewBookingCount(self.collectionNoHostNoGuestReviews.length + self.collectionNoHostYesGuestReviews.length);
+					self.displayNewBookingCount(self.collectionNoHostYesGuestReviews.length + self.collectionYesHostYesGuestReviews.length);
 
 					console.log("No Host No Guest: " + self.collectionNoHostNoGuestReviews.length);
 					console.log("No Host Yes Guest: " + self.collectionNoHostYesGuestReviews.length);

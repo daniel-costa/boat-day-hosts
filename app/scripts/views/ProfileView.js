@@ -90,7 +90,11 @@ define([
 			};
 
 			if( baseStatus == 'creation' ) {
+
+				//console.log("Profile base status: " + baseStatus);
+
 				data.displayName = self.displayName;
+				data.settings =  { notificationType: 'both' };
 			}
 
 			var userStatusUpdateSuccess = function() {

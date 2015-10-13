@@ -20,14 +20,14 @@
 		</div>
 	</div>
 
-	<div class="cell col-sm-9 col-xs-12">
+	<div class="cell col-sm-8 col-xs-12">
 		<div class="inner text-center">
 			<span class="earning-total">&#36;<%= totalHostUSD %></span>
 		</div>
 	</div>
 
-	<div class="cell col-sm-6 col-xs-12" style="padding-left:12px;">
-		<div class="inner text-right">
+	<div class="cell col-sm-7 col-xs-12" style="padding-left:12px;">
+		<div class="inner text-right" style="height:45px; width:100%; display:table;">
 				<% if (status == "pending") { %>
 
 				<button class="btn btn-default btn-lg accept approve-request pull-left" data-id="<%= request.id %>">
@@ -41,7 +41,7 @@
 
 				<% } if (status == "pending-guest") { %>
 
-				<em>Reschedule Pending...</em>
+				<em style="vertical-align:middle; margin:0px; display:table-cell;">Reschedule Pending...</em>
 
 				<% } %>
 		</div>

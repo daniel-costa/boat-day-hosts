@@ -41,7 +41,7 @@
 
 
 <% if( action == "certification-approved" ) { %>
-	<div class="col-sm-12 col-xs-10"  style="border:1px solid red; cursor:pointer;" onClick="location.href='#boatday-overview/<%= boatdayId %>?show=none';">
+	<div class="col-sm-12 col-xs-10">
 		<div class="inner">
 			<p>
 				Your <a href="#/my-account"><%= message %></a> has been approved! You will now have a <a href="#/my-account"><%= message %></a> badge displayed on your BoatDay Profile.
@@ -52,7 +52,7 @@
 <% } %>
 
 <% if( action == "certification-denied" ) { %>
-	<div class="col-sm-12 col-xs-10"  style="border:1px solid red; cursor:pointer;" onClick="location.href='#boatday-overview/<%= boatdayId %>?show=none';">
+	<div class="col-sm-12 col-xs-10">
 		<div class="inner">
 			<p>
 				We are unable to approve your <a href="#/my-account"><%= message %></a> at this time. Click on <a href="#/my-account"><%= message %></a> to learn more. 
@@ -63,7 +63,7 @@
 <% } %>
 
 <% if( action == "host-approved" ) { %>
-	<div class="col-sm-12 col-xs-10"  style="border:1px solid red; cursor:pointer;" onClick="location.href='#boatday-overview/<%= boatdayId %>?show=none';">
+	<div class="col-sm-12 col-xs-10">
 		<div class="inner">
 			<p>
 				You have been approved as a BoatDay Host! 
@@ -74,7 +74,7 @@
 <% } %>
 				
 <% if( action == "host-denied" ) { %>
-	<div class="col-sm-12 col-xs-10"  style="border:1px solid red; cursor:pointer;" onClick="location.href='#boatday-overview/<%= boatdayId %>?show=none';">
+	<div class="col-sm-12 col-xs-10" >
 		<div class="inner">
 			<p>
 				We are unable to approve you as a BoatDay Host. Click on <a href="#/my-account">My Account</a> to see the reason.
@@ -85,7 +85,7 @@
 <% } %>
 
 <% if( action == "boat-approved" ) { %>
-	<div class="col-sm-12 col-xs-10"  style="border:1px solid red; cursor:pointer;" onClick="location.href='#boatday-overview/<%= boatdayId %>?show=none';">
+	<div class="col-sm-12 col-xs-10" >
 		<div class="inner">
 			<p>
 				Your boat <a href="#/boat/<%= boatId %>"><%= boatName %></a> has been approved! Your BoatDays are now visible to Guests.
@@ -96,7 +96,7 @@
 <% } %>
 				
 <% if( action == "boat-denied" ) { %>
-	<div class="col-sm-12 col-xs-10"  style="border:1px solid red; cursor:pointer;" onClick="location.href='#boatday-overview/<%= boatdayId %>?show=none';">
+	<div class="col-sm-12 col-xs-10" >
 		<div class="inner">
 			<p>
 				We are unable approve your boat, <a href="#/boat/<%= boatId %>"><%= boatName %></a>, at this time.  Click on <a href="#/boat/<%= boatId %>"><%= boatName %></a> to learn more.
@@ -107,7 +107,7 @@
 <% } %>
 
 <% if( action == "boatday-review" ) { %>
-	<div class="col-sm-12 col-xs-10"  style="border:1px solid red; cursor:pointer;" onClick="location.href='#boatday-overview/<%= boatdayId %>?show=none';">
+	<div class="col-sm-12 col-xs-10"  style="border:1px solid red; cursor:pointer;" onClick="location.href='#boatday-overview/<%= boatdayId %>?show=request';">
 		<div class="inner">
 			<p>
 				just left you a review.
@@ -117,33 +117,47 @@
 	</div>
 <% } %>
 
-<% if( action == "boatday-question" ) { %>
-	<div class="col-sm-12 col-xs-10"  style="cursor:pointer;" onClick="location.href='#boatday-overview/<%= boatdayId %>?show=question';">
+<% if( action == "boatday-question" ) { 
+	var redirectTo = '#boatday-overview/' + boatdayId + '?show=question';
+	if( boatdayIsPast ){
+		redirectTo = '#boatday-overview/' + boatdayId + '?show=request';
+	}
+%>
+	<div class="col-sm-12 col-xs-10"  style="cursor:pointer;" onClick="location.href='<%= redirectTo %>';">
 		<div class="inner">
 			<p>
-				just asked a question for your BoatDay <a href="#boatday-overview/<%= boatdayId %>?show=question"><%= boatdayName %></a>.
+				just asked a question for your BoatDay <a href="<%= redirectTo %>"><%= boatdayName %></a>.
 			</p>
 			<em style="color: #aaa;"><%= timeStr %></em>
 		</div>
 	</div>
 <% } %>
 				
-<% if( action == "boatday-message" ) { %>
-	<div class="col-sm-12 col-xs-10"  style="cursor:pointer;" onClick="location.href='#boatday-overview/<%= boatdayId %>?show=message';">
+<% if( action == "boatday-message" ) { 
+	var redirectTo = '#boatday-overview/' + boatdayId + '?show=message';
+	if( boatdayIsPast ){
+		redirectTo = '#boatday-overview/' + boatdayId + '?show=request';
+	}
+%>
+	%>
+	<div class="col-sm-12 col-xs-10"  style="cursor:pointer;" onClick="location.href='<%= redirectTo %>';">
 		<div class="inner">
 			<p>
-				<a href="#boatday-overview/<%= boatdayId %>?show=message"><%= boatdayName %></a>.
+				<a href="<%= redirectTo %>"><%= boatdayName %></a>.
 			</p>
 			<em style="color: #aaa;"><%= timeStr %></em>
 		</div>
 	</div>
 <% } %>
 
-<% if( action == "boatday-payment" ) { %>
-	<div class="col-sm-12 col-xs-10"  style="cursor:pointer;" onClick="location.href='#boatday-overview/<%= boatdayId %>?show=none';">
+<% if( action == "boatday-payment" ) {
+	var redirectTo = '#boatday-overview/' + boatdayId + '?show=request';
+%>
+ %>
+	<div class="col-sm-12 col-xs-10"  style="cursor:pointer;" onClick="location.href='<%= redirectTo %>';">
 		<div class="inner">
 			<p>
-				You just received $<%= amount %> contributions for your BoatDay <a href="#boatday-overview/<%= boatdayId %>"><%= boatdayName %>?show=none</a>.
+				You just received $<%= amount %> contributions for your BoatDay <a href="<%= redirectTo %>"><%= boatdayName %>?show=request</a>.
 			</p>
 			<em style="color: #aaa;"><%= timeStr %></em>
 		</div>
@@ -162,7 +176,7 @@
 <% } %>
 
 <% if( action == "bd-message" ) { %>
-	<div class="col-sm-12 col-xs-10"  style="cursor:pointer;" onClick="location.href='#boatday-overview/<%= boatdayId %>?show=none';">
+	<div class="col-sm-12 col-xs-10">
 		<div class="inner">
 			<p>
 				<%= message %>

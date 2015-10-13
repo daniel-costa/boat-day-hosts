@@ -15,13 +15,14 @@
 			<div class="col-sm-offset-1 col-sm-10 col-md-8 col-lg-7">
 				
 					<div class="form-group">
-						<label class="control-label">Notify me by<%= about %></label>
+						<label class="control-label">Notify me by</label>
 						<br/><br/>
 						<div>
 
 							<% 
-								var settings = this.model.get("settings");
-								var notificationType = settings.notificationType;						
+								var settings = ((this.model.get("settings") != undefined) || (this.model.get("settings") != null)) ? this.model.get("settings") : '';
+								var notificationType = settings.notificationType;
+								console.log("Notification type: " + notificationType);					
 							%>
 							<input style="height:20px;" type="radio" id="email" name="notificationType" value="email" <%= notificationType == "email" ? 'checked' : '' %>>
 							<label class="control-label" for="email">Email</label></br></br>
