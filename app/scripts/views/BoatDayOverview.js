@@ -936,15 +936,7 @@ define([
 						self.displayNewBookingCount(self.collectionPendingSeatRequests.length + self.collectionPendingGuestRequests.length);
 					}
 
-					var requestArray = [];
-
-					if( self.collectionPendingSeatRequests.length > 0 ){
-						requestArray = self.collectionPendingSeatRequests;
-					}
-
-					if( self.collectionPendingGuestRequests.length > 0 ){
-						requestArray = self.collectionPendingGuestRequests;
-					}
+					var requestArray = self.collectionPendingSeatRequests.concat(self.collectionPendingGuestRequests);
 
 					_.each(requestArray, function(request){
 
@@ -991,7 +983,7 @@ define([
 				if( self.isPastBoatDay ){
 
 					if( count > 0 ){
-						target.html(' - <font color="#f8b62c"> new review left</font>');
+						target.html(' - <font color="#f8b62c"> new review</font>');
 					}
 					
 					infoReviewCountTarget.html(count);
@@ -1021,7 +1013,8 @@ define([
 						title: 'How you get paid!',
 						body: 'To confirm Guests on-board your BoatDay, you must first provide a payment account (its how Guests pay you!)<br/><br/>Don’t worry, this information is NEVER shared with other Users.',
 						noButton: false,
-						cancelButtonText: 'Do it later',
+						cancelButton: false,
+						closeButton: true,
 						yesButtonText: 'Add Payment Account',
 						yesCb: function() {
 							Parse.history.navigate('my-bank-account?redirect=boatday-overview/' + self.model.id + "?show=request", true);
@@ -1075,7 +1068,8 @@ define([
 						title: 'How you get paid!',
 						body: 'To reject Guests on-board your BoatDay, you must first provide a payment account (its how Guests pay you!)<br/><br/>Don’t worry, this information is NEVER shared with other Users.',
 						noButton: false,
-						cancelButtonText: 'Do it later',
+						cancelButton: false,
+						closeButton: true,
 						yesButtonText: 'Add Payment Account',
 						yesCb: function() {
 							Parse.history.navigate('my-bank-account?redirect=boatday-overview/' + self.model.id + "?show=request", true);
@@ -1385,13 +1379,13 @@ define([
 				
 				event.preventDefault();
 
-				var height = this.$el.find('.boatday-edit-form').css('height');
+				var visibility = this.$el.find('.boatday-edit-form').css('visibility');
 
-				if(height == '1px'){
-					this.$el.find('.boatday-edit-form').css({height: 'auto'});
+				if(visibility == 'hidden'){
+					this.$el.find('.boatday-edit-form').css({height: 'auto', visibility: 'visible'});
 				}
 				else{
-					this.$el.find('.boatday-edit-form').css({height: '0px'});
+					this.$el.find('.boatday-edit-form').css({height: '0px', visibility: 'hidden'});
 				}				
 
 			},

@@ -396,6 +396,8 @@ define([
 
 					var boatDayOverviewError = function(error){
 						console.log(error);
+						 
+
 					};
 
 					new Parse.Query(BoatDayModel).get(boatdayid).then(boatDayOverviewSuccess, boatDayOverviewError);
