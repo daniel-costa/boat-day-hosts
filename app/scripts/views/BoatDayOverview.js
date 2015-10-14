@@ -131,9 +131,7 @@ define([
 					this.isPastBoatDay = true;
 				} 
 
-
 			},
-
 
 			render: function() {
 
@@ -173,11 +171,13 @@ define([
 				qSeatRequest.equalTo("boatday", boatday);
 				qSeatRequest.include('profile.user');
 				qSeatRequest.include('boatday');
+				qSeatRequest.descending("updatedAt");
 
 				var qQuestion = new Parse.Query(Question);
 				qQuestion.equalTo("boatday", boatday);
 				qQuestion.include("boatday");
 				qQuestion.include("from");
+				qQuestion.descending("updatedAt");
 
 				Parse.Promise.when(qSeatRequest.find(), qQuestion.find()).then(function(seatRequests, questions){
 
@@ -1183,7 +1183,7 @@ define([
 						sendEmail: false,
 						request: request
 					}).then(function() {
-						self.render();
+						self.refreshReviews();
 						console.log("request id :" + requestId + " ratingHost " + rating);
 					});
 
@@ -1193,6 +1193,59 @@ define([
 				});
 			
 
+			},
+
+			refreshReviews: function(){
+				var self = this;
+				var qSeatRequest = new Parse.Query(Parse.Object.extend("SeatRequest"));
+				qSeatRequest.equalTo("boatday", this.model);
+				qSeatRequest.include('profile.user');
+				qSeatRequest.include('boatday');
+				qSeatRequest.descending("updatedAt");
+
+				qSeatRequest.find().then(function(seatRequests){
+
+					//Reset Host review collection
+					self.collectionNoHostYesGuestReviews = [];
+					self.collectionNoHostNoGuestReviews = [];
+					self.collectionYesHostYesGuestReviews = [];
+					self.collectionYesHostNoGuestReviews = [];
+
+					_.each(seatRequests, function(request){
+
+						if(request.get('status') == "approved"){
+
+							var rateByGuest = request.get("ratingGuest") != null ? request.get("ratingGuest") : 0;
+							var rateByHost = request.get("ratingHost") != null ? request.get("ratingHost") : 0;
+
+							if((rateByGuest + rateByHost) < 1){ //no host no guest
+								self.collectionNoHostNoGuestReviews.push(request);
+							}
+							else if ( (rateByHost < 1) && (rateByGuest > 0) ){ //no host yes guest
+								self.collectionNoHostYesGuestReviews.push(request);
+							}
+							else if( (rateByHost > 0) && (rateByGuest < 1)){ //yes host no guest
+								self.collectionYesHostNoGuestReviews.push(request);
+							}
+							else if ( (rateByHost > 0) && (rateByGuest > 0) ){ //yes host yest guest
+								self.collectionYesHostYesGuestReviews.push(request);
+							}
+						}
+
+					});
+
+					var num = 	self.collectionNoHostNoGuestReviews.length + 
+								self.collectionNoHostYesGuestReviews.length + 
+								self.collectionYesHostNoGuestReviews.length + 
+								self.collectionYesHostYesGuestReviews.length;
+
+					if( num > 0 ){
+
+						self.$el.find('.review-list').html("");
+						self.$el.find('.review-list').append(_.template(BoatDayOverviewRatingRowTemplate)({self: self}));
+					}
+
+				});
 			},
 
 
@@ -1216,7 +1269,6 @@ define([
 				var target = self.$el.find('.dashboard-canvas .boatday-overview-questions');
 				target.html('');
 					
-
 				var _tpl = tpl({
 					toatalQuestions: (self.collectionUnAnsweredQuestions.length + self.collectionAnsweredQuestions.length),
 					unAnsweredQuestions: self.collectionUnAnsweredQuestions,
@@ -1227,6 +1279,13 @@ define([
 
 				target.append(_tpl);
 
+				self.loadQuestions();
+
+			},
+
+			loadQuestions: function(){
+				var self = this;
+
 				self.displayNewQuestionCount(self.collectionUnAnsweredQuestions.length);
 
 				_.each(self.collectionUnAnsweredQuestions, function(question){
@@ -1234,7 +1293,6 @@ define([
 					var questionDateTimeStr = "";
 					var createdAt = new Date(question.createdAt);
 					questionDateTimeStr = self.getShortenDayname(createdAt) + " " + (createdAt.getMonth() + 1) + "/" + createdAt.getDate() + " at " + self.formatAmPm(createdAt) + ".";
-
 
 					var data = {
 						question: question,
@@ -1267,23 +1325,6 @@ define([
 					self.$el.find('.old-question-list').append(_.template(BoatDayOldQuestionRowTemplate)(data));
 				});
 
-
-			},
-
-			getShortenDayname: function(date){
-				var daysName = ["Sun.","Mon.","Tue.","Wed.","Thu.","Fri.","Sat."];
-				return daysName[date.getDay()];
-			},
-
-			formatAmPm: function(date){
-				var hours = date.getHours();
-				var minutes = date.getMinutes();
-				var ampm = hours >= 12 ? 'pm' : 'am';
-				hours = hours % 12;
-				hours = hours ? hours : 12;
-				minutes = minutes < 10 ? '0'+minutes : minutes;
-
-				return (hours + ":" + minutes + " " + ampm);
 			},
 
 			submitAnswer: function(event){
@@ -1313,8 +1354,6 @@ define([
 
 				question.save({"answer": answer, "public" : makePublic}).then(function(){
 
-					console.log(question.get('from'));
-					
 					new NotificationModel().save({
 						action: 'boatday-answer',
 						fromTeam: false,
@@ -1325,11 +1364,62 @@ define([
 						boatday: question.get('boatday'),
 						sendEmail: false
 					}).then(function(){
-						self.render();
+						self.refreshQuestions();
 					});
 				});
 
 			},
+
+			refreshQuestions: function(){
+
+				var self = this;
+				var Question = Parse.Object.extend("Question");
+				var qQuestion = new Parse.Query(Question);
+				qQuestion.equalTo("boatday", this.model);
+				qQuestion.include("boatday");
+				qQuestion.include("from");
+				qQuestion.descending("updatedAt");
+
+				qQuestion.find().then(function(questions){
+					
+					self.collectionUnAnsweredQuestions = [];
+					self.collectionAnsweredQuestions = [];
+
+					_.each(questions, function(question){
+
+						self.collectionQuestions[question.id] = question;
+							
+						if((question.get("answer") == null) || question.get("answer") == ""){
+							self.collectionUnAnsweredQuestions.push(question);
+						}else{
+							self.collectionAnsweredQuestions.push(question);
+						}
+					});
+
+					self.renderQuestions();
+
+					self.$el.find('.boatday-question').show();
+				});
+
+			},
+
+			getShortenDayname: function(date){
+				var daysName = ["Sun.","Mon.","Tue.","Wed.","Thu.","Fri.","Sat."];
+				return daysName[date.getDay()];
+			},
+
+			formatAmPm: function(date){
+				var hours = date.getHours();
+				var minutes = date.getMinutes();
+				var ampm = hours >= 12 ? 'pm' : 'am';
+				hours = hours % 12;
+				hours = hours ? hours : 12;
+				minutes = minutes < 10 ? '0'+minutes : minutes;
+
+				return (hours + ":" + minutes + " " + ampm);
+			},
+
+
 
 			renderCancelBoatDay: function(){
 				var self = this;
@@ -1720,8 +1810,6 @@ define([
 					rescheduleReason: rescheduleReason
 				};
 
-
-
 				var qBoatDay = new Parse.Query(BoatDayModel);
 				qBoatDay.equalTo("boat", boatday.get("boat"));
 				qBoatDay.equalTo("date", newDate);
@@ -1735,8 +1823,6 @@ define([
 				qCaptain.notEqualTo('objectId', boatday.id);
 				qCaptain.greaterThan("arrivalTime", boatday.get("departureTime"));
 				qCaptain.lessThan("departureTime", boatday.get("arrivalTime"));
-
-
 
 
 				Parse.Promise.when(qBoatDay.count(), qCaptain.count()).then(function(qBoatDayTotal, qCaptainTotal) {
@@ -1781,9 +1867,7 @@ define([
 					_.each(self.collectionSeatRequests, function(request){
 							
 							if((request.get("status") == "pending") || (request.get("status") == "approved")){
-
-								//console.log("Request id: "+request.id);
-
+								
 								new NotificationModel().save({
 									action: 'boatday-reschedule',
 									fromTeam: false,
@@ -1796,16 +1880,11 @@ define([
 								}).then(function() {
 										request.save({ status: 'pending-guest' }).then(function() {
 										self.buttonLoader();
-										self.render();
-										//self._info('Your BoatDay ' + boatday.get('name') + ' is now rescheduled!');
 									});
 								});
 							}
 
 					});
-
-					console.log("Boatday id: "+boatday.id);
-
 					self.render();
 
 				});

@@ -1,20 +1,22 @@
 <!-- No Host Yes Guest -->
 <% _.each( self.collectionNoHostYesGuestReviews, function( request ) {  %>
 <div class="row  review-list-row" data-id="<%= request.id %>">
-	<div class="col col-sm-3 text-center profile" style="margin-top:10px;">
+	<div class="col col-sm-3 ">
 		<div class="inner text-center">
-			<div class="obj-thumb profile-picture" data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>); height:40px; width:40px;"></div>
-			<strong><%= request.get('profile').get('displayName') %> </strong> 
+			<div class="vcenter profile">
+				<div class="obj-thumb profile-picture" data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>); height:40px; width:40px;"></div>
+				<strong><%= request.get('profile').get('displayName') %> </strong> 
+			</div>
 		</div>
 	</div>
 	<div class="col col-sm-13">
-		<div class="inner" style="height:70px; display:table; padding-left:15px;">
-			<em style="vertical-align:middle; display:table-cell;">Rate this guest to display their review.</em>
+		<div class="inner">
+			<em class="vcenter">Rate this Guest to display their review.</em>
 		</div>
 	</div>
 	<div class="col col-sm-4 ">
 		<div class="inner text-center">
-			<div class="stars">
+			<div class="stars vcenter">
 				<img class="rate rate-img-1-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="1" />
 				<img class="rate rate-img-2-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="2" />
 				<img class="rate rate-img-3-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="3" />
@@ -25,10 +27,12 @@
 	</div>
 	<div class="col col-sm-4">
 		<div class="inner text-center">
-			<button data-rating="0" class="btn btn-default btn-lg rate-guest 
+			<div class="vcenter">
+				<button data-rating="0" class="btn btn-default btn-lg rate-guest 
 			 rate-btn-<%= request.id %>" data-id="<%= request.id %>">
 				Rate Guest
-			</button>
+				</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -38,20 +42,22 @@
 <!-- No Host No Guest -->
 <% _.each( self.collectionNoHostNoGuestReviews, function( request ) {  %>
 <div class="row  review-list-row" data-id="<%= request.id %>">
-	<div class="col col-sm-3 text-center profile" style="margin-top:10px;">
+	<div class="col col-sm-3 ">
 		<div class="inner text-center">
-			<div class="obj-thumb profile-picture" data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>); height:40px; width:40px;"></div>
-			<strong><%= request.get('profile').get('displayName') %> </strong> 
+			<div class="vcenter profile">
+				<div class="obj-thumb profile-picture" data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>); height:40px; width:40px;"></div>
+				<strong><%= request.get('profile').get('displayName') %> </strong> 
+			</div>
 		</div>
 	</div>
 	<div class="col col-sm-13">
-		<div class="inner" style="height:70px; display:table; padding-left:15px;">
-			<em style="vertical-align:middle; display:table-cell;">Rate this guest.</em>
+		<div class="inner">
+			<em class="vcenter">Rate this Guest.</em>
 		</div>
 	</div>
 	<div class="col col-sm-4 ">
 		<div class="inner text-center">
-			<div class="stars">
+			<div class="stars vcenter">
 				<img class="rate rate-img-1-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="1" />
 				<img class="rate rate-img-2-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="2" />
 				<img class="rate rate-img-3-<%= request.id %>" data-id="<%= request.id %>" src="resources/star.png" data-rate="3" />
@@ -62,9 +68,11 @@
 	</div>
 	<div class="col col-sm-4">
 		<div class="inner text-center">
-			<button data-rating="0" class="btn btn-default btn-lg rate-guest rate-btn-<%= request.id %>" data-id="<%= request.id %>">
+			<div class="vcenter">
+				<button data-rating="0" class="btn btn-default btn-lg rate-guest rate-btn-<%= request.id %>" data-id="<%= request.id %>">
 				Rate Guest
 			</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -73,36 +81,44 @@
 
 <!-- Yes Host Yes Guest -->
 <% _.each( self.collectionYesHostYesGuestReviews, function( request ) {  %>
-<div class="row  review-list-row" data-id="<%= request.id %>">
-	<div class="col col-sm-3 text-center profile" style="margin-top:10px;">
+<div class="row review-list-row" data-id="<%= request.id %>">
+	<div class="col col-sm-3 ">
 		<div class="inner text-center">
-			<div class="obj-thumb profile-picture" data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>); height:40px; width:40px;"></div>
-			<strong><%= request.get('profile').get('displayName') %> </strong> 
+			<div class="vcenter profile">
+				<div class="obj-thumb profile-picture" data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>); height:40px; width:40px;"></div>
+				<strong><%= request.get('profile').get('displayName') %> </strong> 
+			</div>
 		</div>
 	</div>
 	<div class="col col-sm-13">
-		<div class="inner" style="min-height:80px; padding:10px 10px 10px 10px;">
-			<div class="guest-rating">
-				<img height="12px;" src="resources/rating-<%= request.get('ratingGuest') %>.png"/>
-				<span class="date">
+		<div class="inner">
+			<div class="vcenter">
+				<div class="guest-rating">
+					<img height="12px;" src="resources/rating-<%= request.get('ratingGuest') %>.png"/>
+					<span class="date">
 					<% 
 						var createdAt = new Date(request.createdAt);
 						var dateStr = self.formatDateWithMonthAndDate(createdAt) + ", " + createdAt.getFullYear();
 					%>
 					<%= dateStr %>
-				</span>
-			</div>
+					</span>
+				</div>
 			<p><%= request.get('reviewGuest') %></p>
+			</div>
 		</div>
 	</div>
 	<div class="col col-sm-4 ">
 		<div class="inner text-center">
-			<img src="resources/rating-<%= request.get("ratingHost") %>.png" data-rate="1" />
+			<div class="vcenter">
+				<img src="resources/rating-<%= request.get("ratingHost") %>.png" data-rate="1" />
+			</div>
 		</div>
 	</div>
 	<div class="col col-sm-4">
 		<div class="inner text-center">
-			<img src="resources/check.png" />
+			<div class="vcenter">
+				<img src="resources/check.png" />
+			</div>
 		</div>
 	</div>
 </div>
@@ -112,25 +128,31 @@
 <!-- Yes Host No Guest -->
 <% _.each( self.collectionYesHostNoGuestReviews, function( request ) {  %>
 <div class="row  review-list-row" data-id="<%= request.id %>">
-	<div class="col col-sm-3 text-center profile" style="margin-top:10px;">
+	<div class="col col-sm-3 ">
 		<div class="inner text-center">
-			<div class="obj-thumb profile-picture" data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>); height:40px; width:40px;"></div>
-			<strong><%= request.get('profile').get('displayName') %> </strong> 
+			<div class="vcenter profile">
+				<div class="obj-thumb profile-picture" data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>); height:40px; width:40px;"></div>
+				<strong><%= request.get('profile').get('displayName') %> </strong> 
+			</div>
 		</div>
 	</div>
 	<div class="col col-sm-13">
-		<div class="inner" style="height:70px; display:table; padding-left:15px;">
-			<em style="vertical-align:middle; display:table-cell;"><b><%= request.get('profile').get('displayName') %></b> hasn't reviewed this BoatDay yet!</em>
+		<div class="inner">
+			<em class="vcenter"><b><%= request.get('profile').get('displayName') %></b> hasn't reviewed this BoatDay yet!</em>
 		</div>
 	</div>
 	<div class="col col-sm-4 ">
 		<div class="inner text-center">
-			<img src="resources/rating-<%= request.get("ratingHost") %>.png" data-rate="1" />
+			<div class="vcenter">
+				<img src="resources/rating-<%= request.get("ratingHost") %>.png" data-rate="1" />
+			</div>
 		</div>
 	</div>
 	<div class="col col-sm-4">
 		<div class="inner text-center">
-			<img src="resources/check.png" />
+			<div class="vcenter">
+				<img src="resources/check.png" />
+			</div>
 		</div>
 	</div>
 </div>
