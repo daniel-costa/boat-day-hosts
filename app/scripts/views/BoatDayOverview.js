@@ -1,5 +1,5 @@
 define([
-	'async!https://maps.google.com/maps/api/js?sensor=false',
+	//'async!https://maps.google.com/maps/api/js?sensor=false',
 	//'async!https://maps.google.com/maps/api/js?sensor=false&libraries=places!callback',
 	//'async!https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initMap"',
 	'views/BaseView',
@@ -20,7 +20,7 @@ define([
 	'text!templates/BoatDayOldQuestionRowTemplate.html',
 	'text!templates/BoatDayOverviewRatingRowTemplate.html',
 	'text!templates/BoatdayOverViewReadOnlyTemplate.html'
-	], function(gmaps, BaseView, BoatDayModel, ChatMessageModel, NotificationModel, BoatDayOverviewTemplate, BoatDayOverviewInfoTemplate, BoatDayOverviewEditTemplate, BoatDayOverviewGroupChatTemplate, BoatDayOverviewBookingTemplate, BoatDayOverviewQuestionsTemplate, BoatDayOverviewCancelTemplate, BoatDayOverviewRescheduleTemplate, BoatDayOverviewChatMessageTemplate, BoatDayOverviewBoookingRowTemplate, BoatDayNewQuestionRowTemplate, BoatDayOldQuestionRowTemplate, BoatDayOverviewRatingRowTemplate, BoatdayOverViewReadOnlyTemplate){
+	], function(BaseView, BoatDayModel, ChatMessageModel, NotificationModel, BoatDayOverviewTemplate, BoatDayOverviewInfoTemplate, BoatDayOverviewEditTemplate, BoatDayOverviewGroupChatTemplate, BoatDayOverviewBookingTemplate, BoatDayOverviewQuestionsTemplate, BoatDayOverviewCancelTemplate, BoatDayOverviewRescheduleTemplate, BoatDayOverviewChatMessageTemplate, BoatDayOverviewBoookingRowTemplate, BoatDayNewQuestionRowTemplate, BoatDayOldQuestionRowTemplate, BoatDayOverviewRatingRowTemplate, BoatdayOverViewReadOnlyTemplate){
 
 		var BoatdayOveviewView = BaseView.extend({
 
@@ -338,7 +338,6 @@ define([
 
 			},
 
-
 			renderisReadOnly: function(){
 
 
@@ -486,9 +485,7 @@ define([
 					self.$el.find('[data-toggle="tooltip"]').tooltip();
 				});
 
-
 			},
-
 
 			renderEditBoatDay: function(){
 				var self = this;
@@ -621,67 +618,98 @@ define([
 
 				var self = this;
 
-				var displayMap = function(latlng) {
+				require(["goog!maps,3,other_params:sensor=false&libraries=places"], function(){
 
-					var opts = {
-						zoom: 10,
-						center: latlng
+					var displayMap = function(latlng) {
+
+						var opts = {
+							zoom: 11,
+							center: latlng
+						};
+
+						//if( !self._map ) {
+
+							var ctn = self.$el.find('.map').get(0);
+							self._map = new google.maps.Map(ctn, opts);
+
+  							google.maps.event.addListenerOnce(self._map, "idle", function(){
+								google.maps.event.trigger(self._map, 'resize');
+								self._map.setCenter(latlng);
+
+							}); 
+
+							google.maps.event.addListener(self._map, 'click', function(event) {
+								self.moveMarker(event.latLng);
+							});
+
+							var input = document.getElementById('locationText');
+							//var input = self.$el.find('#locationText');
+  							var countryRestrict = {'country': 'us'};
+  							//var countryRestrict = {};
+
+  							//var searchBox = new google.maps.places.SearchBox(input);
+  							 var autocomplete = new google.maps.places.Autocomplete((input), {
+  							 	types: ['geocode'],
+  							 	componentRestrictions: countryRestrict
+  							 });
+
+  							 self._map.addListener('bounds_changed', function() {
+  							 
+  							 autocomplete.setBounds(self._map.getBounds());});
+
+  							 autocomplete.addListener('place_changed', function() {
+
+  							 	var place = autocomplete.getPlace();
+							    
+							    var newlatlong = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng());
+
+							    self.moveMarker(newlatlong);
+
+							});
+
+							
+						//}
+
+
+
 					};
 
-					if( !self._map ) {
-						
-						var ctn = self.$el.find('.map').get(0);
-						self._map = new google.maps.Map(ctn, opts);
+					var handlePosition = function(position) {
+		    			displayMap(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+					};
 
-						google.maps.event.addListenerOnce(self._map, "idle", function(){
-							google.maps.event.trigger(self._map, 'resize');
-							self._map.setCenter(latlng);
-							
-						}); 
+					var handleNoPosition = function(error) {
+						displayMap(new google.maps.LatLng(25.761919, -80.190225));
+					};
 
-						// google.maps.event.addListener(self._map, "idle", function(){
-						// 	// self._map.setCenter(opts.center);
-						// 	google.maps.event.trigger(self._map, 'resize');
-						// }); 
+					if (navigator.geolocation) {
 
-						google.maps.event.addListener(self._map, 'click', function(event) {
-							self.moveMarker(event.latLng);
-						});
+						// Edit DC: 
+						// The navigator takes too much time and blocks everything. We prefere to desactivate it.
 
-					}
+						// navigator.geolocation.getCurrentPosition(handlePosition, handleNoPosition);
+						handleNoPosition();
 
-					if( self.model.get('location') ) {
+					} else {
 
-						self.moveMarker(new google.maps.LatLng(self.model.get('location').latitude, self.model.get('location').longitude));
+						handleNoPosition();
 
 					}
 
-				};
+					self.centerMapInStart();
 
-				var handlePosition = function(position) {
+				});
 
-	    			displayMap(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+			},
 
-				};
+			centerMapInStart: function(){
 
-				var handleNoPosition = function(error) {
+				var self = this;
 
-					displayMap(new google.maps.LatLng(25.761919, -80.190225));
-
-				};
-
-				if (navigator.geolocation) {
-
-					// Edit DC: 
-					// The navigator takes too much time and blocks everything. We prefere to desactivate it.
-
-					// navigator.geolocation.getCurrentPosition(handlePosition, handleNoPosition);
-					handleNoPosition();
-
-				} else {
-
-					handleNoPosition();
-
+				if( self.model.get('location') ) {
+					var loc = self.model.get('location');
+					var latLng = new google.maps.LatLng(loc.latitude, loc.longitude);
+					self.moveMarker(latLng);
 				}
 
 			},
@@ -697,7 +725,6 @@ define([
 						if (results[0]) {
 							var addr = results[0].formatted_address;
 							self._in('locationText').val(addr.slice(0, addr.lastIndexOf(",")));
-						
 						}
 
 					}
@@ -708,20 +735,16 @@ define([
 
 				new google.maps.Geocoder().geocode({ 'latLng': latlng }, gotAddress);
 
-				if( !self._marker ) {
-						
-					self._marker = new google.maps.Marker({
-						map: self._map,
-						draggable: true,
-						animation: google.maps.Animation.DROP,
-						position: latlng
-					});
-
-				} else {
-
-					self._marker.setPosition(latlng);
-
+				if( self._marker ) {
+					self._marker.setMap(null);
 				}
+						
+				self._marker = new google.maps.Marker({
+					map: self._map,
+					draggable: true,
+					animation: google.maps.Animation.DROP,
+					position: latlng
+				});
 
 			},
 
@@ -749,7 +772,6 @@ define([
 				this.$el.find('.activityContainer.sports .equipment-list').toggle();
 			
 			},
-
 
 			renderGroupChat: function(){
 				var self = this;
@@ -817,7 +839,6 @@ define([
 					self.$el.find('.dashboard-canvas .boatday-overview-group-chat .boatday-group-chat-form .box-messages').remove();
 				}
 				
-			
 			},
 
 			displayNewChatCount: function(messageCount){
@@ -829,7 +850,7 @@ define([
 				var pl = (messageCount == 1) ? '' : 's';
 
 				infoMsgCountTarget.html(messageCount);
-				infoMsgLinkTarget.html('New Chat</br> message' + pl);
+				infoMsgLinkTarget.html('New Chat</br> Message' + pl);
 
 				if(messageCount > 0){
 
@@ -843,7 +864,6 @@ define([
 				}
 				
 			},
-
 
 			displayNewQuestionCount: function(questionCount){
 				
@@ -964,7 +984,6 @@ define([
 				}
 
 			},
-
 
 			displayNewBookingCount: function( count){
 
@@ -1122,6 +1141,7 @@ define([
 
 				e.attr('src', 'resources/star-full.png');				
 				e.prevAll().attr('src', 'resources/star-full.png');				
+
 			},
 
 			rateOut: function(event) {
@@ -1138,6 +1158,7 @@ define([
 				for(var i = 1; i <= rateBtn.attr("data-rating"); i++){
 					self.$el.find('.rate-img-'+ i + '-' + requestId).attr('src', 'resources/star-full.png');
 				}
+
 			},
 
 			rate: function( event ){
@@ -1147,6 +1168,7 @@ define([
 				var requestId = e.attr('data-id');
 
 				self.$el.find('.rate-btn-' + requestId).attr("data-rating", e.attr('data-rate'));	
+
 			},
 
 			submitRating: function( event ){
@@ -1192,7 +1214,6 @@ define([
 					self.buttonLoader();
 				});
 			
-
 			},
 
 			refreshReviews: function(){
@@ -1246,8 +1267,8 @@ define([
 					}
 
 				});
+			
 			},
-
 
 			renderQuestions: function(){
 
@@ -1406,6 +1427,7 @@ define([
 			getShortenDayname: function(date){
 				var daysName = ["Sun.","Mon.","Tue.","Wed.","Thu.","Fri.","Sat."];
 				return daysName[date.getDay()];
+
 			},
 
 			formatAmPm: function(date){
@@ -1417,9 +1439,8 @@ define([
 				minutes = minutes < 10 ? '0'+minutes : minutes;
 
 				return (hours + ":" + minutes + " " + ampm);
+
 			},
-
-
 
 			renderCancelBoatDay: function(){
 				var self = this;
@@ -1461,6 +1482,7 @@ define([
 			processReadOnly: function(event){
 				event.preventDefault();
 				this.$el.find('.boatday-read-only').toggle();
+
 			},
 
 			processBoatDayEdit: function(event){
@@ -1473,6 +1495,7 @@ define([
 
 				if(visibility == 'hidden'){
 					this.$el.find('.boatday-edit-form').css({height: 'auto', visibility: 'visible'});
+					self.centerMapInStart();
 				}
 				else{
 					this.$el.find('.boatday-edit-form').css({height: '0px', visibility: 'hidden'});
@@ -1572,7 +1595,6 @@ define([
 				
 			},
 
-
 			processQuestions: function(event){
 
 				event.preventDefault();
@@ -1592,7 +1614,6 @@ define([
 				
 			},
 
-
 			scrollToTarget:function(main, elem){
 				
 				if(elem) {
@@ -1602,6 +1623,7 @@ define([
 		           main.animate( { scrollTop: elem.position().top }, 1000);
 				
 				}
+			
 			},
 
 			cancelBoatDay: function(event) {
@@ -1797,7 +1819,6 @@ define([
 				});
 				$('.reschedule-boatday-date').datepicker('setDate', this.model.get('date'));
 
-
 			},
 
 			submitRescheduleBoatDay:function(newDate, rescheduleReason){
@@ -1885,6 +1906,7 @@ define([
 							}
 
 					});
+
 					self.render();
 
 				});
@@ -2200,6 +2222,7 @@ define([
 				}, function(error) {
 					console.log(error);
 				});
+
 			},
 
 			addMessage: function(event) {
@@ -2322,4 +2345,5 @@ define([
 		});
 
 	return BoatdayOveviewView;
+
 });

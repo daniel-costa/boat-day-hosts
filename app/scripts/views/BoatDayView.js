@@ -141,66 +141,96 @@ define([
 
 			var self = this;
 
-			var displayMap = function(latlng) {
+			require(["goog!maps,3,other_params:sensor=false&libraries=places"], function(){
 
-				var opts = {
-					zoom: 10,
-					center: latlng
+				var displayMap = function(latlng) {
+
+					var opts = {
+						zoom: 11,
+						center: latlng
+					};
+
+					//if( !self._map ) {
+
+						var ctn = self.$el.find('.map').get(0);
+						self._map = new google.maps.Map(ctn, opts);
+
+						google.maps.event.addListenerOnce(self._map, "idle", function(){
+							google.maps.event.trigger(self._map, 'resize');
+							self._map.setCenter(latlng);
+
+						}); 
+
+						google.maps.event.addListener(self._map, 'click', function(event) {
+							self.moveMarker(event.latLng);
+						});
+
+						var input = document.getElementById('locationText');
+						//var input = self.$el.find('#locationText');
+						var countryRestrict = {'country': 'us'};
+						//var countryRestrict = {};
+
+						//var searchBox = new google.maps.places.SearchBox(input);
+						 var autocomplete = new google.maps.places.Autocomplete((input), {
+						 	types: ['geocode'],
+						 	componentRestrictions: countryRestrict
+						 });
+
+						 self._map.addListener('bounds_changed', function() {
+						 	
+						 	autocomplete.setBounds(self._map.getBounds());});
+
+						 	autocomplete.addListener('place_changed', function() {
+
+						 	var place = autocomplete.getPlace();
+					    
+					    	var newlatlong = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng());
+
+					    	self.moveMarker(newlatlong);
+
+						});
+
+						
+					//}
+
 				};
 
-				if( !self._map ) {
-					
-					var ctn = self.$el.find('.map').get(0);
-					self._map = new google.maps.Map(ctn, opts);
+				var handlePosition = function(position) {
+	    			displayMap(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+				};
 
-					google.maps.event.addListenerOnce(self._map, "idle", function(){
-						google.maps.event.trigger(self._map, 'resize');
-						self._map.setCenter(latlng);
-					}); 
+				var handleNoPosition = function(error) {
+					displayMap(new google.maps.LatLng(25.761919, -80.190225));
+				};
 
-					// google.maps.event.addListener(self._map, "idle", function(){
-					// 	// self._map.setCenter(opts.center);
-					// 	google.maps.event.trigger(self._map, 'resize');
-					// }); 
+				if (navigator.geolocation) {
 
-					google.maps.event.addListener(self._map, 'click', function(event) {
-						self.moveMarker(event.latLng)
-					});
+					// Edit DC: 
+					// The navigator takes too much time and blocks everything. We prefere to desactivate it.
 
-				}
+					// navigator.geolocation.getCurrentPosition(handlePosition, handleNoPosition);
+					handleNoPosition();
 
-				if( self.model.get('location') ) {
+				} else {
 
-					self.moveMarker(new google.maps.LatLng(self.model.get('location').latitude, self.model.get('location').longitude));
+					handleNoPosition();
 
 				}
 
-			};
+				self.centerMapInStart();
 
-			var handlePosition = function(position) {
+			});
 
-    			displayMap(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+		},
 
-			};
+		centerMapInStart: function(){
 
-			var handleNoPosition = function(error) {
+			var self = this;
 
-				displayMap(new google.maps.LatLng(25.761919, -80.190225));
-
-			};
-
-			if (navigator.geolocation) {
-
-				// Edit DC: 
-				// The navigator takes too much time and blocks everything. We prefere to desactivate it.
-
-				// navigator.geolocation.getCurrentPosition(handlePosition, handleNoPosition);
-				handleNoPosition();
-
-			} else {
-
-				handleNoPosition();
-
+			if( self.model.get('location') ) {
+				var loc = self.model.get('location');
+				var latLng = new google.maps.LatLng(loc.latitude, loc.longitude);
+				self.moveMarker(latLng);
 			}
 
 		},
@@ -216,7 +246,6 @@ define([
 					if (results[0]) {
 						var addr = results[0].formatted_address;
 						self._in('locationText').val(addr.slice(0, addr.lastIndexOf(",")));
-					
 					}
 
 				}
@@ -227,20 +256,16 @@ define([
 
 			new google.maps.Geocoder().geocode({ 'latLng': latlng }, gotAddress);
 
-			if( !self._marker ) {
-					
-				self._marker = new google.maps.Marker({
-					map: self._map,
-					draggable: true,
-					animation: google.maps.Animation.DROP,
-					position: latlng
-				});
-
-			} else {
-
-				self._marker.setPosition(latlng);
-
+			if( self._marker ) {
+				self._marker.setMap(null);
 			}
+					
+			self._marker = new google.maps.Marker({
+				map: self._map,
+				draggable: true,
+				animation: google.maps.Animation.DROP,
+				position: latlng
+			});
 
 		},
 
