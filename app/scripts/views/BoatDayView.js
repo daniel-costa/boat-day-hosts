@@ -20,7 +20,9 @@ define([
 			'change [name="activity"]' : "refreshActivity", 
 			'change [name="featuresFishingEquipment"]': "showFishingEquipment", 
 			'change [name="featuresSportsEquipment"]': "showSportsEquipment",
-			'blur [name="description"]': 'censorField'
+			'blur [name="description"]': 'censorField',
+			'click .trips-buttons .single-trip': 'showSingleTripOptions',
+			'click .trips-buttons .multiple-trip': 'showMultipleTripOptions'
 		}, 
 
 		_map: null,
@@ -32,6 +34,40 @@ define([
 		collectionCaptains: {},
 		
 		theme: "dashboard",
+
+		showSingleTripOptions: function(event){
+			event.preventDefault();
+			
+			var self = this;
+			
+			var singleTripBtn = self.$el.find('.trips-buttons .single-trip');
+			var multipleTripBtn = self.$el.find('.trips-buttons .multiple-trip');
+			var singleTripOptionsArea = self.$el.find('.trip-options-single');
+			var multipleTripOptionsArea = self.$el.find('.trip-options-multiple');
+
+			multipleTripBtn.removeClass('hovered');
+			multipleTripOptionsArea.hide();
+
+			singleTripBtn.addClass('hovered');
+			singleTripOptionsArea.show();
+		},
+
+		showMultipleTripOptions: function(event){
+			event.preventDefault();
+
+			var self = this;
+			
+			var singleTripBtn = self.$el.find('.trips-buttons .single-trip');
+			var multipleTripBtn = self.$el.find('.trips-buttons .multiple-trip');
+			var singleTripOptionsArea = self.$el.find('.trip-options-single');
+			var multipleTripOptionsArea = self.$el.find('.trip-options-multiple');
+
+			singleTripBtn.removeClass('hovered');
+			singleTripOptionsArea.hide();
+
+			multipleTripBtn.addClass('hovered');
+			multipleTripOptionsArea.show();
+		},
 
 		render: function() {
 
@@ -120,6 +156,17 @@ define([
 				self.$el.find('.preview-departureTime').text(self.departureTimeToDisplayTime(slideEvt.value));
 			};
 
+			var scheduleSlideEvent = function(slideEvent){
+				var scheduleArray = self._in('schedule').slider('getValue');
+				var startTime = scheduleArray[0];
+				var endTime = scheduleArray[1];
+				self.$el.find('.preview-schedule').text(self.scheduleTimeToDisplayTime(startTime, endTime));
+			};	
+
+			var availableSeatsMultiSlideEvent = function(slideEvt) {
+				self.$el.find('.preview-availableSeatsMulti').text(slideEvt.value  + ' available seats');
+			};
+
 			this._in('availableSeats').slider(slidersConfig).on("slide", availableSeatsSlideEvent);
 			this._in('departureTime').slider(slidersConfig).on("slide", departureTimeSlideEvent);
 			this._in('duration').slider(slidersConfig).on("slide", durationSlideEvent);
@@ -129,8 +176,13 @@ define([
 			this._in('duration').slider('setValue', this._in('duration').slider('getValue'), true, false);
 			this._in('price').slider('setValue', this._in('price').slider('getValue'), true, false);
 
-			this.refreshActivity();
+			this._in('schedule').slider(slidersConfig).on("slide", scheduleSlideEvent);
+			this._in('schedule').slider('setValue', this._in('schedule').slider('getValue'), true, false);
+			
+			this._in('availableSeatsMulti').slider(slidersConfig).on("slide", availableSeatsMultiSlideEvent);
+			this._in('availableSeatsMulti').slider('setValue', this._in('availableSeatsMulti').slider('getValue'), true, false);
 
+			this.refreshActivity();
 			this.setupGoogleMap();
 
 			return this;
@@ -394,7 +446,6 @@ define([
 
 				self.save();
 			});
-
 
 		},
 

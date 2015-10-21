@@ -1,6 +1,6 @@
 <div class="row pending-list-row" data-id="<%= request.id %>" style="">
 
-	<div class="cell col-sm-3 col-xs-10 col-md-offset-1 profile" style="margin-left:0px;">
+	<div class="cell col-sm-3 col-xs-8 col-md-offset-1 profile" style="margin-left:0px;">
 		<div class="inner text-center">
 			<div class="vcenter">
 				<div class="obj-thumb profile-picture " data-id="<%= request.get('profile').id %>" style="background-image:url(<%= request.get('profile').get("profilePicture").url() %>); height:50px; width:50px;">
@@ -9,7 +9,7 @@
 		</div>
 	</div>
 
-	<div class="cell col-sm-4 col-xs-10" style="padding-right:0px;">
+	<div class="cell col-sm-4 col-xs-8" style="padding-right:0px;">
 		<div class="inner text-left">
 			<div class="vcenter">
 				<strong><%= request.get('profile').get('displayName') %></strong>

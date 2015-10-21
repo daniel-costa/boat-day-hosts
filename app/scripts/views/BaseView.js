@@ -433,6 +433,30 @@ define([
 			
 		},
 
+		scheduleTimeToDisplayTime: function(startTime, endTime){
+			var h = parseInt(startTime);
+			var mm = (startTime-h) * 60;
+			var dd = 'AM';
+
+			if( h >= 12 ) {
+				dd = 'PM';
+				h -= 12;
+			}
+
+			var h2 = parseInt(endTime);
+			var mm2 = (endTime-h2) * 60;
+			var dd2 = 'AM';
+
+			if( h2 >= 12 ) {
+				dd2 = 'PM';
+				h2 -= 12;
+			}
+
+			var startStr = (h==0?12:h)+':'+(mm==0?'00':+(mm < 10 ? '0'+mm : mm))+' '+dd;
+			var endStr = (h2==0?12:h2)+':'+(mm2==0?'00':+(mm2 < 10 ? '0'+mm2 : mm2))+' '+dd2;
+			return startStr + " - " + endStr;
+		},
+
 		isEmailValid: function(email) {
 
 			var emailPattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;

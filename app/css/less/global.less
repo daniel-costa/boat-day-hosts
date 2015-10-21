@@ -222,7 +222,26 @@ h4 {
 .navbar-default .navbar-nav > li > a.sign-out:hover {
   color: #7B9194;
 }
-.d
+
+.navbar-default .navbar-nav > li > a.sign-out:before{
+    content: "";
+    background: url("../resources/ico_signout.png") no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left; 
+    margin-right: 5px;  
+}
+.navbar-default .navbar-nav > li > a.sign-out:hover::before{
+   background: url("../resources/ico_signout_hover.png") no-repeat;
+}
+.navbar-default .navbar-nav > li > a.help-center:before{
+    content: "";
+    background: url("../resources/ico_helpcenter.png") no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left; 
+    margin-right: 5px;  
+}
 
 .display-messages {
 	/*margin-top: 15px;*/
@@ -255,4 +274,11 @@ input[type="file"] {
 
 .clear {
   clear: both;
+}
+
+input[type="text"] {
+    -moz-box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    padding: 15px;
 }

@@ -160,6 +160,7 @@ define([
 					seats: notification.get('request') ? notification.get('request').get('seats') : null,
 					requestStatus: notification.get('request') ? notification.get('request').get('status') : null,
 					request: notification.get('request'),
+					clickable: notification.get("boatday") ? "clickable" : ""
 				};
 
 

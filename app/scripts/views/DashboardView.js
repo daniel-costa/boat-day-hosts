@@ -8,7 +8,8 @@ define([
 'text!templates/DashboardTemplate.html',
 'text!templates/DashboardCaptainRequestRowTemplate.html',
 'text!templates/DashboardBoatRowTemplate.html',
-'text!templates/DashboardBoatDayTemplate.html',
+//'text!templates/DashboardBoatDayTemplate.html',
+'text!templates/DashboardBoatDayRowTemplate.html',
 'text!templates/DashboardBoatDayRequestTemplate.html',
 'text!templates/DashboardBoatDayMessageTemplate.html',
 ], function(CaptainRequestModel, NotificationModel, ChatMessageModel, BoatModel, BoatDayModel, BaseView, DashboardTemplate, DashboardCaptainRequestRowTemplate, DashboardBoatRowTemplate, DashboardBoatDayTemplate, DashboardBoatDayRequestTemplate, DashboardBoatDayMessageTemplate){
@@ -417,11 +418,14 @@ define([
 						
 						left = !left;
 
+						var bdDate = new Date(boatday.get("date"));
+
 						var _tpl = tpl({
 							_class: left ? 'left' : 'right',
 							id: boatday.id,
 							status: boatday.get('status'),
-							date: self.dateParseToDisplayDate(boatday.get('date')),
+							//date: self.dateParseToDisplayDate(boatday.get('date')),
+							date: self.formatDateWithMonthAndDate(bdDate) + ", " + bdDate.getFullYear(),
 							time: self.departureTimeToDisplayTime(boatday.get('departureTime')),
 							duration: boatday.get('duration'),
 							name: boatday.get('name'),

@@ -120,15 +120,15 @@ body.theme-dashboard .left-navigation .nav {
 }
 
 body.theme-dashboard .left-navigation a {
-	display:block;
-	line-height: 60px;
-	text-align: center;
-	text-transform: uppercase;
-	color : #69878c;
-	font-size: 14px;
-	font-weight: 700;
-	padding: 0px 10px;
-	position:relative;
+	  display: block;
+	  line-height: 60px;
+	  text-align: left;
+	  text-transform: uppercase;
+	  color: #69878c;
+	  font-size: 14px;
+	  font-weight: 700;
+	  padding: 0px 10px;
+	  position: relative;
 
 	@media (max-width: @screen-xs-max) {
 		width: 50%;
@@ -150,16 +150,44 @@ body.theme-dashboard .left-navigation a.active {
 		background: @btn-default-bg;
 	}
 }
+body.theme-dashboard .left-navigation a:before{
+  content: "";
+  width: 20px;
+  height: 20px;
+  float: left; 
+  margin-right: 5px;
+  margin-top: 20px;
+}
+@media (max-width: 767px) {
+ body.theme-dashboard .left-navigation a:before {
+     margin-top: 10px;
+  }
+}
+/*ico_dashboard.png */
+body.theme-dashboard .left-navigation a.menu-host-center:before{
+   background: url("../resources/ico_dashboard.png") no-repeat;
+}
+body.theme-dashboard .left-navigation a.menu-new-boatday:before{
+   background: url("../resources/ico_addboatdays.png") no-repeat;
+}
+body.theme-dashboard .left-navigation a.menu-new-boat:before{
+  background: url("../resources/ico_addboatdays.png") no-repeat;
+}
+body.theme-dashboard .left-navigation a.menu-my-notifications:before{
+  background: url("../resources/ico_message.png") no-repeat;
+}
+body.theme-dashboard .left-navigation a.menu-my-boatdays:before{
+  background: url("../resources/ico_pastboatdays.png") no-repeat;
+}
 
 body.theme-dashboard .left-navigation a.active:after {
-	content: "";
-	position: absolute;
-	width: 80px;
-	height: 2px;
-	background: #00a8bf;
-	left: 50%;
-	margin-left:-40px;
-	top: 45px;
+	  content: "";
+	  position: absolute;
+	  width: 70px;
+	  height: 2px;
+	  background: #00a8bf;
+	  left: 45px;
+	  top: 45px;
 
 
 	@media (max-width: @screen-xs-max) {
@@ -167,10 +195,23 @@ body.theme-dashboard .left-navigation a.active:after {
 	}
 }
 
+body.theme-dashboard .left-navigation a.menu-my-notifications.active:after {
+  width: 60px;
+}
+body.theme-dashboard .left-navigation a.menu-new-boatday.active:after {
+  width: 85px;
+}
+body.theme-dashboard .left-navigation a.menu-my-boatdays.active:after {
+  width: 100px;
+}
+body.theme-dashboard .left-navigation a.menu-new-boat.active:after {
+  width: 55px;
+}
 body.theme-dashboard .left-navigation a.brand {
 	height: auto;
 	border-bottom: 1px solid @dashboard-border-color;
 	margin-bottom: 50px;
+	text-align: center;
 	
 	@media (max-width: @screen-xs-max) {
 		float: left;
@@ -1364,4 +1405,92 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   border: none;
   padding: 5px;
 }
+
+.trips-buttons{
+  margin-top: 60px;
+  margin-bottom: 50px;
+}
+@media only screen and (max-width: 768px) {
+  .trips-buttons{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+.trips-buttons .single-trip, .trips-buttons .multiple-trip{
+  width: 100%;
+}
+.trips-buttons button.hovered{
+  color: #ffffff;
+  background-color: #00a8bf;
+  border-color: #00a8bf;
+}
+
+.trip-options-single, .trip-options-multiple{
+  display: none;
+}
+.multiple-trip-price-row{
+  background-color: #eaf1f4;
+  padding-top: 5px;
+  margin-bottom: 40px;
+}
+
+.notification-list .inner h3{
+  font-size: 1.1em;
+  margin-bottom: 2px;
+  margin-top: 0px;
+}
+.notification-list .inner p{
+  line-height: 150%;
+  margin-bottom: 5px;
+}
+.notification-list [class*="col-"] {
+  border: none;
+}
+.notification-list .clickable{
+  cursor: pointer;
+  border: none;
+}
+
+input[type="text"] {
+    -moz-box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    padding: 15px;
+}
+
+.inner-content .new-boatday form .row{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.top-navigation a.spread-word{
+    border-right: 1px solid #e0ebed;
+    padding: 25px 20px 25px 10px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #69878c;
+    text-decoration: none;
+}
+
+.top-navigation ul.spread-word-list{
+  border-radius: 0px !important;
+  border: 1px solid #e0ebed;
+  box-shadow: none !important;
+  background-color: #EAF1F4;
+  margin-top: 0px;
+  min-width:auto;
+  width:151px;
+  padding:;
+}
+.top-navigation ul.spread-word-list li{
+  padding: 10px;
+  min-width:auto;
+  width:151px;
+  border-bottom: 1px solid #e0ebed;
+}
+.top-navigation ul.spread-word-list li a{
+  
+}
+
 /* boatday overview css ends */

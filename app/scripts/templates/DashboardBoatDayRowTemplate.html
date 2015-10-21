@@ -1,0 +1,43 @@
+<div class="row dashboard-row my-boatday my-boatday-<%= id %>" data-id="<%= id %>">
+
+	<div class="cell col-md-3 col-sm-4">
+		<div class="inner" >
+			<div class="obj-thumb picture" style="background-image:url(<%= picture %>)"></div>
+		</div>
+	</div>
+	<div class="cell col-md-4 col-sm-4 col-xs-8">
+		<div class="inner">
+			<label>Name</label>
+			<p><%= name %></p>
+		</div>
+	</div>
+	<div class="cell col-md-2 col-sm-4 col-xs-8">
+		<div class="inner">
+			<label>Price</label>
+			<p>$<%= potEarings %></p>
+		</div>
+	</div>
+	<div class="cell col-md-4 col-sm-4 col-xs-8">
+		<div class="inner">
+			<label>Date</label>
+			<p><%= date %></p>
+		</div>
+	</div>
+	<div class="cell col-md-3 col-sm-4 col-xs-8">
+		<div class="inner">
+			<label>Time</label>
+			<p><%= time %></p>
+		</div>
+	</div>
+	<div class="cell col-md-4 col-sm-4 col-xs-8">
+		<div class="inner text-center">
+			<label>Seats Booked</label>
+			<p><%= bookedSeats %>/<%= availableSeats %></p>
+		</div>
+	</div>
+	<div class="cell col-md-4 col-sm-24 col-xs-8">
+		<div class="inner">
+			<a href="#/boatday-overview/<%= id %>?show=<%= (status == "cancelled") ? 'detail' : 'none' %>" class="btn btn-default btn-lg btn-block">Manage</a>
+		</div>
+	</div>
+</div>

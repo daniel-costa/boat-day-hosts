@@ -1,12 +1,12 @@
 <div class="row new-question-row">
 
 	<div class="row">
-		<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1 profile">
+		<div class="cell col-sm-4 col-xs-6 profile">
 			<div class="inner text-center">
 					<div class="obj-thumb profile-picture" data-id="<%= from.id %>" style="background-image:url(<%= from.get("profilePicture").url() %>)"></div>
 			</div>
 		</div>
-		<div class="cell col-sm-18 col-md-19 col-lg-20">
+		<div class="cell col-sm-20 col-xs-18">
 			<div class="inner">
 				<strong><%= from.get("displayName") %></strong><em> asked a question on <%= questionDateTimeStr %></em>
 			</div>
@@ -18,12 +18,12 @@
 
 
 	<div class="row" style="margin-top:5px;">
-		<div class="cell col-sm-4 col-md-3 col-lg-2 col-md-offset-1 profile">
+		<div class="cell col-sm-4 col-xs-6 profile">
 			<div class="inner text-center">
 					<div class="obj-thumb profile-picture" data-id="<%= profile.id %>" style="background-image:url(<%= profile.get("profilePicture").url() %>)"></div>
 			</div>
 		</div>
-		<div class="cell col-sm-18 col-md-19 col-lg-20 boatday-question-form" data-id="<%= question.id %>">
+		<div class="cell col-sm-20 col-xs-18 boatday-question-form" data-id="<%= question.id %>">
 			<% if(self.isPastBoatDay) { %>
 				<em>This question wasn't answer</em>
 			<% } else { %>

@@ -396,8 +396,10 @@ define([
 
 					var boatDayOverviewError = function(error){
 						console.log(error);
-						 
 
+						if( error.code == 101){
+							self.showInvalidLinkView();
+						}
 					};
 
 					new Parse.Query(BoatDayModel).get(boatdayid).then(boatDayOverviewSuccess, boatDayOverviewError);

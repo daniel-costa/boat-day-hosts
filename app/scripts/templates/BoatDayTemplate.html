@@ -1,11 +1,5 @@
-<div class="dashboard-canvas">
+<div class="dashboard-canvas new-boatday">
 
-	<style>
-	.row{
-		padding-left: 20px;
-		padding-right: 20px;
-	}
-	</style>
 
 	<% var ro = status != "creation" ? 'readonly disabled' : '' %>
 
@@ -23,6 +17,8 @@
 					</div>
 				</div>
 			</div>
+
+
 			<div class="row">
 				<div class="col-sm-9 col-sm-offset-2">
 					<div class="form-group">
@@ -41,98 +37,235 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
+
+			<div class="row trips-buttons">
 				<div class="col-sm-9 col-sm-offset-2">
 					<div class="form-group">
-						<label for="availableSeats" class="control-label">Available Seats</label>
-						<label class="preview-availableSeats control-label pull-right"></label>
-						<div>
-							<input type="text" class="form-control" id="availableSeats" name="availableSeats" data-slider-min="2" data-slider-max="15" data-slider-step="1" data-slider-value="<%= availableSeats ? availableSeats : 8 %>">
-						</div>
+						<button class="btn btn-lg btn-default single-trip">Single Trip</button>
 					</div>
 				</div>
 				<div class="col-sm-9 col-sm-offset-2">
 					<div class="form-group">
-						<label for="date" class="control-label">
-							Date
-						</label>
-						<div>
-							<input type="text" class="form-control date select-styles" placeholder="mm/dd/yyyy" id="date" name="date" />
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<label for="departureTime" class="control-label">Departure Time</label>
-						<label class="preview-departureTime control-label pull-right"></label>
-						<div>
-							<input type="text" class="form-control" id="departureTime" name="departureTime" data-slider-min="0" data-slider-max="23.5" data-slider-step="0.5" data-slider-value="<%= departureTime ? departureTime : 9 %>">
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<label for="duration" class="control-label">
-							Duration
-							<a href="https://www.boatdayapp.com/faq#duration" target="_blank"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="All BoatDays must depart and return on the same day, and are limited to a maximum of 12 hours duration. Learn more by clicking on this help icon."></span></a>
-						</label>
-						<label class="preview-duration control-label pull-right"></label>
-						<div>
-							<input type="text" class="form-control" id="duration" name="duration" data-slider-min="0.5" data-slider-max="12" data-slider-step="0.5" data-slider-value="<%= duration ? duration : 6 %>">
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<label for="price" class="control-label">
-							Price Per Guest
-						</label>
-						<label class="preview-price control-label pull-right"></label>
-						<div>
-							<input type="text" class="form-control" id="price" name="price" data-slider-min="5" data-slider-max="250" data-slider-step="5" data-slider-value="<%= price ? price : 50 %>">	
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<label for="price" class="control-label">
-							Price Calculator
-						</label>
-						<table class="table table-bordered">
-							<tr>
-								<td class="totalSeats"></td>
-								<td class="text-right totalPriceUSD"></td>
-							</tr>
-							<tr>
-								<td class="totalBD">
-									BoatDay Fee
-									<a><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the fee charged to Hosts by BoatDay."></span></a>
-								</td>
-								<td class="text-right totalBoatDayUSD"></td>
-							</tr>
-							<tr class="partnerDiscount" style="display:none;">
-								<td>
-									Premium Discount
-								</td>
-								<td class="text-right totalPartnerDiscount"></td>
-							</tr>
-							<tr>
-								<td style="border-top: double 3px black;" class="totalHost">
-									Host Payout 		
-									<a><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="Estimated contribution you will receive if your boat is fully booked."></span></a>
-								</td>
-								<td style="border-top: double 3px black;" class="text-right totalHostUSD"></td>
-							</tr>
-						</table>
+						<button class="btn btn-lg btn-default multiple-trip">Multiple Trips</button>
 					</div>
 				</div>
 			</div>
 
-			<div class="row split-top"></div>
+			<div class="trip-options-single">
+				<div class="row">
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="availableSeats" class="control-label">Available Seats</label>
+							<label class="preview-availableSeats control-label pull-right"></label>
+							<div>
+								<input type="text" class="form-control" id="availableSeats" name="availableSeats" data-slider-min="2" data-slider-max="15" data-slider-step="1" data-slider-value="<%= availableSeats ? availableSeats : 8 %>">
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="date" class="control-label">
+								Date
+							</label>
+							<div>
+								<input type="text" class="form-control date select-styles" placeholder="mm/dd/yyyy" id="date" name="date" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="departureTime" class="control-label">Departure Time</label>
+							<label class="preview-departureTime control-label pull-right"></label>
+							<div>
+								<input type="text" class="form-control" id="departureTime" name="departureTime" data-slider-min="0" data-slider-max="23.5" data-slider-step="0.5" data-slider-value="<%= departureTime ? departureTime : 9 %>">
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="duration" class="control-label">
+								Duration
+								<a href="https://www.boatdayapp.com/faq#duration" target="_blank"><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="All BoatDays must depart and return on the same day, and are limited to a maximum of 12 hours duration. Learn more by clicking on this help icon."></span></a>
+							</label>
+							<label class="preview-duration control-label pull-right"></label>
+							<div>
+								<input type="text" class="form-control" id="duration" name="duration" data-slider-min="0.5" data-slider-max="12" data-slider-step="0.5" data-slider-value="<%= duration ? duration : 6 %>">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="price" class="control-label">
+								Price Per Guest
+							</label>
+							<label class="preview-price control-label pull-right"></label>
+							<div>
+								<input type="text" class="form-control" id="price" name="price" data-slider-min="5" data-slider-max="250" data-slider-step="5" data-slider-value="<%= price ? price : 50 %>">	
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="price" class="control-label">
+								Price Calculator
+							</label>
+							<table class="table table-bordered">
+								<tr>
+									<td class="totalSeats"></td>
+									<td class="text-right totalPriceUSD"></td>
+								</tr>
+								<tr>
+									<td class="totalBD">
+										BoatDay Fee
+										<a><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the fee charged to Hosts by BoatDay."></span></a>
+									</td>
+									<td class="text-right totalBoatDayUSD"></td>
+								</tr>
+								<tr class="partnerDiscount" style="display:none;">
+									<td>
+										Premium Discount
+									</td>
+									<td class="text-right totalPartnerDiscount"></td>
+								</tr>
+								<tr>
+									<td style="border-top: double 3px black;" class="totalHost">
+										Host Payout 		
+										<a><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="Estimated contribution you will receive if your boat is fully booked."></span></a>
+									</td>
+									<td style="border-top: double 3px black;" class="text-right totalHostUSD"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="trip-options-multiple">
+				<div class="row">
+					<div class="col-sm-20 col-sm-offset-2">
+						<div class="form-group">
+							<label class="control-label">Schedule</label>
+							<label class="preview-schedule control-label pull-right">10:00 AM - 11:59 AM</label>
+							<div>
+								<input type="text" class="form-control" id="schedule" name="schedule"  data-slider-min="0" data-slider-max="23.5" data-slider-step="0.5" data-slider-value="[10, 20]">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row" style="margin-bottom:20px;">
+					<div class="col-md-2 col-sm-4 col-xs-8 col-sm-offset-2">
+						<div class="form-group">
+							<input type="checkbox" id="scheduleMonday" name="scheduleMonday">
+							<label class="control-label" for="scheduleMonday">Monday</label> 
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-8 col-sm-offset-1">
+						<div class="form-group">
+							<input type="checkbox" id="scheduleTuesday" name="scheduleTuesday">
+							<label class="control-label" for="scheduleTuesday">Tuesday</label> 
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-8 col-sm-offset-1">
+						<div class="form-group">
+							<input type="checkbox" id="scheduleWednesday" name="scheduleWednesday">
+							<label class="control-label" for="scheduleWednesday">Wednesday</label> 
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-8 col-sm-offset-1">
+						<div class="form-group">
+							<input type="checkbox" id="scheduleThursday" name="scheduleThursday">
+							<label class="control-label" for="scheduleThursday">Thursday</label> 
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-8 col-sm-offset-2 col-md-offset-1">
+						<div class="form-group">
+							<input type="checkbox" id="scheduleFriday" name="scheduleFriday">
+							<label class="control-label" for="scheduleFriday">Friday</label> 
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-8 col-sm-offset-1">
+						<div class="form-group">
+							<input type="checkbox" id="scheduleSaturday" name="scheduleSaturday">
+							<label class="control-label" for="scheduleSaturday">Saturday</label> 
+						</div>
+					</div>
+					<div class="col-md-2 col-sm-4 col-xs-8 col-sm-offset-1">
+						<div class="form-group">
+							<input type="checkbox" id="scheduleSunday" name="scheduleSunday">
+							<label class="control-label" for="scheduleSunday">Sunday</label> 
+						</div>
+					</div>
+				</div>
+
+				<div class="row multiple-trip-price-row">
+					<div class="col-md-6 col-sm-offset-1">
+						<div class="col-sm-offset-2">
+							<label class="control-label">Pricing</label>
+						</div>
+						<div class="col-md-8 col-sm-offset-2">
+							<div class="form-group">
+								<label class="control-label">Hourly</label>
+								<input type="text" class="form-control" id="hourlyPrice" name="hourlyPrice" placeholder="100">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-16" >
+						<div class="col-sm-offset-2">
+							<label class="control-label">Discount (optional)</label>
+						</div>
+						<div class="col-md-4 col-sm-offset-2">
+							<div class="form-group">
+								<label for="4-hours" class="control-label">4 Hours</label>
+								<input type="text" class="form-control" id="4-hours" name="4-hours" />
+
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-offset-2">
+							<div class="form-group">
+								<label for="6-hours" class="control-label">6 Hours</label>
+								<input type="text" class="form-control" id="6-hours" name="6-hours" />
+
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-offset-2">
+							<div class="form-group">
+								<label for="8-hours" class="control-label">8 Hours</label>
+								<input type="text" class="form-control" id="8-hours" name="8-hours" />
+
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-offset-2">
+							<div class="form-group">
+								<label for="12-hours" class="control-label">12 Hours</label>
+								<input type="text" class="form-control" id="12-hours" name="12-hours" />
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-9 col-sm-offset-2">
+						<div class="form-group">
+							<label for="availableSeatsMulti" class="control-label">Available Seats</label>
+							<label class="preview-availableSeatsMulti control-label pull-right"></label>
+							<div>
+								<input type="text" class="form-control" id="availableSeatsMulti" name="availableSeatsMulti" data-slider-min="2" data-slider-max="15" data-slider-step="1" data-slider-value="8">
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+
+			<div class="row split-top" style="margin-top:10px;"></div>
 
 			<div class="row">
 				<div class="col-sm-9 col-sm-offset-2">
@@ -499,7 +632,7 @@
 							<a><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-container="body" data-placement="top" title="Click on the map to set the location."></span></a>
 						</label>
 						<div>
-							<input type="text" class="form-control" id="locationText" name="locationText" placeholder="Click on the map to set the location.">
+							<input type="text" class="form-control" id="locationText" name="locationText" placeholder="Enter your departure location here.">
 						</div>
 						<div class="embed-responsive embed-responsive-16by9 map" style="margin-top: 10px"></div>
 					</div>
