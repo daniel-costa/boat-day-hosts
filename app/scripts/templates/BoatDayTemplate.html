@@ -40,13 +40,13 @@
 
 			<div class="row trips-buttons">
 				<div class="col-sm-9 col-sm-offset-2">
-					<div class="form-group">
-						<button class="btn btn-lg btn-default single-trip">Single Trip</button>
+					<div class="form-group ">
+						<button class="btn btn-lg btn-default single-trip" name="single-trip">Single Trip</button>
 					</div>
 				</div>
 				<div class="col-sm-9 col-sm-offset-2">
 					<div class="form-group">
-						<button class="btn btn-lg btn-default multiple-trip">Multiple Trips</button>
+						<button class="btn btn-lg btn-default multiple-trip" name="multiple-trip">Multiple Trips</button>
 					</div>
 				</div>
 			</div>
@@ -680,6 +680,29 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="row split-top"></div>
+
+			<div class="row">
+				<div class="col-sm-22 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-9 col-lg-offset-2">
+					<div class="form-group">
+						<label class="control-label">Add photos</label>
+						<p>
+							Guests have many choices of BoatDays. Upload Pictures to promote the experience to your guests.
+						</p>
+					</div>
+				</div>
+				<div class="col-sm-22 col-sm-offset-1 col-md-10 col-md-offset-2 col-ls-9 col-lg-offset-2">
+					<div class="form-group">
+						<input type="file" class="upload" id="boatday-picture" name="boatday-picture" delegate-error-to-button>
+						<button type="button" class="btn btn-default btn-block btn-lg upload-picture boatday-picture" for="boatday-picture">Add a photo</button>
+						<div class="container-fluid">
+							<div class="row file picture-files"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 
 			<div class="row btn-row">
 				<div class="col-xs-24 text-center">

@@ -6,6 +6,7 @@ define([
 	'models/BoatDayModel',
 	'models/ChatMessageModel',
 	'models/NotificationModel',
+	'models/FileHolderModel',
 	'text!templates/BoatDayOverviewTemplate.html',
 	'text!templates/BoatDayOverviewInfoTemplate.html',
 	'text!templates/BoatDayOverviewEditTemplate.html',
@@ -19,8 +20,9 @@ define([
 	'text!templates/BoatDayNewQuestionRowTemplate.html',
 	'text!templates/BoatDayOldQuestionRowTemplate.html',
 	'text!templates/BoatDayOverviewRatingRowTemplate.html',
-	'text!templates/BoatdayOverViewReadOnlyTemplate.html'
-	], function(BaseView, BoatDayModel, ChatMessageModel, NotificationModel, BoatDayOverviewTemplate, BoatDayOverviewInfoTemplate, BoatDayOverviewEditTemplate, BoatDayOverviewGroupChatTemplate, BoatDayOverviewBookingTemplate, BoatDayOverviewQuestionsTemplate, BoatDayOverviewCancelTemplate, BoatDayOverviewRescheduleTemplate, BoatDayOverviewChatMessageTemplate, BoatDayOverviewBoookingRowTemplate, BoatDayNewQuestionRowTemplate, BoatDayOldQuestionRowTemplate, BoatDayOverviewRatingRowTemplate, BoatdayOverViewReadOnlyTemplate){
+	'text!templates/BoatdayOverViewReadOnlyTemplate.html',
+	'text!templates/BoatDayPictureTemplate.html'
+	], function(BaseView, BoatDayModel, ChatMessageModel, NotificationModel, FileHolderModel, BoatDayOverviewTemplate, BoatDayOverviewInfoTemplate, BoatDayOverviewEditTemplate, BoatDayOverviewGroupChatTemplate, BoatDayOverviewBookingTemplate, BoatDayOverviewQuestionsTemplate, BoatDayOverviewCancelTemplate, BoatDayOverviewRescheduleTemplate, BoatDayOverviewChatMessageTemplate, BoatDayOverviewBoookingRowTemplate, BoatDayNewQuestionRowTemplate, BoatDayOldQuestionRowTemplate, BoatDayOverviewRatingRowTemplate, BoatdayOverViewReadOnlyTemplate, BoatDayPictureTemplate){
 
 		var BoatdayOveviewView = BaseView.extend({
 
@@ -55,7 +57,10 @@ define([
 				"click .overviewinfo-right a.info-pending-link": "processOpenBookingRow",
 				"click .overviewinfo-right a.info-question-link": "processOpenQuestionRow",
 				"click .overviewinfo-right a.info-message-link" : "processOpenChatRow",
-				"click .overviewinfo-right a.info-review-link" : "processOpenReviewRow"
+				"click .overviewinfo-right a.info-review-link" : "processOpenReviewRow",
+				"change .upload": "uploadNewFile",
+				"click .upload-picture": "clickUpload",
+				"click .delete-picture": 'deleteBoatDayPicture'
 
 			},
 
@@ -95,6 +100,8 @@ define([
 			isPastBoatDay: false,
 
 			divsToShow: [],
+
+			boatdayPictures: {},
 
 			initialize: function(data) {
 
@@ -490,6 +497,8 @@ define([
 			renderEditBoatDay: function(){
 				var self = this;
 
+				self.boatdayPictures = {};
+
 				var tpl = _.template(BoatDayOverviewEditTemplate);
 				var target = self.$el.find('.dashboard-canvas .boatday-overview-edit');
 				target.html('');
@@ -611,6 +620,8 @@ define([
 
 				this.refreshActivity();
 				this.setupGoogleMap();
+
+				this.displayBoatDayPictures();
 			
 			},
 
@@ -2340,6 +2351,62 @@ define([
 					Parse.history.navigate('boatday/'+bd.id, true);
 				});
 
+			},
+
+			displayBoatDayPictures: function() {
+				
+				var self = this;
+
+				self.$el.find('.picture-files').html('');
+				self.boatPictures = {};
+
+				var query = self.model.relation('boatdayPictures').query();
+				query.ascending("order");
+				query.find().then(function(matches) {
+					_.each(matches, self.appendBoatDayPicture, self);
+				});
+			},
+
+			uploadNewFile: function (event) {
+				var self = this;
+				var e = $(event.currentTarget);
+				var opts = {};
+				var cb = null;
+
+				if( e.attr('name') == 'boatday-picture' ) {
+					cb = function(file) {
+						new FileHolderModel({ file: file, host: Parse.User.current().get('host') }).save().then(function(fh) {
+							self.appendBoatDayPicture(fh);
+							self.model.relation('boatdayPictures').add(fh);
+							self.model.save();
+						}, function(e) {
+							console.log(e);
+						});
+					};
+					opts.pdf = false;
+				}
+				this.uploadFile(event, cb, opts);
+			
+			},
+
+			appendBoatDayPicture: function(FileHolder) {
+
+				this.$el.find('.picture-files').append(_.template(BoatDayPictureTemplate)({ 
+					id: FileHolder.id,
+					file: FileHolder.get('file')
+				}));
+				
+				this.boatdayPictures[FileHolder.id] = FileHolder;
+			},
+
+			deleteBoatDayPicture: function(event) {
+				event.preventDefault();
+				var self = this;
+				var id = $(event.currentTarget).attr('file-id');
+				this.model.relation('boatdayPictures').remove(this.boatdayPictures[id]);
+				this.model.save();
+				delete this.boatdayPictures[id];
+				$(event.currentTarget).closest('.boatday-picture').remove();
 			},
 
 		});

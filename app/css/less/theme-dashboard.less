@@ -75,7 +75,7 @@ body.theme-dashboard .right-part .inner-content {
 	overflow: auto;
 	top: 72px;
 	bottom: 0px;
-	padding: 15px;
+	padding: 2px;
     width: 100%;
 
 	@media (min-width: @screen-sm-min) {
@@ -301,8 +301,8 @@ body.theme-dashboard .content-highlight .box .right .btn {
 body.theme-dashboard h4 {
 	margin-top: 30px;
 	font-size: 14px;
-	font-weight: 500;
-	color: darken(#b1bfcc, 20%);
+	font-weight: 700;
+  	color: #546e7a;
 	text-transform: uppercase;
 }
 
@@ -491,7 +491,8 @@ body.theme-dashboard .add-block .row.heading .form-group {
 	margin-bottom : 0px;
 }
 
-body.theme-dashboard .add-block .boat-picture {
+body.theme-dashboard .add-block .boat-picture,
+body.theme-dashboard .add-block .boatday-picture {
 	padding: 0px;
 }
 
@@ -503,11 +504,13 @@ body.theme-dashboard .add-block .checkboxes .form-group {
 	margin-bottom: 0px;
 }
 
-body.theme-dashboard .add-block .boat-picture .obj-thumb:hover {
+body.theme-dashboard .add-block .boat-picture .obj-thumb:hover,
+body.theme-dashboard .add-block .boatday-picture .obj-thumb:hover {
 	cursor: pointer;
 }
 
-body.theme-dashboard .add-block .boat-picture .obj-thumb:hover:after {
+body.theme-dashboard .add-block .boat-picture .obj-thumb:hover:after,
+body.theme-dashboard .add-block .boatday-picture .obj-thumb:hover:after {
 	content: 'Delete';
 	color: white;
 	top:0px;
@@ -1175,7 +1178,9 @@ body.theme-dashboard .my-boatday-inner > .box-details .content-fluid.cancel {
   line-height: 130%;
 }
 .overviewinfo-right .name {
-  margin-top: 25px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 1.5em;
 }
 .overviewinfo-right {
   background: #24b4c7;
@@ -1455,7 +1460,8 @@ input[type="text"] {
   width: 100%;
   padding: 15px;
 }
-.inner-content .new-boatday form .row {
+.inner-content .new-boatday form .row,
+.inner-content .new-boat form .row {
   padding-left: 20px;
   padding-right: 20px;
 }

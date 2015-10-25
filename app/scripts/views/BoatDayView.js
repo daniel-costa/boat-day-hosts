@@ -1,10 +1,12 @@
 define([
 'async!https://maps.google.com/maps/api/js?sensor=false',
+'models/FileHolderModel',
 'views/BaseView',
 'text!templates/BoatDayTemplate.html',
 'models/BoatModel',
-'models/BoatDayModel'
-], function(gmaps, BaseView, BoatDayTemplate, BoatModel, BoatDayModel){
+'models/BoatDayModel',
+'text!templates/BoatDayPictureTemplate.html',
+], function(gmaps, FileHolderModel, BaseView, BoatDayTemplate, BoatModel, BoatDayModel, BoatDayPictureTemplate){
 	var BoatDayView = BaseView.extend({
 
 		className:"view-event",
@@ -22,7 +24,10 @@ define([
 			'change [name="featuresSportsEquipment"]': "showSportsEquipment",
 			'blur [name="description"]': 'censorField',
 			'click .trips-buttons .single-trip': 'showSingleTripOptions',
-			'click .trips-buttons .multiple-trip': 'showMultipleTripOptions'
+			'click .trips-buttons .multiple-trip': 'showMultipleTripOptions',
+			"change .upload": "uploadNewFile",
+			"click .upload-picture": "clickUpload",
+			"click .delete-picture": 'deleteBoatDayPicture',
 		}, 
 
 		_map: null,
@@ -34,6 +39,10 @@ define([
 		collectionCaptains: {},
 		
 		theme: "dashboard",
+
+		boatdayPictures: {},
+
+		boatdayType: null,
 
 		showSingleTripOptions: function(event){
 			event.preventDefault();
@@ -50,6 +59,14 @@ define([
 
 			singleTripBtn.addClass('hovered');
 			singleTripOptionsArea.show();
+
+			self.boatdayType = "single";
+
+			singleTripBtn.removeClass('field-error-flag');
+			multipleTripBtn.removeClass('field-error-flag');
+			multipleTripBtn.popover('destroy');
+			singleTripBtn.popover('destroy');
+
 		},
 
 		showMultipleTripOptions: function(event){
@@ -67,6 +84,13 @@ define([
 
 			multipleTripBtn.addClass('hovered');
 			multipleTripOptionsArea.show();
+
+			self.boatdayType = "multiple";
+			
+			singleTripBtn.removeClass('field-error-flag');
+			multipleTripBtn.removeClass('field-error-flag');
+			multipleTripBtn.popover('destroy');
+			singleTripBtn.popover('destroy');
 		},
 
 		render: function() {
@@ -75,9 +99,12 @@ define([
 
 			var self = this;
 
+			self.boatdayPictures = {};
+		
+
 			self.$el.find('.left-navigation .menu-new-boatday').addClass('active');
-			self.$el.find('.left-navigation a.link').hide();
-			self.$el.find('.left-navigation a.menu-new-boatday').show().css('display', "block");
+			//self.$el.find('.left-navigation a.link').hide();
+			//self.$el.find('.left-navigation a.menu-new-boatday').show().css('display', "block");
 
 			var boatsFetchSuccess = function(matches) {
 
@@ -388,69 +415,84 @@ define([
 			self.cleanForm();
 			self.buttonLoader('Creating');
 
-			if( !this._in('date').datepicker('getDate') ) {
-				self.fieldError("date", "Oops, you missed one! Please choose a date for your BoatDay.");
-				self._error("Oops, you missed one! Please choose a date for your BoatDay.");
+			if( self.boatdayType == null ){
+				self.fieldError("single-trip", "Please choose a BoatDay type.");
+				self.fieldError("multiple-trip", "Please choose a BoatDay type.");
+				self._error("Oops, you missed one! Please choose BoatDay type (Single or Multiple Trips).");
 				self.buttonLoader();
 				return;
 			}
 
-			var date = this._in('date').datepicker('getDate');
-			var departureTime = this._in('departureTime').slider('getValue');
-			var arrivalTime = this._in('departureTime').slider('getValue') + self._in('duration').slider('getValue');
+			if( self.boatdayType == "single" ){
 
-			var boatAlreadyBooked = function() {
-				var msg = 'Scheduling Conflict: The boat you selected is already scheduled for a BoatDay at your proposed time.';
-				self._error(msg);
-				self.fieldError("boat", msg);
-			};
-
-			var captainAlreadyBooked = function() {
-				var msg = 'Scheduling Conflict: The Captain you selected is already scheduled for a BoatDay at your proposed time.';
-				self._error(msg);
-				self.fieldError("captain", msg);
-			};
-
-			var qBoatDay = new Parse.Query(BoatDayModel);
-			qBoatDay.equalTo("boat", self.collectionBoats[this._in('boat').val()]);
-			qBoatDay.equalTo("date", date);
-			qBoatDay.notEqualTo('objectId', this.model.id);
-			qBoatDay.greaterThan("arrivalTime", departureTime);
-			qBoatDay.lessThan("departureTime", arrivalTime);
-
-			var qCaptain = new Parse.Query(BoatDayModel);
-			qCaptain.equalTo("captain", self.collectionCaptains[this._in('captain').val()]);
-			qCaptain.equalTo("date", date);
-			qCaptain.notEqualTo('objectId', this.model.id);
-			qCaptain.greaterThan("arrivalTime", departureTime);
-			qCaptain.lessThan("departureTime", arrivalTime);
-
-			Parse.Promise.when(qBoatDay.count(), qCaptain.count()).then(function(qBoatDayTotal, qCaptainTotal) {
-				
-				var err = false;
-
-				if( qBoatDayTotal > 0 ) {
-					boatAlreadyBooked();
-					err = true;
-				}
-
-				if( qCaptainTotal > 0 ) {
-					captainAlreadyBooked();
-					err = true;
-				}
-
-				if ( err ) {
+				if( !this._in('date').datepicker('getDate') ) {
+					self.fieldError("date", "Oops, you missed one! Please choose a date for your BoatDay.");
+					self._error("Oops, you missed one! Please choose a date for your BoatDay.");
 					self.buttonLoader();
 					return;
 				}
 
-				self.save();
-			});
+				var date = this._in('date').datepicker('getDate');
+				var departureTime = this._in('departureTime').slider('getValue');
+				var arrivalTime = this._in('departureTime').slider('getValue') + self._in('duration').slider('getValue');
+
+				var boatAlreadyBooked = function() {
+					var msg = 'Scheduling Conflict: The boat you selected is already scheduled for a BoatDay at your proposed time.';
+					self._error(msg);
+					self.fieldError("boat", msg);
+				};
+
+				var captainAlreadyBooked = function() {
+					var msg = 'Scheduling Conflict: The Captain you selected is already scheduled for a BoatDay at your proposed time.';
+					self._error(msg);
+					self.fieldError("captain", msg);
+				};
+
+				var qBoatDay = new Parse.Query(BoatDayModel);
+				qBoatDay.equalTo("boat", self.collectionBoats[this._in('boat').val()]);
+				qBoatDay.equalTo("date", date);
+				qBoatDay.notEqualTo('objectId', this.model.id);
+				qBoatDay.greaterThan("arrivalTime", departureTime);
+				qBoatDay.lessThan("departureTime", arrivalTime);
+
+				var qCaptain = new Parse.Query(BoatDayModel);
+				qCaptain.equalTo("captain", self.collectionCaptains[this._in('captain').val()]);
+				qCaptain.equalTo("date", date);
+				qCaptain.notEqualTo('objectId', this.model.id);
+				qCaptain.greaterThan("arrivalTime", departureTime);
+				qCaptain.lessThan("departureTime", arrivalTime);
+
+				Parse.Promise.when(qBoatDay.count(), qCaptain.count()).then(function(qBoatDayTotal, qCaptainTotal) {
+					
+					var err = false;
+
+					if( qBoatDayTotal > 0 ) {
+						boatAlreadyBooked();
+						err = true;
+					}
+
+					if( qCaptainTotal > 0 ) {
+						captainAlreadyBooked();
+						err = true;
+					}
+
+					if ( err ) {
+						self.buttonLoader();
+						return;
+					}
+
+					self.saveSingleBoatDayType();
+				});
+				
+			}
+
+			else if ( self.boatdayType == "multiple"){
+				self.saveMultipleBoatDayType();
+			}
 
 		},
 
-		save: function(event) {
-
+		saveSingleBoatDayType: function(event) {
 
 			var self = this;
 			var baseStatus = this.model.get('status');
@@ -551,22 +593,32 @@ define([
 			};
 
 			var saveSuccess = function( boatday ) {
-			
 
-				if( baseStatus == 'creation' ) {
-
-					var host = Parse.User.current().get("host");
-					host.relation('boatdays').add(boatday);
-					host.save().then(function() {
-						Parse.history.navigate('dashboard', true);
-						self._info('BoatDay Created! Once you are approved as a Host, all of your BoatDays will automatically appear in the BoatDay App.');
-					});
-
-				} else {
+				_.each(self.boatdayPictures, function(boatdayPicture){
 					
-					Parse.history.navigate('dashboard', true);
+					boatday.relation("boatdayPictures").add(boatdayPicture);
+					//console.log(boatdayPicture.get("file"));
 
-				}
+				});
+
+				boatday.save().then(function(){
+
+					if( baseStatus == 'creation' ) {
+						var host = Parse.User.current().get("host");
+						host.relation('boatdays').add(boatday);
+						host.save().then(function() {
+							Parse.history.navigate('dashboard', true);
+							self._info('BoatDay Created! Once you are approved as a Host, all of your BoatDays will automatically appear in the BoatDay App.');
+						});
+
+					} else {
+						
+						Parse.history.navigate('dashboard', true);
+
+					}
+				});
+			
+				
 
 			};
 
@@ -574,10 +626,72 @@ define([
 				self.handleSaveErrors(error);
 			};
 
+			
 			self.model.save(data).then(saveSuccess, saveError);
 
-		}
+		},
+
+		saveMultipleBoatDayType: function(event){
+			var self = this;
+			alert("Multiple Trips BoatDay not yet implemented. Choose single trip.");
+			self.buttonLoader();
+		},
+
+		uploadNewFile: function (event) {
+			var self = this;
+			var e = $(event.currentTarget);
+			var opts = {};
+			var cb = null;
+
+			if( e.attr('name') == 'boatday-picture' ) {
+				cb = function(file) {
+					new FileHolderModel({ file: file, host: Parse.User.current().get('host') }).save().then(function(fh) {
+						self.appendBoatDayPicture(fh);
+						//self.model.relation('boatdayPictures').add(fh);
+						//self.model.save();
+					}, function(e) {
+						console.log(e);
+					});
+				};
+				opts.pdf = false;
+			}
+			this.uploadFile(event, cb, opts);
+		},
+
+		appendBoatDayPicture: function(FileHolder) {
+
+			this.$el.find('.picture-files').append(_.template(BoatDayPictureTemplate)({ 
+				id: FileHolder.id,
+				file: FileHolder.get('file')
+			}));
+			
+			this.boatdayPictures[FileHolder.id] = FileHolder;
+		},
+
+		deleteBoatDayPicture: function(event) {
+			event.preventDefault();
+			var self = this;
+			var id = $(event.currentTarget).attr('file-id');
+			//this.model.relation('boatPictures').remove(this.boatPictures[id]);
+			//this.model.save();
+
+			var qFileHolder = new Parse.Query(FileHolderModel);
+			qFileHolder.get(id, {
+				success: function(myObj) {
+					myObj.destroy({});
+					delete self.boatdayPictures[id];
+					$(event.currentTarget).closest('.boatday-picture').remove();
+				},
+				error: function(object, error) {
+					console.log(error);
+				}
+			});
+		},
+
+
 	});
+
+
 	return BoatDayView;
 
 });

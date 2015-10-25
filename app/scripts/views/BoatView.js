@@ -48,8 +48,8 @@ define([
 			var self = this;
 
 			self.$el.find('.left-navigation .menu-new-boat').addClass('active');
-			self.$el.find('.left-navigation a.link').hide();
-			self.$el.find('.left-navigation .menu-new-boat').show().css('display', "block");
+			//self.$el.find('.left-navigation a.link').hide();
+			//self.$el.find('.left-navigation .menu-new-boat').show().css('display', "block");
 
 			return this;
 

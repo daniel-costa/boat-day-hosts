@@ -27,35 +27,38 @@
 	<%
 		var url = "";
 
-		if( action == "certification-approved" ) {
-		}
-		if( action == "certification-denied" ) { 
-		}
-		if( action == "host-approved" ) {
-		}
-		if( action == "host-denied" ) {
-		}
-		if( action == "boat-approved" ) {
-		}
-		if( action == "boat-denied" ) {
-		}
-		if( action == "boatday-review" ) {
-			url = 'onClick="location.href=\'#boatday-overview/'+boatdayId+'?show=request\'"';
-		}
-		if( action == "boatday-question" ) {
-			url = 'onClick="location.href=\'#boatday-overview/'+boatdayId+'?show=question\'"';
-		}
-		if( action == "boatday-message" ) {
-			url = 'onClick="location.href=\'#boatday-overview/'+boatdayId+'?show=message\'"';
-		}
-		if( action == "boatday-payment" ) {
-			url = 'onClick="location.href=\'#boatday-overview/'+boatdayId+'?show=none\'"';
-		}
-		if( action == "boatday-request" ) {
-			url = 'onClick="location.href=\'#boatday-overview/'+boatdayId+'?show=request\'"';
-		}
-		if( action == "bd-message" ) {
-			url = 'onClick="location.href=\'#boatday-overview/'+boatdayId+'?show=message\'"';
+		if( boatdayId != null ){
+			
+			if( action == "certification-approved" ) {
+			}
+			if( action == "certification-denied" ) { 
+			}
+			if( action == "host-approved" ) {
+			}
+			if( action == "host-denied" ) {
+			}
+			if( action == "boat-approved" ) {
+			}
+			if( action == "boat-denied" ) {
+			}
+			if( action == "boatday-review" ) {
+				url = 'onClick="location.href=\'#boatday-overview/'+boatdayId+'?show=request\'"';
+			}
+			if( action == "boatday-question" ) {
+				url = 'onClick="location.href=\'#boatday-overview/'+boatdayId+'?show=question\'"';
+			}
+			if( action == "boatday-message" ) {
+				url = 'onClick="location.href=\'#boatday-overview/'+boatdayId+'?show=message\'"';
+			}
+			if( action == "boatday-payment" ) {
+				url = 'onClick="location.href=\'#boatday-overview/'+boatdayId+'?show=none\'"';
+			}
+			if( action == "boatday-request" ) {
+				url = 'onClick="location.href=\'#boatday-overview/'+boatdayId+'?show=request\'"';
+			}
+			if( action == "bd-message" ) {
+				url = 'onClick="location.href=\'#boatday-overview/'+boatdayId+'?show=message\'"';
+			}
 		}
 
 	%>
