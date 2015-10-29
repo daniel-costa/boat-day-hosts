@@ -59,8 +59,9 @@ define([
 				"click .overviewinfo-right a.info-message-link" : "processOpenChatRow",
 				"click .overviewinfo-right a.info-review-link" : "processOpenReviewRow",
 				"change .upload": "uploadNewFile",
-				"click .upload-picture": "clickUpload",
-				"click .delete-picture": 'deleteBoatDayPicture'
+				"click .boatday-pic-thumbs img.addImage": "clickUpload",
+				"click .delete-picture": 'deleteBoatDayPicture',
+				"click .boatday-pic-thumbs img.thumb": 'showLargePic'
 
 			},
 
@@ -102,6 +103,8 @@ define([
 			divsToShow: [],
 
 			boatdayPictures: {},
+
+			boatdayPics: [],
 
 			initialize: function(data) {
 
@@ -498,6 +501,7 @@ define([
 				var self = this;
 
 				self.boatdayPictures = {};
+				self.boatdayPics = [];
 
 				var tpl = _.template(BoatDayOverviewEditTemplate);
 				var target = self.$el.find('.dashboard-canvas .boatday-overview-edit');
@@ -1211,7 +1215,7 @@ define([
 						fromTeam: false,
 						message: null,
 						to: request.get('profile'),
-						from:  Parse.User.current().get('profile'),
+						from:  Parse.User.current().get('profisaccele'),
 						boatday: request.get('boatday'),
 						sendEmail: false,
 						request: request
@@ -2357,13 +2361,21 @@ define([
 				
 				var self = this;
 
-				self.$el.find('.picture-files').html('');
-				self.boatPictures = {};
+				var sliderThumbsTarget = self.$el.find('.boatday-pic-slider .boatday-pic-thumbs img');
+				sliderThumbsTarget.not(':last').remove();
+
+				self.boatdayPictures = {};
+				self.boatdayPics = [];
 
 				var query = self.model.relation('boatdayPictures').query();
 				query.ascending("order");
 				query.find().then(function(matches) {
+
 					_.each(matches, self.appendBoatDayPicture, self);
+
+					if( self.boatdayPics.length > 0 ){
+						self.displayBoatDayLargePic(self.boatdayPics[0]);
+					}
 				});
 			},
 
@@ -2389,24 +2401,100 @@ define([
 			
 			},
 
+			showLargePic: function( event ){
+				var id = $(event.currentTarget).attr('file-id');
+				this.displayBoatDayLargePic(this.boatdayPictures[id]);
+			},
+
+			displayBoatDayLargePic: function(FileHolder){
+
+				var self = this;
+
+				var largeImageTarget = this.$el.find('.boatday-pic-slider img.boatday-pic-large');
+				
+				largeImageTarget.attr('src', FileHolder.get('file').url());
+				largeImageTarget.attr('data-id', FileHolder.id);
+
+				this.$el.find('.boatday-pic-slider .boatday-pic-thumbs img').removeClass('current');
+
+				var targetThumb = this.$el.find('.boatday-pic-slider .boatday-pic-thumbs img[file-id="'+FileHolder.id+'"]');
+				targetThumb.addClass("current");
+
+				this.$el.find('.boatday-pic-slider .large-pic').addClass('display-remove');
+
+	
+			},
+
 			appendBoatDayPicture: function(FileHolder) {
 
-				this.$el.find('.picture-files').append(_.template(BoatDayPictureTemplate)({ 
-					id: FileHolder.id,
-					file: FileHolder.get('file')
-				}));
+				var file = FileHolder.get('file');
+				var id = FileHolder.id;
+
+				var htmlImage = '<img class="thumb" src="'+ file.url() +'"  file-id="'+ id +'"/>';
+				var sliderThumbsTarget = this.$el.find('.boatday-pic-slider .boatday-pic-thumbs img:last');
+
+				sliderThumbsTarget.before(htmlImage);
 				
 				this.boatdayPictures[FileHolder.id] = FileHolder;
+				this.boatdayPics.push(FileHolder);
+
+				this.displayBoatDayLargePic(FileHolder);
 			},
+
+
 
 			deleteBoatDayPicture: function(event) {
 				event.preventDefault();
+
 				var self = this;
-				var id = $(event.currentTarget).attr('file-id');
+				var id = $(event.currentTarget).closest('.large-pic').find('img.boatday-pic-large').attr('data-id');
+
 				this.model.relation('boatdayPictures').remove(this.boatdayPictures[id]);
-				this.model.save();
-				delete this.boatdayPictures[id];
-				$(event.currentTarget).closest('.boatday-picture').remove();
+			
+				this.model.save().then(function(){
+
+					var thumbTarget = self.$el.find('.boatday-pic-slider .boatday-pic-thumbs img[file-id="'+id+'"]');
+					
+					delete self.boatdayPictures[id];
+
+					thumbTarget.remove();
+
+					var nextNum = null;
+					var prevNum = null;
+					
+					for(var i = 0; i < self.boatdayPics.length; i++){
+
+						if(self.boatdayPics[i].id == id ){
+						
+							self.boatdayPics.splice(i, 1);
+
+							if( i > 0){
+								prevNum = i - 1;
+							}
+							if( i < self.boatdayPics.length ){
+								nextNum = i;
+							}
+
+						}
+
+					}
+					
+
+					if( (nextNum == null) && (prevNum == null) ){
+						self.$el.find('.boatday-pic-slider .large-pic').removeClass('display-remove');
+						self.$el.find('.boatday-pic-slider .large-pic img.boatday-pic-large').attr('src', 'resources/boatday_img_placeholder_large.png');
+					}
+					else {
+						if( prevNum != null ){
+							self.displayBoatDayLargePic(self.boatdayPics[prevNum]);
+						}
+						else{
+							self.displayBoatDayLargePic(self.boatdayPics[nextNum]);
+						}
+					}
+				
+				});
+				
 			},
 
 		});

@@ -58,7 +58,7 @@
 						<div class="tab-pane active" id="attending-guest-tab">
 							<div class="row" style="margin: 0px 5px 0px 5px;">
 							<% _.each( approvedRequests, function( request ) { %>
-								<div class="cell col-sm-4 col-xs-8 profile">
+								<div class="cell col-sm-4 col-xs-8 profile text-center">
 									<div class="inner text-center">
 										<div class="obj-thumb profile-picture" 
 										data-id="<%= request.get('profile').id %>" 
@@ -78,17 +78,23 @@
 												Contribution: &#36;<%= request.get("contribution") != null ? request.get("contribution") : 0  %>
 											</span>
 
-										<% } else { %>
-											<span style="display:block;">
-												<!-- <img src="resources/mobile-icon.png" style="height:12px; margin-right:3px;"/> -->
-												<%= request.get("profile").get("phone") != undefined ? request.get("profile").get("phone") : "" %>
+										<% } else { 
+
+											if(request.get('profile').get('phone') != undefined) {
+											%>
+											<span style="display:inline;">
+												<a href="tel:<%= request.get('profile').get('phone') %>"><img src="resources/icon_phone.png" style="height:15px; margin-right:10px;"/></a>
 											</span>
-											<span style="display:block;">
-												<!-- <img src="resources/mail-icon.png" style="height:12px; margin-right:3px;"/> -->
-												<% var email =  request.get("profile").get("user").get("email") != undefined ? request.get("profile").get("user").get("email") : "" %>
-												<a href="mailto:<%= email %>" target="_blank"><%= email %></a>
+										
+										<% }
+											
+											if(request.get('profile').get('user').get('email') != undefined){ %>
+											<span style="display:inline;">
+												<a href="mailto:<%= request.get('profile').get('user').get('email') %>"><img src="resources/icon_mail.png" style="height:15px;"/></a>
 											</span>
-										<% } %>
+											<% }
+
+										 } %>
 
 									</div>
 								</div>

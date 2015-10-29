@@ -26,8 +26,9 @@ define([
 			'click .trips-buttons .single-trip': 'showSingleTripOptions',
 			'click .trips-buttons .multiple-trip': 'showMultipleTripOptions',
 			"change .upload": "uploadNewFile",
-			"click .upload-picture": "clickUpload",
+			"click .boatday-pic-thumbs img.addImage": "clickUpload",
 			"click .delete-picture": 'deleteBoatDayPicture',
+			"click .boatday-pic-thumbs img.thumb": 'showLargePic'
 		}, 
 
 		_map: null,
@@ -41,6 +42,8 @@ define([
 		theme: "dashboard",
 
 		boatdayPictures: {},
+
+		boatdayPics: [],
 
 		boatdayType: null,
 
@@ -100,6 +103,7 @@ define([
 			var self = this;
 
 			self.boatdayPictures = {};
+			self.boatdayPics = [];
 		
 
 			self.$el.find('.left-navigation .menu-new-boatday').addClass('active');
@@ -597,8 +601,7 @@ define([
 				_.each(self.boatdayPictures, function(boatdayPicture){
 					
 					boatday.relation("boatdayPictures").add(boatdayPicture);
-					//console.log(boatdayPicture.get("file"));
-
+					
 				});
 
 				boatday.save().then(function(){
@@ -657,30 +660,92 @@ define([
 			}
 			this.uploadFile(event, cb, opts);
 		},
+		
+		showLargePic: function( event ){
+			var id = $(event.currentTarget).attr('file-id');
+			this.displayBoatDayLargePic(this.boatdayPictures[id]);
+		},
+
+		displayBoatDayLargePic: function(FileHolder){
+
+			var self = this;
+
+			var largeImageTarget = this.$el.find('.boatday-pic-slider img.boatday-pic-large');
+			
+			largeImageTarget.attr('src', FileHolder.get('file').url());
+			largeImageTarget.attr('data-id', FileHolder.id);
+
+			this.$el.find('.boatday-pic-slider .boatday-pic-thumbs img').removeClass('current');
+
+			var targetThumb = this.$el.find('.boatday-pic-slider .boatday-pic-thumbs img[file-id="'+FileHolder.id+'"]');
+			targetThumb.addClass("current");
+
+			this.$el.find('.boatday-pic-slider .large-pic').addClass('display-remove');
+
+
+		},
 
 		appendBoatDayPicture: function(FileHolder) {
+			var file = FileHolder.get('file');
+			var id = FileHolder.id;
 
-			this.$el.find('.picture-files').append(_.template(BoatDayPictureTemplate)({ 
-				id: FileHolder.id,
-				file: FileHolder.get('file')
-			}));
+			var htmlImage = '<img class="thumb" src="'+ file.url() +'"  file-id="'+ id +'"/>';
+			var sliderThumbsTarget = this.$el.find('.boatday-pic-slider .boatday-pic-thumbs img:last');
+
+			sliderThumbsTarget.before(htmlImage);
 			
 			this.boatdayPictures[FileHolder.id] = FileHolder;
+			this.boatdayPics.push(FileHolder);
+
+			this.displayBoatDayLargePic(FileHolder);
 		},
 
 		deleteBoatDayPicture: function(event) {
 			event.preventDefault();
 			var self = this;
-			var id = $(event.currentTarget).attr('file-id');
-			//this.model.relation('boatPictures').remove(this.boatPictures[id]);
-			//this.model.save();
+			var id = $(event.currentTarget).closest('.large-pic').find('img.boatday-pic-large').attr('data-id');
 
 			var qFileHolder = new Parse.Query(FileHolderModel);
 			qFileHolder.get(id, {
 				success: function(myObj) {
 					myObj.destroy({});
+					var thumbTarget = self.$el.find('.boatday-pic-slider .boatday-pic-thumbs img[file-id="'+id+'"]');
+					
 					delete self.boatdayPictures[id];
-					$(event.currentTarget).closest('.boatday-picture').remove();
+
+					thumbTarget.remove();
+
+					var nextNum = null;
+					var prevNum = null;
+					
+					for(var i = 0; i < self.boatdayPics.length; i++){
+
+						if(self.boatdayPics[i].id == id ){
+						
+							self.boatdayPics.splice(i, 1);
+
+							if( i > 0){
+								prevNum = i - 1;
+							}
+							if( i < self.boatdayPics.length ){
+								nextNum = i;
+							}
+
+						}
+					}
+
+					if( (nextNum == null) && (prevNum == null) ){
+						self.$el.find('.boatday-pic-slider .large-pic').removeClass('display-remove');
+						self.$el.find('.boatday-pic-slider .large-pic img.boatday-pic-large').attr('src', 'resources/boatday_img_placeholder_large.png');
+					}
+					else {
+						if( prevNum != null ){
+							self.displayBoatDayLargePic(self.boatdayPics[prevNum]);
+						}
+						else{
+							self.displayBoatDayLargePic(self.boatdayPics[nextNum]);
+						}
+					}
 				},
 				error: function(object, error) {
 					console.log(error);

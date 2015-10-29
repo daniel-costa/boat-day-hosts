@@ -524,10 +524,6 @@
 							</label>
 							<br/><br/>
 							<div>
-								<!-- <input type="radio" id="bookingPolicy1" name="bookingPolicy" value="manually" <%= bookingPolicy == 'manually' ? 'checked': (status == 'creation' ? 'checked' : '') %> <%= readOnly ? "disabled" : "" %>>
-								<label class="control-label" for="bookingPolicy1"><strong>Manual Book: </strong>I want to review each Guest request and choose the best fit for my BoatDay.</label>
-								<input type="radio" id="bookingPolicy2" name="bookingPolicy" value="automatically" <%= bookingPolicy == 'automatically' ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
-								<label class="control-label" for="bookingPolicy2"><strong>Instant Book: </strong>Automatically accept all Guest requests.</label> -->
 								<input type="radio" id="bookingPolicy1" name="bookingPolicy" value="manually" <%= bookingPolicy == 'manually' ? 'checked': (status == 'creation' ? 'checked' : '') %> <%= readOnly ? "disabled" : "" %>>
 								<label class="control-label" for="bookingPolicy1"><strong>Manual Book </strong></label><br>
 								<input type="radio" id="bookingPolicy2" name="bookingPolicy" value="automatically" <%= bookingPolicy == 'automatically' ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
@@ -548,12 +544,6 @@
 							</label>
 							<br/><br/>
 							<div>
-								<!-- <input type="radio" id="cancellationPolicy1" name="cancellationPolicy" value="flexible"  <%= cancellationPolicy == 'flexible' ? 'checked': (status == 'creation' ? 'checked' : '') %> <%= readOnly ? "disabled" : "" %>>
-								<label class="control-label" for="cancellationPolicy1"><strong>Flexible:</strong> No charge for Guest cancellations up to 1 day prior to departure, except Trust &amp; Safety Fee.</label>
-								<input type="radio" id="cancellationPolicy2" name="cancellationPolicy" value="moderate" <%= cancellationPolicy == 'moderate' ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
-								<label class="control-label" for="cancellationPolicy2"><strong>Moderate:</strong> No charge for Guest cancellations up to 3 days prior to departure, except Trust &amp; Safety Fee.</label>
-								<input type="radio" id="cancellationPolicy3" name="cancellationPolicy" value="strict" <%= cancellationPolicy == 'strict' ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
-								<label class="control-label" for="cancellationPolicy3"><strong>Strict:</strong> 50% charge for Guest cancellations up to five days prior to departure time, including Trust &amp; Safety Fee.</label> -->
 								<input type="radio" id="cancellationPolicy1" name="cancellationPolicy" value="flexible"  <%= cancellationPolicy == 'flexible' ? 'checked': (status == 'creation' ? 'checked' : '') %> <%= readOnly ? "disabled" : "" %>>
 								<label class="control-label" for="cancellationPolicy1"><strong>Flexible</strong></label><br>
 								<input type="radio" id="cancellationPolicy2" name="cancellationPolicy" value="moderate" <%= cancellationPolicy == 'moderate' ? 'checked': '' %> <%= readOnly ? "disabled" : "" %>>
@@ -568,25 +558,35 @@
 				<div class="row split-top"></div>
 
 				<div class="row">
-					<div class="col-sm-22 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-9 col-lg-offset-2">
+					<div class="col-sm-20 col-sm-offset-2">
 						<div class="form-group">
-							<label class="control-label"><strong>Add photos</strong></label>
-							<p>
-								Guests have many choices of BoatDays. Upload Pictures to promote the experience to your guests.
-							</p>
+							<label class="control-label">
+								Upload Image for BoatDay
+								<a><span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-container="body" title="Guests have many choices of BoatDays. Upload Pictures to promite the experience to your guests."></span></a>
+							</label>
 						</div>
 					</div>
-					<div class="col-sm-22 col-sm-offset-1 col-md-10 col-md-offset-2 col-ls-9 col-lg-offset-2">
-						<div class="form-group">
-							<input type="file" class="upload" id="boatday-picture" name="boatday-picture" delegate-error-to-button>
-							<button type="button" class="btn btn-default btn-block btn-lg upload-picture boatday-picture" for="boatday-picture">Add a photo</button>
-							<div class="container-fluid">
-								<div class="row file picture-files"></div>
+
+					<div class="col-sm-20 col-sm-offset-2" style="padding:0px;">
+						<input type="file" class="upload" id="boatday-picture" name="boatday-picture" delegate-error-to-button>
+						<div class="boatday-pic-slider text-center">
+							<div class="large-pic">
+								<img class="img-rounded boatday-pic-large" data-id="null" src="resources/boatday_img_placeholder_large.png"/>
+
+								<div class="remove">
+									<button class="btn btn-danger delete-picture">
+										<span class="glyphicon glyphicon-trash"></span> Remove
+									</button>
+								</div>
 							</div>
+							
+							<div class="boatday-pic-thumbs text-left">
+								<img class="addImage"  for="boatday-picture" data-id="null" src="resources/boatday_img_placeholder_thumb.png" />
+							</div>
+
+
 						</div>
 					</div>
-
-
 				</div>
 
 				<div class="row btn-row">

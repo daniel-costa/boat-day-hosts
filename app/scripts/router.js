@@ -380,7 +380,6 @@ define([
 
 			$(document).trigger('fetchUserInfo', cb);
 
-
 		},
 
 
@@ -443,5 +442,6 @@ define([
 		}
 
 	});
+
 	return AppRouter;
 });
