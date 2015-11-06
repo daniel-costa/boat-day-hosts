@@ -1,0 +1,30 @@
+<div class="col-sm-12 my-boatday my-boatday-<%= id %>" data-id="<%= id %>">
+	
+	<a class="text-center" href="#/boatday-overview/<%= id %>?show=<%= (status == "cancelled") ? 'detail' : 'none' %>">
+		
+		<div class="my-boatday-inner <%= _class %>">
+			<div class="header" style="height:300px;">
+				<div class="picture <%= active ? 'active' : '' %>" style="background-image:url(<%= picture %>)"></div>
+				<div class="inner" style="margin-top:-20px;">
+					<p class="date"><%= date %> at <%= time %></p>
+					<h1><%= name %></h1>
+					
+				</div>
+
+				<p class="seats">
+					<strong><%= bookedSeats %>/<%= availableSeats %></strong> 
+					Seats Booked
+				</p>
+
+				<% if( host.id == Parse.User.current().get('host').id ) { %>
+					<p class="earnings">
+						<strong>$<%= potEarings %></strong> 
+						<%= active ? 'Expected Earnings' : 'Earnings' %>
+					</p>
+				<% } %>
+			</div>
+		</div>
+
+	</a>
+
+</div>

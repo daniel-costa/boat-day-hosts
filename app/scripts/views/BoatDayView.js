@@ -45,7 +45,7 @@ define([
 
 		boatdayPics: [],
 
-		boatdayType: null,
+		boatdayType: "single",
 
 		showSingleTripOptions: function(event){
 			event.preventDefault();

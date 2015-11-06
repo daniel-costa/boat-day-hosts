@@ -3,7 +3,7 @@ define([
 'models/NotificationModel',
 'views/BaseView',
 'text!templates/BoatDaysTemplate.html',
-'text!templates/DashboardBoatDayTemplate.html',
+'text!templates/DashboardBoatDaySingleTemplate.html',
 'text!templates/DashboardBoatDayRequestRateTemplate.html'
 ], function(BoatDayModel, NotificationModel, BaseView, BoatDaysTemplate, DashboardBoatDayTemplate, DashboardBoatDayRequestRateTemplate){
 	var BoatDaysView = BaseView.extend({

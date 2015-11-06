@@ -174,7 +174,6 @@ define([
 				self.collectionYesHostYesGuestReviews = [];
 				self.collectionYesHostNoGuestReviews = [];
 
-				
 				var qSeatRequest = new Parse.Query(SeatRequest);
 				qSeatRequest.equalTo("boatday", boatday);
 				qSeatRequest.include('profile.user');
@@ -182,6 +181,7 @@ define([
 				qSeatRequest.descending("updatedAt");
 
 				var qQuestion = new Parse.Query(Question);
+				qQuestion.equalTo("status", "approved");
 				qQuestion.equalTo("boatday", boatday);
 				qQuestion.include("boatday");
 				qQuestion.include("from");

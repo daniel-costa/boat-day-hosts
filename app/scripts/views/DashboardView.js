@@ -8,7 +8,7 @@ define([
 'text!templates/DashboardTemplate.html',
 'text!templates/DashboardCaptainRequestRowTemplate.html',
 'text!templates/DashboardBoatRowTemplate.html',
-'text!templates/DashboardBoatDayTemplate.html',
+'text!templates/DashboardBoatDaySingleTemplate.html',
 //'text!templates/DashboardBoatDayRowTemplate.html',
 'text!templates/DashboardBoatDayRequestTemplate.html',
 'text!templates/DashboardBoatDayMessageTemplate.html',
@@ -31,7 +31,6 @@ define([
 			'keyup input': 'detectEnter',
 			'click .profile-picture': 'detectClickOnProfile',
 			'click .btn-promo': 'sharePromo',
-			'click .btn-duplicate': 'duplicate',
 		},
 		
 		captainRequests: {},
@@ -251,6 +250,7 @@ define([
 					Parse.history.loadUrl(Parse.history.fragment);
 				})
 			});
+		
 		},
 
 		openBox: function(event) {
@@ -266,6 +266,7 @@ define([
 
 				this.saveLastReading(boatday);
 			}
+		
 		},
 
 		saveLastReading: function(boatday) {
@@ -279,11 +280,13 @@ define([
 					self.displayMessagesUnread(boatday, 0);
 				});
 			}
+		
 		},
 
 		closeBox: function(event) {
 			$(event.currentTarget).closest('.my-boatday').find('.boatday-share').show();
 			$(event.currentTarget).closest('.box').fadeOut();
+		
 		},
 
 		processCaptainRequest: function(event) {
@@ -305,7 +308,6 @@ define([
 			var self = this;
 
 			self.$el.find('.left-navigation .menu-host-center').addClass('active');
-			self.$el.find('.left-navigation .menu-host-center').text('Dashboard');
 			self.$el.find('.add-boat, .add-boatday, .my-boatdays, .my-boats, .my-requests').hide();
 
 			var queryBoats = new Parse.Query(BoatModel);
@@ -450,7 +452,7 @@ define([
 						self.boatdays[boatday.id] = boatday;
 						target.append(_tpl);
 
-						var q = boatday.get('boat').relation('boatPictures').query()
+						var q = boatday.relation('boatdayPictures').query()
 						q.ascending('order');
 						q.first().then(function(fileholder) {
 							
@@ -618,5 +620,6 @@ define([
 		}
 
 	});
+
 	return DashboardView;
 });
