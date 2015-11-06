@@ -491,6 +491,25 @@ define([
 			}
 
 			else if ( self.boatdayType == "multiple"){
+
+				var mon = Boolean(this.$el.find('[name="scheduleMonday"]').is(':checked'));
+				var tue = Boolean(this.$el.find('[name="scheduleTuesday"]').is(':checked'));
+				var wed = Boolean(this.$el.find('[name="scheduleWednesday"]').is(':checked'));
+				var thu = Boolean(this.$el.find('[name="scheduleThursday"]').is(':checked'));
+				var fri = Boolean(this.$el.find('[name="scheduleFriday"]').is(':checked'));
+				var sat = Boolean(this.$el.find('[name="scheduleSatday"]').is(':checked'));
+				var sun = Boolean(this.$el.find('[name="scheduleSunday"]').is(':checked'));
+
+				if(!mon && !tue && !wed && !thu && !fri && !sat && !sun){
+
+					self.fieldError("scheduleMonday");
+					self._error("Oops, you missed one! Please choose a day for multiple trip.");
+					self.buttonLoader();
+
+					return;
+				}
+
+
 				self.saveMultipleBoatDayType();
 			}
 
@@ -593,7 +612,20 @@ define([
 						sunscreen: Boolean(this.$el.find('[name="featuresExtrasSunscreen"]').is(':checked')),
 						inflatables: Boolean(this.$el.find('[name="featuresExtrasInflatables"]').is(':checked'))
 					}
-				}
+				},
+				schedule: {
+					mon: null,
+					tue: null,
+					wed: null,
+					thu: null,
+					fri: null,
+					sat: null,
+					sun: null,
+				},
+				hourly: null,
+				discount: {},
+				multipleDates: false,
+				trip: false,
 			};
 
 			var saveSuccess = function( boatday ) {
@@ -621,8 +653,6 @@ define([
 					}
 				});
 			
-				
-
 			};
 
 			var saveError = function(error) {
@@ -636,8 +666,173 @@ define([
 
 		saveMultipleBoatDayType: function(event){
 			var self = this;
-			alert("Multiple Trips BoatDay not yet implemented. Choose single trip.");
-			self.buttonLoader();
+			
+			var self = this;
+			var baseStatus = this.model.get('status');
+
+			if( self.$el.find('[name="bookingPolicy"]:checked').val() == 'automatically' && ( typeof Parse.User.current().get('host').get('stripeId') === typeof undefined || !Parse.User.current().get('host').get('stripeId') ) ) {
+
+				this.modal({
+					title: 'How you get paid!',
+					body: 'To automatically confirm Guests with “Instant Book", you must first provide a payment account (its how Guests pay you!)<br/><br/>Don’t worry, this information is NEVER shared with other Users. ',
+					noButton: false,
+					cancelButtonText: 'Change Booking Policy',
+					yesButtonText: 'Add Payment Account',
+					yesCb: function() {
+						Parse.history.navigate('my-bank-account', true);
+					},
+					cancelCb: function() {
+						self.buttonLoader();
+						self.$el.find('[name="bookingPolicy"][value="manually"]').prop("checked", true);
+					},
+				});
+
+				return;
+			}
+
+			var mon = Boolean(this.$el.find('[name="scheduleMonday"]').is(':checked'));
+			var tue = Boolean(this.$el.find('[name="scheduleTuesday"]').is(':checked'));
+			var wed = Boolean(this.$el.find('[name="scheduleWednesday"]').is(':checked'));
+			var thu = Boolean(this.$el.find('[name="scheduleThursday"]').is(':checked'));
+			var fri = Boolean(this.$el.find('[name="scheduleFriday"]').is(':checked'));
+			var sat = Boolean(this.$el.find('[name="scheduleSatday"]').is(':checked'));
+			var sun = Boolean(this.$el.find('[name="scheduleSunday"]').is(':checked'));
+
+
+			var data = {
+				status: 'complete',
+				boat: self.collectionBoats ? self.collectionBoats[this._in('boat').val()] : null,
+				captain: self.collectionCaptains ? self.collectionCaptains[this._in('captain').val()] : null,
+				name: this._in('name').val(),
+				description: this._in('description').val(),
+				//date: this._in('date').datepicker('getDate'),
+				//departureTime: this._in('departureTime').slider('getValue'),
+				//arrivalTime: this._in('departureTime').slider('getValue') + self._in('duration').slider('getValue'),
+				//duration: self._in('duration').slider('getValue'),
+				location: self._marker ? new Parse.GeoPoint({latitude: self._marker.getPosition().lat(), longitude: self._marker.getPosition().lng()}) : null,
+				locationText: this._in('locationText').val(),
+				availableSeats: self._in('availableSeatsMulti').slider('getValue'),
+				//price: self._in('price').slider('getValue'), 
+				bookingPolicy: this.$el.find('[name="bookingPolicy"]:checked').val(),
+				cancellationPolicy: this.$el.find('[name="cancellationPolicy"]:checked').val(), 
+				category: this._in('activity').val(),
+				features: {
+					leisure: {
+						cruising: Boolean(this.$el.find('[name="featuresLeisureCruising"]').is(':checked')),
+						partying: Boolean(this.$el.find('[name="featuresLeisurePartying"]').is(':checked')),
+						sightseeing: Boolean(this.$el.find('[name="featuresLeisureSightseeing"]').is(':checked')),
+						other: Boolean(this.$el.find('[name="featuresLeisureOther"]').is(':checked'))
+					},
+					fishing: {
+						flats: Boolean(this.$el.find('[name="featuresFishingFlats"]').is(':checked')),
+						lake: Boolean(this.$el.find('[name="featuresFishingLake"]').is(':checked')),
+						offshore: Boolean(this.$el.find('[name="featuresFishingOffshore"]').is(':checked')),
+						recreational: Boolean(this.$el.find('[name="featuresFishingRecreational"]').is(':checked')),
+						other: Boolean(this.$el.find('[name="featuresFishingOther"]').is(':checked')),
+						equipment: Boolean(this.$el.find('[name="featuresFishingEquipment"]').is(':checked')),
+						equipmentItems: {
+							bait: Boolean(this.$el.find('[name="featuresFishingEquipmentItemsBait"]').is(':checked')),
+							lines: Boolean(this.$el.find('[name="featuresFishingEquipmentItemsLines"]').is(':checked')),
+							hooks: Boolean(this.$el.find('[name="featuresFishingEquipmentItemsHooks"]').is(':checked')),
+							lures: Boolean(this.$el.find('[name="featuresFishingEquipmentItemsLures"]').is(':checked')),
+							nets: Boolean(this.$el.find('[name="featuresFishingEquipmentItemsNets"]').is(':checked')),
+							rods: Boolean(this.$el.find('[name="featuresFishingEquipmentItemsRods"]').is(':checked')),
+							sinkers: Boolean(this.$el.find('[name="featuresFishingEquipmentItemsSinkers"]').is(':checked'))
+						}
+					},
+					sports: {
+						snorkeling: Boolean(this.$el.find('[name="featuresSportsSnorkeling"]').is(':checked')),
+						tubing: Boolean(this.$el.find('[name="featuresSportStubing"]').is(':checked')),
+						wakeBoarding: Boolean(this.$el.find('[name="featuresSportsWakeBoarding"]').is(':checked')),
+						waterSkiing: Boolean(this.$el.find('[name="featuresSportsWaterSkiing"]').is(':checked')),
+						equipment: Boolean(this.$el.find('[name="featuresSportsEquipment"]').is(':checked')),
+						equipmentItems: {
+							fins: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsFins"]').is(':checked')),
+							helmets: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsHelmets"]').is(':checked')),
+							masks: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsMasks"]').is(':checked')),
+							snorkels: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsSnorkels"]').is(':checked')),
+							towLine: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsTowLine"]').is(':checked')),
+							tubes: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsTubes"]').is(':checked')),
+							wakeboard: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsWakeboard"]').is(':checked')),
+							waterSkis: Boolean(this.$el.find('[name="featuresSportsEquipmentItemsWaterSkis"]').is(':checked'))
+						}
+					},
+					global: {
+						children: Boolean(this.$el.find('[name="featuresGlobalChildren"]').is(':checked')),
+						smoking: Boolean(this.$el.find('[name="featuresGlobalSmoking"]').is(':checked')),
+						drinking: Boolean(this.$el.find('[name="featuresGlobalDrinking"]').is(':checked')),
+						pets: Boolean(this.$el.find('[name="featuresGlobalPets"]').is(':checked')) 
+					}, 
+					extras: {
+						food: Boolean(this.$el.find('[name="featuresExtrasFood"]').is(':checked')),
+						drink: Boolean(this.$el.find('[name="featuresExtrasDrink"]').is(':checked')),
+						music: Boolean(this.$el.find('[name="featuresExtrasMusic"]').is(':checked')),
+						towels: Boolean(this.$el.find('[name="featuresExtrasTowels"]').is(':checked')),
+						sunscreen: Boolean(this.$el.find('[name="featuresExtrasSunscreen"]').is(':checked')),
+						inflatables: Boolean(this.$el.find('[name="featuresExtrasInflatables"]').is(':checked'))
+					}
+				},
+				schedule: {
+					mon: mon ? self._in('schedule').slider('getValue') : null,
+					tue: tue ? self._in('schedule').slider('getValue') : null,
+					wed: wed ? self._in('schedule').slider('getValue') : null,
+					thu: thu ? self._in('schedule').slider('getValue') : null,
+					fri: fri ? self._in('schedule').slider('getValue') : null,
+					sat: sat ? self._in('schedule').slider('getValue') : null,
+					sun: sun ? self._in('schedule').slider('getValue') : null,
+				},
+				hourly: this._in('hourly').val(),
+				discount: { },
+				multipleDates: true,
+				trip: false,
+			};
+
+			var addDiscount = function(h) {
+				if( self._in(h + '-hours').val() != "" ) {
+					var x = {};
+					x[h] = parseInt(self._in( h + '-hours').val());
+ 					_.extend(data.discount, x)
+				}			
+			}
+
+			addDiscount(4);
+			addDiscount(6);
+			addDiscount(8);
+			addDiscount(12);
+		
+			var saveSuccess = function( boatday ) {
+
+				_.each(self.boatdayPictures, function(boatdayPicture){
+					
+					boatday.relation("boatdayPictures").add(boatdayPicture);
+					
+				});
+
+				boatday.save().then(function(){
+
+					if( baseStatus == 'creation' ) {
+						var host = Parse.User.current().get("host");
+						host.relation('boatdays').add(boatday);
+						host.save().then(function() {
+							Parse.history.navigate('dashboard', true);
+							self._info('BoatDay Created! Once you are approved as a Host, all of your BoatDays will automatically appear in the BoatDay App.');
+						});
+
+					} else {
+						
+						Parse.history.navigate('dashboard', true);
+
+					}
+				});
+			
+			};
+
+			var saveError = function(error) {
+				self.handleSaveErrors(error);
+			};
+
+			
+			self.model.save(data).then(saveSuccess, saveError);
 		},
 
 		uploadNewFile: function (event) {

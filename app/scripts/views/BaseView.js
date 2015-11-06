@@ -190,6 +190,12 @@ define([
 				$('#app').trigger('updateNotificationsAmount', this.$el.find('.total-notifications'));
 			}
 
+			var social = this.$el.find('.load-social');
+
+			if( social.length == 1 ) {
+				this.setupSpreadWord();
+			}
+
 			this.$el.find('[data-toggle="tooltip"]').tooltip();
 
 			if( this.theme ) {
@@ -198,9 +204,20 @@ define([
 				}).addClass('theme-' + this.theme);
 			}
 
+			
+
 			return this;
 		},
 
+
+
+		setupSpreadWord: function(){
+
+			FB.XFBML.parse($(this.$el).find('.load-social')[0]);
+			twttr.widgets.load($(this.$el).find('.load-social')[0]);
+			//gapi.plusone.render($(this.$el).find('.load-social')[0]);
+			//gapi.plus.go();
+		},
 
 		clickUpload: function(event) {
 
@@ -595,7 +612,15 @@ define([
 
 		debugAutofillFields: function() { },
 
+		timersToKill: [],
+
 		teardown: function() {
+			
+			_.each(this.timersToKill, function(t) {
+				clearInterval(t);
+				console.log("timer killed");
+			})
+
 			if(this.model) {
 				this.model.off(null, null, this);
 			}

@@ -8,8 +8,8 @@ define([
 'text!templates/DashboardTemplate.html',
 'text!templates/DashboardCaptainRequestRowTemplate.html',
 'text!templates/DashboardBoatRowTemplate.html',
-//'text!templates/DashboardBoatDayTemplate.html',
-'text!templates/DashboardBoatDayRowTemplate.html',
+'text!templates/DashboardBoatDayTemplate.html',
+//'text!templates/DashboardBoatDayRowTemplate.html',
 'text!templates/DashboardBoatDayRequestTemplate.html',
 'text!templates/DashboardBoatDayMessageTemplate.html',
 ], function(CaptainRequestModel, NotificationModel, ChatMessageModel, BoatModel, BoatDayModel, BaseView, DashboardTemplate, DashboardCaptainRequestRowTemplate, DashboardBoatRowTemplate, DashboardBoatDayTemplate, DashboardBoatDayRequestTemplate, DashboardBoatDayMessageTemplate){
@@ -508,10 +508,6 @@ define([
 						
 					});
 
-					FB.XFBML.parse($(this.$el).find('.social')[0]);
-					twttr.widgets.load($(this.$el).find('.social')[0]);
-					gapi.plusone.render($(this.$el).find('.social')[0]);
-					gapi.plus.go();
 
 					self.$el.find('.my-boatdays').fadeIn();
 

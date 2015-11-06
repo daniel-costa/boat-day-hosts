@@ -78,8 +78,22 @@ define([
 					sunscreen: false,
 					inflatables: false
 				}
-			}
+			},
+			schedule: {
+				mon: null,
+				tue: null,
+				wed: null,
+				thu: null,
+				fri: null,
+				sat: null,
+				sun: null,
+			},
+			hourly: null,
+			discount: {},
+			multipleDates: false,
 		},
+
+
 
 		validate: function(attributes) {
 
@@ -104,7 +118,7 @@ define([
 				_return.fields.availableSeats = "Oops, you missed one! Please specify the number of avialable seats for your BoatDay.";
 			}
 
-			if( !/^[0-9]+([\.][0-9]+)?$/g.test(attributes.price) ) {
+			if( !attributes.multipleDates && !/^[0-9]+([\.][0-9]+)?$/g.test(attributes.price) ) {
 				_return.fields.price = "A price per seat is not valid";
 			}
 
@@ -119,8 +133,12 @@ define([
 				_return.fields.locationText = "Oops, you have to drop a pin on the map.";
 			}
 
-			if( !attributes.date ) {
+			if( !attributes.multipleDates && !attributes.date ) {
 				_return.fields.date = "Oops, you missed one! Please choose a date for your BoatDay.";
+			}
+
+			if( attributes.multipleDates && attributes.hourly == "" ) {
+				_return.fields.hourly = "Oops, you missed one! Please choose a hourly price.";
 			}
 
 			if( _.size(_return.fields) > 0 ) {

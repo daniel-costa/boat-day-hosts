@@ -39,6 +39,7 @@ define(['parse'], function(Parse){
 			
 			Parse.Config.get().then(function(config) {
 				self.fetchUserInfo(null, cb);
+
 				setInterval(function() { self.updateNotificationsAmount() }, 60 * 1000);
 			}, function(error) {
 				Parse.User.logOut();
@@ -111,7 +112,7 @@ define(['parse'], function(Parse){
 				
 			}
 
-		}
+		},
 
 	});
 	return AppView;
