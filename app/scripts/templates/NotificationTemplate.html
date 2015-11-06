@@ -23,7 +23,7 @@
 		</div>
 	</div>
 
-	<div class="col-md-13 col-sm-13 col-xs-19">
+	<div class="col-md-11 col-sm-11 col-xs-17">
 	<%
 		var url = "";
 
@@ -93,11 +93,12 @@
 				<% } %>
 
 				<% if( action == "boatday-question" ) { %>
-					just asked a question for your BoatDay 
+					<strong><%= sender.get("displayName") %></strong> just asked a question for your BoatDay 
 						<a href="#boatday-overview/<%= boatdayId %>?show=question"><%= boatdayName %></a>.
 				<% } %>
 				
 				<% if( action == "boatday-message" ) { %>
+					You have a new chat message in your BoatDay 
 					<a href="#boatday-overview/<%= boatdayId %>?show=message"><%= boatdayName %></a>.
 				<% } %>
 
@@ -107,7 +108,7 @@
 				<% } %>
 				
 				<% if( action == "boatday-request" ) { %>
-					has requested <%= seats %> seat(s) on your BoatDay 
+					has requested <%= seats %> seat(s) on your BoatDay asda
 						<a href="#boatday-overview/<%= boatdayId %>?show=request"><%= boatdayName %></a>.
 				<% } %>
 
@@ -119,7 +120,7 @@
 		</div>
 	</div>
 
-	<div class="col-md-4 col-sm-4 col-xs-5">
+	<div class="col-md-6 col-sm-6 col-xs-7">
 		<div class="inner text-center">
 			<div class="action">
 				<% if( action == "certification-approved" ) { %>
@@ -165,12 +166,12 @@
 				
 					<% if( requestStatus == 'pending' ) { %>
 						<button class="btn btn-default btn-lg open-notification accept approve-request pull-left" data-id="<%= requestId %>">
-							<span class="hidden-sm">Accept</span>
-							<span class="visible-sm glyphicon glyphicon-ok "></span>
+							<span class="hidden-sm hidden-xs">Accept</span>
+							<span class="visible-sm visible-xs glyphicon glyphicon-ok "></span>
 						</button>
 						<button class="btn btn-default btn-lg open-notification deny-request pull-right" data-id="<%= requestId %>">
-							<span class="hidden-sm">Reject</span>
-							<span class="visible-sm glyphicon glyphicon-remove "></span>
+							<span class="hidden-sm hidden-xs">Reject</span>
+							<span class="visible-sm visible-xs glyphicon glyphicon-remove "></span>
 						</button>
 					<% } %>
 

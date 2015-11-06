@@ -216,6 +216,8 @@ define([
 			this.refreshActivity();
 			this.setupGoogleMap();
 
+			this.displayBoatDayPictures();
+
 			return this;
 
 		},
@@ -835,6 +837,38 @@ define([
 			self.model.save(data).then(saveSuccess, saveError);
 		},
 
+
+		displayBoatDayPictures: function() {
+			
+			var self = this;
+
+			var sliderThumbsTarget = self.$el.find('.boatday-pic-slider .boatday-pic-thumbs img');
+			sliderThumbsTarget.not(':last').remove();
+
+			self.boatdayPictures = {};
+			self.boatdayPics = [];
+
+			console.log(self.model.id);
+			
+
+			if( self.model.id != undefined){
+
+				var query = self.model.relation('boatdayPictures').query();
+				query.ascending("order");
+				query.find().then(function(matches) {
+
+					_.each(matches, self.appendBoatDayPicture, self);
+
+					if( self.boatdayPics.length > 0 ){
+						self.displayBoatDayLargePic(self.boatdayPics[0]);
+					}
+				});
+			}
+
+
+		
+		},
+
 		uploadNewFile: function (event) {
 			var self = this;
 			var e = $(event.currentTarget);
@@ -845,8 +879,11 @@ define([
 				cb = function(file) {
 					new FileHolderModel({ file: file, host: Parse.User.current().get('host') }).save().then(function(fh) {
 						self.appendBoatDayPicture(fh);
-						//self.model.relation('boatdayPictures').add(fh);
-						//self.model.save();
+						if( self.model.id != undefined){
+							self.model.relation('boatdayPictures').add(fh);
+							self.model.save();
+						}
+						
 					}, function(e) {
 						console.log(e);
 					});

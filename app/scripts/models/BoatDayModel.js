@@ -91,6 +91,7 @@ define([
 			hourly: null,
 			discount: {},
 			multipleDates: false,
+			trip: false,
 		},
 
 
@@ -133,7 +134,7 @@ define([
 				_return.fields.locationText = "Oops, you have to drop a pin on the map.";
 			}
 
-			if( !attributes.multipleDates && !attributes.date ) {
+			if( !attributes.multipleDates && !attributes.date && (attributes.status != "creation") ) {
 				_return.fields.date = "Oops, you missed one! Please choose a date for your BoatDay.";
 			}
 

@@ -2326,44 +2326,42 @@ define([
 			duplicate: function(event) {
 				event.preventDefault();
 
-				var boatDay = this.model;
+				var baseBoatDay = this.model;
 
-				var duplicateSource = boatDay;
+				var self = this;
 
-				if(boatDay.get("duplicateSource") != undefined){
-					duplicateSource = boatDay.get("duplicateSource");
-				}
+				self.buttonLoader("Creating...", $(event.currentTarget));
 
-				console.log(duplicateSource);
+				baseBoatDay.relation('boatdayPictures').query().find().then(function(bdPictures){
+					
+					baseBoatDay.clone().save({
+						status:'creation',
+						duplicateFrom: baseBoatDay,
+						duplicateSource: typeof baseBoatDay.get('duplicateSource') === typeof undefined ? baseBoatDay : baseBoatDay.get('duplicateSource'),
+						date: null
+					}).then(function(newBoatDay){
 
-				var duplicateBoatDay = new BoatDayModel({
-					status:'creation',
-					duplicateFrom: boatDay,
-					duplicateSource: duplicateSource,
-			  		name: boatDay.get('name'), 
-			  		description: boatDay.get('description'),
-			  		date: null,
-			  		departureTime: boatDay.get('departureTime'),
-			  		arrivalTime: boatDay.get('arrivalTime'),
-			  		duration: boatDay.get('duration'), 
-			  		location: boatDay.get('location'),
-			  		locationText: boatDay.get('locationText'), 
-			  		availableSeats: boatDay.get('availableSeats'),
-			  		price: boatDay.get('price'),
-			  		bookingPolicy: boatDay.get('bookingPolicy'),
-			  		cancellationPolicy: boatDay.get('cancellationPolicy'),
-			  		category: boatDay.get('category'),
-			  		arrivalTime: boatDay.get('arrivalTime'), 
-				  	captain: boatDay.get('captain'),
-				  	boat: boatDay.get('boat'),
-				  	host: boatDay.get('host'), 
-				  	chatMessages: boatDay.get('chatMessages'), 
-				  	seatRequests: boatDay.get('seatRequests')
+						console.log("clone created");
+						
+						_.each(bdPictures, function(bdPicture){
+							newBoatDay.relation('boatdayPictures').add(bdPicture);
+						});
+
+						newBoatDay.save().then(function(bd){
+							console.log("new boatday save success");
+							Parse.history.navigate('boatday/'+bd.id, true);
+							
+						}, function(error){
+							console.log(error);
+							self.buttonLoader();
+						});
+
+					}, function(error){
+						console.log(error);
+						self.buttonLoader();
+					});
 				});
 
-				duplicateBoatDay.save().then(function(bd){
-					Parse.history.navigate('boatday/'+bd.id, true);
-				});
 
 			},
 
