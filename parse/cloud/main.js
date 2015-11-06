@@ -1,4 +1,62 @@
 
+Parse.Cloud.define("requestRescheduleGuestAnswer", function(request, response) {
+
+	var action     = request.params.action;
+	var requestId  = request.params.request;
+	var isApproved = action == 'approve';
+	var message    = isApproved ? "You are now approved as a guest for this BoatDay." : "Your seat request is correctly cancelled! You were not charged for this cancellation.";
+	var data       = isApproved ? { status: 'approved' } : { status: 'cancelled-guest', cancelled: true };
+	
+	var query = new Parse.Query(Parse.Object.extend('SeatRequest'));
+	query.include('boatday');
+	query.include('boatday.captain');
+	query.get(requestId).then(function(seatRequest) {
+		
+		var boatday = seatRequest.get('boatday');
+
+		console.log(data);
+
+		seatRequest.save(data).then(function(seatRequest) {
+
+			var cbDone = function() {
+				
+				var Notification = Parse.Object.extend('Notification');
+				new Notification().save({
+					action: isApproved ? 'reschedule-approved' : 'reschedule-denied',
+					fromTeam: false,
+					sendEmail: true,
+					message: null,
+					to: boatday.get('captain'),
+					from: seatRequest.get('profile'),
+					request: seatRequest
+				}).then(function() {
+					response.success(message);
+				}, function(error) {
+					console.log(error);
+				});
+
+			};
+
+			if( isApproved ) {
+				boatday.increment('bookedSeats', seatRequest.get('seats'));
+				boatday.save().then(function() {
+					cbDone();
+				}, function(error) {
+					console.log(error);
+				});
+			} else {
+				cbDone();
+			}
+
+		}, function(error) {
+			console.log(error);
+		});
+	}, function(error) {
+		console.log(error);
+	})
+		
+});
+
 Parse.Cloud.define("updateHostBankAccount", function(request, response) {
 
 	var hostId = request.params.host;
@@ -345,6 +403,9 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 	
 	var seatRequest = request.object;
 
+	// ToDo 
+	// - Charge automatically for charters at the begining
+	
 	new Parse.Query(Parse.Object.extend('BoatDay')).get(seatRequest.get('boatday').id).then(function(boatday) {
 		
 		var data = {};
@@ -447,7 +508,13 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 				});
 			});
 		}
+		/*
+		3767 5055 3631 017
+		0046
+		11 19
 
+		osed64lXDK
+	*/
 		if( seatRequest.get('status') == 'cancelled-guest' && !seatRequest.get('cancelled') ) {
 
 			new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
@@ -561,7 +628,6 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 		}
 	});
 
-	
 });
 
 Parse.Cloud.beforeSave("CreditCard", function(request, response) {
@@ -606,10 +672,8 @@ Parse.Cloud.afterSave("ChatMessage", function(request) {
 
 		new Parse.Query(Parse.Object.extend('BoatDay')).get(message.get('boatday').id).then(function(boatday) {
 
-			console.log(123);
 			boatday.relation('chatMessages').add(message);
 
-			console.log(123);
 			boatday.save().then(function() {
 
 				// Notify host		
@@ -643,8 +707,6 @@ Parse.Cloud.afterSave("ChatMessage", function(request) {
 						});
 					}
 				});
-
-				console.log(123);
 
 				// Notify Users approved
 				var query = new Parse.Query(Parse.Object.extend('SeatRequest'));
@@ -700,7 +762,6 @@ Parse.Cloud.afterSave("Question", function(request) {
 
 				question.save({ addToBoatDay: false });
 
-				// Notify host				
 				new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
 					new Notification().save({
 						action: 'boatday-question',
@@ -716,9 +777,7 @@ Parse.Cloud.afterSave("Question", function(request) {
 			}, function(error) {
 				console.log(error);
 			});
-
 		});
-
 	}
 
 });
