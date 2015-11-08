@@ -83,7 +83,7 @@
 											if(request.get('profile').get('phone') != undefined) {
 											%>
 											<span style="display:inline;">
-												<a href="tel:<%= request.get('profile').get('phone') %>"><img src="resources/icon_phone.png" style="height:15px; margin-right:10px;"/></a>
+												<a href="javascript:alert(<%= request.get('profile').get('phone') %>)"><img src="resources/icon_phone.png" style="height:15px; margin-right:10px;"/></a>
 											</span>
 										
 										<% }

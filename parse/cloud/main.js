@@ -4,7 +4,7 @@ Parse.Cloud.define("requestRescheduleGuestAnswer", function(request, response) {
 	var action     = request.params.action;
 	var requestId  = request.params.request;
 	var isApproved = action == 'approve';
-	var message    = isApproved ? "You are now approved as a guest for this BoatDay." : "Your seat request is correctly cancelled! You were not charged for this cancellation.";
+	var message    = isApproved ? "Your seats are now confirmed for this rescheduled BoatDay!" : "You have succesfully cancelled your seat on this rescheduled BoatDay.";
 	var data       = isApproved ? { status: 'approved' } : { status: 'cancelled-guest', cancelled: true };
 	
 	var query = new Parse.Query(Parse.Object.extend('SeatRequest'));
