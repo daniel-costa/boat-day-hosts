@@ -83,8 +83,9 @@
 											if(request.get('profile').get('phone') != undefined) {
 											%>
 											<span style="display:inline;">
-												<a href="javascript:alert(<%= request.get('profile').get('phone') %>)"><img src="resources/icon_phone.png" style="height:15px; margin-right:10px;"/></a>
+												<a href="#" class="phone-link" data-id="<%= request.id %>"><img src="resources/icon_phone.png" style="height:15px; margin-right:10px; margin-bottom:5px;"/></a>
 											</span>
+
 										
 										<% }
 											
@@ -94,7 +95,15 @@
 											</span>
 											<% }
 
-										 } %>
+										 } 
+										 
+										 if(request.get('profile').get('phone') != undefined) {
+										%>
+											<span class="phoneNumber-<%= request.id  %>" style="display:none;">
+												<%= request.get('profile').get('phone') %>
+											</span>
+
+										<% } %>
 
 									</div>
 								</div>

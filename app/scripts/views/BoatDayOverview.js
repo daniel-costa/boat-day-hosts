@@ -54,6 +54,7 @@ define([
 				"click .rate-guest": "submitRating",
 				"click .stars img": "rate",
 				"click .chat-text-area .enter-chat-text": "submitChat",
+				"click .overviewinfo-right a.info-seatsBooked-link": "processOpenBookingRow",
 				"click .overviewinfo-right a.info-pending-link": "processOpenBookingRow",
 				"click .overviewinfo-right a.info-question-link": "processOpenQuestionRow",
 				"click .overviewinfo-right a.info-message-link" : "processOpenChatRow",
@@ -61,7 +62,8 @@ define([
 				"change .upload": "uploadNewFile",
 				"click .boatday-pic-thumbs img.addImage": "clickUpload",
 				"click .delete-picture": 'deleteBoatDayPicture',
-				"click .boatday-pic-thumbs img.thumb": 'showLargePic'
+				"click .boatday-pic-thumbs img.thumb": 'showLargePic',
+				'click a.phone-link': 'displayPhoneNumber'
 
 			},
 
@@ -96,6 +98,8 @@ define([
 			chatLastFetch: null,
 
 			isReadOnly: true,
+
+			wasRescheduled: false,
 
 			isPastBoatDay: false,
 
@@ -139,6 +143,21 @@ define([
 				if( _bd < _tdn || ( _bd < _tdx && _bt <= _ct ) ) {
 					this.isPastBoatDay = true;
 				} 
+
+				if(typeof this.model.get('wasRescheduled') != typeof undefined){
+					if(this.model.get('wasRescheduled')){
+						this.wasRescheduled = true;
+					}
+				}
+		
+
+			},
+
+			displayPhoneNumber: function(event){
+				event.preventDefault();
+				var id = $(event.currentTarget).attr('data-id');
+				//phoneNumber
+				this.$el.find('span.phoneNumber-'+id).toggle();
 
 			},
 
@@ -250,7 +269,11 @@ define([
 
 					if(boatday.get("status") != "cancelled"){
 						if( self.collectionPendingSeatRequests.length + self.collectionApprovedSeatRequests.length === 0 ) {
-							self.isReadOnly = false;
+							
+							if(!self.wasRescheduled){
+								self.isReadOnly = false;
+							}
+							
 						}
 					}
 
@@ -457,6 +480,10 @@ define([
 					
 					else if ( self.isPastBoatDay ) {
 						infoMessage = "Details cannot be edited for past BoatDays.";
+					}
+
+					else if( self.wasRescheduled ){
+						infoMessage = 'You may only edit the details of a BoatDay if there are no pending or approved Guest requests. For any emergency changes, please contact BoatDay Team through the  <a href="#/help-center">Help Center</a>.';
 					}
 
 					else{
@@ -945,11 +972,7 @@ define([
 					
 					self.displayNewBookingCount(self.collectionNoHostYesGuestReviews.length + self.collectionYesHostYesGuestReviews.length);
 
-					console.log("No Host No Guest: " + self.collectionNoHostNoGuestReviews.length);
-					console.log("No Host Yes Guest: " + self.collectionNoHostYesGuestReviews.length);
-					console.log("Yes Host No Guest: " + self.collectionYesHostNoGuestReviews.length);
-					console.log("Yes Host Yes Guest: " + self.collectionYesHostYesGuestReviews.length);
-
+					
 					var num = 	self.collectionNoHostNoGuestReviews.length + 
 								self.collectionNoHostYesGuestReviews.length + 
 								self.collectionYesHostNoGuestReviews.length + 
@@ -1096,6 +1119,28 @@ define([
 				event.preventDefault();
 
 				var self = this;
+
+				this.modal({
+					title: 'Are you sure?',
+					body: 'ARE YOU SURE YOU WANT TO DENY THIS SEAT REQUEST?',
+					noButton: false,
+					cancelButton: true,
+					cancelButtonText: "Go Back",
+					closeButton: true,
+					yesButtonText: 'Deny Request',
+					yesCb: function() {
+						self.submitDenyRequest(event);
+					}
+				});
+
+
+			},
+
+			submitDenyRequest: function(event){
+
+				var self = this;
+
+				console.log("Submit dney request")
 
 				if( typeof Parse.User.current().get('host').get('stripeId') === typeof undefined || !Parse.User.current().get('host').get('stripeId') ) {
 					
@@ -1809,14 +1854,6 @@ define([
 									'<input type="text" class="form-control reschedule-boatday-date select-styles" placeholder="mm/dd/yyyy" id="date" name="date" />'+
 								'</div>'+
 								'<div class="form-group">'+
-									'<label class="control-label" for="date">New Departure Date</label>'+
-									'<select class="form-control reschedule-boatday-reason-short select-styles" name="rescheduleReasonShort">'+
-										'<option value="weather">Weather</option>'+
-										'<option value="maintenance">Boat Maintenance</option>'+
-										'<option value="personal">Personal Emergency</option>'+
-									'</select>'+
-								'</div>'+
-								'<div class="form-group">'+
 									'<label class="control-label" for="rescheduleReason">Message to Confirmed Guests</label>'+
 									'<textarea name="rescheduleReason" class="form-control" rows="5" placeholder="Rescheduling can be inconvenient for confirmed Guests, so be sure to leave a message explaining the details. Don’t forget . . . Guests can cancel without penalty for a rescheduled BoatDay."></textarea>'+
 								'</div>'+
@@ -1855,7 +1892,8 @@ define([
 					date: newDate,
 					rescheduleReason: rescheduleReason,
 					bookedSeats: 0,
-					rescheduleReasonShort: rescheduleReasonShort
+					rescheduleReasonShort: rescheduleReasonShort,
+					wasRescheduled: true
 				};
 
 				var qBoatDay = new Parse.Query(BoatDayModel);
@@ -2342,35 +2380,34 @@ define([
 
 				self.buttonLoader("Creating...", $(event.currentTarget));
 
-				baseBoatDay.relation('boatdayPictures').query().find().then(function(bdPictures){
-					
+
+				baseBoatDay.relation('boatdayPictures').query().find().then(function(bdPictures) {
 					baseBoatDay.clone().save({
 						status:'creation',
 						duplicateFrom: baseBoatDay,
 						duplicateSource: typeof baseBoatDay.get('duplicateSource') === typeof undefined ? baseBoatDay : baseBoatDay.get('duplicateSource'),
 						date: null
-					}).then(function(newBoatDay){
-
-						console.log("clone created");
+					}).then(function(newBoatDay) {
+						
+						var promises = [];
 						
 						_.each(bdPictures, function(bdPicture){
-							newBoatDay.relation('boatdayPictures').add(bdPicture);
+							promises.push(bdPicture.clone().save().then(function(newPicture) {
+								newBoatDay.relation('boatdayPictures').add(newPicture); 
+							}));
 						});
 
-						newBoatDay.save().then(function(bd){
-							console.log("new boatday save success");
-							Parse.history.navigate('boatday/'+bd.id, true);
-							
-						}, function(error){
-							console.log(error);
-							self.buttonLoader();
-						});
-
-					}, function(error){
-						console.log(error);
-						self.buttonLoader();
-					});
-				});
+						Parse.Promise.when(promises).then(function() {
+      						newBoatDay.save().then(function(bd){
+       							console.log("new boatday save success");
+       							Parse.history.navigate('boatday/'+bd.id, true);
+      						}, function(error){
+       							console.log(error);
+       							self.buttonLoader();
+      						});
+     					});
+    				});
+   				});
 
 
 			},

@@ -1,0 +1,39 @@
+<div class="col-sm-12 my-boatday my-boatday-<%= id %>" data-id="<%= id %>">
+	
+	<div class="my-boatday-inner <%= _class %>">
+		<div class="header" style="height:290px;">
+			<div class="picture <%= active ? 'active' : '' %>" style="background-image:url(<%= picture %>)"></div>
+			
+			<div class="inner">
+				<p class="date">Multiple Dates</p>
+				<h1><%= name %></h1>
+			</div>
+		</div>
+
+		<div class="info-trip">
+			<div class="boatday-box-open" data-target=".box-details">
+				<div class="inner">
+					Show Trips
+					<div class="total-notifications text-center">9</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="box box-details">
+			<div class="header">
+				<h1>Trips</h1>
+				<img src="resources/dashboard-box-close.png" class="boatday-box-close" />
+			</div>
+			<div class="info">
+				<div class="content-fluid details">
+					<div class="row">
+						<div class="col-md-24">
+							<h3 class="text-center"><%= name %></h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
