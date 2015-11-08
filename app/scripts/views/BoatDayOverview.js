@@ -1854,6 +1854,14 @@ define([
 									'<input type="text" class="form-control reschedule-boatday-date select-styles" placeholder="mm/dd/yyyy" id="date" name="date" />'+
 								'</div>'+
 								'<div class="form-group">'+
+									'<label class="control-label" for="date">Reason</label>'+
+									'<select class="form-control reschedule-boatday-reason-short select-styles" name="rescheduleReasonShort">'+
+										'<option value="weather">Weather</option>'+
+										'<option value="maintenance">Boat Maintenance</option>'+
+										'<option value="personal">Personal Emergency</option>'+
+									'</select>'+
+								'</div>'+
+								'<div class="form-group">'+
 									'<label class="control-label" for="rescheduleReason">Message to Confirmed Guests</label>'+
 									'<textarea name="rescheduleReason" class="form-control" rows="5" placeholder="Rescheduling can be inconvenient for confirmed Guests, so be sure to leave a message explaining the details. Don’t forget . . . Guests can cancel without penalty for a rescheduled BoatDay."></textarea>'+
 								'</div>'+
