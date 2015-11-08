@@ -46,7 +46,7 @@
 
 	<div class="cell col-sm-7 col-xs-12" style="padding-left:12px;">
 		<div class="inner text-right">
-				<% if (status == "pending") { %>
+			<% if (status == "pending") { %>
 
 				<div class="vcenter">
 					<button class="btn btn-default btn-lg accept approve-request pull-left" data-id="<%= request.id %>">
@@ -54,16 +54,16 @@
 						<span class="visible-sm visible-xs glyphicon glyphicon-ok "></span>
 					</button>
 					<button class="btn btn-default btn-lg deny-request pull-right" data-id="<%= request.id %>">
-						<span class="hidden-sm hidden-xs">Reject</span>
+						<span class="hidden-sm hidden-xs">Deny</span>
 						<span class="visible-sm visible-xs glyphicon glyphicon-remove "></span>
 					</button>
 				</div>
 
-				<% } if (status == "pending-guest") { %>
+			<% } if (status == "pending-guest") { %>
 
-				<em class="vcenter">Reschedule Pending...</em>
+					<em class="vcenter">Reschedule Pending...</em>
 
-				<% } %>
+			<% } %>
 		</div>
 	</div>
 </div>
