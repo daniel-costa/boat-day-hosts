@@ -1809,7 +1809,7 @@ define([
 									'<input type="text" class="form-control reschedule-boatday-date select-styles" placeholder="mm/dd/yyyy" id="date" name="date" />'+
 								'</div>'+
 								'<div class="form-group">'+
-									'<label class="control-label" for="date">New Departure Date</label>'+
+									'<label class="control-label" for="date">Reason</label>'+
 									'<select class="form-control reschedule-boatday-reason-short select-styles" name="rescheduleReasonShort">'+
 										'<option value="weather">Weather</option>'+
 										'<option value="maintenance">Boat Maintenance</option>'+
