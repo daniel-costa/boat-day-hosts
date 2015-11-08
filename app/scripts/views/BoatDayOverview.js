@@ -1121,13 +1121,13 @@ define([
 				var self = this;
 
 				this.modal({
-					title: 'Are you sure?',
-					body: 'ARE YOU SURE YOU WANT TO DENY THIS SEAT REQUEST?',
+					title: 'Deny request',
+					body: 'A full boat means more fun for the Guests, and more $ for the Host! Are you sure you want to deny this seat request?',
 					noButton: false,
 					cancelButton: true,
-					cancelButtonText: "Go Back",
+					cancelButtonText: "No",
 					closeButton: true,
-					yesButtonText: 'Deny Request',
+					yesButtonText: 'Yes',
 					yesCb: function() {
 						self.submitDenyRequest(event);
 					}
