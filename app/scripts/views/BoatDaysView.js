@@ -140,41 +140,53 @@ define([
 					var _bDa = boatday.get('date');
 					var _bDt = boatday.get('departureTime');
 
-					var _tpl = tpl({
-						_class: left ? 'left' : 'right',
-						id: boatday.id,
-						status: boatday.get('status'),
-						date: self.dateParseToDisplayDate(_bDa),
-						time: self.departureTimeToDisplayTime(_bDt),
-						duration: boatday.get('duration'),
-						name: boatday.get('name'),
-						availableSeats: boatday.get('availableSeats'),
-						bookedSeats: boatday.get('bookedSeats'),
-						potEarings: boatday.get('price') * (1 - Parse.User.current().get('host').get('current')) * boatday.get('availableSeats'),
-						boatName: boatday.get('boat').get('name'),
-						boatType: boatday.get('boat').get('type'),
-						boatYear: boatday.get('boat').get('buildYear'),
-						captainName: boatday.get('captain').get('displayName'),
-						picture: 'resources/boat-placeholder.png',
-						description: boatday.get('description'),
-						price: boatday.get('price'),
-						activity: self.boatdayActivityToDisplay(boatday.get('category')),
-						booking: self.boatdayBookingToDisplay(boatday.get('bookingPolicy')),
-						cancellation: self.boatdayCancellationToDisplay(boatday.get('cancellationPolicy')),
-						location: "Miami Beach",
-						active: false,
-						host: boatday.get('host'),
-						potEarings: boatday.get('earnings') ? boatday.get('earnings') : 0,
+					var SeatRequest = Parse.Object.extend("SeatRequest");
+					var qSeatRequest = new Parse.Query(SeatRequest);
+					qSeatRequest.equalTo("boatday", boatday);
+					qSeatRequest.equalTo("status", "pending");
+
+					qSeatRequest.count().then(function(count){
+
+						var _tpl = tpl({
+							pendingRequests: count,
+							_class: left ? 'left' : 'right',
+							id: boatday.id,
+							status: boatday.get('status'),
+							date: self.dateParseToDisplayDate(_bDa),
+							time: self.departureTimeToDisplayTime(_bDt),
+							duration: boatday.get('duration'),
+							name: boatday.get('name'),
+							availableSeats: boatday.get('availableSeats'),
+							bookedSeats: boatday.get('bookedSeats'),
+							potEarings: boatday.get('price') * (1 - Parse.User.current().get('host').get('current')) * boatday.get('availableSeats'),
+							boatName: boatday.get('boat').get('name'),
+							boatType: boatday.get('boat').get('type'),
+							boatYear: boatday.get('boat').get('buildYear'),
+							captainName: boatday.get('captain').get('displayName'),
+							picture: 'resources/boat-placeholder.png',
+							description: boatday.get('description'),
+							price: boatday.get('price'),
+							activity: self.boatdayActivityToDisplay(boatday.get('category')),
+							booking: self.boatdayBookingToDisplay(boatday.get('bookingPolicy')),
+							cancellation: self.boatdayCancellationToDisplay(boatday.get('cancellationPolicy')),
+							location: "Miami Beach",
+							active: false,
+							host: boatday.get('host'),
+							potEarings: boatday.get('earnings') ? boatday.get('earnings') : 0,
+						});
+
+						
+						//target.append(_tpl);
+
+						if(boatday.get("status") == "cancelled"){
+							targetCancelledBoatDays.append(_tpl);
+						} else {
+							targetPastBoatDays.append(_tpl);
+						}
+
 					});
 
-					
-					//target.append(_tpl);
 
-					if(boatday.get("status") == "cancelled"){
-						targetCancelledBoatDays.append(_tpl);
-					} else {
-						targetPastBoatDays.append(_tpl);
-					}
 
 					var q = boatday.get('boat').relation('boatPictures').query();
 					q.ascending('order');
