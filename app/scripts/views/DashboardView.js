@@ -170,6 +170,7 @@ define([
 						var SeatRequest = Parse.Object.extend("SeatRequest");
 						var qSeatRequest = new Parse.Query(SeatRequest);
 						qSeatRequest.equalTo("boatday", boatday);
+						qSeatRequest.equalTo("status", "pending");
 						qSeatRequest.count().then(function(count){
 							var _tpl = tpl({
 								pendingRequests: count,
