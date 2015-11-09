@@ -93,8 +93,7 @@
 				<% } %>
 
 				<% if( action == "boatday-question" ) { %>
-					<strong><%= sender.get("displayName") %></strong> just asked a question for your BoatDay 
-						<a href="#boatday-overview/<%= boatdayId %>?show=question"><%= boatdayName %></a>.
+					just asked a question for your BoatDay <a href="#boatday-overview/<%= boatdayId %>?show=question"><%= boatdayName %></a>.
 				<% } %>
 				
 				<% if( action == "boatday-message" ) { %>
@@ -112,11 +111,11 @@
 				<% } %>
 				
 				<% if( action == "reschedule-approved" ) { %>
-					<strong><%= sender.get("displayName") %></strong> has confirmed <%= seats %> seat(s)  for your rescheduled BoatDay <a href="#boatday-overview/<%= boatdayId %>?show=request"><%= boatdayName %></a>.
+					has confirmed <%= seats %> seat(s)  for your rescheduled BoatDay <a href="#boatday-overview/<%= boatdayId %>?show=request"><%= boatdayName %></a>.
 				<% } %>
 				
 				<% if( action == "reschedule-denied" ) { %>
-					<strong><%= sender.get("displayName") %></strong> can't make it to your rescheduled BoatDay <a href="#boatday-overview/<%= boatdayId %>?show=request"><%= boatdayName %></a>, and has cancelled <%= seats %> requested seat(s).
+					can't make it to your rescheduled BoatDay <a href="#boatday-overview/<%= boatdayId %>?show=request"><%= boatdayName %></a>, and has cancelled <%= seats %> requested seat(s).
 				<% } %>
 
 				<% if( action == "bd-message" ) { %>
@@ -170,8 +169,8 @@
 				<% } %>
 				
 				<% if( action == "boatday-request" ) { %>
-					<img src="resources/ico-info.png" />
-					
+					<img src="resources/ico-host.png" />
+
 					<% if( requestStatus == 'pending' ) { %>
 					<!--
 						<button class="btn btn-default btn-lg open-notification accept approve-request pull-left" data-id="<%= requestId %>">

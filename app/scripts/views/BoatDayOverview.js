@@ -54,7 +54,6 @@ define([
 				"click .rate-guest": "submitRating",
 				"click .stars img": "rate",
 				"click .chat-text-area .enter-chat-text": "submitChat",
-				"click .overviewinfo-right a.info-seatsBooked-link": "processOpenBookingRow",
 				"click .overviewinfo-right a.info-pending-link": "processOpenBookingRow",
 				"click .overviewinfo-right a.info-question-link": "processOpenQuestionRow",
 				"click .overviewinfo-right a.info-message-link" : "processOpenChatRow",
@@ -62,8 +61,7 @@ define([
 				"change .upload": "uploadNewFile",
 				"click .boatday-pic-thumbs img.addImage": "clickUpload",
 				"click .delete-picture": 'deleteBoatDayPicture',
-				"click .boatday-pic-thumbs img.thumb": 'showLargePic',
-				'click a.phone-link': 'displayPhoneNumber'
+				"click .boatday-pic-thumbs img.thumb": 'showLargePic'
 
 			},
 
@@ -98,8 +96,6 @@ define([
 			chatLastFetch: null,
 
 			isReadOnly: true,
-
-			wasRescheduled: false,
 
 			isPastBoatDay: false,
 
@@ -143,21 +139,6 @@ define([
 				if( _bd < _tdn || ( _bd < _tdx && _bt <= _ct ) ) {
 					this.isPastBoatDay = true;
 				} 
-
-				if(typeof this.model.get('wasRescheduled') != typeof undefined){
-					if(this.model.get('wasRescheduled')){
-						this.wasRescheduled = true;
-					}
-				}
-		
-
-			},
-
-			displayPhoneNumber: function(event){
-				event.preventDefault();
-				var id = $(event.currentTarget).attr('data-id');
-				//phoneNumber
-				this.$el.find('span.phoneNumber-'+id).toggle();
 
 			},
 
@@ -212,7 +193,7 @@ define([
 						
 						self.collectionSeatRequests[request.id] = request;
 
-						if(request.get('status') == "pending"){
+						if( request.get('status') == "pending" || request.get('status') == "pending-guest" ){
 							self.collectionPendingSeatRequests.push(request);
 						}
 
@@ -267,19 +248,17 @@ define([
 					});
 
 
-					if(boatday.get("status") != "cancelled"){
+					if( boatday.get("status") != "cancelled" ){
 						if( self.collectionPendingSeatRequests.length + self.collectionApprovedSeatRequests.length === 0 ) {
-							
-							if(!self.wasRescheduled){
-								self.isReadOnly = false;
-							}
-							
+							self.isReadOnly = false;
 						}
 					}
 
+					self.renderCancelBoatDay();
+
 					self.renderBoatDayInfo();
 
-					if(self.isPastBoatDay || self.isReadOnly){
+					if( self.isPastBoatDay || self.isReadOnly ){
 						self.renderisReadOnly();
 					} else {
 						self.renderEditBoatDay();
@@ -291,7 +270,6 @@ define([
 					
 					self.renderQuestions();
 					
-					self.renderCancelBoatDay();
 
 					if((self.divsToShow).indexOf("request") > -1){
 						self.$el.find('.boatday-booking-requests').show();
@@ -480,10 +458,6 @@ define([
 					
 					else if ( self.isPastBoatDay ) {
 						infoMessage = "Details cannot be edited for past BoatDays.";
-					}
-
-					else if( self.wasRescheduled ){
-						infoMessage = 'You may only edit the details of a BoatDay if there are no pending or approved Guest requests. For any emergency changes, please contact BoatDay Team through the  <a href="#/help-center">Help Center</a>.';
 					}
 
 					else{
@@ -972,7 +946,11 @@ define([
 					
 					self.displayNewBookingCount(self.collectionNoHostYesGuestReviews.length + self.collectionYesHostYesGuestReviews.length);
 
-					
+					console.log("No Host No Guest: " + self.collectionNoHostNoGuestReviews.length);
+					console.log("No Host Yes Guest: " + self.collectionNoHostYesGuestReviews.length);
+					console.log("Yes Host No Guest: " + self.collectionYesHostNoGuestReviews.length);
+					console.log("Yes Host Yes Guest: " + self.collectionYesHostYesGuestReviews.length);
+
 					var num = 	self.collectionNoHostNoGuestReviews.length + 
 								self.collectionNoHostYesGuestReviews.length + 
 								self.collectionYesHostNoGuestReviews.length + 
@@ -1119,28 +1097,6 @@ define([
 				event.preventDefault();
 
 				var self = this;
-
-				this.modal({
-					title: 'Deny request',
-					body: 'A full boat means more fun for the Guests, and more $ for the Host! Are you sure you want to deny this seat request?',
-					noButton: false,
-					cancelButton: true,
-					cancelButtonText: "No",
-					closeButton: true,
-					yesButtonText: 'Yes',
-					yesCb: function() {
-						self.submitDenyRequest(event);
-					}
-				});
-
-
-			},
-
-			submitDenyRequest: function(event){
-
-				var self = this;
-
-				console.log("Submit dney request")
 
 				if( typeof Parse.User.current().get('host').get('stripeId') === typeof undefined || !Parse.User.current().get('host').get('stripeId') ) {
 					
@@ -1494,7 +1450,7 @@ define([
 			formatAmPm: function(date){
 				var hours = date.getHours();
 				var minutes = date.getMinutes();
-				var ampm = hours >= 12 ? 'pm' : 'am';
+				var ampm = hours >= 12 ? 'pm' : 'am'≠≠≠;
 				hours = hours % 12;
 				hours = hours ? hours : 12;
 				minutes = minutes < 10 ? '0'+minutes : minutes;
@@ -1512,12 +1468,13 @@ define([
 
 				var showCancelBtn = true;
 
-				if((this.model.get("status") == "cancelled") || (self.isPastBoatDay)){
+				if( this.model.get("status") == "cancelled" || (self.isPastBoatDay)){
 					showCancelBtn = false;
 				}
 
 				var _tpl = tpl({
-					showCancelBtn: showCancelBtn
+					showCancelBtn: showCancelBtn,
+					showRescheduleButton: self.isReadOnly
 				});
 
 				target.append(_tpl);
@@ -1844,8 +1801,6 @@ define([
 							
 						return true;
 					}
-					
-
 				};
 
 
@@ -1900,8 +1855,7 @@ define([
 					date: newDate,
 					rescheduleReason: rescheduleReason,
 					bookedSeats: 0,
-					rescheduleReasonShort: rescheduleReasonShort,
-					wasRescheduled: true
+					rescheduleReasonShort: rescheduleReasonShort
 				};
 
 				var qBoatDay = new Parse.Query(BoatDayModel);
@@ -2388,34 +2342,35 @@ define([
 
 				self.buttonLoader("Creating...", $(event.currentTarget));
 
-
-				baseBoatDay.relation('boatdayPictures').query().find().then(function(bdPictures) {
+				baseBoatDay.relation('boatdayPictures').query().find().then(function(bdPictures){
+					
 					baseBoatDay.clone().save({
 						status:'creation',
 						duplicateFrom: baseBoatDay,
 						duplicateSource: typeof baseBoatDay.get('duplicateSource') === typeof undefined ? baseBoatDay : baseBoatDay.get('duplicateSource'),
 						date: null
-					}).then(function(newBoatDay) {
-						
-						var promises = [];
+					}).then(function(newBoatDay){
+
+						console.log("clone created");
 						
 						_.each(bdPictures, function(bdPicture){
-							promises.push(bdPicture.clone().save().then(function(newPicture) {
-								newBoatDay.relation('boatdayPictures').add(newPicture); 
-							}));
+							newBoatDay.relation('boatdayPictures').add(bdPicture);
 						});
 
-						Parse.Promise.when(promises).then(function() {
-      						newBoatDay.save().then(function(bd){
-       							console.log("new boatday save success");
-       							Parse.history.navigate('boatday/'+bd.id, true);
-      						}, function(error){
-       							console.log(error);
-       							self.buttonLoader();
-      						});
-     					});
-    				});
-   				});
+						newBoatDay.save().then(function(bd){
+							console.log("new boatday save success");
+							Parse.history.navigate('boatday/'+bd.id, true);
+							
+						}, function(error){
+							console.log(error);
+							self.buttonLoader();
+						});
+
+					}, function(error){
+						console.log(error);
+						self.buttonLoader();
+					});
+				});
 
 
 			},
