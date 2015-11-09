@@ -54,6 +54,7 @@ define([
 				"click .rate-guest": "submitRating",
 				"click .stars img": "rate",
 				"click .chat-text-area .enter-chat-text": "submitChat",
+				"click .overviewinfo-right a.info-seatsBooked-link": "processOpenBookingRow",
 				"click .overviewinfo-right a.info-pending-link": "processOpenBookingRow",
 				"click .overviewinfo-right a.info-question-link": "processOpenQuestionRow",
 				"click .overviewinfo-right a.info-message-link" : "processOpenChatRow",
@@ -61,12 +62,14 @@ define([
 				"change .upload": "uploadNewFile",
 				"click .boatday-pic-thumbs img.addImage": "clickUpload",
 				"click .delete-picture": 'deleteBoatDayPicture',
+				"click .boatday-pic-thumbs img.thumb": 'showLargePic',
+				'click a.phone-link': 'displayPhoneNumber'
 				"click .boatday-pic-thumbs img.thumb": 'showLargePic'
 
 			},
 
 			theme: "dashboard",
-
+			
 			_map: null,
 
 			_marker: null,
@@ -94,6 +97,8 @@ define([
 			collectionYesHostNoGuestReviews: [],
 
 			chatLastFetch: null,
+
+			wasRescheduled: false,
 
 			isReadOnly: true,
 
@@ -140,6 +145,17 @@ define([
 					this.isPastBoatDay = true;
 				} 
 
+				if( typeof this.model.get('wasRescheduled') != typeof undefined ) {
+					if(this.model.get('wasRescheduled')){
+						this.wasRescheduled = true;
+					}
+				}
+			},
+
+			displayPhoneNumber: function(event){
+				event.preventDefault();
+				var id = $(event.currentTarget).attr('data-id');
+				this.$el.find('span.phoneNumber-'+id).toggle();
 			},
 
 			render: function() {
@@ -240,11 +256,11 @@ define([
 
 						self.collectionQuestions[question.id] = question;
 							
-							if((question.get("answer") == null) || question.get("answer") == ""){
-								self.collectionUnAnsweredQuestions.push(question);
-							}else{
-								self.collectionAnsweredQuestions.push(question);
-							}
+						if((question.get("answer") == null) || question.get("answer") == ""){
+							self.collectionUnAnsweredQuestions.push(question);
+						}else{
+							self.collectionAnsweredQuestions.push(question);
+						}
 					});
 
 
@@ -458,6 +474,10 @@ define([
 					
 					else if ( self.isPastBoatDay ) {
 						infoMessage = "Details cannot be edited for past BoatDays.";
+					}
+					
+					else if( self.wasRescheduled ){
+						infoMessage = 'You may only edit the details of a BoatDay if there are no pending or approved Guest requests. For any emergency changes, please contact BoatDay Team through the  <a href="#/help-center">Help Center</a>.';
 					}
 
 					else{
@@ -946,11 +966,6 @@ define([
 					
 					self.displayNewBookingCount(self.collectionNoHostYesGuestReviews.length + self.collectionYesHostYesGuestReviews.length);
 
-					console.log("No Host No Guest: " + self.collectionNoHostNoGuestReviews.length);
-					console.log("No Host Yes Guest: " + self.collectionNoHostYesGuestReviews.length);
-					console.log("Yes Host No Guest: " + self.collectionYesHostNoGuestReviews.length);
-					console.log("Yes Host Yes Guest: " + self.collectionYesHostYesGuestReviews.length);
-
 					var num = 	self.collectionNoHostNoGuestReviews.length + 
 								self.collectionNoHostYesGuestReviews.length + 
 								self.collectionYesHostNoGuestReviews.length + 
@@ -1095,6 +1110,25 @@ define([
 			denyRequest: function(event) {
 
 				event.preventDefault();
+
+				var self = this;
+				this.modal({
+					title: 'Deny request',
+					body: 'A full boat means more fun for the Guests, and more $ for the Host! Are you sure you want to deny this seat request?',
+					noButton: false,
+					cancelButton: true,
+					cancelButtonText: "No",
+					closeButton: true,
+					yesButtonText: 'Yes',
+					yesCb: function() {
+						self.submitDenyRequest(event);
+					}
+				});
+
+
+			},
+
+			submitDenyRequest: function(event){
 
 				var self = this;
 
@@ -1417,13 +1451,10 @@ define([
 				qQuestion.include("boatday");
 				qQuestion.include("from");
 				qQuestion.descending("updatedAt");
-
-				qQuestion.find().then(function(questions){
-					
-					self.collectionUnAnsweredQuestions = [];
+				qQuestion.find().then(function(questions) { self.collectionUnAnsweredQuestions = [];
 					self.collectionAnsweredQuestions = [];
 
-					_.each(questions, function(question){
+					_.each(questions, function(question) {
 
 						self.collectionQuestions[question.id] = question;
 							
@@ -1450,7 +1481,7 @@ define([
 			formatAmPm: function(date){
 				var hours = date.getHours();
 				var minutes = date.getMinutes();
-				var ampm = hours >= 12 ? 'pm' : 'am'≠≠≠;
+				var ampm = hours >= 12 ? 'pm' : 'am';
 				hours = hours % 12;
 				hours = hours ? hours : 12;
 				minutes = minutes < 10 ? '0'+minutes : minutes;
@@ -1855,7 +1886,8 @@ define([
 					date: newDate,
 					rescheduleReason: rescheduleReason,
 					bookedSeats: 0,
-					rescheduleReasonShort: rescheduleReasonShort
+					rescheduleReasonShort: rescheduleReasonShort,
+					wasRescheduled: true
 				};
 
 				var qBoatDay = new Parse.Query(BoatDayModel);
@@ -2351,28 +2383,25 @@ define([
 						date: null
 					}).then(function(newBoatDay){
 
-						console.log("clone created");
+						var promises = [];
 						
 						_.each(bdPictures, function(bdPicture){
-							newBoatDay.relation('boatdayPictures').add(bdPicture);
+							promises.push(bdPicture.clone().save().then(function(newPicture) {
+								newBoatDay.relation('boatdayPictures').add(newPicture); 
+							}));
 						});
-
-						newBoatDay.save().then(function(bd){
-							console.log("new boatday save success");
-							Parse.history.navigate('boatday/'+bd.id, true);
-							
-						}, function(error){
-							console.log(error);
-							self.buttonLoader();
-						});
-
-					}, function(error){
-						console.log(error);
-						self.buttonLoader();
-					});
-				});
-
-
+						
+						Parse.Promise.when(promises).then(function() {
+      						newBoatDay.save().then(function(bd){
+       							console.log("new boatday save success");
+       							Parse.history.navigate('boatday/'+bd.id, true);
+      						}, function(error){
+       							console.log(error);
+       							self.buttonLoader();
+      						});
+     					});
+    				});
+   				});
 			},
 
 			displayBoatDayPictures: function() {

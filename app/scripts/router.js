@@ -119,13 +119,10 @@ define([
 		showDashboardView: function() {
 
 			var self = this;
-			var cb = function() {
-				
+
+			this.handleGuestAndSignUp(function() {
 				self.render(new DashboardView());
-
-			};
-
-			this.handleGuestAndSignUp(cb);
+			});
 
 		},
 
@@ -133,7 +130,7 @@ define([
 			
 			var self = this;
 
-			var cb = function() {
+			this.handleGuestAndSignUp(function() {
 				
 				var success = function(profile) {
 
@@ -149,9 +146,7 @@ define([
 
 				new Parse.Query(ProfileModel).get(id).then(success, error);
 
-			};
-
-			this.handleGuestAndSignUp(cb);
+			});
 
 		},
 		showBoatView: function( boatid ) {
@@ -427,15 +422,15 @@ define([
 
 		render: function(view) {
 
-			if(this.currentView != null) {
-
+			if( this.currentView != null ) {
 				this.currentView.teardown();
-
 			}
 
 			$("#app").html( view.render().el );
 
-			view.afterRender();
+			setTimeout(function() {
+				view.afterRender();
+			}, 0);
 			
 			this.currentView = view;
 
