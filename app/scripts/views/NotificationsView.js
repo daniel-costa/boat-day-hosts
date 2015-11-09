@@ -135,6 +135,7 @@ define([
 					} 
 				}
 
+				console.log(notification);
 				var data = {
 					boatdayIsPast: boatdayIsPast,
 					dateStr: self.formatDateWithMonthAndDate(notification.createdAt),
@@ -181,6 +182,7 @@ define([
 			query.include('boat');
 			query.include('boatday');
 			query.include('request');
+			query.include('request.boatday');
 
 			query.find().then(function(matches){
 

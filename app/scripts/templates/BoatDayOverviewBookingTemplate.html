@@ -100,8 +100,8 @@
 										 if(request.get('profile').get('phone') != undefined) {
 										%>
 											<span class="phoneNumber-<%= request.id  %>" style="display:none;">
-												<% var phone = request.get('profile').get('phone'); %>
-												<%= phone.length == 10 ? phone.match(new RegExp('.{1,3}', 'g')).join("-") : phone %>
+												<br/><% var phone = request.get('profile').get('phone'); %>
+												<%= phone %>
 											</span>
 
 										<% } %>

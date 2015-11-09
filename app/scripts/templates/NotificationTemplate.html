@@ -111,11 +111,11 @@
 				<% } %>
 				
 				<% if( action == "reschedule-approved" ) { %>
-					has confirmed <%= seats %> seat(s)  for your rescheduled BoatDay <a href="#boatday-overview/<%= boatdayId %>?show=request"><%= boatdayName %></a>.
+					has confirmed <%= seats %> seat(s)  for your rescheduled BoatDay <a href="#boatday-overview/<%= request.get('boatday').id %>?show=request"><%= request.get('boatday').get('name') %></a>.
 				<% } %>
 				
 				<% if( action == "reschedule-denied" ) { %>
-					can't make it to your rescheduled BoatDay <a href="#boatday-overview/<%= boatdayId %>?show=request"><%= boatdayName %></a>, and has cancelled <%= seats %> requested seat(s).
+					can't make it to your rescheduled BoatDay <a href="#boatday-overview/<%= request.get('boatday').id %>?show=request"><%= request.get('boatday').get('name') %></a>, and has cancelled <%= seats %> requested seat(s).
 				<% } %>
 
 				<% if( action == "bd-message" ) { %>
