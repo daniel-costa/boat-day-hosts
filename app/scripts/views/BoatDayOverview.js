@@ -63,9 +63,8 @@ define([
 				"click .boatday-pic-thumbs img.addImage": "clickUpload",
 				"click .delete-picture": 'deleteBoatDayPicture',
 				"click .boatday-pic-thumbs img.thumb": 'showLargePic',
-				'click a.phone-link': 'displayPhoneNumber'
+				'click a.phone-link': 'displayPhoneNumber',
 				"click .boatday-pic-thumbs img.thumb": 'showLargePic'
-
 			},
 
 			theme: "dashboard",
