@@ -208,7 +208,7 @@ define([
 						
 						self.collectionSeatRequests[request.id] = request;
 
-						if( request.get('status') == "pending" || request.get('status') == "pending-guest" ){
+						if( request.get('status') == "pending" ){
 							self.collectionPendingSeatRequests.push(request);
 						}
 
@@ -1046,7 +1046,7 @@ define([
 					}
 
 					infoPendingCountTarget.html(count);
-					infoPendingLinkTarget.html( 'Pending Request' + pl );
+					infoPendingLinkTarget.html( 'Pending<br/>Request' + pl );
 				}
 				
 			},
