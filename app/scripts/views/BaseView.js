@@ -618,7 +618,6 @@ define([
 			
 			_.each(this.timersToKill, function(t) {
 				clearInterval(t);
-				console.log("timer killed");
 			})
 
 			if(this.model) {

@@ -2203,9 +2203,6 @@ define([
 			},
 
 			fetchChat: function(boatday) {
-
-				console.log("Fetch chat");
-
 				var self = this;
 
 				var q = boatday.relation('chatMessages').query();
@@ -2528,7 +2525,7 @@ define([
 
 					if( (nextNum == null) && (prevNum == null) ){
 						self.$el.find('.boatday-pic-slider .large-pic').removeClass('display-remove');
-						self.$el.find('.boatday-pic-slider .large-pic img.boatday-pic-large').attr('src', 'resources/boatday_img_placeholder_large.png');
+						self.$el.find('.boatday-pic-slider .large-pic img.boatday-pic-large').attr('src', 'resources/boatday_img_placeholder_large_2.png');
 					}
 					else {
 						if( prevNum != null ){

@@ -135,7 +135,6 @@ define([
 					} 
 				}
 
-				console.log(notification);
 				var data = {
 					boatdayIsPast: boatdayIsPast,
 					dateStr: self.formatDateWithMonthAndDate(notification.createdAt),
