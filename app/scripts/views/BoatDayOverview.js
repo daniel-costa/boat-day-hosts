@@ -1479,10 +1479,10 @@ define([
 
 				target.append(_tpl);
 			
-			},				
+			},
 
 			renderRescheduleBoatDay: function(){
-				
+
 				var self = this;
 
 				var tpl = _.template(BoatDayOverviewRescheduleTemplate);
