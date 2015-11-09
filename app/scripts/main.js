@@ -66,8 +66,6 @@ require(['parse', 'router', 'views/AppView', 'bootstrap', 'datepicker', 'slider'
 
 	//Parse.initialize("8YpQsh2LwXpCgkmTIIncFSFALHmeaotGVDTBqyUv", "FaULY8BIForvAYZwVwqX4IAmfsyxckikiZ2NFuEp"); //HP
 
-	// Parse.initialize("8YpQsh2LwXpCgkmTIIncFSFALHmeaotGVDTBqyUv", "FaULY8BIForvAYZwVwqX4IAmfsyxckikiZ2NFuEp"); //HP
-
 
 	var cb = function() {
 		new AppRouter();
