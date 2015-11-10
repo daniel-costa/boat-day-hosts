@@ -544,38 +544,28 @@ define([
 				
 				self.$el.find('[data-toggle="tooltip"]').tooltip();
 
-				var boatsFetchSuccess = function(matches) {
+				var queryBoats1 = Parse.User.current().get('host').relation('boats').query();
+				var queryBoats2 = new Parse.Query(Parse.Object.extend('Boat'));
+				queryBoats2.equalTo('profile', this.model.get('host').get('profile'));
 
-					if(self.isReadOnly){
+				var q = new Parse.Query.or(queryBoats1, queryBoats2);
+				q.ascending('name');
+				q.find().then(function(matches) {
+
+					if( self.isReadOnly ) {
 						var select = $('<select>').attr({ id: 'boat', name: 'boat', class: 'form-control', disabled:'disabled' });
-					}
-					else{
+					} else {
 						var select = $('<select>').attr({ id: 'boat', name: 'boat', class: 'form-control' });
 					}
 
-						_.each(matches, function(boat) {
+					_.each(matches, function(boat) {
+						select.append($('<option ' + ( boat.id == self.model.get("boat").id ? "selected" : "" ) + '>').attr('value', boat.id).text(boat.get('name') + ', ' + boat.get('type')));
+						self.collectionBoats[boat.id] = boat;
+					});
 
-							var selected = (boat.id == self.model.get("boat").id ? "selected" : "");
-							var opt = $('<option '+selected+'>').attr('value', boat.id).text(boat.get('name') + ', ' + boat.get('type'));
-
-							select.append(opt);
-							self.collectionBoats[boat.id] = boat;
-
-						});
-						self.$el.find('.boats').html(select);
-						select.change();
-				};
-
-				var queryBoats = Parse.User.current().get('host').relation('boats').query();
-				queryBoats.ascending('name');
-				queryBoats.find().then(boatsFetchSuccess);
-
-				if( this.model.get('host') ) {
-					var queryBoats = this.model.get('host').relation('boats').query();
-					queryBoats.ascending('name');
-					queryBoats.find().then(boatsFetchSuccess);	
-				}
-				
+					self.$el.find('.boats').html(select);
+					select.change();
+				});
 
 				// Todo change startDate by 0d after 11 Jul. 2015
 				this.$el.find('.date').datepicker({
@@ -584,7 +574,6 @@ define([
 				});
 
 				if( this.model.get('date') ) {
-					
 					this.$el.find('.date').datepicker('setDate', this.model.get('date'));
 				}
 
