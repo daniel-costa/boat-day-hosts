@@ -546,7 +546,8 @@ define([
 
 				var queryBoats1 = Parse.User.current().get('host').relation('boats').query();
 				var queryBoats2 = new Parse.Query(Parse.Object.extend('Boat'));
-				queryBoats2.equalTo('profile', this.model.get('host').get('profile'));
+				queryBoats2.equalTo('host', this.model.get('host'));
+				console.log(this.model.get('host'));
 
 				var q = new Parse.Query.or(queryBoats1, queryBoats2);
 				q.ascending('name');
