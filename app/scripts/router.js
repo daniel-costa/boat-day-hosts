@@ -396,7 +396,9 @@ define([
 						}
 					};
 
-					new Parse.Query(BoatDayModel).get(boatdayid).then(boatDayOverviewSuccess, boatDayOverviewError);
+					var query = new Parse.Query(BoatDayModel);
+					query.include('captain');
+					query.get(boatdayid).then(boatDayOverviewSuccess, boatDayOverviewError);
 				
 				} else {
 					console.log("Error in getting boatday id");

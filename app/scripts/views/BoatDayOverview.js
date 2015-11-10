@@ -1,7 +1,4 @@
 define([
-	//'async!https://maps.google.com/maps/api/js?sensor=false',
-	//'async!https://maps.google.com/maps/api/js?sensor=false&libraries=places!callback',
-	//'async!https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initMap"',
 	'views/BaseView',
 	'models/BoatDayModel',
 	'models/ChatMessageModel',
@@ -20,11 +17,11 @@ define([
 	'text!templates/BoatDayNewQuestionRowTemplate.html',
 	'text!templates/BoatDayOldQuestionRowTemplate.html',
 	'text!templates/BoatDayOverviewRatingRowTemplate.html',
-	'text!templates/BoatdayOverViewReadOnlyTemplate.html',
+	'text!templates/BoatDayOverviewReadOnlyTemplate.html',
 	'text!templates/BoatDayPictureTemplate.html'
-	], function(BaseView, BoatDayModel, ChatMessageModel, NotificationModel, FileHolderModel, BoatDayOverviewTemplate, BoatDayOverviewInfoTemplate, BoatDayOverviewEditTemplate, BoatDayOverviewGroupChatTemplate, BoatDayOverviewBookingTemplate, BoatDayOverviewQuestionsTemplate, BoatDayOverviewCancelTemplate, BoatDayOverviewRescheduleTemplate, BoatDayOverviewChatMessageTemplate, BoatDayOverviewBoookingRowTemplate, BoatDayNewQuestionRowTemplate, BoatDayOldQuestionRowTemplate, BoatDayOverviewRatingRowTemplate, BoatdayOverViewReadOnlyTemplate, BoatDayPictureTemplate){
+	], function(BaseView, BoatDayModel, ChatMessageModel, NotificationModel, FileHolderModel, BoatDayOverviewTemplate, BoatDayOverviewInfoTemplate, BoatDayOverviewEditTemplate, BoatDayOverviewGroupChatTemplate, BoatDayOverviewBookingTemplate, BoatDayOverviewQuestionsTemplate, BoatDayOverviewCancelTemplate, BoatDayOverviewRescheduleTemplate, BoatDayOverviewChatMessageTemplate, BoatDayOverviewBoookingRowTemplate, BoatDayNewQuestionRowTemplate, BoatDayOldQuestionRowTemplate, BoatDayOverviewRatingRowTemplate, BoatDayOverviewReadOnlyTemplate, BoatDayPictureTemplate){
 
-		var BoatdayOveviewView = BaseView.extend({
+		var BoatDayOveviewView = BaseView.extend({
 
 			className:"view-overview",
 
@@ -369,7 +366,7 @@ define([
 				var self = this;
 				var boatday = this.model;
 
-				var tpl = _.template(BoatdayOverViewReadOnlyTemplate);
+				var tpl = _.template(BoatDayOverviewReadOnlyTemplate);
 				var target = self.$el.find('.dashboard-canvas .boatday-overview-read-only');
 				target.html('');
 
@@ -560,6 +557,7 @@ define([
 
 							var selected = (boat.id == self.model.get("boat").id ? "selected" : "");
 							var opt = $('<option '+selected+'>').attr('value', boat.id).text(boat.get('name') + ', ' + boat.get('type'));
+
 							select.append(opt);
 							self.collectionBoats[boat.id] = boat;
 
@@ -571,6 +569,13 @@ define([
 				var queryBoats = Parse.User.current().get('host').relation('boats').query();
 				queryBoats.ascending('name');
 				queryBoats.find().then(boatsFetchSuccess);
+
+				if( this.model.get('host') ) {
+					var queryBoats = this.model.get('host').relation('boats').query();
+					queryBoats.ascending('name');
+					queryBoats.find().then(boatsFetchSuccess);	
+				}
+				
 
 				// Todo change startDate by 0d after 11 Jul. 2015
 				this.$el.find('.date').datepicker({
@@ -1721,7 +1726,7 @@ define([
 
 
 				this.modal({
-					title: 'Cancel Boatday: ' + self.model.get("name"),
+					title: 'Cancel BoatDay: ' + self.model.get("name"),
 					body: modalBody,
 					noButton: false,
 					closeButton: true,
@@ -1854,7 +1859,7 @@ define([
 
 
 				this.modal({
-					title: 'Reschedule Boatday: ' + self.model.get("name") + "?",
+					title: 'Reschedule BoatDay: ' + self.model.get("name") + "?",
 					body: modalBody,
 					noButton: false,
 					closeButton: true,
@@ -2170,6 +2175,10 @@ define([
 				self.collectionCaptains = {};
 				self.collectionCaptains[Parse.User.current().get('profile').id] = Parse.User.current().get('profile');
 
+				if( this.model.get('captain').id != Parse.User.current().get('profile').id) {
+					self.collectionCaptains[this.model.get('captain').id] = this.model.get('captain');
+				}
+
 				var queryCaptains = boat.relation('captains').query();
 				queryCaptains.equalTo('status', 'approved');
 				queryCaptains.include('captainProfile');
@@ -2192,6 +2201,11 @@ define([
 
 					_.each(self.collectionCaptains, function(captain) {
 						var opt = $('<option>').attr('value', captain.id).text(captain.get('displayName'));
+						
+						if( captain.id === self.model.get('captain').id ) {
+							opt.attr('selected', 'true');
+						}
+
 						select.append(opt);
 						self.collectionCaptains[captain.id] = captain;
 					});
@@ -2542,6 +2556,6 @@ define([
 
 		});
 
-	return BoatdayOveviewView;
+	return BoatDayOveviewView;
 
 });

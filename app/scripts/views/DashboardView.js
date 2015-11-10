@@ -164,54 +164,51 @@ define([
 					_.each(boatdays, function(boatday) {
 						
 						left = !left;
+						self.boatdays[boatday.id] = boatday;
 
 						var bdDate = new Date(boatday.get("date"));
+
+						target.append(tpl({
+							_class: left ? 'left' : 'right',
+							id: boatday.id,
+							status: boatday.get('status'),
+							//date: self.dateParseToDisplayDate(boatday.get('date')),
+							date: self.formatDateWithMonthAndDate(bdDate) + ", " + bdDate.getFullYear(),
+							time: self.departureTimeToDisplayTime(boatday.get('departureTime')),
+							duration: boatday.get('duration'),
+							name: boatday.get('name'),
+							availableSeats: boatday.get('availableSeats'),
+							bookedSeats: boatday.get('bookedSeats'),
+							potEarings: boatday.get('price') * (1 - Parse.User.current().get('host').get('rate') ) * boatday.get('availableSeats'),
+							boatName: boatday.get('boat').get('name'),
+							boatType: boatday.get('boat').get('type'),
+							boatYear: boatday.get('boat').get('buildYear'),
+							captainName: boatday.get('captain').get('displayName'),
+							picture: 'resources/boat-placeholder.png',
+							description: boatday.get('description'),
+							price: boatday.get('price'),
+							activity: self.boatdayActivityToDisplay(boatday.get('category')),
+							booking: self.boatdayBookingToDisplay(boatday.get('bookingPolicy')),
+							cancellation: self.boatdayCancellationToDisplay(boatday.get('cancellationPolicy')),
+							location: boatday.get('locationText'),
+							active: true,
+							host: boatday.get('host')
+						}));
 
 						var SeatRequest = Parse.Object.extend("SeatRequest");
 						var qSeatRequest = new Parse.Query(SeatRequest);
 						qSeatRequest.equalTo("boatday", boatday);
 						qSeatRequest.containedIn("status", ["pending", "pending-guest"]);
 						qSeatRequest.count().then(function(count){
-							var _tpl = tpl({
-								pendingRequests: count,
-								_class: left ? 'left' : 'right',
-								id: boatday.id,
-								status: boatday.get('status'),
-								//date: self.dateParseToDisplayDate(boatday.get('date')),
-								date: self.formatDateWithMonthAndDate(bdDate) + ", " + bdDate.getFullYear(),
-								time: self.departureTimeToDisplayTime(boatday.get('departureTime')),
-								duration: boatday.get('duration'),
-								name: boatday.get('name'),
-								availableSeats: boatday.get('availableSeats'),
-								bookedSeats: boatday.get('bookedSeats'),
-								potEarings: boatday.get('price') * (1 - Parse.User.current().get('host').get('rate') ) * boatday.get('availableSeats'),
-								boatName: boatday.get('boat').get('name'),
-								boatType: boatday.get('boat').get('type'),
-								boatYear: boatday.get('boat').get('buildYear'),
-								captainName: boatday.get('captain').get('displayName'),
-								picture: 'resources/boat-placeholder.png',
-								description: boatday.get('description'),
-								price: boatday.get('price'),
-								activity: self.boatdayActivityToDisplay(boatday.get('category')),
-								booking: self.boatdayBookingToDisplay(boatday.get('bookingPolicy')),
-								cancellation: self.boatdayCancellationToDisplay(boatday.get('cancellationPolicy')),
-								location: boatday.get('locationText'),
-								active: true,
-								host: boatday.get('host')
-							});
-
-							self.boatdays[boatday.id] = boatday;
-							target.append(_tpl);
+							self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .earnings strong').text(count);
 						});
 
 						var q = boatday.relation('boatdayPictures').query()
 						q.ascending('order');
 						q.first().then(function(fileholder) {
-							
 							if( fileholder ) {
 								self.$el.find('.my-boatdays .my-boatday-'+boatday.id+' .picture').css({ backgroundImage: 'url('+fileholder.get('file').url()+')' });
 							}
-
 						});
 
 						self.requests[boatday.id] = {};

@@ -58,7 +58,7 @@ mkdir -p $DIST/scripts/vendor/underscore/
 cp -R $DVPT/scripts/vendor/underscore/underscore-min.* $DIST/scripts/vendor/underscore/
 
 mkdir -p $DIST/scripts/vendor/requirejs-plugins/src/
-cp -R $DVPT/scripts/vendor/requirejs-plugins/src/async.js $DIST/scripts/vendor/requirejs-plugins/src/
+cp -R $DVPT/scripts/vendor/requirejs-plugins/src/* $DIST/scripts/vendor/requirejs-plugins/src/
 
 sed -i "" "s/globalDebug: true/globalDebug: false/g" $DIST/scripts/views/BaseView.js
 sed -i "" "s|urlArgs|//urlArgs|g" $DIST/scripts/main.js
