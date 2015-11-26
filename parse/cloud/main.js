@@ -154,7 +154,7 @@ Parse.Cloud.define("attachUserProfileToInstallationWithInstallationId", function
 	Parse.Cloud.useMasterKey();
 
 	var query = new Parse.Query(Parse.Installation);
-	query.equalTo('intallationId', request.params.installationId);
+	query.equalTo('installationId', request.params.installationId);
 	query.first().then(function(install) {
 		new Parse.Query(Parse.Object.extend('_User')).get(request.params.user).then(function(user) {
 			new Parse.Query(Parse.Object.extend('Profile')).get(request.params.profile).then(function(profile) {
