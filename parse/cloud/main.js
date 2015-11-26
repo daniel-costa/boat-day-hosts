@@ -148,6 +148,27 @@ Parse.Cloud.define("attachUserProfileToInstallation", function(request, response
 
 });
 
+
+Parse.Cloud.define("attachUserProfileToInstallationWithInstallationId", function(request, response) {
+
+	Parse.Cloud.useMasterKey();
+
+	var query = new Parse.Query(Parse.Installation);
+	query.equalTo('intallationId', request.params.installationId);
+	query.first().then(function(install) {
+		new Parse.Query(Parse.Object.extend('_User')).get(request.params.user).then(function(user) {
+			new Parse.Query(Parse.Object.extend('Profile')).get(request.params.profile).then(function(profile) {
+				install.set('user', user);
+				install.set('profile', profile);
+				install.save().then(function() {
+					response.success();
+				});
+			});
+		});
+	});
+
+});
+
 Parse.Cloud.define("grantCmsAdmin", function(request, response) {  
 	
 	if( !request.params.userId ) 
