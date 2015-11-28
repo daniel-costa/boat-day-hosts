@@ -1245,7 +1245,7 @@ define([
 						fromTeam: false,
 						message: null,
 						to: request.get('profile'),
-						from:  Parse.User.current().get('profisaccele'),
+						from:  Parse.User.current().get('profile'),
 						boatday: request.get('boatday'),
 						sendEmail: false,
 						request: request
