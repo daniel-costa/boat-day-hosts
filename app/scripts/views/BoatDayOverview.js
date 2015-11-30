@@ -1345,7 +1345,11 @@ define([
 
 				target.append(_tpl);
 
-				self.loadQuestions();
+				if(boatday.get("status") != "cancelled"){
+					self.loadQuestions();
+				}
+
+				
 
 			},
 
