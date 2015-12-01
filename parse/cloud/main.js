@@ -148,7 +148,6 @@ Parse.Cloud.define("attachUserProfileToInstallation", function(request, response
 
 });
 
-
 Parse.Cloud.define("attachUserProfileToInstallationWithInstallationId", function(request, response) {
 
 	Parse.Cloud.useMasterKey();
