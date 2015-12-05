@@ -11,15 +11,9 @@ Parse.Cloud.define("requestRescheduleGuestAnswer", function(request, response) {
 	query.include('boatday');
 	query.include('boatday.captain');
 	query.get(requestId).then(function(seatRequest) {
-		
 		var boatday = seatRequest.get('boatday');
-
-		console.log(data);
-
 		seatRequest.save(data).then(function(seatRequest) {
-
 			var cbDone = function() {
-				
 				var Notification = Parse.Object.extend('Notification');
 				new Notification().save({
 					action: isApproved ? 'reschedule-approved' : 'reschedule-denied',
@@ -34,7 +28,6 @@ Parse.Cloud.define("requestRescheduleGuestAnswer", function(request, response) {
 				}, function(error) {
 					console.log(error);
 				});
-
 			};
 
 			if( isApproved ) {
@@ -47,14 +40,12 @@ Parse.Cloud.define("requestRescheduleGuestAnswer", function(request, response) {
 			} else {
 				cbDone();
 			}
-
 		}, function(error) {
 			console.log(error);
 		});
 	}, function(error) {
 		console.log(error);
-	})
-		
+	})		
 });
 
 Parse.Cloud.define("updateHostBankAccount", function(request, response) {
@@ -155,15 +146,21 @@ Parse.Cloud.define("attachUserProfileToInstallationWithInstallationId", function
 	var query = new Parse.Query(Parse.Installation);
 	query.equalTo('installationId', request.params.installationId);
 	query.first().then(function(install) {
-		new Parse.Query(Parse.Object.extend('_User')).get(request.params.user).then(function(user) {
-			new Parse.Query(Parse.Object.extend('Profile')).get(request.params.profile).then(function(profile) {
-				install.set('user', user);
-				install.set('profile', profile);
-				install.save().then(function() {
-					response.success();
+		if( install ) {
+			new Parse.Query(Parse.Object.extend('_User')).get(request.params.user).then(function(user) {
+				new Parse.Query(Parse.Object.extend('Profile')).get(request.params.profile).then(function(profile) {
+					install.set('user', user);
+					install.set('profile', profile);
+					install.save().then(function() {
+						response.success();
+					});
 				});
 			});
-		});
+		} else {
+			// yes
+			console.log('** no installation found for "' + request.params.installationId +'" **');
+			response.success();
+		}
 	});
 
 });
@@ -232,56 +229,347 @@ Parse.Cloud.afterSave("Notification", function(request) {
 
 	var notification = request.object;
 
-	var queryNotification = new Parse.Query(Parse.Object.extend('Notification'));
-	queryNotification.include('to');
-	queryNotification.include('to.user');
-	queryNotification.get(notification.id).then(function(notification) {
+	Parse.Config.get().then(function(config) {
+		var queryNotification = new Parse.Query(Parse.Object.extend('Notification'));
+		queryNotification.include('to');
+		queryNotification.include('to.user');
+		queryNotification.get(notification.id).then(function(notification) {
 
-		if( notification.get('to').get('user') && typeof notification.get('to').get('user').get("email") !== typeof undefined && notification.get('sendEmail') ) {
+			if( typeof notification.get('alertsSent') !== typeof undefined && notification.get('alertsSent') ) {
+				console.log('Alerts already sent for ' + notification.id);
+				return ;
+			} else {
+				console.log('Needs to send alerts');
+			}
 
-			var Mailgun = require('mailgun');
-
-			Parse.Config.get().then(function(config) {
-				
-				Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
-
-				Mailgun.sendEmail({
-					to: notification.get('to').get('user').get("email"),
-					from: config.get("CAPTAIN_EMAIL_FROM"),
-					subject: "You have a new notification",
-					text: 	"Hi " + notification.get('to').get('displayName') + ",\n\nYou have a new message in your BoatDay inbox, access the BoatDay Host Center - https://www.boatdayhosts.com - to read your messages.\n\nWelcome aboard,\nThe BoatDay Team"
-				});
-			});
-
-		} else {
-
-			var query = new Parse.Query(Parse.Installation);
-			query.equalTo('profile', notification.get('to'));
+			var basicHostMessage = "Hi " + notification.get('to').get('displayName') + ",\n\nYou have a new message in your BoatDay inbox, access the BoatDay Host Center - https://www.boatdayhosts.com - to read your messages.\n\nWelcome aboard,\nThe BoatDay Team";
+			var isHost = typeof notification.get('to').get('host') !== typeof undefined;
+			var phoneNumber = !isHost ? null : notification.get('to').get('host').get('phone');
 
 			switch( notification.get('action') ) {
-				case "request-approved"       : var message = "Your seat request has been approved"; break;
-				case "request-denied"         : var message = "Your seat request has been denied"; break;
-				case "request-cancelled-host" : var message = "You have been removed from a BoatDay."; break;
-				case "boatday-cancelled"      : var message = "Your BoatDay has been cancelled by the Host."; break;
-				case "auto-payment"           : var message = "Your BoatDay payment has been charged."; break;
-				case "boatday-message"        : var message = "You have a new chat message for your BoatDay!"; break;
-				case "boatday-rating"         : var message = "You just received a review!"; break;
-				case "bd-message"             : var message = notification.get('message'); break;
-				default                       : var message = "You have a new notification!"; break;
+				case "request-approved": 
+					// To Guest
+					var sendPush = true;
+					var pushMessage = "Your seat request has been approved";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = true;
+					var textMessage = null; 
+					break;
+				case "request-denied": 
+					// To Guest
+					var sendPush = true;
+					var pushMessage = "Your seat request has been denied";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "request-cancelled-host": 
+					// To Guest
+					var sendPush = true;
+					var pushMessage = "You have been removed from a BoatDay.";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boatday-question": 
+					// To Host
+					var sendPush = true;
+					var pushMessage = "";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boatday-answer":
+					// To Guest
+					var sendPush = true;
+					var pushMessage = "";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boatday-request": 
+					// To Host
+					var sendPush = true;
+					var pushMessage = "";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boatday-rating":
+					// To Host 
+					var sendPush = true;
+					var pushMessage = "";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boatday-cancelled": 
+					// To Guest
+					var sendPush = true;
+					var pushMessage = "Your BoatDay has been cancelled by the Host.";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boatday-message": 
+					// To Guest + Host
+					var sendPush = true;
+					var pushMessage = "You have a new chat message for your BoatDay!";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boatday-reschedule": 
+					// To Guest
+					var sendPush = true;
+					var pushMessage = "";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boatday-rating": 
+					// To Guest
+					var sendPush = true;
+					var pushMessage = "You just received a review!";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boatday-review": 
+					// To Host
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boatday-payment": 
+					// To Host
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "reschedule-approved": 
+					// To Host
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = true;
+					var emailFrom = "no-reply@boatdayapp.com";
+					var emailSubject = "You have a new notification!";
+					var emailMessage = "";
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "reschedule-denied": 
+					// To Host
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = true;
+					var emailFrom = "no-reply@boatdayapp.com";
+					var emailSubject = "You have a new notification!";
+					var emailMessage = "";
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "auto-payment": 
+					// To Guest
+					var sendPush = true;
+					var pushMessage = "Your BoatDay payment has been charged.";
+					// We don't send any email because stripe will
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "certification-approved": 
+					// To Host
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "certification-denied": 
+					// To Host
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "host-approved": 
+					// To Host
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "host-denied": 
+					// To Host
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boat-approved": 
+					// To Host
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boat-denied": 
+					// To Host
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "bd-message": 
+					// To Guest + Host
+					var sendPush = true;
+					var pushMessage = "New message from the BoatDay Team in your notifications.";
+					var sendEmail = true;
+					var emailFrom = "no-reply@boatdayapp.com";
+					var emailSubject = pushMessage;
+					var emailMessage = notification.get('message');
+					var sendText = false;
+					var textMessage = null;
+					break;
+				default : 
+					// To Guest + Host
+					var sendPush = true;
+					var pushMessage = "You have a new notification!";
+					var sendEmail = false;
+					var emailFrom = "no-reply@boatdayapp.com";
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
 			} 
 
-			Parse.Push.send({
-				where: query, // Set our Installation query
-				data: {
-					alert: message
-				}
-			}, {
-				success: function() { },
-				error: function(error) {
+			// CMS ones : certificate-approved, boat-approved, host-approved
+			
+			var promises = [];
+
+			if( sendEmail && notification.get('to').get('user') && typeof notification.get('to').get('user').get("email") !== typeof undefined ) {
+				var Mailgun = require('mailgun');
+				Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
+				var promise = Mailgun.sendEmail({
+					to: notification.get('to').get('user').get("email"),
+					from: emailFrom,
+					subject: emailSubject,
+					text: emailMessage
+				}).then(function() {
+					console.log("Notification sent to email");
+				}, function(error) {
 					console.log(error);
-				}
+				});
+				promises.push(promise);
+			}
+
+			if( sendText && phoneNumber ) {
+				
+				// ToDo Add twilio credentials to config
+				var twilio = require('twilio')('ACc00e6d3c6380421f6a05634a11494195', 'c820541dd98d43081cce417171f33cbc');
+				
+				twilio.sendSms({
+					to: phoneNumber,
+					from: '+17865745669',
+					body: textMessage 
+				}, function(err, responseData) { 
+					if (err) {
+						console.log(err);
+					}
+				});
+
+				// ToDo: promises for Text
+			}
+
+			if( sendPush ) {
+				var query = new Parse.Query(Parse.Installation);
+				query.equalTo('profile', notification.get('to'));
+				var promise = Parse.Push.send({
+					where: query,
+					data: { alert: pushMessage }
+				}).then(function() {
+					console.log("Notification sent to push");
+				}, function(error) { 
+					console.log(error);
+				});
+				promises.push(promise);
+			}
+
+			Parse.Promise.when(promises).then(function() {
+				notification.save({ alertsSent: true });
 			});
-		}
+		});
 	});
 });
 
@@ -502,7 +790,6 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 						description: 'BoatDay contribution for ' + seatRequest.get('seats') + ' seat' + ( seatRequest.get('seats') == 1 ? '' : 's' )
 					};
 
-					
 					seatRequest.get('user').fetch().then(function(user) {
 
 						if( typeof seatRequest.get('user').get('email') != typeof undefined ) {
@@ -528,13 +815,7 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 				});
 			});
 		}
-		/*
-		3767 5055 3631 017
-		0046
-		11 19
 
-		osed64lXDK
-	*/
 		if( seatRequest.get('status') == 'cancelled-guest' && !seatRequest.get('cancelled') ) {
 
 			new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
@@ -547,10 +828,8 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 
 							var guestShare = host.get('type') == 'business' ? config.get('PRICE_GUEST_CHARTER_PART') : config.get('PRICE_GUEST_PRIVATE_PART');
 							var guestFee = Math.ceil(boatday.get('price') / (1 - guestShare)) - boatday.get('price');
-
 							var priceSeatTotal = boatday.get('price') + guestFee - ( seatRequest.get('bdDiscountPerSeat') + data.promoCodeSeat );
 							var priceTotal = priceSeatTotal * seatRequest.get('seats') - ( seatRequest.get('bdDiscount') + data.promoCode );
-
 							var chargedAmount = config.get('TRUST_AND_SAFETY_FEE') * seatRequest.get('seats');
 
 							// console.log("data=");
@@ -599,8 +878,7 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 									chargedAmount += priceTotal * 0.5;
 								}
 
-							}	
-
+							}
 
 							console.log('** Cancellation amount: '+ chargedAmount);
 
@@ -620,6 +898,8 @@ Parse.Cloud.afterSave("SeatRequest", function(request) {
 										cancelled: true,
 										contribution: chargedAmount,
 										contributionPaid: true,
+									}).then(function() {
+										// Save Notification boatday-review
 									});
 								},
 								error: function(httpResponse) {
@@ -667,8 +947,9 @@ Parse.Cloud.beforeSave("CreditCard", function(request, response) {
 					description: card.id,
 				},
 				success : function(httpResponse) {
-					card.save({ stripeId: httpResponse.data.id });
-					response.success();
+					card.save({ stripeId: httpResponse.data.id }).then(function() {
+						response.success();
+					});
 				},
 				error : function(httpResponse) {
 					console.log(httpResponse.data.error.message);
@@ -687,21 +968,13 @@ Parse.Cloud.afterSave("ChatMessage", function(request) {
 	var _ = require('underscore');
 
 	if( message.get('addToBoatDay') ) {
-
 		message.save({ addToBoatDay: false });
-
 		new Parse.Query(Parse.Object.extend('BoatDay')).get(message.get('boatday').id).then(function(boatday) {
-
 			boatday.relation('chatMessages').add(message);
-
 			boatday.save().then(function() {
-
 				// Notify host		
 				new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
-
 					if( message.get('profile').id != host.get('profile').id ) {
-						console.log('** Notify Host ***');
-
 						new Notification().save({
 							action: 'boatday-message',
 							fromTeam: false,
@@ -712,7 +985,6 @@ Parse.Cloud.afterSave("ChatMessage", function(request) {
 							sendEmail: false
 						});
 					}
-					
 					// Notify Captain
 					if( message.get('profile').id != boatday.get('captain').id && boatday.get('captain').id != host.get('profile').id ) {
 						console.log('** Notify Captain ***');
@@ -734,12 +1006,7 @@ Parse.Cloud.afterSave("ChatMessage", function(request) {
 				query.equalTo('boatday', boatday);
 				query.notEqualTo('profile', message.get('profile'));
 				query.find().then(function(requests) {
-
-					console.log("got requests")
-					console.log(requests);
-
 					_.each(requests, function(request) {
-						console.log('** Notify User ***');
 						new Notification().save({
 							action: 'boatday-message',
 							fromTeam: false,
@@ -750,21 +1017,14 @@ Parse.Cloud.afterSave("ChatMessage", function(request) {
 							sendEmail: false
 						});
 					});
-
 				}, function(error) {
-					console.log('123 ww')
 					console.log(error)
 				});
-
 			}, function(error) {
-				console.log('123 xx')
 				console.log(error);
 			});
-
 		});
-
 	}
-
 });
 
 Parse.Cloud.afterSave("Question", function(request) {
@@ -774,14 +1034,10 @@ Parse.Cloud.afterSave("Question", function(request) {
 	var _ = require('underscore');
 
 	if( question.get('addToBoatDay') ) {
-
 		new Parse.Query(Parse.Object.extend('BoatDay')).get(question.get('boatday').id).then(function(boatday) {
-
 			boatday.relation('questions').add(question);
 			boatday.save().then(function() {
-
 				question.save({ addToBoatDay: false });
-
 				new Parse.Query(Parse.Object.extend('Host')).get(boatday.get('host').id).then(function(host) {
 					new Notification().save({
 						action: 'boatday-question',
@@ -793,11 +1049,9 @@ Parse.Cloud.afterSave("Question", function(request) {
 						sendEmail: true
 					});
 				});
-
 			}, function(error) {
 				console.log(error);
 			});
 		});
 	}
-
 });
