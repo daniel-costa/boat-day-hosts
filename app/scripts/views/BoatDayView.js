@@ -274,7 +274,6 @@ define([
 					    	self.moveMarker(newlatlong);
 
 						});
-
 						
 					//}
 
@@ -783,7 +782,7 @@ define([
 					sat: sat ? self._in('schedule').slider('getValue') : null,
 					sun: sun ? self._in('schedule').slider('getValue') : null,
 				},
-				hourly: this._in('hourly').val(),
+				hourly: parseInt(this._in('hourly').val()),
 				discount: { },
 				multipleDates: true,
 				trip: false,
@@ -831,6 +830,7 @@ define([
 
 			var saveError = function(error) {
 				self.handleSaveErrors(error);
+				console.log(error);
 			};
 
 			

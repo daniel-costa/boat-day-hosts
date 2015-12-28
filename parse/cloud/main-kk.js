@@ -143,7 +143,7 @@
 					var sendEmail = true;
 					var emailFrom = "no-reply@boatdayapp.com";
 					var emailSubject = "BoatDay Payment Summary";
-					var emailMessage = "Hi [Name of Host]; (line) Here's the payment summary for your BoatDay [Name of BoatDay] (graphic showing BD thumbnail, date, time, # of Guests, payout # [with expand to view button to show per Guest/fees/etc] (line) Note: Please allow 2-3 days for payment to appear in your Bank Account. (line) It's that easy! Create another BoatDay and plan your next day out. [Create BoatDay Link to Host Profile]";
+					var emailMessage = "Hi [Name of Host], (line) Here's the payment summary for your BoatDay [Name of BoatDay] (graphic showing BD thumbnail, date, time, # of Guests, payout # [with expand to view button to show per Guest/fees/etc] (line) Note: Please allow 2-3 days for payment to appear in your Bank Account. (line) It's that easy! Create another BoatDay and plan your next day out. [Create BoatDay Link to Host Profile]";
 					var sendText = false;
 					var textMessage = null;
 					break;
