@@ -233,195 +233,292 @@ Parse.Cloud.afterSave("Notification", function(request) {
 		var queryNotification = new Parse.Query(Parse.Object.extend('Notification'));
 		queryNotification.include('to');
 		queryNotification.include('to.user');
-		queryNotification.include('to.host');
-		queryNotification.include('from');
-		queryNotification.include('from.user');
-		queryNotification.include('from.host');
-		queryNotification.include('boatday');
-		queryNotification.include('request');
 		queryNotification.get(notification.id).then(function(notification) {
 
 			if( typeof notification.get('alertsSent') !== typeof undefined && notification.get('alertsSent') ) {
-				console.log('*** Alerts already sent for ' + notification.id);
+				console.log('Alerts already sent for ' + notification.id);
 				return ;
 			} else {
-				console.log('*** Needs to send alerts');
+				console.log('Needs to send alerts');
 			}
 
+			var basicHostMessage = "Hi " + notification.get('to').get('displayName') + ",\n\nYou have a new message in your BoatDay inbox, access the BoatDay Host Center - https://www.boatdayhosts.com - to read your messages.\n\nWelcome aboard,\nThe BoatDay Team";
 			var isHost = typeof notification.get('to').get('host') !== typeof undefined;
-			var phoneNumber = !isHost ? notification.get('to').get('phone') : notification.get('to').get('host').get('phone');
-
-			var sendPush = false;
-			var pushMessage = null;
-
-			var sendEmail = false;
-			var emailFrom = "no-reply@boatdayapp.com";
-			var emailSubject = "New BoatDay Message";
-			var emailMessage = "Hi " + notification.get('to').get('displayName') + ",\n\nYou have a new message in your BoatDay inbox, access the BoatDay Host Center - https://www.boatdayhosts.com - to read your messages.\n\nWelcome aboard,\nThe BoatDay Team";
-			
-			var sendText = false;
-			var textMessage = null; 
-
-			var bdName = typeof notification.get('boatday') !== typeof undefined ? notification.get('boatday').get('name') : '';
-			var bdHostLink = typeof notification.get('boatday') !== typeof undefined ? 'https://www.boatdayhosts.com/#/boatday-overview/'+ notification.get('boatday').id  : '';
+			var phoneNumber = !isHost ? null : notification.get('to').get('host').get('phone');
 
 			switch( notification.get('action') ) {
-				case "request-approved": // Done Push
+				case "request-approved": 
 					// To Guest
 					var sendPush = true;
-					var pushMessage = "Your seat request has been approved - " + bdName;
-					// var sendEmail = true;
-					// var emailSubject = null;
-					// var emailMessage = null;
-					break;
-				case "request-denied": // Done Push
-					// To Guest
-					var sendPush = true;
-					var pushMessage = "Your seat request was denied - " + bdName;
-					// var sendEmail = true;
-					// var emailSubject = null;
-					// var emailMessage = null;
-					break;
-				case "request-cancelled-host": // Done Push
-					// To Guest
-					var sendPush = true;
-					var pushMessage = "Uh oh! You were removed by the Host from the BoatDay " + bdName + ".";
-					// var sendEmail = true;
-					// var emailSubject = null;
-					// var emailMessage = null;
-					break;
-				case "boatday-question": // Done
-					// To Host
+					var pushMessage = "Your seat request has been approved";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
 					var sendText = true;
-					var textMessage = "Good news! A Guest has asked a question about one of your BoatDays. Click " + bdHostLink + '?show=question to view.';
+					var textMessage = null; 
 					break;
-				case "boatday-answer": // Done
+				case "request-denied": 
 					// To Guest
 					var sendPush = true;
-					var pushMessage = notification.get('from').get('displayName') + " has answered your question about " + bdName + ".";
+					var pushMessage = "Your seat request has been denied";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
 					break;
-				case "boatday-request": // Done
+				case "request-cancelled-host": 
+					// To Guest
+					var sendPush = true;
+					var pushMessage = "You have been removed from a BoatDay.";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boatday-question": 
 					// To Host
-					var sendText = true;
-					var textMessage = "Great news! You have a new BoatDay request. Click " + bdHostLink + "?show=request to view.";
+					var sendPush = true;
+					var pushMessage = "";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
 					break;
-				case "boatday-cancelled": // Done Push
+				case "boatday-answer":
 					// To Guest
 					var sendPush = true;
-					var pushMessage = "Uh oh! Your BoatDay " + bdName + " was cancelled by the Host.";
-					// var sendEmail = true;
-					// var emailSubject = null;
-					// var emailMessage = null;
+					var pushMessage = "";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
 					break;
-				case "boatday-message": // Done
+				case "boatday-request": 
+					// To Host
+					var sendPush = true;
+					var pushMessage = "";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boatday-rating":
+					// To Host 
+					var sendPush = true;
+					var pushMessage = "";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boatday-cancelled": 
+					// To Guest
+					var sendPush = true;
+					var pushMessage = "Your BoatDay has been cancelled by the Host.";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "boatday-message": 
 					// To Guest + Host
-					if( !isHost ) {
-						var sendPush = true;
-						var pushMessage = "You have a new chat message for " + bdName + "!";
-					} else {
-						var sendText = true;
-						var textMessage = "You have a new Guest message in your BoatDay Account. Click " + bdHostLink + "?show=message to view.";
-					}
+					var sendPush = true;
+					var pushMessage = "You have a new chat message for your BoatDay!";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
 					break;
-				case "boatday-reschedule": // Done Push
+				case "boatday-reschedule": 
 					// To Guest
 					var sendPush = true;
-					var pushMessage = "Your BoatDay " + bdName + " was rescheduled by the Host.";
-					// var sendEmail = true;
-					// var emailSubject = null;
-					// var emailMessage = null;
+					var pushMessage = "";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
 					break;
-				case "boatday-rating": // Done
+				case "boatday-rating": 
 					// To Guest
-					var stars = notification.get('request').get('ratingHost');
 					var sendPush = true;
-					var pushMessage = "You just received a " + stars + " star" + (stars == 1 ? '' : 's') + " Host rating.";
+					var pushMessage = "You just received a review!";
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
 					break;
-				case "auto-payment": // Done
-					// To Guest
-					// Kimon: I dont think we send them anything, leave it for stripe email
-					break;
-				case "boatday-review": // Check with Kimon
+				case "boatday-review": 
 					// To Host
-					// Kimon: DUPLICATE OF ABOVE line 322
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
 					break;
-				case "boatday-payment":
+				case "boatday-payment": 
 					// To Host
-					// Kimon: send once all payments done
-					var sendEmail = true;
-					// var emailSubject = null;
-					// var emailMessage = null;
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
 					break;
 				case "reschedule-approved": 
 					// To Host
+					var sendPush = false;
+					var pushMessage = null;
 					var sendEmail = true;
-					// var emailSubject = null;
-					// var emailMessage = null;
+					var emailFrom = "no-reply@boatdayapp.com";
+					var emailSubject = "You have a new notification!";
+					var emailMessage = "";
+					var sendText = false;
+					var textMessage = null;
 					break;
 				case "reschedule-denied": 
 					// To Host
+					var sendPush = false;
+					var pushMessage = null;
 					var sendEmail = true;
-					// var emailSubject = null;
-					// var emailMessage = null;
+					var emailFrom = "no-reply@boatdayapp.com";
+					var emailSubject = "You have a new notification!";
+					var emailMessage = "";
+					var sendText = false;
+					var textMessage = null;
 					break;
-				case "certification-approved": // Done 
-					// To Host
-					var sendEmail = true;
+				case "auto-payment": 
+					// To Guest
+					var sendPush = true;
+					var pushMessage = "Your BoatDay payment has been charged.";
+					// We don't send any email because stripe will
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
 					break;
-				case "certification-denied": // Done 
+				case "certification-approved": 
 					// To Host
-					var sendEmail = true;
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "certification-denied": 
+					// To Host
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
 					break;
 				case "host-approved": 
 					// To Host
-					var sendEmail = true;
-					// var emailSubject = null;
-					// var emailMessage = null;
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
 					break;
 				case "host-denied": 
 					// To Host
-					var sendEmail = true;
-					// var emailSubject = null;
-					// var emailMessage = null;
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
 					break;
 				case "boat-approved": 
 					// To Host
-					var sendEmail = true;
-					// var emailSubject = null;
-					// var emailMessage = null;
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
 					break;
 				case "boat-denied": 
 					// To Host
+					var sendPush = false;
+					var pushMessage = null;
+					var sendEmail = false;
+					var emailFrom = null;
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
+					break;
+				case "bd-message": 
+					// To Guest + Host
+					var sendPush = true;
+					var pushMessage = "New message from the BoatDay Team in your notifications.";
 					var sendEmail = true;
-					// var emailSubject = null;
-					// var emailMessage = null;
+					var emailFrom = "no-reply@boatdayapp.com";
+					var emailSubject = pushMessage;
+					var emailMessage = notification.get('message');
+					var sendText = false;
+					var textMessage = null;
 					break;
-				case "bd-message": // Done Guest
+				default : 
 					// To Guest + Host
-					if( !isHost ) {
-						var sendPush = true;
-						var pushMessage = "Hi " + notification.get('to').get('firstName') + "! Check your BoatDay notications for a new message from the BoatDay team.";
-					} else {
-						var sendEmail = true;
-						// var emailSubject = null;
-						// var emailMessage = null;
-					}
-					break;
-				default : // Done
-					// To Guest + Host
-					if( !isHost ) {
-						var sendPush = true;
-						var pushMessage = "You have a new notification!";
-					} else {
-						var sendEmail = true;
-					}
+					var sendPush = true;
+					var pushMessage = "You have a new notification!";
+					var sendEmail = false;
+					var emailFrom = "no-reply@boatdayapp.com";
+					var emailSubject = null;
+					var emailMessage = null;
+					var sendText = false;
+					var textMessage = null;
 					break;
 			} 
+
+			// CMS ones : certificate-approved, boat-approved, host-approved
 			
 			var promises = [];
 
 			if( sendEmail && notification.get('to').get('user') && typeof notification.get('to').get('user').get("email") !== typeof undefined ) {
-				console.log("-> send email");
 				var Mailgun = require('mailgun');
 				Mailgun.initialize(config.get("MAILGUN_DOMAIN"), config.get("MAILGUN_API_KEY"));
 				var promiseEmail = Mailgun.sendEmail({
@@ -430,41 +527,36 @@ Parse.Cloud.afterSave("Notification", function(request) {
 					subject: emailSubject,
 					text: emailMessage
 				}).then(function() {
-					console.log("Notification sent to email: " + notification.get('to').get('user').get("email"));
+					console.log("Notification sent to email");
 				}, function(error) {
 					console.log(error);
 				});
 				promises.push(promiseEmail);
 			}
 
-			if( sendText && typeof phoneNumber !== typeof undefined ) {
+			if( sendText && phoneNumber ) {
 				
-				console.log("-> send text: " + textMessage);
-
+				// ToDo Add twilio credentials to config
 				var twilio = require('twilio')('ACc00e6d3c6380421f6a05634a11494195', 'c820541dd98d43081cce417171f33cbc');
 				var twilio = require('twilio')(config.get("TWILIO_ACCOUNT_SID"), config.get("TWILIO_AUTH_TOKEN"));
 				
 				var promiseText = new Parse.Promise();
-				promises.push(promiseText);
 				twilio.sendSms({
 					to: phoneNumber,
 					from: '+17865745669',
 					body: textMessage 
 				}, function(err, responseData) { 
 					if (err) {
-						console.log("Text sending error: ");
-						console.log(err);
 						promiseText.reject('** Error on text sending');
+						console.log(err);
 					} else {
-						console.log("Notification sent to text: " + phoneNumber);
 						promiseText.resolve();
 					}
 				});
+				promises.push(promiseText);
 			}
 
 			if( sendPush ) {
-				console.log("-> send push");
-
 				var query = new Parse.Query(Parse.Installation);
 				query.equalTo('profile', notification.get('to'));
 				var promisePush = Parse.Push.send({
@@ -479,8 +571,7 @@ Parse.Cloud.afterSave("Notification", function(request) {
 			}
 
 			Parse.Promise.when(promises).then(function() {
-				console.log("~> all sent!");
-				// notification.save({ alertsSent: true });
+				notification.save({ alertsSent: true });
 			});
 		});
 	});
