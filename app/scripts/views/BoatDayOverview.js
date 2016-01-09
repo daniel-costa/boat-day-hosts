@@ -1445,6 +1445,7 @@ define([
 				var self = this;
 				var Question = Parse.Object.extend("Question");
 				var qQuestion = new Parse.Query(Question);
+				qQuestion.equalTo("status", "approved");
 				qQuestion.equalTo("boatday", this.model);
 				qQuestion.include("boatday");
 				qQuestion.include("from");

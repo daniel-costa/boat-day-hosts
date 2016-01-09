@@ -274,25 +274,25 @@ Parse.Cloud.afterSave("Notification", function(request) {
 					// To Guest
 					var sendPush = true;
 					var pushMessage = "Your seat request has been approved - " + bdName;
-					var sendEmail = true;
-					var emailSubject = "Your BoatDay is confirmed - " + bdName + "!";
-					var emailMessage = "Hi " + notification.get('to').get('displayName') +",\n\nGrab your bathing suit because youre going boating!\n\n" + notification.get('from').get('displayName') + " has confirmed your request for " + notification.get('request').get('seats')+ " seats on " + bdName +". Review the details of your trip and use the chat wall [link to app chat wall] to coordinate any last-minute details with your Host.\n\nInvite friends to join you!";
+					// var sendEmail = true;
+					// var emailSubject = "Your BoatDay is confirmed - " + bdName + "!";
+					// var emailMessage = "Hi " + notification.get('to').get('displayName') +",\n\nGrab your bathing suit because youre going boating!\n\n" + notification.get('from').get('displayName') + " has confirmed your request for " + notification.get('request').get('seats')+ " seats on " + bdName +". Review the details of your trip and use the chat wall [link to app chat wall] to coordinate any last-minute details with your Host.\n\nInvite friends to join you!";
 					break;
 				case "request-denied": // Done Push
 					// To Guest
 					var sendPush = true;
 					var pushMessage = "Your seat request was denied - " + bdName;
-					var sendEmail = true;
-					var emailSubject = "Your BoatDay Request - " + bdName;
-					var emailMessage = "Hi " + notification.get('to').get('displayName') + ",\n\nYour request for " + notification.get('request').get('seats') + " seats on " + bdName + " has been denied by the Host.\n\nStill looking for a great "+ notification.get('boatday').get('category') +" BoatDay nearby? Take a look at these other great trips available in the area.\n\nTo make it even better, book with the promo code [auto generated Promo Code] to get $[responsive #] off your day out! [Preview of BoatDays matching criteria of rejected BoatDay] [View More BoatDays button]";
+					// var sendEmail = true;
+					// var emailSubject = "Your BoatDay Request - " + bdName;
+					// var emailMessage = "Hi " + notification.get('to').get('displayName') + ",\n\nYour request for " + notification.get('request').get('seats') + " seats on " + bdName + " has been denied by the Host.\n\nStill looking for a great "+ notification.get('boatday').get('category') +" BoatDay nearby? Take a look at these other great trips available in the area.\n\nTo make it even better, book with the promo code [auto generated Promo Code] to get $[responsive #] off your day out! [Preview of BoatDays matching criteria of rejected BoatDay] [View More BoatDays button]";
 					break;
 				case "request-cancelled-host": // Done Push
 					// To Guest
 					var sendPush = true;
 					var pushMessage = "Uh oh! You were removed by the Host from the BoatDay " + bdName + ".";
-					var sendEmail = true;
-					var emailSubject = "BoatDay Cancellation - " + bdName;
-					var emailMessage = "Hi " + notification.get('to').get('displayName') + ",\n\nLooks like you were removed from the BoatDay " + bdName + " by the Host. Still looking for a great "+ notification.get('boatday').get('category') + " BoatDay nearby? Take a look at these other great trips available in the area.\n\nWait! It gets better . . . book with the promo code [auto generated Promo Code] to get $[responsive #] off your day out!  [Preview of BoatDays matching criteria of rejected BoatDay] [View More BoatDays button] \n\n If you think you were removed from this BoatDay by mistake contact [email link - support@boatdayapp.com] us and let us know.";
+					// var sendEmail = true;
+					// var emailSubject = "BoatDay Cancellation - " + bdName;
+					// var emailMessage = "Hi " + notification.get('to').get('displayName') + ",\n\nLooks like you were removed from the BoatDay " + bdName + " by the Host. Still looking for a great "+ notification.get('boatday').get('category') + " BoatDay nearby? Take a look at these other great trips available in the area.\n\nWait! It gets better . . . book with the promo code [auto generated Promo Code] to get $[responsive #] off your day out!  [Preview of BoatDays matching criteria of rejected BoatDay] [View More BoatDays button] \n\n If you think you were removed from this BoatDay by mistake contact [email link - support@boatdayapp.com] us and let us know.";
 					break;
 				case "boatday-question": // Done
 					// To Host
@@ -313,9 +313,9 @@ Parse.Cloud.afterSave("Notification", function(request) {
 					// To Guest
 					var sendPush = true;
 					var pushMessage = "Uh oh! Your BoatDay " + bdName + " was cancelled by the Host.";
-					var sendEmail = true;
-					var emailSubject = "BoatDay Cancellation - " + bdName;
-					var emailMessage = "Hi " + notification.get('to').get('displayName') + ",\n\nLooks like your BoatDay " + bdName + " was cancelled by the Host. Don't worry, there are still lots of great " + notification.get('boatday').get('category') + " BoatDays nearby, like one of these other fun trips.\n\nBut wait, it gets better! Book with the promo code [auto generated Promo Code] and get $[responsive #] off your day out!  [Preview of BoatDays matching criteria of rejected BoatDay] [View More BoatDays button].";
+					// var sendEmail = true;
+					// var emailSubject = "BoatDay Cancellation - " + bdName;
+					// var emailMessage = "Hi " + notification.get('to').get('displayName') + ",\n\nLooks like your BoatDay " + bdName + " was cancelled by the Host. Don't worry, there are still lots of great " + notification.get('boatday').get('category') + " BoatDays nearby, like one of these other fun trips.\n\nBut wait, it gets better! Book with the promo code [auto generated Promo Code] and get $[responsive #] off your day out!  [Preview of BoatDays matching criteria of rejected BoatDay] [View More BoatDays button].";
 					break;
 				case "boatday-message": // Done
 					// To Guest + Host
@@ -331,9 +331,9 @@ Parse.Cloud.afterSave("Notification", function(request) {
 					// To Guest
 					var sendPush = true;
 					var pushMessage = "Your BoatDay " + bdName + " was rescheduled by the Host.";
-					var sendEmail = true;
-					var emailSubject = "Rescheduled BoatDay - " + bdName;
-					var emailMessage = "Hi " + notification.get('to').get('displayName') + ",\n\nYour BoatDay " + bdName + " has been rescheduled by the Host. [Graphic - Host pic + rescheule message] [Graphic rescheuled boatday info]. Click here to confirm or deny your seat(s) for the rescheduled trip [Two Buttons - Confirm Seat, Can't Make it].\n\nCan't make it? Don't worry, there are still lots of great "+ notification.get('boatday').get('category') + " BoatDays nearby, like one of these other fun trips.\n\nBut wait, it gets better! Book with the promo code [auto generated Promo Code] and get $[responsive #] off your day out!  [Preview of BoatDays matching criteria of BoatDay before rescheudling] [View More BoatDays button].";
+					// var sendEmail = true;
+					// var emailSubject = "Rescheduled BoatDay - " + bdName;
+					// var emailMessage = "Hi " + notification.get('to').get('displayName') + ",\n\nYour BoatDay " + bdName + " has been rescheduled by the Host. [Graphic - Host pic + rescheule message] [Graphic rescheuled boatday info]. Click here to confirm or deny your seat(s) for the rescheduled trip [Two Buttons - Confirm Seat, Can't Make it].\n\nCan't make it? Don't worry, there are still lots of great "+ notification.get('boatday').get('category') + " BoatDays nearby, like one of these other fun trips.\n\nBut wait, it gets better! Book with the promo code [auto generated Promo Code] and get $[responsive #] off your day out!  [Preview of BoatDays matching criteria of BoatDay before rescheudling] [View More BoatDays button].";
 					break;
 				case "boatday-rating": // Done
 					// To Guest
@@ -352,21 +352,21 @@ Parse.Cloud.afterSave("Notification", function(request) {
 				case "boatday-payment":
 					// To Host
 					// Kimon: send once all payments done
-					var sendEmail = true;
-					var emailSubject = "BoatDay Payment Summary";
-					var emailMessage = "Hi " + notification.get('from').get('displayName') + ",\n\n Here's the payment summary for your BoatDay " + bdName + " (graphic showing BD thumbnail, date, time, # of Guests, payout # [with expand to view button to show per Guest/fees/etc] \n\nNote: Please allow 2-3 days for payment to appear in your Bank Account.\n\nIt's that easy! Create another BoatDay and plan your next day out. [Create BoatDay Link to Host Profile]";
+					// var sendEmail = true;
+					// var emailSubject = "BoatDay Payment Summary";
+					// var emailMessage = "Hi " + notification.get('from').get('displayName') + ",\n\n Here's the payment summary for your BoatDay " + bdName + " (graphic showing BD thumbnail, date, time, # of Guests, payout # [with expand to view button to show per Guest/fees/etc] \n\nNote: Please allow 2-3 days for payment to appear in your Bank Account.\n\nIt's that easy! Create another BoatDay and plan your next day out. [Create BoatDay Link to Host Profile]";
 					break;
 				case "reschedule-approved": 
 					// To Host
 					var sendEmail = true;
-					var emailSubject = "Reschedule Accepted - " + bdName + "!";
-					var emailMessage = "Hi " + notification.get('from').get('displayName') + ",\n\n" + notification.get('to').get('displayName') + " is confirmed for your rescheduled BoatDay " + bdName + ". Don't forget, you can chat with all confirmed Guests from your BoatDay account [link to Chat wall for BD].  (graphic/preview of rescheduled BoatDay)\n\nHave a great day out!";
+					// var emailSubject = "Reschedule Accepted - " + bdName + "!";
+					// var emailMessage = "Hi " + notification.get('from').get('displayName') + ",\n\n" + notification.get('to').get('displayName') + " is confirmed for your rescheduled BoatDay " + bdName + ". Don't forget, you can chat with all confirmed Guests from your BoatDay account [link to Chat wall for BD].  (graphic/preview of rescheduled BoatDay)\n\nHave a great day out!";
 					break;
 				case "reschedule-denied": 
 					// To Host
 					var sendEmail = true;
-					var emailSubject = "Reschedule Declined - " + bdName + "!";
-					var emailMessage = "Hi " + notification.get('from').get('displayName') + ",\n\n" + notification.get('to').get('displayName') + " is unable to attend your rescheduled BoatDay " + bdName + ". (graphic/preview of rescheduled BoatDay) \n\nGot some extra space on-board? Find more great BoatDay Guests from the BoatDay community! Share your BoatDay on Facebook or invite your friends directly.  [Invite Friends Button] Have a great day out!";
+					// var emailSubject = "Reschedule Declined - " + bdName + "!";
+					// var emailMessage = "Hi " + notification.get('from').get('displayName') + ",\n\n" + notification.get('to').get('displayName') + " is unable to attend your rescheduled BoatDay " + bdName + ". (graphic/preview of rescheduled BoatDay) \n\nGot some extra space on-board? Find more great BoatDay Guests from the BoatDay community! Share your BoatDay on Facebook or invite your friends directly.  [Invite Friends Button] Have a great day out!";
 					break;
 				case "certification-approved": // Done 
 					// To Host
@@ -379,26 +379,26 @@ Parse.Cloud.afterSave("Notification", function(request) {
 				case "host-approved": 
 					// To Host
 					var sendEmail = true;
-					var emailSubject = "Grab your Captain's hat, you're a BoatDay Host";
-					var emailMessage = "Hi " + notification.get('from').get('displayName') + ",\n\nGood news, your Host registration has been approved! \n\nYou're now just one step away from Hosting BoatDays. Register your Boat, and once its approved by the BoatDay Team, you'll be all set to accept your first Guests on-board! \n\nAlready added a boat? Create your first BoatDay while you wait for approval \n\nSee you on the water! \n\nBoatDay Registration Team (two buttons - add boat, create boatday)";
+					// var emailSubject = "Grab your Captain's hat, you're a BoatDay Host";
+					// var emailMessage = "Hi " + notification.get('from').get('displayName') + ",\n\nGood news, your Host registration has been approved! \n\nYou're now just one step away from Hosting BoatDays. Register your Boat, and once its approved by the BoatDay Team, you'll be all set to accept your first Guests on-board! \n\nAlready added a boat? Create your first BoatDay while you wait for approval \n\nSee you on the water! \n\nBoatDay Registration Team (two buttons - add boat, create boatday)";
 					break;
 				case "host-denied": 
 					// To Host
 					var sendEmail = true;
-					var emailSubject = "Your BoatDay Host Registration";
-					var emailMessage = "Hi " + notification.get('from').get('displayName') + ",\n\nWe are unable to approve your Host registration at this time.\n\nWe'll be sure to let you know if your status changes, and how to continue with the registration process at that time.\n\nThanks for your interest in BoatDay,\n\nThe BoatDay Registration Team.";
+					// var emailSubject = "Your BoatDay Host Registration";
+					// var emailMessage = "Hi " + notification.get('from').get('displayName') + ",\n\nWe are unable to approve your Host registration at this time.\n\nWe'll be sure to let you know if your status changes, and how to continue with the registration process at that time.\n\nThanks for your interest in BoatDay,\n\nThe BoatDay Registration Team.";
 					break;
 				case "boat-approved": 
 					// To Host
 					var sendEmail = true;
-					var emailSubject = "Set sail on your approved boat";
-					var emailMessage = "Hi " + notification.get('from').get('displayName') + ",\n\nGet ready to set sail! \n\nYour Boat " + notification.get('boat').get('name') + " has been approved and you're all set to start Hosting BoatDays.\n\nHaven't created a BoatDay yet? Click below to plan your first BoatDay! [one button: create boatday) \n\nAlready created a BoatDay . . . it's now listed in the BoatDay app for Guest bookings. [BD Preview Card] See you on the water,\n\nThe BoatDay Registration Team.";
+					// var emailSubject = "Set sail on your approved boat";
+					// var emailMessage = "Hi " + notification.get('from').get('displayName') + ",\n\nGet ready to set sail! \n\nYour Boat " + notification.get('boat').get('name') + " has been approved and you're all set to start Hosting BoatDays.\n\nHaven't created a BoatDay yet? Click below to plan your first BoatDay! [one button: create boatday) \n\nAlready created a BoatDay . . . it's now listed in the BoatDay app for Guest bookings. [BD Preview Card] See you on the water,\n\nThe BoatDay Registration Team.";
 					break;
 				case "boat-denied": 
 					// To Host
 					var sendEmail = true;
-					var emailSubject = "Your BoatDay Registration";
-					var emailMessage = "Hi " + notification.get('from').get('displayName') + ", \n\nYour boat registration has been denied. Don't worry, a member of our Registration team will contact you to let you know the reason, and what is still needed to register your Boat for Hosting BoatDays.\n\nSee you on the water soon, \n\nthe BoatDay Registration Team.";
+					// var emailSubject = "Your BoatDay Registration";
+					// var emailMessage = "Hi " + notification.get('from').get('displayName') + ", \n\nYour boat registration has been denied. Don't worry, a member of our Registration team will contact you to let you know the reason, and what is still needed to register your Boat for Hosting BoatDays.\n\nSee you on the water soon, \n\nthe BoatDay Registration Team.";
 					break;
 				case "bd-message": // Done Guest
 					// To Guest + Host
@@ -407,8 +407,8 @@ Parse.Cloud.afterSave("Notification", function(request) {
 						var pushMessage = "Hi " + notification.get('to').get('firstName') + "! Check your BoatDay notifications for a new message from the BoatDay team.";
 					} else {
 						var sendEmail = true;
-						var emailSubject = "Message from the BoatDay Team";
-						var emailMessage = "Hi " + notification.get('to').get('displayName') + ", You have a new message from the BoatDay team: \n\nnotification.get('message')";
+						// var emailSubject = "Message from the BoatDay Team";
+						// var emailMessage = "Hi " + notification.get('to').get('displayName') + ", You have a new message from the BoatDay team: \n\nnotification.get('message')";
 					}
 					break;
 				default : // Done
